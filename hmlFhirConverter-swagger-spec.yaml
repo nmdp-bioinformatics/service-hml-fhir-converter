@@ -1,0 +1,64 @@
+# Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping.
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
+
+info:
+  version: "0.0.1"
+  title: service-hmlFhirConverter
+  description: Mid level API to handle services of web-hmlFhirAngularClient
+
+host: localhost
+
+schemes:
+  - https
+  
+basePath: /v1
+
+produces:
+  - application/json
+
+paths:
+  /hml/typingtTestNames/names:
+    get:
+      description: |
+        Gets the list of available typing test names
+      parameters:
+        -
+          name: size
+          in: query
+          description: Number of results returned
+          required: true
+          type: number
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfTypingTestNames
+            type: array
+            items:
+              $ref: '#/definitions/TypingTestName'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref '#/definitions/Error'
+                  
+definitions:
+  Error:
+    type: object
+    properties:
+      Exception:
+        type: string
+        description: Explanation of exception thrown
+      Message:
+        type: 
+  TypingTestName:
+    type: object
+    properties:
+      Id:
+        type: string
+        description: GUID id of testing type name
+      Name: 
+        type: string
+        description: Display / Common name of typing test
