@@ -12,10 +12,12 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * Error
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-12-20T13:45:00.535-06:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-12-20T14:42:08.864-06:00")
 
 public class Error   {
   private String exception = null;
+
+  private String message = null;
 
   public Error exception(String exception) {
     this.exception = exception;
@@ -35,6 +37,24 @@ public class Error   {
     this.exception = exception;
   }
 
+  public Error message(String message) {
+    this.message = message;
+    return this;
+  }
+
+   /**
+   * Exception message
+   * @return message
+  **/
+  @ApiModelProperty(value = "Exception message")
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -45,12 +65,13 @@ public class Error   {
       return false;
     }
     Error error = (Error) o;
-    return Objects.equals(this.exception, error.exception);
+    return Objects.equals(this.exception, error.exception) &&
+        Objects.equals(this.message, error.message);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(exception);
+    return Objects.hash(exception, message);
   }
 
   @Override
@@ -59,6 +80,7 @@ public class Error   {
     sb.append("class Error {\n");
     
     sb.append("    exception: ").append(toIndentedString(exception)).append("\n");
+    sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
     return sb.toString();
   }

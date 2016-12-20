@@ -1,14 +1,9 @@
-# Example YAML to get you started quickly.
-# Be aware that YAML has indentation based scoping.
-# Code completion support is available so start typing for available options.
 swagger: '2.0'
 
 info:
   version: "0.0.1"
   title: service-hmlFhirConverter
   description: Mid level API to handle services of web-hmlFhirAngularClient
-
-host: localhost
 
 schemes:
   - https
@@ -42,8 +37,8 @@ paths:
         default:
           description: Unexpected Error
           schema:
-            $ref '#/definitions/Error'
-                  
+            $ref: '#/definitions/Error'
+
 definitions:
   Error:
     type: object
@@ -52,7 +47,8 @@ definitions:
         type: string
         description: Explanation of exception thrown
       Message:
-        type: 
+        type: string
+        description: Exception message
   TypingTestName:
     type: object
     properties:

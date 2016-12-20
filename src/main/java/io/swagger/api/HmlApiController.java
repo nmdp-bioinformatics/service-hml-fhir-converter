@@ -1,5 +1,6 @@
 package io.swagger.api;
 
+import io.swagger.model.Error;
 import io.swagger.model.TypingTestName;
 import java.math.BigDecimal;
 
@@ -18,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-12-20T13:45:00.535-06:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-12-20T14:42:08.864-06:00")
 
 @Controller
 public class HmlApiController implements HmlApi {
