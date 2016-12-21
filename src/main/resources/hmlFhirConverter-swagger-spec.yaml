@@ -14,10 +14,10 @@ produces:
   - application/json
 
 paths:
-  /hml/typingtTestNames/names:
+  /hml/typingtTestNames/names/{size}:
     get:
-      description: |
-        Gets the list of available typing test names
+      operationId: names
+      description: Gets the list of available typing test names
       parameters:
         -
           name: size
