@@ -26,8 +26,11 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 
+import java.util.List;
+
 public interface IHmlService {
     TypingTestName getTypingTestName(String id);
+    List<TypingTestName> getTypingTestNames(Integer size);
     TypingTestName createTypingTestName(String name, String description);
     TypingTestName updateTypingTestName(TypingTestName typingTestName);
     TypingTestName deleteTypingTestName(String id);

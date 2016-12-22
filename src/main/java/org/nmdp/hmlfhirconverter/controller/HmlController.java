@@ -4,6 +4,9 @@ package org.nmdp.hmlfhirconverter.controller;
  * Created by abrown3 on 12/21/16.
  */
 
+import org.nmdp.hmlfhirconverter.service.IHmlService;
+import org.nmdp.hmlfhirconverter.domain.TypingTestName;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -20,5 +23,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/hml")
 @Api(value = "HmlFhirConverter", description = "Hml to Fhir Converter Service")
 public class HmlController {
+    private final IHmlService hmlService;
 
+    @Autowired
+    public HmlController(IHmlService hmlService) {
+        this.hmlService = hmlService;
+    }
+
+    @RequestMapping(value = "/typingTestNames/{size}", method = RequestMethod.GET,
+        produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @ApiOperation(value = "getTestingTypeNames", response = TypingTestName.class)
+    public
+    @ResponseBody
+    TypingTestName getTypingTestNames(@PathVariable Integer size) {
+        return hmlService.getTypingTestNames
+    }
 }

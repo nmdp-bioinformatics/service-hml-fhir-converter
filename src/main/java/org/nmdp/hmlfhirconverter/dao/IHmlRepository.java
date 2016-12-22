@@ -28,8 +28,11 @@ import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 @Repository
 public interface IHmlRepository extends CrudRepository<TypingTestName, String> {
-
+    List<TypingTestName> getTypingTestNames(Pageable pageable);
 }
