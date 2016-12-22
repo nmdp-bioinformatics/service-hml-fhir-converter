@@ -6,6 +6,7 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import org.nmdp.hmlfhirconverter.service.IHmlService;
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
+import org.nmdp.hmlfhirconverter.domain.TypingTestNameDto;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/hml")
@@ -35,7 +38,15 @@ public class HmlController {
     @ApiOperation(value = "getTestingTypeNames", response = TypingTestName.class)
     public
     @ResponseBody
-    TypingTestName getTypingTestNames(@PathVariable Integer size) {
-        return hmlService.getTypingTestNames
+    List<TypingTestName> getTypingTestNames(@PathVariable Integer size) {
+        return hmlService.getTypingTestNames(size);
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST,
+        produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    public
+    @ResponseBody
+    TypingTestName createTypingTestName(@RequestBody TypingTestNameDto typingTestNameDto) {
+        return hmlService.createTypingTestName(typingTestNameDto.getName(), typingTestNameDto.getDescription());
     }
 }
