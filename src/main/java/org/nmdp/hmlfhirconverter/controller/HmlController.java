@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/hml")
-@Api(value = "HmlFhirConverter", description= = "Hml to Fhir Converter Service")
+@Api(value = "HmlFhirConverter", description = "Hml to Fhir Converter Service")
 public class HmlController {
-    
+
 }
