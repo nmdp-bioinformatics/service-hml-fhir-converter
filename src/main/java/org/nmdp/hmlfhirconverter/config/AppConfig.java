@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.dao;
+package org.nmdp.hmlfhirconverter.config;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 12/22/16.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 12/27/16.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2016 National Marrow Donor Program (NMDP)
@@ -24,12 +24,28 @@ package org.nmdp.hmlfhirconverter.dao;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.TypingTestName;
+import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.context.annotation.Configuration;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import com.mongodb.Mongo;
 
-import java.util.List;
+@Configuration
+@EnableMongoRepositories
+public class AppConfig extends AbstractMongoConfiguration {
 
-public interface IHmlRepository extends PagingAndSortingRepository<TypingTestName, String> {
-    List<TypingTestName> getTypingTestNames(int maxReturn);
+    @Override
+    protected String getDatabaseName() {
+        return "";
+    }
+
+    @Override
+    public Mongo mongo() throws Exception {
+        return new Mongo();
+    }
+
+    @Override
+    protected String getMappingBasePackage() {
+        return "com.oreilley.springdata.mongodb";
+    }
 }

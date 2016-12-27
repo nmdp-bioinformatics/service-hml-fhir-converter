@@ -16,7 +16,7 @@ produces:
 paths:
   /hml/typingtTestNames/{size}:
     get:
-      operationId: names
+      operationId: getTypingTestNames
       description: Gets the list of available typing test names
       parameters:
         -
@@ -38,23 +38,31 @@ paths:
           description: Unexpected Error
           schema:
             $ref: '#/definitions/Error'
+  /hml/typingTestName:
+    post:
+      operationId: createTestingTypeName
+      description: Creates a typing test name entry
+      
 
 definitions:
   Error:
     type: object
     properties:
-      Exception:
+      exception:
         type: string
         description: Explanation of exception thrown
-      Message:
+      message:
         type: string
         description: Exception message
   TypingTestName:
     type: object
     properties:
-      Id:
+      id:
         type: string
         description: GUID id of testing type name
-      Name: 
+      name:
         type: string
         description: Display / Common name of typing test
+      description:
+        type: string
+        description: Description of typing test name
