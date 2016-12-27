@@ -29,12 +29,9 @@ import org.nmdp.hmlfhirconverter.dao.IHmlRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.ArrayList;
 
 @Service
 public class HmlService implements IHmlService {
@@ -51,9 +48,8 @@ public class HmlService implements IHmlService {
     }
 
     @Override
-    public List<TypingTestName> getTypingTestNames(Integer size) {
-        Pageable maxQuery = new PageRequest(0, size);
-        return hmlRepository.getTypingTestNames(maxQuery);
+    public List<TypingTestName> getTypingTestNames(Integer maxResults) {
+        return hmlRepository.getTypingTestNames(maxResults);
     }
 
     @Override
