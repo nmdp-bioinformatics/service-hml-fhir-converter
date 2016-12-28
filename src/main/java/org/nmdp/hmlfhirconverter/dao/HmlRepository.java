@@ -1,4 +1,4 @@
-package org.nmdp.hmlfhirconverter.service;
+package org.nmdp.hmlfhirconverter.dao;
 
 /**
  * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 12/22/16.
@@ -26,13 +26,12 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
-public interface IHmlService {
-    TypingTestName getTypingTestName(String id);
-    List<TypingTestName> getTypingTestNames(Integer size);
-    TypingTestName createTypingTestName(String name, String description);
-    TypingTestName updateTypingTestName(TypingTestName typingTestName);
-    TypingTestName deleteTypingTestName(String id);
-    TypingTestName deleteTypingTestName(TypingTestName typingTestName);
+@Repository
+public interface HmlRepository extends MongoRepository<TypingTestName, String> {
+    List<TypingTestName> getTypingTestNames(int maxReturn);
 }

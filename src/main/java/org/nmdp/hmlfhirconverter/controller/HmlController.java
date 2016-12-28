@@ -4,7 +4,7 @@ package org.nmdp.hmlfhirconverter.controller;
  * Created by abrown3 on 12/21/16.
  */
 
-import org.nmdp.hmlfhirconverter.service.IHmlService;
+import org.nmdp.hmlfhirconverter.service.HmlService;
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 import org.nmdp.hmlfhirconverter.domain.TypingTestNameDto;
 
@@ -24,12 +24,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/hml")
-@Api(value = "HmlFhirConverter", description = "Hml to Fhir Converter Service")
+@Api(value = "Hml", description = "Hml Controller Actions")
 public class HmlController {
-    private final IHmlService hmlService;
+    private final HmlService hmlService;
 
     @Autowired
-    public HmlController(IHmlService hmlService) {
+    public HmlController(HmlService hmlService) {
         this.hmlService = hmlService;
     }
 

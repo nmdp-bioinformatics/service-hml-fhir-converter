@@ -24,8 +24,11 @@ package org.nmdp.hmlfhirconverter.config;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import com.mongodb.MongoClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.context.annotation.Configuration;
 
@@ -37,22 +40,34 @@ import java.net.UnknownHostException;
 @EnableMongoRepositories
 public class MongoConfig extends AbstractMongoConfiguration {
 
-    public @Bean Mongo mongo() throws UnknownHostException {
-        return new Mongo("localhost");
+    @Value("${spring.profiles.active}")
+    private String profileActive;
+
+    @Value("${spring.application.name}")
+    private String proAppName;
+
+    @Value("${spring.data.mongodb.host}")
+    private String mongoHost;
+
+    @Value("${spring.data.mongodb.port}")
+    private String mongoPort;
+
+    @Value("${spring.data.mongodb.database}")
+    private String mongoDb;
+
+    @Override
+    public MongoMappingContext mongoMappingContext() throws ClassNotFoundException {
+        return super.mongoMappingContext();
+    }
+
+    @Override
+    @Bean
+    public Mongo mongo() throws Exception {
+        return new MongoClient(mongoHost + ":" + mongoPort);
     }
 
     @Override
     protected String getDatabaseName() {
-        return "";
-    }
-
-//    @Override
-//    public Mongo mongo() throws Exception {
-//        return new Mongo();
-//    }
-
-    @Override
-    protected String getMappingBasePackage() {
-        return "com.oreilley.springdata.mongodb";
+        return mongoDb;
     }
 }

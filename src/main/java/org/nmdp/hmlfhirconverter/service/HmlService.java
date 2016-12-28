@@ -25,47 +25,14 @@ package org.nmdp.hmlfhirconverter.service;
  */
 
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
-import org.nmdp.hmlfhirconverter.dao.IHmlRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class HmlService implements IHmlService {
-    private final IHmlRepository hmlRepository;
-
-    @Autowired
-    public HmlService(@Qualifier("hmlRepository") IHmlRepository hmlRepository) {
-        this.hmlRepository = hmlRepository;
-    }
-
-    @Override
-    public TypingTestName getTypingTestName(String id) {
-        return hmlRepository.findOne(id);
-    }
-
-    @Override
-    public List<TypingTestName> getTypingTestNames(Integer maxResults) {
-        return hmlRepository.getTypingTestNames(maxResults);
-    }
-
-    @Override
-    public TypingTestName createTypingTestName(String name, String description) {
-        return hmlRepository.save(new TypingTestName(name, description));
-    }
-
-    public TypingTestName updateTypingTestName(TypingTestName typingTestName) {
-        return new TypingTestName();
-    }
-
-    public TypingTestName deleteTypingTestName(String id) {
-        return new TypingTestName();
-    }
-
-    public TypingTestName deleteTypingTestName(TypingTestName typingTestName) {
-        return new TypingTestName();
-    }
+public interface HmlService {
+    TypingTestName getTypingTestName(String id);
+    List<TypingTestName> getTypingTestNames(Integer size);
+    TypingTestName createTypingTestName(String name, String description);
+    TypingTestName updateTypingTestName(TypingTestName typingTestName);
+    TypingTestName deleteTypingTestName(String id);
+    TypingTestName deleteTypingTestName(TypingTestName typingTestName);
 }
