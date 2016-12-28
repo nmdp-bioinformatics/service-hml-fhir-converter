@@ -24,25 +24,32 @@ package org.nmdp.hmlfhirconverter.config;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.context.annotation.Configuration;
 
 import com.mongodb.Mongo;
 
+import java.net.UnknownHostException;
+
 @Configuration
 @EnableMongoRepositories
-public class AppConfig extends AbstractMongoConfiguration {
+public class MongoConfig extends AbstractMongoConfiguration {
+
+    public @Bean Mongo mongo() throws UnknownHostException {
+        return new Mongo("localhost");
+    }
 
     @Override
     protected String getDatabaseName() {
         return "";
     }
 
-    @Override
-    public Mongo mongo() throws Exception {
-        return new Mongo();
-    }
+//    @Override
+//    public Mongo mongo() throws Exception {
+//        return new Mongo();
+//    }
 
     @Override
     protected String getMappingBasePackage() {
