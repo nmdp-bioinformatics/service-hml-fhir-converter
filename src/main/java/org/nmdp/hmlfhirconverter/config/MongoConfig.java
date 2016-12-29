@@ -34,8 +34,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.mongodb.Mongo;
 
-import java.net.UnknownHostException;
-
 @Configuration
 @EnableMongoRepositories
 public class MongoConfig extends AbstractMongoConfiguration {
