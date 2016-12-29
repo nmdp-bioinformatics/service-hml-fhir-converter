@@ -29,9 +29,9 @@ import org.nmdp.hmlfhirconverter.dao.HmlRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class HmlServiceImpl implements HmlService {
@@ -48,8 +48,9 @@ public class HmlServiceImpl implements HmlService {
     }
 
     @Override
-    public List<TypingTestName> getTypingTestNames(Integer maxResults) {
-        return hmlRepository.getTypingTestNames(maxResults);
+    public Page<TypingTestName> findByMaxReturn(Integer maxResults) {
+        PageRequest pageable = new PageRequest(0, maxResults);
+        return hmlRepository.findAll(pageable);
     }
 
     @Override

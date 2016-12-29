@@ -25,12 +25,11 @@ package org.nmdp.hmlfhirconverter.service;
  */
 
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface HmlService {
     TypingTestName getTypingTestName(String id);
-    List<TypingTestName> getTypingTestNames(Integer size);
+    Page<TypingTestName> findByMaxReturn(Integer maxResults);
     TypingTestName createTypingTestName(String name, String description);
     TypingTestName updateTypingTestName(TypingTestName typingTestName);
     TypingTestName deleteTypingTestName(String id);

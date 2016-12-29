@@ -40,8 +40,8 @@ public class HmlController {
     @ApiOperation(value = "getTestingTypeNames", response = TypingTestName.class)
     public
     @ResponseBody
-    List<TypingTestName> getTypingTestNames(@PathVariable Integer size) {
-        return hmlService.getTypingTestNames(size);
+    List<TypingTestName> getTypingTestNames(@PathVariable Integer maxReturn) {
+        return hmlService.findByMaxReturn(maxReturn).getContent();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST,
