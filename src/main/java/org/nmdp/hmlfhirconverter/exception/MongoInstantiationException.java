@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.dao;
+package org.nmdp.hmlfhirconverter.exception;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 12/22/16.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 12/29/16.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2016 National Marrow Donor Program (NMDP)
@@ -24,14 +24,10 @@ package org.nmdp.hmlfhirconverter.dao;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.TypingTestName;
+public class MongoInstantiationException extends Exception {
+    private Exception exception;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-//import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
-//@Repository
-public interface HmlRepository extends MongoRepository<TypingTestName, String> {
-    List<TypingTestName> getTypingTestNames(int maxReturn);
+    public MongoInstantiationException(Exception exception) {
+        this.exception = exception;
+    }
 }

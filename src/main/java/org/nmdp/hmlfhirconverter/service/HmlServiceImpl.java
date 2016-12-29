@@ -28,6 +28,7 @@ import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 import org.nmdp.hmlfhirconverter.dao.HmlRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class HmlServiceImpl implements HmlService {
     private final HmlRepository hmlRepository;
 
     @Autowired
-    public HmlServiceImpl(HmlRepository hmlRepository) {
+    public HmlServiceImpl(@Qualifier("hmlRepository") HmlRepository hmlRepository) {
         this.hmlRepository = hmlRepository;
     }
 

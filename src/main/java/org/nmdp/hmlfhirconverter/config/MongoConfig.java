@@ -25,6 +25,8 @@ package org.nmdp.hmlfhirconverter.config;
  */
 
 import com.mongodb.MongoClient;
+import com.mongodb.Mongo;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
@@ -32,11 +34,14 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.context.annotation.Configuration;
 
-import com.mongodb.Mongo;
+import org.nmdp.hmlfhirconverter.exception.MongoInstantiationException;
+
+import org.apache.log4j.Logger;
 
 @Configuration
-@EnableMongoRepositories
+@EnableMongoRepositories(basePackages = "org.nmdp.hmlfhirconverter.dao")
 public class MongoConfig extends AbstractMongoConfiguration {
+    private static final Logger LOG = Logger.getLogger(MongoConfig.class);
 
     @Value("${spring.profiles.active}")
     private String profileActive;
@@ -61,7 +66,12 @@ public class MongoConfig extends AbstractMongoConfiguration {
     @Override
     @Bean
     public Mongo mongo() throws Exception {
-        return new MongoClient(mongoHost + ":" + mongoPort);
+        try {
+            return new MongoClient(mongoHost + ":" + mongoPort);
+        } catch (Exception ex) {
+            LOG.error("Error instantiating MongoDB.", ex);
+            throw new MongoInstantiationException(ex);
+        }
     }
 
     @Override
