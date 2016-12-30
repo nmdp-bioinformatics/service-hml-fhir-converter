@@ -1,7 +1,11 @@
-package org.nmdp.hmlfhirconverter.domain;
+package org.nmdp.hmlfhirconverter.util;
+
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 12/22/16.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 12/30/16.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2016 National Marrow Donor Program (NMDP)
@@ -24,10 +28,8 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypingTestName;
-
-import java.io.Serializable;
-
-public class TypingTestNameDto extends TypingTestName implements Serializable {
-
+public class Converters {
+    public static <T, U> List<U> convertList(List<T> from, Function<T, U> func) {
+        return from.stream().map(func).collect(Collectors.toList());
+    }
 }

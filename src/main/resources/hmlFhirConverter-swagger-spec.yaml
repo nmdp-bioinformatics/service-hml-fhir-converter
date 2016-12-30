@@ -20,11 +20,11 @@ paths:
       description: Gets the list of available typing test names
       parameters:
         -
-          name: size
+          name: maxResults
           in: query
           description: Number of results returned
           required: true
-          type: number
+          type: integer
           format: int32
       responses:
         200:

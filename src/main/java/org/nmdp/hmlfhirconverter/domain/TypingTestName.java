@@ -44,6 +44,16 @@ public class TypingTestName implements Serializable {
         this.description = description;
     }
 
+    public TypingTestNameDto toDto() {
+        TypingTestNameDto dto = new TypingTestNameDto();
+
+        dto.setName(this.name);
+        dto.setId(this.id);
+        dto.setDescription(this.description);
+
+        return dto;
+    }
+
     public String getId() {
         return id;
     }
