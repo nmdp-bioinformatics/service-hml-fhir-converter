@@ -41,8 +41,9 @@
         <java.version>1.8</java.version>
         <mongodb-version>3.4.0</mongodb-version>
         <springfox-version>2.5.0</springfox-version>
-        <springfox-ui-version>2.2.2</springfox-ui-version>
         <log4j-version>1.2.17</log4j-version>
+        <swagger-version>1.5.4</swagger-version>
+        <swagger-codegen-version>2.1.5</swagger-codegen-version>
     </properties>
 
     <parent>
@@ -57,6 +58,26 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>${swagger-codegen-version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>src/main/resouces/hmlFhirConverter-swagger-spec.yaml</inputSpec>
+                            <language>spring-mvc</language>
+                            <configOptions>
+                                <sourceFolder>src/gen/java/main</sourceFolder>
+                                <library>j8-async</library>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -89,11 +110,6 @@
             <version>${springfox-version}</version>
         </dependency>
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox-ui-version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
@@ -106,6 +122,11 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-core</artifactId>
+            <version>${swagger-version}</version>
         </dependency>
     </dependencies>
 </project>

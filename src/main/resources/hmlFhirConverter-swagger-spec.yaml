@@ -48,12 +48,13 @@ definitions:
   Error:
     type: object
     properties:
-      exception:
-        type: string
-        description: Explanation of exception thrown
+      code:
+        type: integer
+        format: int32
       message:
         type: string
-        description: Exception message
+      fields:
+        type: string
   TypingTestName:
     type: object
     properties:
