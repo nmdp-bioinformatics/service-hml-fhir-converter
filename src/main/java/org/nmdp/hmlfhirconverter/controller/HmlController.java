@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.api.NotFoundException;
 import io.swagger.model.TypingTestName;
 import io.swagger.api.HmlApi;
 
@@ -21,7 +22,7 @@ import java.util.concurrent.Callable;
 @RestController
 public class HmlController implements HmlApi {
 
-    private HmlService hmlService;
+    private final HmlService hmlService;
 
     @Autowired
     public HmlController(HmlService hmlService) {
@@ -29,9 +30,10 @@ public class HmlController implements HmlApi {
     }
 
     @Override
-    public Callable<ResponseEntity<List<TypingTestName>>> getTypingTestNames(Integer maxResults) {
+    public Callable<ResponseEntity<List<TypingTestName>>> getTypingTestNames(Integer maxResults) throws NotFoundException {
         List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = hmlService.findByMaxReturn(maxResults).getContent();
         List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto());
         return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
     }
+
 }
