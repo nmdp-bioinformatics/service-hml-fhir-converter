@@ -14,7 +14,7 @@ produces:
   - application/json
 
 paths:
-  /hml/typingtTestNames/{size}:
+  /hml/typingtTestNames/{maxResults}:
     get:
       operationId: getTypingTestNames
       description: Gets the list of available typing test names
@@ -34,6 +34,12 @@ paths:
             type: array
             items:
               $ref: '#/definitions/TypingTestName'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
         default:
           description: Unexpected Error
           schema:
@@ -45,6 +51,12 @@ paths:
       
 
 definitions:
+  HmlControllerException:
+    type: object
+    properties:
+      httpStatus:
+        type: string
+        description: Http status code
   Error:
     type: object
     properties:
