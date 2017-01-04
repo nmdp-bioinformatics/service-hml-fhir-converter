@@ -79,3 +79,9 @@ definitions:
       description:
         type: string
         description: Description of typing test name
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: date
+        description: Date created

@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "TypingTestNames")
+@Document(collection = "Hml.TypingTestNames")
 public class TypingTestName implements Serializable {
 
     @XmlAttribute
