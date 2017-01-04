@@ -24,14 +24,15 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 import org.springframework.data.domain.Page;
+
+import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 
 public interface HmlService {
     TypingTestName getTypingTestName(String id);
     Page<TypingTestName> findByMaxReturn(Integer maxResults);
-    TypingTestName createTypingTestName(String name, String description);
-    TypingTestName updateTypingTestName(TypingTestName typingTestName);
+    TypingTestName createTypingTestName(io.swagger.model.TypingTestName typingTestName);
+    TypingTestName updateTypingTestName(io.swagger.model.TypingTestName typingTestName);
     TypingTestName deleteTypingTestName(String id);
-    TypingTestName deleteTypingTestName(TypingTestName typingTestName);
+    TypingTestName deleteTypingTestName(io.swagger.model.TypingTestName typingTestName);
 }

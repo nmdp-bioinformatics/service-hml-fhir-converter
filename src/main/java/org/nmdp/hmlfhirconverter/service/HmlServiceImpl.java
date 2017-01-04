@@ -54,11 +54,12 @@ public class HmlServiceImpl implements HmlService {
     }
 
     @Override
-    public TypingTestName createTypingTestName(String name, String description) {
-        return hmlRepository.save(new TypingTestName(name, description));
+    public TypingTestName createTypingTestName(io.swagger.model.TypingTestName typingTestName) {
+        TypingTestName nmdpModel = new TypingTestName(typingTestName);
+        return hmlRepository.save(nmdpModel);
     }
 
-    public TypingTestName updateTypingTestName(TypingTestName typingTestName) {
+    public TypingTestName updateTypingTestName(io.swagger.model.TypingTestName typingTestName) {
         return new TypingTestName();
     }
 
@@ -66,7 +67,7 @@ public class HmlServiceImpl implements HmlService {
         return new TypingTestName();
     }
 
-    public TypingTestName deleteTypingTestName(TypingTestName typingTestName) {
+    public TypingTestName deleteTypingTestName(io.swagger.model.TypingTestName typingTestName) {
         return new TypingTestName();
     }
 }

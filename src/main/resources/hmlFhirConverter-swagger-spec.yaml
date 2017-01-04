@@ -48,8 +48,25 @@ paths:
     post:
       operationId: createTestingTypeName
       description: Creates a typing test name entry
-      
-
+      parameters:
+        -
+          name: typingTestName
+          in: body
+          description: Typing Test Name Object
+          required: true
+          schema:
+            $ref: '#/definitions/TypingTestName'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/TypingTestName'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/Error'
 definitions:
   HmlControllerException:
     type: object
@@ -72,7 +89,7 @@ definitions:
     properties:
       id:
         type: string
-        description: GUID id of testing type name
+        description: Id of testing type name
       name:
         type: string
         description: Display / Common name of typing test
@@ -83,5 +100,6 @@ definitions:
         type: boolean
         description: Active record
       dateCreated:
-        type: date
-        description: Date created
+        type: string
+        format: date-time
+        description: Creation date

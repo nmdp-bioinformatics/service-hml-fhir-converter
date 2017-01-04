@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -29,8 +30,22 @@ public class TypingTestName implements Serializable {
     @XmlAttribute
     private String description;
 
+    @XmlAttribute
+    private Boolean active;
+
+    @XmlAttribute
+    private Date dateCreated;
+
     public TypingTestName() {
 
+    }
+
+    public TypingTestName(io.swagger.model.TypingTestName typingTestName) {
+        this.name = typingTestName.getName();
+        this.description = typingTestName.getDescription();
+        this.id = typingTestName.getId();
+        this.active = typingTestName.getActive();
+        this.dateCreated = typingTestName.getDateCreated();
     }
 
     public TypingTestName(String name, String description) {
@@ -65,6 +80,10 @@ public class TypingTestName implements Serializable {
     public String getDescription() {
         return description;
     }
+
+    public Boolean getActive() { return active; }
+
+    public Date getDateCreated() { return dateCreated; }
 
     @Override
     public String toString() {

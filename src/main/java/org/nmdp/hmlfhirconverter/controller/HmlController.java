@@ -45,4 +45,13 @@ public class HmlController implements HmlApi {
         }
     }
 
+    @Override
+    @RequestMapping(value = "typingTestName", produces = "application/json", method = RequestMethod.POST)
+    public Callable<ResponseEntity<TypingTestName>> createTestingTypeName(@PathVariable TypingTestName typingTestName) throws NotFoundException {
+        try {
+            return () -> new ResponseEntity<>(hmlService.createTypingTestName(typingTestName).toDto(), HttpStatus.OK);
+        } catch (Exception ex) {
+            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
