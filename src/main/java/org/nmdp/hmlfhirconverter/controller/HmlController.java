@@ -49,11 +49,23 @@ public class HmlController implements HmlApi {
 
     @Override
     @RequestMapping(value = "typingTestName", produces = "application/json", method = RequestMethod.POST)
-    public Callable<ResponseEntity<TypingTestName>> createTestingTypeName(@PathVariable TypingTestName typingTestName) throws NotFoundException {
+    public Callable<ResponseEntity<TypingTestName>> createTypingTestName(@PathVariable TypingTestName typingTestName) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(hmlService.createTypingTestName(typingTestName).toDto(), HttpStatus.OK);
         } catch (Exception ex) {
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    @RequestMapping(value = "typingTestNames", produces = "application/json", method = RequestMethod.POST)
+    public Callable<ResponseEntity<List<TypingTestName>>> createTypingTestNames(@PathVariable List<TypingTestName> typingTestNames) throws NotFoundException {
+        try {
+            List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = hmlService.createTypingTestNames(typingTestNames);
+            List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto());
+            return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
+        } catch (Exception ex) {
+            return () -> new ResponseEntity<>(new ArrayList<TypingTestName>(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

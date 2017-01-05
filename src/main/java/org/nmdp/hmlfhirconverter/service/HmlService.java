@@ -28,10 +28,13 @@ import org.springframework.data.domain.Page;
 
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 
+import java.util.List;
+
 public interface HmlService {
     TypingTestName getTypingTestName(String id);
     Page<TypingTestName> findByMaxReturn(Integer maxResults);
     TypingTestName createTypingTestName(io.swagger.model.TypingTestName typingTestName);
+    List<TypingTestName> createTypingTestNames(List<io.swagger.model.TypingTestName> typingTestNames);
     TypingTestName updateTypingTestName(io.swagger.model.TypingTestName typingTestName);
     TypingTestName deleteTypingTestName(String id);
     TypingTestName deleteTypingTestName(io.swagger.model.TypingTestName typingTestName);

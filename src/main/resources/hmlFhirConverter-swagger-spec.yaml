@@ -46,7 +46,7 @@ paths:
             $ref: '#/definitions/Error'
   /hml/typingTestName:
     post:
-      operationId: createTestingTypeName
+      operationId: createTypingTestName
       description: Creates a typing test name entry
       parameters:
         -
@@ -60,6 +60,35 @@ paths:
         200:
           description: Successful response
           schema:
+              $ref: '#/definitions/TypingTestName'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /hml/typingTestNames:
+    post:
+      operationId: createTypingTestNames
+      description: Create multiple testing type name entries
+      parameters:
+        -
+          name: typingTestNames
+          in: body
+          description: Array of Typing Test Name Objects
+          required: true
+          schema:
+            title: ArrayOfTypingTestNames
+            type: array
+            items:
+              $ref: '#/definitions/TypingTestName'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfTypingTestNames
+            type: array
+            items:
               $ref: '#/definitions/TypingTestName'
         500:
           description: Internal Server Error

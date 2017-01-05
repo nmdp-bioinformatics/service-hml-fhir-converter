@@ -33,6 +33,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 @Service
 public class HmlServiceImpl implements HmlService {
     private final HmlRepository hmlRepository;
@@ -56,6 +60,15 @@ public class HmlServiceImpl implements HmlService {
     @Override
     public TypingTestName createTypingTestName(io.swagger.model.TypingTestName typingTestName) {
         TypingTestName nmdpModel = new TypingTestName(typingTestName);
+        return hmlRepository.save(nmdpModel);
+    }
+
+    @Override
+    public List<TypingTestName> createTypingTestNames(List<io.swagger.model.TypingTestName> typingTestNames) {
+        List<TypingTestName> nmdpModel = typingTestNames.stream()
+                .filter(Objects::nonNull)
+                .map(obj -> new TypingTestName(obj))
+                .collect(Collectors.toList());
         return hmlRepository.save(nmdpModel);
     }
 
