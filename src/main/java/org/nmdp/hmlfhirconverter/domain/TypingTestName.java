@@ -65,25 +65,11 @@ public class TypingTestName implements Serializable {
         dto.setName(this.name);
         dto.setId(this.id);
         dto.setDescription(this.description);
+        dto.setActive(this.active);
+        dto.setDateCreated(this.dateCreated);
 
         return dto;
     }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Boolean getActive() { return active; }
-
-    public Date getDateCreated() { return dateCreated; }
 
     @Override
     public String toString() {
