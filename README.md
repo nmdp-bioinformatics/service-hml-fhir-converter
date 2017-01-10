@@ -10,9 +10,47 @@ This is an example of building a swagger-enabled server in Java using the Spring
 
 The underlying library integrating swagger to SpringBoot is [springfox](https://github.com/springfox/springfox)  
 
-Start your server as an simple java application  
+Start your server as a simple java application  
 
 You can view the api documentation in swagger-ui by pointing to  
-http://localhost:8080/  
+http://localhost:8090/  
 
 Change default port value in application.properties
+
+This package requires the installation of MongoDB as the underlying database. Please ensure you have the following prerequisites installed.
+
+
+## Prerequisites
+Homebrew
+
+MongoDB
+
+Maven
+
+Tomcat Server
+
+
+## Install
+If you do not have Homebrew installed, please follow instructions at: http://brew.sh/
+
+Install MongoDB by:
+
+Run 'brew install mongodb'
+
+After installation, start your mongo database server (note -dbpath optional paramter)
+
+Run 'mongod --dbpath=/Database/Mongo'
+
+In another terminal window, execute the script included in this folder (/database/mongo.js):
+
+Run 'mongo /database/mongo.js'
+
+This will take care of installing the mongo dependency and creating a database with minimal test data.
+
+Build the project with maven from the root of this directory:
+
+Run 'mvn clean install'
+
+This will generate swagger code and compile the source. The intention of this project is to run in a Tomcat server, follow instructions on starting the application at:
+http://tomcat.apache.org/tomcat-8.5-doc/appdev/index.html
+    

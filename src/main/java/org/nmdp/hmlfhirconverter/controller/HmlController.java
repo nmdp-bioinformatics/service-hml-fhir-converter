@@ -4,17 +4,14 @@ package org.nmdp.hmlfhirconverter.controller;
  * Created by abrown3 on 12/21/16.
  */
 
+import io.swagger.annotations.ApiOperation;
 import org.nmdp.hmlfhirconverter.service.HmlService;
 import org.nmdp.hmlfhirconverter.util.Converters;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.model.TypingTestName;
@@ -48,8 +45,8 @@ public class HmlController implements HmlApi {
     }
 
     @Override
-    @RequestMapping(value = "typingTestName", produces = "application/json", method = RequestMethod.POST)
-    public Callable<ResponseEntity<TypingTestName>> createTypingTestName(@PathVariable TypingTestName typingTestName) throws NotFoundException {
+    @RequestMapping(value = "typingTestName", consumes = "application/json", produces = "application/json", method = RequestMethod.POST)
+    public Callable<ResponseEntity<TypingTestName>> createTypingTestName(@RequestBody(required = false) TypingTestName typingTestName) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(hmlService.createTypingTestName(typingTestName).toDto(), HttpStatus.OK);
         } catch (Exception ex) {
