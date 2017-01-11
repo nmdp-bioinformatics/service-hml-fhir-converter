@@ -36,6 +36,6 @@ public interface HmlService {
     TypingTestName createTypingTestName(io.swagger.model.TypingTestName typingTestName);
     List<TypingTestName> createTypingTestNames(List<io.swagger.model.TypingTestName> typingTestNames);
     TypingTestName updateTypingTestName(io.swagger.model.TypingTestName typingTestName);
-    TypingTestName deleteTypingTestName(String id);
-    TypingTestName deleteTypingTestName(io.swagger.model.TypingTestName typingTestName);
+    Boolean deleteTypingTestName(String id);
+    Boolean deleteTypingTestName(io.swagger.model.TypingTestName typingTestName);
 }

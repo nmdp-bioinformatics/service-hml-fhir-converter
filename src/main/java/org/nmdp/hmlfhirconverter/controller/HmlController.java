@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import io.swagger.annotations.ApiOperation;
 import io.swagger.api.NotFoundException;
 import io.swagger.model.TypingTestName;
 import io.swagger.api.HmlApi;
@@ -22,11 +21,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import org.apache.log4j.Logger;
+
 @RestController
 @CrossOrigin
 public class HmlController implements HmlApi {
 
     private final HmlService hmlService;
+    private static final Logger LOG = Logger.getLogger(HmlController.class);
 
     @Autowired
     public HmlController(HmlService hmlService) {
@@ -41,6 +43,7 @@ public class HmlController implements HmlApi {
             List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto());
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
+            LOG.error("Error on typingTestNames/{maxResults}", ex);
             return () -> new ResponseEntity<>(new ArrayList<TypingTestName>(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -51,6 +54,7 @@ public class HmlController implements HmlApi {
         try {
             return () -> new ResponseEntity<>(hmlService.createTypingTestName(typingTestName).toDto(), HttpStatus.OK);
         } catch (Exception ex) {
+            LOG.error("Error on typingTestName", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -63,7 +67,19 @@ public class HmlController implements HmlApi {
             List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto());
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
+            LOG.error("Error on typingTestNames", ex);
             return () -> new ResponseEntity<>(new ArrayList<TypingTestName>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    @RequestMapping(path = "typingTestName/delete", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public Callable<ResponseEntity<Boolean>> deleteTypingTestName(@RequestBody TypingTestName typingTestName) throws NotFoundException {
+        try {
+            return () -> new ResponseEntity<>(hmlService.deleteTypingTestName(typingTestName), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error on typingTestName/delete", ex);
+            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

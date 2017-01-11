@@ -96,6 +96,30 @@ paths:
             title: HmlControllerException
             schema:
               $ref: '#/definitions/Error'
+  /hml/typingTestName/delete:
+    post:
+      operationId: deleteTypingTestName
+      description: Delete a single typing test name entry
+      parameters:
+        -
+          name: typingTestName
+          in: body
+          description: Typing Test Name Object
+          required: true
+          schema:
+            $ref: '#/definitions/TypingTestName'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/Error'
 definitions:
   HmlControllerException:
     type: object

@@ -76,11 +76,11 @@ public class HmlServiceImpl implements HmlService {
         return new TypingTestName();
     }
 
-    public TypingTestName deleteTypingTestName(String id) {
-        return new TypingTestName();
+    public Boolean deleteTypingTestName(String id) {
+        return true;
     }
 
-    public TypingTestName deleteTypingTestName(io.swagger.model.TypingTestName typingTestName) {
-        return new TypingTestName();
+    public Boolean deleteTypingTestName(io.swagger.model.TypingTestName typingTestName) {
+        return true;
     }
 }
