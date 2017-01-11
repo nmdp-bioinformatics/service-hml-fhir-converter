@@ -4,10 +4,12 @@ package org.nmdp.hmlfhirconverter.domain;
  * Created by abrown3 on 12/21/16.
  */
 
+import org.joda.time.DateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -45,7 +47,7 @@ public class TypingTestName implements Serializable {
         this.description = typingTestName.getDescription();
         this.id = typingTestName.getId();
         this.active = typingTestName.getActive();
-        this.dateCreated = typingTestName.getDateCreated();
+        this.dateCreated = handleDateStamping(typingTestName.getDateCreated());
     }
 
     public TypingTestName(String name, String description) {
@@ -78,5 +80,13 @@ public class TypingTestName implements Serializable {
                 " name = " + name +
                 " description = " + description +
                 " }";
+    }
+
+    private Date handleDateStamping(Date date) {
+        if (date == null) {
+            return new Date();
+        }
+
+        else return date;
     }
 }

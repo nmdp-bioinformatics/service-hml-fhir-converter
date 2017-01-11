@@ -34,7 +34,7 @@ public class HmlController implements HmlApi {
     }
 
     @Override
-    @RequestMapping(value = "typingTestNames/{maxResults}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path = "typingTestNames/{maxResults}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<TypingTestName>>> getTypingTestNames(@PathVariable Integer maxResults) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = hmlService.findByMaxReturn(maxResults).getContent();
@@ -46,8 +46,8 @@ public class HmlController implements HmlApi {
     }
 
     @Override
-    @RequestMapping(value = "typingTestName", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public Callable<ResponseEntity<TypingTestName>> createTypingTestName(@RequestBody(required = false) TypingTestName typingTestName) throws NotFoundException {
+    @RequestMapping(path = "typingTestName", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public Callable<ResponseEntity<TypingTestName>> createTypingTestName(@RequestBody TypingTestName typingTestName) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(hmlService.createTypingTestName(typingTestName).toDto(), HttpStatus.OK);
         } catch (Exception ex) {
@@ -56,7 +56,7 @@ public class HmlController implements HmlApi {
     }
 
     @Override
-    @RequestMapping(value = "typingTestNames", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(path = "typingTestNames", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<TypingTestName>>> createTypingTestNames(@PathVariable List<TypingTestName> typingTestNames) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = hmlService.createTypingTestNames(typingTestNames);
