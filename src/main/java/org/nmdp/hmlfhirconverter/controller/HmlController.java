@@ -46,8 +46,6 @@ public class HmlController implements HmlApi {
     }
 
     @Override
-    @ApiOperation(value = "Add typing test name object to database", notes = "Returns object from database", response = TypingTestName.class,
-        consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "typingTestName", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<TypingTestName>> createTypingTestName(@RequestBody(required = false) TypingTestName typingTestName) throws NotFoundException {
         try {
