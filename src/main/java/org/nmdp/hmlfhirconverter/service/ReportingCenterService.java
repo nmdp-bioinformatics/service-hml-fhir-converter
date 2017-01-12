@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.handlers;
+package org.nmdp.hmlfhirconverter.service;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/3/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/12/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,21 +24,18 @@ package org.nmdp.hmlfhirconverter.handlers;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.exception.HmlControllerException;
+import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.data.domain.Page;
 
-import org.apache.log4j.Logger;
+import java.util.List;
 
-@ControllerAdvice
-public class HmlControllerHandler {
-    private final static Logger LOG = Logger.getLogger(HmlControllerHandler.class);
-
-    @ExceptionHandler(HmlControllerException.class)
-    public ResponseEntity handlerException(HmlControllerException ex) {
-        LOG.error(ex.getMessage(), ex);
-        return ResponseEntity.status(ex.getHttpStatus()).body(ex.getMessage());
-    }
+public interface ReportingCenterService {
+    ReportingCenter getReportingCenter(String id);
+    Page<ReportingCenter> findReportingCentersByMaxReturn(Integer maxResults);
+    ReportingCenter createReportingCenter(io.swagger.model.ReportingCenter reportingCenter);
+    List<ReportingCenter> createReportingCenters(List<io.swagger.model.ReportingCenter> reportingCenters);
+    ReportingCenter updateReportingCenter(io.swagger.model.ReportingCenter reportingCenter);
+    Boolean deleteReportingCenter(String id);
+    Boolean deleteReportingCenter(io.swagger.model.ReportingCenter reportingCenter);
 }

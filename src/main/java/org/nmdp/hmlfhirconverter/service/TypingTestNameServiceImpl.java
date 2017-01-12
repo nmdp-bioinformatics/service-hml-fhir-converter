@@ -26,9 +26,8 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
-import org.nmdp.hmlfhirconverter.dao.HmlRepository;
+import org.nmdp.hmlfhirconverter.dao.TypingTestNameRepository;
 
-import org.nmdp.hmlfhirconverter.domain.TypingTestNameDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -40,30 +39,31 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class HmlServiceImpl implements HmlService {
-    private final HmlRepository hmlRepository;
-    private static final Logger LOG = Logger.getLogger(HmlServiceImpl.class);
+public class TypingTestNameServiceImpl implements TypingTestNameService {
+    private final TypingTestNameRepository typingTestNameRepository;
+
+    private static final Logger LOG = Logger.getLogger(TypingTestNameService.class);
 
     @Autowired
-    public HmlServiceImpl(@Qualifier("hmlRepository") HmlRepository hmlRepository) {
-        this.hmlRepository = hmlRepository;
+    public TypingTestNameServiceImpl(@Qualifier("typingTestNameRepository") TypingTestNameRepository typingTestNameRepository) {
+        this.typingTestNameRepository = typingTestNameRepository;
     }
 
     @Override
     public TypingTestName getTypingTestName(String id) {
-        return hmlRepository.findOne(id);
+        return typingTestNameRepository.findOne(id);
     }
 
     @Override
-    public Page<TypingTestName> findByMaxReturn(Integer maxResults) {
+    public Page<TypingTestName> findTypingTestNamesByMaxReturn(Integer maxResults) {
         PageRequest pageable = new PageRequest(0, maxResults);
-        return hmlRepository.findAll(pageable);
+        return typingTestNameRepository.findAll(pageable);
     }
 
     @Override
     public TypingTestName createTypingTestName(io.swagger.model.TypingTestName typingTestName) {
         TypingTestName nmdpModel = new TypingTestName(typingTestName);
-        return hmlRepository.save(nmdpModel);
+        return typingTestNameRepository.save(nmdpModel);
     }
 
     @Override
@@ -72,19 +72,20 @@ public class HmlServiceImpl implements HmlService {
                 .filter(Objects::nonNull)
                 .map(obj -> new TypingTestName(obj))
                 .collect(Collectors.toList());
-        return hmlRepository.save(nmdpModel);
+
+        return typingTestNameRepository.save(nmdpModel);
     }
 
     @Override
     public TypingTestName updateTypingTestName(io.swagger.model.TypingTestName typingTestName) {
         TypingTestName nmdpModel = new TypingTestName(typingTestName);
-        return hmlRepository.save(nmdpModel);
+        return typingTestNameRepository.save(nmdpModel);
     }
 
     @Override
     public Boolean deleteTypingTestName(String id) {
         try {
-            hmlRepository.delete(id);
+            typingTestNameRepository.delete(id);
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting typing test name.", ex);
@@ -95,7 +96,7 @@ public class HmlServiceImpl implements HmlService {
     @Override
     public Boolean deleteTypingTestName(io.swagger.model.TypingTestName typingTestName) {
         try {
-            hmlRepository.delete(new TypingTestName(typingTestName));
+            typingTestNameRepository.delete(new TypingTestName(typingTestName));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting typing test name.", ex);

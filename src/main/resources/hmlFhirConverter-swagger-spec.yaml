@@ -14,7 +14,7 @@ produces:
   - application/json
 
 paths:
-  /hml/typingTestName/{id}:
+  /typingTestName/get/{id}:
     get:
       operationId: getTypingTestName
       description: Gets the typing test name by Id
@@ -36,7 +36,7 @@ paths:
             title: HmlControllerException
             schema:
               $ref: '#/definitions/Error'
-  /hml/typingTestName/delete/{id}:
+  /typingTestName/delete/{id}:
     get:
       operationId: deleteTypingTestName
       description: Deletes the typing test name by Id
@@ -56,10 +56,10 @@ paths:
         500:
           description: Internal Server Error
           schema:
-            title: HmlControllerException
+            title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
-  /hml/typingtTestNames/{maxResults}:
+  /typingTestName/getMulti/{maxResults}:
     get:
       operationId: getTypingTestNames
       description: Gets the list of available typing test names
@@ -82,14 +82,14 @@ paths:
         500:
           description: Internal Server Error
           schema:
-            title: HmlControllerException
+            title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/HmlControllerException'
         default:
           description: Unexpected Error
           schema:
             $ref: '#/definitions/Error'
-  /hml/typingTestName:
+  /typingTestName/create:
     post:
       operationId: createTypingTestName
       description: Creates a typing test name entry
@@ -109,10 +109,10 @@ paths:
         500:
           description: Internal Server Error
           schema:
-            title: HmlControllerException
+            title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
-  /hml/typingTestNames:
+  /typingTestName/createMulti:
     post:
       operationId: createTypingTestNames
       description: Create multiple testing type name entries
@@ -138,10 +138,10 @@ paths:
         500:
           description: Internal Server Error
           schema:
-            title: HmlControllerException
+            title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
-  /hml/typingTestName/update:
+  /typingTestName/update:
     put:
       operationId: updateTypingTestName
       description: Update a single typing test name entry
@@ -161,10 +161,10 @@ paths:
         500:
           description: Internal Server Error
           schema:
-            title: HmlControllerException
+            title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
-  /hml/typingTestName/delete:
+  /typingTestName/delete:
     post:
       operationId: deleteTypingTestName
       description: Delete a single typing test name entry
@@ -185,11 +185,11 @@ paths:
         500:
           description: Internal Server Error
           schema:
-            title: HmlControllerException
+            title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
 definitions:
-  HmlControllerException:
+  TypingTestNameControllerException:
     type: object
     properties:
       httpStatus:

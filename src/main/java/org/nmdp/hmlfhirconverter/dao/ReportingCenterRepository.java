@@ -1,10 +1,10 @@
 package org.nmdp.hmlfhirconverter.dao;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 12/22/16.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/12/17.
  * <p>
  * service-hmlFhirConverter
- * Copyright (c) 2012-2016 National Marrow Donor Program (NMDP)
+ * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
  * <p>
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published
@@ -24,12 +24,12 @@ package org.nmdp.hmlfhirconverter.dao;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.TypingTestName;
+import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface HmlRepository extends MongoRepository<TypingTestName, String> {
-    Page<TypingTestName> findAll(Pageable pageable);
+public interface ReportingCenterRepository extends MongoRepository<ReportingCenter, String> {
+    Page<ReportingCenter> findAll(Pageable pageable);
 }

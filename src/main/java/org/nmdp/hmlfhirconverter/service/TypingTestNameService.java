@@ -30,9 +30,9 @@ import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 
 import java.util.List;
 
-public interface HmlService {
+public interface TypingTestNameService {
     TypingTestName getTypingTestName(String id);
-    Page<TypingTestName> findByMaxReturn(Integer maxResults);
+    Page<TypingTestName> findTypingTestNamesByMaxReturn(Integer maxResults);
     TypingTestName createTypingTestName(io.swagger.model.TypingTestName typingTestName);
     List<TypingTestName> createTypingTestNames(List<io.swagger.model.TypingTestName> typingTestNames);
     TypingTestName updateTypingTestName(io.swagger.model.TypingTestName typingTestName);
