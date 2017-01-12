@@ -96,6 +96,29 @@ paths:
             title: HmlControllerException
             schema:
               $ref: '#/definitions/Error'
+  /hml/typingTestName/update:
+    put:
+      operationId: updateTypingTestName
+      description: Update a single typing test name entry
+      parameters:
+        -
+          name: typingTestName
+          in: body
+          description: Typing Test Name Object
+          required: true
+          schema:
+            $ref: '#/definitions/TypingTestName'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/TypingTestName'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/Error'
   /hml/typingTestName/delete:
     post:
       operationId: deleteTypingTestName

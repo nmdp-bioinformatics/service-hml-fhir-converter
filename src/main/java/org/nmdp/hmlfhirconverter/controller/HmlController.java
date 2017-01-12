@@ -82,4 +82,15 @@ public class HmlController implements HmlApi {
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Override
+    @RequestMapping(path = "typingTestName/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
+    public Callable<ResponseEntity<TypingTestName>> updateTypingTestName(@RequestBody TypingTestName typingTestName) throws NotFoundException {
+        try {
+            return () -> new ResponseEntity<>(hmlService.updateTypingTestName(typingTestName).toDto(), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error on typingTestName/update", ex);
+            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

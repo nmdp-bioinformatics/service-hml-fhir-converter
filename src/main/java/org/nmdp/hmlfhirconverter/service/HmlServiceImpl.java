@@ -24,9 +24,11 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 import org.nmdp.hmlfhirconverter.dao.HmlRepository;
 
+import org.nmdp.hmlfhirconverter.domain.TypingTestNameDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -40,6 +42,7 @@ import java.util.stream.Collectors;
 @Service
 public class HmlServiceImpl implements HmlService {
     private final HmlRepository hmlRepository;
+    private static final Logger LOG = Logger.getLogger(HmlServiceImpl.class);
 
     @Autowired
     public HmlServiceImpl(@Qualifier("hmlRepository") HmlRepository hmlRepository) {
@@ -72,15 +75,31 @@ public class HmlServiceImpl implements HmlService {
         return hmlRepository.save(nmdpModel);
     }
 
+    @Override
     public TypingTestName updateTypingTestName(io.swagger.model.TypingTestName typingTestName) {
-        return new TypingTestName();
+        TypingTestName nmdpModel = new TypingTestName(typingTestName);
+        return hmlRepository.save(nmdpModel);
     }
 
+    @Override
     public Boolean deleteTypingTestName(String id) {
-        return true;
+        try {
+            hmlRepository.delete(id);
+            return true;
+        } catch (Exception ex) {
+            LOG.error("Error deleting typing test name.", ex);
+            return false;
+        }
     }
 
+    @Override
     public Boolean deleteTypingTestName(io.swagger.model.TypingTestName typingTestName) {
-        return true;
+        try {
+            hmlRepository.delete(new TypingTestName(typingTestName));
+            return true;
+        } catch (Exception ex) {
+            LOG.error("Error deleting typing test name.", ex);
+            return false;
+        }
     }
 }
