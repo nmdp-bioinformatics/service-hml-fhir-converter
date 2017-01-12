@@ -15,6 +15,14 @@
                 { name: 'RNA Seq', description: 'RNA Seq sequencing', active: true, dateCreated: new Date()},
                 { name: 'Ion Torrent', description: 'Ion Torrent sequencing', active: true, dateCreated: new Date() }
             ]
+        },
+        {
+            name: 'Hml.ReportingCenters',
+            defaultData: [
+                { context: 'NIH Designated Cancer Center', active: true, dateCreated: new Date() },
+                { context: 'Mayo Clinic Foundation', active: true, dateCreated: new Date() },
+                { context: 'Cleveland Clinic Foundation', active: true, dateCreated: new Date() }
+            ]
         }
     ];
 

@@ -28,7 +28,6 @@ import io.swagger.api.ReportingCenterApi;
 import io.swagger.model.ReportingCenter;
 import io.swagger.api.NotFoundException;
 
-import io.swagger.model.TypingTestName;
 import org.apache.log4j.Logger;
 
 import org.nmdp.hmlfhirconverter.service.ReportingCenterService;
