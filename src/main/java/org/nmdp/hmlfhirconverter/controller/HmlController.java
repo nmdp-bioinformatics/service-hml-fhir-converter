@@ -49,6 +49,28 @@ public class HmlController implements HmlApi {
     }
 
     @Override
+    @RequestMapping(path = "typingTestName/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<Boolean>> deleteTypingTestName(@PathVariable String id) throws NotFoundException {
+        try {
+            return () -> new ResponseEntity<>(hmlService.deleteTypingTestName(id), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error on typingTestNames/delete/{id}", ex);
+            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    @RequestMapping(path = "typingTestName/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<TypingTestName>> getTypingTestName(@PathVariable String id) throws NotFoundException {
+        try {
+            return () -> new ResponseEntity<>(hmlService.getTypingTestName(id).toDto(), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error on typingTestName/{id}", ex);
+            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
     @RequestMapping(path = "typingTestName", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<TypingTestName>> createTypingTestName(@RequestBody TypingTestName typingTestName) throws NotFoundException {
         try {

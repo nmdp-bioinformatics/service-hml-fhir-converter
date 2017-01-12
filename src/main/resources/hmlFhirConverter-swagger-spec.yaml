@@ -14,6 +14,51 @@ produces:
   - application/json
 
 paths:
+  /hml/typingTestName/{id}:
+    get:
+      operationId: getTypingTestName
+      description: Gets the typing test name by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of typing test name in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/TypingTestName'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /hml/typingTestName/delete/{id}:
+    get:
+      operationId: deleteTypingTestName
+      description: Deletes the typing test name by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of typing test name in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/Error'
   /hml/typingtTestNames/{maxResults}:
     get:
       operationId: getTypingTestNames
