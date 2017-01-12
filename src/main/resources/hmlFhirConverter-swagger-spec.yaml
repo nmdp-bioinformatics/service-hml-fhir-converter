@@ -14,6 +14,180 @@ produces:
   - application/json
 
 paths:
+  /reportingCenter/get/{id}:
+    get:
+      operationId: getReportingCenter
+      description: Gets the Reporting Center by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Reporting Center in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ReportingCenter'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /reportingCenter/delete/{id}:
+    get:
+      operationId: deleteReportingCenter
+      description: Deletes the Reporting Center by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Reporting Center in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorReporting Center
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /reportingCenter/getMulti/{maxResults}:
+    get:
+      operationId: getReportingCenters
+      description: Gets the list of available Reporting Centers
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfreportingCenters
+            type: array
+            items:
+              $ref: '#/definitions/ReportingCenter'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /reportingCenter/create:
+    post:
+      operationId: createReportingCenter
+      description: Creates a Reporting Center entry
+      parameters:
+        -
+          name: reportingCenter
+          in: body
+          description: Reporting Center Object
+          required: true
+          schema:
+            $ref: '#/definitions/ReportingCenter'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/ReportingCenter'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /reportingCenter/createMulti:
+    post:
+      operationId: createReportingCenters
+      description: Create multiple testing type name entries
+      parameters:
+        -
+          name: reportingCenters
+          in: body
+          description: Array of Reporting Center Objects
+          required: true
+          schema:
+            title: ArrayOfreportingCenters
+            type: array
+            items:
+              $ref: '#/definitions/ReportingCenter'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfreportingCenters
+            type: array
+            items:
+              $ref: '#/definitions/ReportingCenter'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /reportingCenter/update:
+    put:
+      operationId: updateReportingCenter
+      description: Update a single Reporting Center entry
+      parameters:
+        -
+          name: reportingCenter
+          in: body
+          description: Reporting Center Object
+          required: true
+          schema:
+            $ref: '#/definitions/ReportingCenter'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/ReportingCenter'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /reportingCenter/delete:
+    post:
+      operationId: deleteReportingCenter
+      description: Delete a single Reporting Center entry
+      parameters:
+        -
+          name: reportingCenter
+          in: body
+          description: Reporting Center Object
+          required: true
+          schema:
+            $ref: '#/definitions/ReportingCenter'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/Error'
   /typingTestName/get/{id}:
     get:
       operationId: getTypingTestName
@@ -33,7 +207,7 @@ paths:
         500:
           description: Internal Server Error
           schema:
-            title: HmlControllerException
+            title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
   /typingTestName/delete/{id}:
@@ -190,6 +364,12 @@ paths:
               $ref: '#/definitions/Error'
 definitions:
   TypingTestNameControllerException:
+    type: object
+    properties:
+      httpStatus:
+        type: string
+        description: Http status code
+  ReportingCenterControllerException:
     type: object
     properties:
       httpStatus:
