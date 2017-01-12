@@ -205,6 +205,22 @@ definitions:
         type: string
       fields:
         type: string
+  ReportingCenter:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of reporting center
+      context:
+        type: string
+        description: Context of reporting center
+      active:
+        type: boolean
+        description: Active center
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
   TypingTestName:
     type: object
     properties:
