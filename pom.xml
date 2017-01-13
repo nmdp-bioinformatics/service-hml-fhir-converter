@@ -29,7 +29,7 @@
 
     <groupId>org.nmdp.hmlfhirconverter</groupId>
     <artifactId>service-hmlFhirConverter</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
 
     <name>service-hmlFhirConverter</name>
@@ -46,8 +46,6 @@
         <springboot-version>1.4.3.RELEASE</springboot-version>
         <swagger-codegen-version>2.1.5</swagger-codegen-version>
         <maven-compiler-plugin-version>3.3</maven-compiler-plugin-version>
-        <maven-war-plugin-version>3.0.0</maven-war-plugin-version>
-        <tomcat-maven-plugin-version>2.2</tomcat-maven-plugin-version>
     </properties>
 
     <parent>
@@ -66,21 +64,6 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-            	<groupId>org.apache.maven.plugins</groupId>
-            	<artifactId>maven-war-plugin</artifactId>
-            	<version>${maven-war-plugin-version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>${tomcat-maven-plugin-version}</version>
-                <configuration>
-                    <url>http://localhost:8080/hmlFhirConverter</url>
-                    <server>tomcat8</server>
-                    <path>/${project.build.finalName}</path>
                 </configuration>
             </plugin>
             <plugin>
