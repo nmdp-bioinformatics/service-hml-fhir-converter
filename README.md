@@ -51,6 +51,5 @@ Build the project with maven from the root of this directory:
 
 Run 'mvn clean install'
 
-This will generate swagger code and compile the source. The intention of this project is to run in a Tomcat server, follow instructions on starting the application at:
-http://tomcat.apache.org/tomcat-8.5-doc/appdev/index.html
+This will build out a .jar file in (target/service-hmlFhirConverter-{VERSION}-SNAPSHOT.jar), simply execute the jar by java -jar {PATH_TO_JAR}, this will start an Apache server instance and host a local instance of the service at http://localhost:8090/v1. To change the port #, alter resources/application.properties.
     
