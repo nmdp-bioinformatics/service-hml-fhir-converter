@@ -37,6 +37,8 @@ Install MongoDB by:
 
 Run 'brew install mongodb'
 
+Run 'brew install tomcat'
+
 After installation, start your mongo database server (note -dbpath optional paramter)
 
 Run 'mongod --dbpath=/Database/Mongo'
