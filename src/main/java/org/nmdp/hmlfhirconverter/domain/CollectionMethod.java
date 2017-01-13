@@ -1,7 +1,7 @@
 package org.nmdp.hmlfhirconverter.domain;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/11/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/13/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -37,15 +37,18 @@ import java.util.Date;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.ReportingCenters")
-public class ReportingCenter implements Serializable {
+@Document(collection = "Hml.Samples.CollectionMethods")
+public class CollectionMethod implements Serializable {
 
     @XmlAttribute
     @Id
     private String id;
 
     @XmlAttribute
-    private String context;
+    private String name;
+
+    @XmlAttribute
+    private String description;
 
     @XmlAttribute
     private Boolean active;
@@ -53,24 +56,26 @@ public class ReportingCenter implements Serializable {
     @XmlAttribute
     private Date dateCreated;
 
-    public ReportingCenter() {
+    public CollectionMethod() {
 
     }
 
-    public ReportingCenter(io.swagger.model.ReportingCenter reportingCenter) {
-        this.id = reportingCenter.getId();
-        this.context = reportingCenter.getContext();
-        this.active = reportingCenter.getActive();
-        this.dateCreated = handleDateStamping(reportingCenter.getDateCreated());
+    public CollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
+        this.id = collectionMethod.getId();
+        this.name = collectionMethod.getName();
+        this.description = collectionMethod.getDescription();
+        this.active = collectionMethod.getActive();
+        this.dateCreated = handleDateStamping(collectionMethod.getDateCreated());
     }
 
-    public ReportingCenterDto toDto() {
-        ReportingCenterDto dto = new ReportingCenterDto();
+    public CollectionMethodDto toDto() {
+        CollectionMethodDto dto = new CollectionMethodDto();
 
         dto.setId(this.id);
-        dto.setContext(this.context);
+        dto.setName(this.name);
+        dto.setDescription(this.description);
         dto.setActive(this.active);
-        dto.setDateCreated(this.dateCreated);
+        dto.setDateCreated(handleDateStamping(this.dateCreated));
 
         return dto;
     }

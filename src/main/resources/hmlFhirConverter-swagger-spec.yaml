@@ -14,6 +14,354 @@ produces:
   - application/json
 
 paths:
+  /collectionMethod/get/{id}:
+    get:
+      operationId: getCollectionMethod
+      description: Gets the typing test name by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of typing test name in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/CollectionMethod'
+        500:
+          description: Internal Server Error
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /collectionMethod/delete/{id}:
+    get:
+      operationId: deleteCollectionMethod
+      description: Deletes the typing test name by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of typing test name in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /collectionMethod/getMulti/{maxResults}:
+    get:
+      operationId: getCollectionMethods
+      description: Gets the list of available typing test names
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfCollectionMethods
+            type: array
+            items:
+              $ref: '#/definitions/CollectionMethod'
+        500:
+          description: Internal Server Error
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /collectionMethod/create:
+    post:
+      operationId: createCollectionMethod
+      description: Creates a typing test name entry
+      parameters:
+        -
+          name: collection Method
+          in: body
+          description: Collection Method Object
+          required: true
+          schema:
+            $ref: '#/definitions/CollectionMethod'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/CollectionMethod'
+        500:
+          description: Internal Server Error
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /collectionMethod/createMulti:
+    post:
+      operationId: createCollectionMethods
+      description: Create multiple testing type name entries
+      parameters:
+        -
+          name: collection Methods
+          in: body
+          description: Array of Collection Method Objects
+          required: true
+          schema:
+            title: ArrayOfCollectionMethods
+            type: array
+            items:
+              $ref: '#/definitions/CollectionMethod'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfCollectionMethods
+            type: array
+            items:
+              $ref: '#/definitions/CollectionMethod'
+        500:
+          description: Internal Server Error
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /collectionMethod/update:
+    put:
+      operationId: updateCollectionMethod
+      description: Update a single typing test name entry
+      parameters:
+        -
+          name: collection Method
+          in: body
+          description: Collection Method Object
+          required: true
+          schema:
+            $ref: '#/definitions/CollectionMethod'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/CollectionMethod'
+        500:
+          description: Internal Server Error
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /collectionMethod/delete:
+    post:
+      operationId: deleteCollectionMethod
+      description: Delete a single typing test name entry
+      parameters:
+        -
+          name: collection Method
+          in: body
+          description: Collection Method Object
+          required: true
+          schema:
+            $ref: '#/definitions/CollectionMethod'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sample/get/{id}:
+    get:
+      operationId: getSample
+      description: Gets the Sample by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Sample in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Sample'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sample/delete/{id}:
+    get:
+      operationId: deleteSample
+      description: Deletes the Sample by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Sample in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorSample
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sample/getMulti/{maxResults}:
+    get:
+      operationId: getSamples
+      description: Gets the list of available Samples
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsamples
+            type: array
+            items:
+              $ref: '#/definitions/Sample'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/SampleControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sample/create:
+    post:
+      operationId: createSample
+      description: Creates a Sample entry
+      parameters:
+        -
+          name: sample
+          in: body
+          description: Sample Object
+          required: true
+          schema:
+            $ref: '#/definitions/Sample'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Sample'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sample/createMulti:
+    post:
+      operationId: createSamples
+      description: Create multiple Sample entries
+      parameters:
+        -
+          name: samples
+          in: body
+          description: Array of Sample Objects
+          required: true
+          schema:
+            title: ArrayOfsamples
+            type: array
+            items:
+              $ref: '#/definitions/Sample'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsamples
+            type: array
+            items:
+              $ref: '#/definitions/Sample'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sample/update:
+    put:
+      operationId: updateSample
+      description: Update a single Sample entry
+      parameters:
+        -
+          name: sample
+          in: body
+          description: Sample Object
+          required: true
+          schema:
+            $ref: '#/definitions/Sample'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Sample'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sample/delete:
+    post:
+      operationId: deleteSample
+      description: Delete a single Sample entry
+      parameters:
+        -
+          name: sample
+          in: body
+          description: Sample Object
+          required: true
+          schema:
+            $ref: '#/definitions/Sample'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/Error'
   /reportingCenter/get/{id}:
     get:
       operationId: getReportingCenter
@@ -401,6 +749,46 @@ definitions:
         type: string
         format: date-time
         description: Creation date
+  Sample:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of sample
+      centerCode:
+        type: string
+        description: Center code
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Date record was created
+      collectionMethods:
+        type: array
+        description: array of center codes
+        items:
+          $ref: '#/definitions/CollectionMethod'
+  CollectionMethod:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of collection method
+      name:
+        type: string
+        description: Name of method
+      description:
+        type: string
+        description: Description of method
+      active:
+        type: boolean
+        description: Active item
+      dateCreated:
+        type: string
+        format: date-time
+        description: Date entry was created
   TypingTestName:
     type: object
     properties:

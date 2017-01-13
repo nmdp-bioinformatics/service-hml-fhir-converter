@@ -1,0 +1,106 @@
+package org.nmdp.hmlfhirconverter.service;
+
+/**
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/13/17.
+ * <p>
+ * service-hmlFhirConverter
+ * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
+ * <p>
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation; either version 3 of the License, or (at
+ * your option) any later version.
+ * <p>
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; with out even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+ * License for more details.
+ * <p>
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library;  if not, write to the Free Software Foundation,
+ * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA.
+ * <p>
+ * > http://www.fsf.org/licensing/licenses/lgpl.html
+ * > http://www.opensource.org/licenses/lgpl-license.php
+ */
+
+import org.apache.log4j.Logger;
+
+import org.nmdp.hmlfhirconverter.dao.CollectionMethodRepository;
+import org.nmdp.hmlfhirconverter.domain.CollectionMethod;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+@Service
+public class CollectionMethodServiceImpl implements CollectionMethodService {
+    private final CollectionMethodRepository collectionMethodRepository;
+    private static final Logger LOG = Logger.getLogger(CollectionMethodServiceImpl.class);
+
+    @Autowired
+    public CollectionMethodServiceImpl(@Qualifier("collectionMethodRepository") CollectionMethodRepository collectionMethodRepository) {
+        this.collectionMethodRepository = collectionMethodRepository;
+    }
+
+    @Override
+    public CollectionMethod getCollectionMethod(String id) {
+        return collectionMethodRepository.findOne(id);
+    }
+
+    @Override
+    public Page<CollectionMethod> findCollectionMethodsByMaxReturn(Integer maxResults) {
+        PageRequest pageable = new PageRequest(0, maxResults);
+        return collectionMethodRepository.findAll(pageable);
+    }
+
+    @Override
+    public CollectionMethod createCollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
+        CollectionMethod nmdpModel = new CollectionMethod(collectionMethod);
+        return collectionMethodRepository.save(nmdpModel);
+    }
+
+    @Override
+    public List<CollectionMethod> createCollectionMethods(List<io.swagger.model.CollectionMethod> collectionMethods) {
+        List<CollectionMethod> nmdpModel = collectionMethods.stream()
+                .filter(Objects::nonNull)
+                .map(obj -> new CollectionMethod(obj))
+                .collect(Collectors.toList());
+
+        return collectionMethodRepository.save(nmdpModel);
+    }
+
+    @Override
+    public CollectionMethod updateCollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
+        CollectionMethod nmdpModel = new CollectionMethod(collectionMethod);
+        return collectionMethodRepository.save(nmdpModel);
+    }
+
+    @Override
+    public Boolean deleteCollectionMethod(String id) {
+        try {
+            collectionMethodRepository.delete(id);
+            return true;
+        } catch (Exception ex) {
+            LOG.error("Error deleting collection method.", ex);
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean deleteCollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
+        try {
+            collectionMethodRepository.delete(new CollectionMethod(collectionMethod));
+            return true;
+        } catch (Exception ex) {
+            LOG.error("Error deleting collection method.", ex);
+            return false;
+        }
+    }
+}

@@ -1,7 +1,7 @@
 package org.nmdp.hmlfhirconverter.domain;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/11/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/12/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,6 +24,7 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.nmdp.hmlfhirconverter.util.Converters;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -34,18 +35,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.ReportingCenters")
-public class ReportingCenter implements Serializable {
+@Document(collection = "Hml.Samples")
+public class Sample implements Serializable {
 
     @XmlAttribute
     @Id
     private String id;
 
     @XmlAttribute
-    private String context;
+    private String centerCode;
+
+    @XmlAttribute
+    private List<CollectionMethod> collectionMethods;
 
     @XmlAttribute
     private Boolean active;
@@ -53,22 +58,25 @@ public class ReportingCenter implements Serializable {
     @XmlAttribute
     private Date dateCreated;
 
-    public ReportingCenter() {
+    public Sample() {
 
     }
 
-    public ReportingCenter(io.swagger.model.ReportingCenter reportingCenter) {
-        this.id = reportingCenter.getId();
-        this.context = reportingCenter.getContext();
-        this.active = reportingCenter.getActive();
-        this.dateCreated = handleDateStamping(reportingCenter.getDateCreated());
+    public Sample(io.swagger.model.Sample sample) {
+        this.id = sample.getId();
+        this.centerCode = sample.getCenterCode();
+        this.collectionMethods = Converters.convertList(
+                sample.getCollectionMethods(), c -> new CollectionMethod(c));
+        this.active = sample.getActive();
+        this.dateCreated = handleDateStamping(sample.getDateCreated());
     }
 
-    public ReportingCenterDto toDto() {
-        ReportingCenterDto dto = new ReportingCenterDto();
+    public SampleDto toDto() {
+        SampleDto dto = new SampleDto();
 
         dto.setId(this.id);
-        dto.setContext(this.context);
+        dto.setCenterCode(this.centerCode);
+        dto.setCollectionMethods(Converters.convertList(this.collectionMethods, c -> c.toDto()));
         dto.setActive(this.active);
         dto.setDateCreated(this.dateCreated);
 

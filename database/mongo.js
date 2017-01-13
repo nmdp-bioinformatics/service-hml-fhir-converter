@@ -23,6 +23,12 @@
                 { context: 'Mayo Clinic Foundation', active: true, dateCreated: new Date() },
                 { context: 'Cleveland Clinic Foundation', active: true, dateCreated: new Date() }
             ]
+        },
+        {
+            name: 'Hml.Samples.CollectionMethods',
+            defaultData: [
+                { name: 'Cheek swab', description: 'DNA obtained through inner cheek swab', active: true, dateCreated: new Date() }
+            ]
         }
     ];
 

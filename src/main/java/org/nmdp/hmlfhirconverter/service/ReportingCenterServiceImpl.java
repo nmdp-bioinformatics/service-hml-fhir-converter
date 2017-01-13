@@ -46,7 +46,7 @@ public class ReportingCenterServiceImpl implements ReportingCenterService {
     private static final Logger LOG = Logger.getLogger(ReportingCenterServiceImpl.class);
 
     @Autowired
-    public ReportingCenterServiceImpl(@Qualifier("reportingCenterRepository")ReportingCenterRepository reportingCenterRepository) {
+    public ReportingCenterServiceImpl(@Qualifier("reportingCenterRepository") ReportingCenterRepository reportingCenterRepository) {
         this.reportingCenterRepository = reportingCenterRepository;
     }
 

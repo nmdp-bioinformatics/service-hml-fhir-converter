@@ -48,17 +48,6 @@ public class TypingTestName implements Serializable {
         this.dateCreated = handleDateStamping(typingTestName.getDateCreated());
     }
 
-    public TypingTestName(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public TypingTestName(String id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
-
     public TypingTestNameDto toDto() {
         TypingTestNameDto dto = new TypingTestNameDto();
 
