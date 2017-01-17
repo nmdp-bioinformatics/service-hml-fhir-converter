@@ -56,18 +56,7 @@ public class SampleController implements SampleApi {
     }
 
     @Override
-    @RequestMapping(path = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public Callable<ResponseEntity<Sample>> createSample(@RequestBody Sample sample) throws NotFoundException {
-        try {
-            return () -> new ResponseEntity<>(sampleService.createSample(sample).toDto(), HttpStatus.OK);
-        } catch (Exception ex) {
-            LOG.error("Error on /create", ex);
-            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @Override
-    @RequestMapping(path = "/createMulti", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Sample>>> createSamples(@RequestBody List<Sample> samples) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.Sample> result = sampleService.createSamples(samples);
@@ -80,7 +69,7 @@ public class SampleController implements SampleApi {
     }
 
     @Override
-    @RequestMapping(path = "/delete", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteSample(@RequestBody Sample sample) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(sampleService.deleteSample(sample), HttpStatus.OK);
@@ -91,7 +80,7 @@ public class SampleController implements SampleApi {
     }
 
     @Override
-    @RequestMapping(path = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteSample(@PathVariable String id) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(sampleService.deleteSample(id), HttpStatus.OK);
@@ -102,7 +91,7 @@ public class SampleController implements SampleApi {
     }
 
     @Override
-    @RequestMapping(path = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Sample>> getSample(@PathVariable String id) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(sampleService.getSample(id).toDto(), HttpStatus.OK);
@@ -113,10 +102,10 @@ public class SampleController implements SampleApi {
     }
 
     @Override
-    @RequestMapping(path = "/getMulti/{maxResults}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public Callable<ResponseEntity<List<Sample>>> getSamples(@PathVariable Integer maxResults) throws NotFoundException {
+    @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<List<Sample>>> getSamples(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Sample> result = sampleService.findSamplesByMaxReturn(maxResults).getContent();
+            List<org.nmdp.hmlfhirconverter.domain.Sample> result = sampleService.findSamplesByMaxReturn(maxResults, pageNumber).getContent();
             List<Sample> transferResult = Converters.convertList(result, r -> r.toDto());
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -126,7 +115,7 @@ public class SampleController implements SampleApi {
     }
 
     @Override
-    @RequestMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Sample>> updateSample(@RequestBody Sample sample) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(sampleService.updateSample(sample).toDto(), HttpStatus.OK);

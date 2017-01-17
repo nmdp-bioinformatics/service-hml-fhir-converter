@@ -55,15 +55,9 @@ public class TypingTestNameServiceImpl implements TypingTestNameService {
     }
 
     @Override
-    public Page<TypingTestName> findTypingTestNamesByMaxReturn(Integer maxResults) {
-        PageRequest pageable = new PageRequest(0, maxResults);
+    public Page<TypingTestName> findTypingTestNamesByMaxReturn(Integer maxResults, Integer pageNumber) {
+        PageRequest pageable = new PageRequest(pageNumber, maxResults);
         return typingTestNameRepository.findAll(pageable);
-    }
-
-    @Override
-    public TypingTestName createTypingTestName(io.swagger.model.TypingTestName typingTestName) {
-        TypingTestName nmdpModel = new TypingTestName(typingTestName);
-        return typingTestNameRepository.save(nmdpModel);
     }
 
     @Override

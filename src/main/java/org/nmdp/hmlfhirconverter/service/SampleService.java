@@ -32,8 +32,7 @@ import java.util.List;
 
 public interface SampleService {
     Sample getSample(String id);
-    Page<Sample> findSamplesByMaxReturn(Integer maxResults);
-    Sample createSample(io.swagger.model.Sample sample);
+    Page<Sample> findSamplesByMaxReturn(Integer maxResults, Integer pageNumber);
     List<Sample> createSamples(List<io.swagger.model.Sample> samples);
     Sample updateSample(io.swagger.model.Sample sample);
     Boolean deleteSample(String id);

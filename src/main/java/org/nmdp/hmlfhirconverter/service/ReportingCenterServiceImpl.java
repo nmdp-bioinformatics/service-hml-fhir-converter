@@ -56,15 +56,9 @@ public class ReportingCenterServiceImpl implements ReportingCenterService {
     }
 
     @Override
-    public Page<ReportingCenter> findReportingCentersByMaxReturn(Integer maxResults) {
-        PageRequest pageable = new PageRequest(0, maxResults);
+    public Page<ReportingCenter> findReportingCentersByMaxReturn(Integer maxResults, Integer pageNumber) {
+        PageRequest pageable = new PageRequest(pageNumber, maxResults);
         return reportingCenterRepository.findAll(pageable);
-    }
-
-    @Override
-    public ReportingCenter createReportingCenter(io.swagger.model.ReportingCenter reportingCenter) {
-        ReportingCenter nmdpModel = new ReportingCenter(reportingCenter);
-        return reportingCenterRepository.save(nmdpModel);
     }
 
     @Override

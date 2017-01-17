@@ -55,15 +55,9 @@ public class SampleServiceImpl implements SampleService {
     };
 
     @Override
-    public Page<Sample> findSamplesByMaxReturn(Integer maxResults) {
-        PageRequest pageable = new PageRequest(0, maxResults);
+    public Page<Sample> findSamplesByMaxReturn(Integer maxResults, Integer pageNumber) {
+        PageRequest pageable = new PageRequest(pageNumber, maxResults);
         return sampleRepository.findAll(pageable);
-    }
-
-    @Override
-    public Sample createSample(io.swagger.model.Sample sample) {
-        Sample nmdpModel = new Sample(sample);
-        return sampleRepository.save(nmdpModel);
     }
 
     @Override

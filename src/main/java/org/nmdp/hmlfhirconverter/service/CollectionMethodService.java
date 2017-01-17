@@ -32,8 +32,7 @@ import java.util.List;
 
 public interface CollectionMethodService {
     CollectionMethod getCollectionMethod(String id);
-    Page<CollectionMethod> findCollectionMethodsByMaxReturn(Integer maxResults);
-    CollectionMethod createCollectionMethod(io.swagger.model.CollectionMethod collectionMethod);
+    Page<CollectionMethod> findCollectionMethodsByMaxReturn(Integer maxResults, Integer pageNumber);
     List<CollectionMethod> createCollectionMethods(List<io.swagger.model.CollectionMethod> collectionMethods);
     CollectionMethod updateCollectionMethod(io.swagger.model.CollectionMethod collectionMethod);
     Boolean deleteCollectionMethod(String id);

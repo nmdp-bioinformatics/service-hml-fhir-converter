@@ -32,8 +32,7 @@ import java.util.List;
 
 public interface TypingTestNameService {
     TypingTestName getTypingTestName(String id);
-    Page<TypingTestName> findTypingTestNamesByMaxReturn(Integer maxResults);
-    TypingTestName createTypingTestName(io.swagger.model.TypingTestName typingTestName);
+    Page<TypingTestName> findTypingTestNamesByMaxReturn(Integer maxResults, Integer pageNumber);
     List<TypingTestName> createTypingTestNames(List<io.swagger.model.TypingTestName> typingTestNames);
     TypingTestName updateTypingTestName(io.swagger.model.TypingTestName typingTestName);
     Boolean deleteTypingTestName(String id);

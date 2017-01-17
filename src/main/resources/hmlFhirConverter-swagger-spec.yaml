@@ -14,7 +14,7 @@ produces:
   - application/json
 
 paths:
-  /collectionMethod/get/{id}:
+  /collectionMethod/{id}:
     get:
       operationId: getCollectionMethod
       description: Gets the typing test name by Id
@@ -36,8 +36,7 @@ paths:
             title: CollectionMethodControllerException
             schema:
               $ref: '#/definitions/Error'
-  /collectionMethod/delete/{id}:
-    get:
+    delete:
       operationId: deleteCollectionMethod
       description: Deletes the typing test name by Id
       parameters:
@@ -59,7 +58,7 @@ paths:
             title: CollectionMethodControllerException
             schema:
               $ref: '#/definitions/Error'
-  /collectionMethod/getMulti/{maxResults}:
+  /collectionMethod/{maxResults}/{pageNumber}:
     get:
       operationId: getCollectionMethods
       description: Gets the list of available typing test names
@@ -68,6 +67,13 @@ paths:
           name: maxResults
           in: query
           description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
           required: true
           type: integer
           format: int32
@@ -89,33 +95,10 @@ paths:
           description: Unexpected Error
           schema:
             $ref: '#/definitions/Error'
-  /collectionMethod/create:
-    post:
-      operationId: createCollectionMethod
-      description: Creates a typing test name entry
-      parameters:
-        -
-          name: collection Method
-          in: body
-          description: Collection Method Object
-          required: true
-          schema:
-            $ref: '#/definitions/CollectionMethod'
-      responses:
-        200:
-          description: Successful response
-          schema:
-              $ref: '#/definitions/CollectionMethod'
-        500:
-          description: Internal Server Error
-          schema:
-            title: CollectionMethodControllerException
-            schema:
-              $ref: '#/definitions/Error'
-  /collectionMethod/createMulti:
+  /collectionMethod:
     post:
       operationId: createCollectionMethods
-      description: Create multiple testing type name entries
+      description: Create testing type name entries
       parameters:
         -
           name: collection Methods
@@ -141,7 +124,6 @@ paths:
             title: CollectionMethodControllerException
             schema:
               $ref: '#/definitions/Error'
-  /collectionMethod/update:
     put:
       operationId: updateCollectionMethod
       description: Update a single typing test name entry
@@ -164,8 +146,7 @@ paths:
             title: CollectionMethodControllerException
             schema:
               $ref: '#/definitions/Error'
-  /collectionMethod/delete:
-    post:
+    delete:
       operationId: deleteCollectionMethod
       description: Delete a single typing test name entry
       parameters:
@@ -188,7 +169,7 @@ paths:
             title: CollectionMethodControllerException
             schema:
               $ref: '#/definitions/Error'
-  /sample/get/{id}:
+  /sample/{id}:
     get:
       operationId: getSample
       description: Gets the Sample by Id
@@ -210,8 +191,7 @@ paths:
             title: SampleControllerException
             schema:
               $ref: '#/definitions/Error'
-  /sample/delete/{id}:
-    get:
+    delete:
       operationId: deleteSample
       description: Deletes the Sample by Id
       parameters:
@@ -233,7 +213,7 @@ paths:
             title: SampleControllerException
             schema:
               $ref: '#/definitions/Error'
-  /sample/getMulti/{maxResults}:
+  /sample/{maxResults}/{pageNumber}:
     get:
       operationId: getSamples
       description: Gets the list of available Samples
@@ -242,6 +222,13 @@ paths:
           name: maxResults
           in: query
           description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
           required: true
           type: integer
           format: int32
@@ -263,33 +250,10 @@ paths:
           description: Unexpected Error
           schema:
             $ref: '#/definitions/Error'
-  /sample/create:
-    post:
-      operationId: createSample
-      description: Creates a Sample entry
-      parameters:
-        -
-          name: sample
-          in: body
-          description: Sample Object
-          required: true
-          schema:
-            $ref: '#/definitions/Sample'
-      responses:
-        200:
-          description: Successful response
-          schema:
-              $ref: '#/definitions/Sample'
-        500:
-          description: Internal Server Error
-          schema:
-            title: SampleControllerException
-            schema:
-              $ref: '#/definitions/Error'
-  /sample/createMulti:
+  /sample:
     post:
       operationId: createSamples
-      description: Create multiple Sample entries
+      description: Create Sample entries
       parameters:
         -
           name: samples
@@ -315,7 +279,6 @@ paths:
             title: SampleControllerException
             schema:
               $ref: '#/definitions/Error'
-  /sample/update:
     put:
       operationId: updateSample
       description: Update a single Sample entry
@@ -338,8 +301,7 @@ paths:
             title: SampleControllerException
             schema:
               $ref: '#/definitions/Error'
-  /sample/delete:
-    post:
+    delete:
       operationId: deleteSample
       description: Delete a single Sample entry
       parameters:
@@ -362,7 +324,7 @@ paths:
             title: SampleControllerException
             schema:
               $ref: '#/definitions/Error'
-  /reportingCenter/get/{id}:
+  /reportingCenter/{id}:
     get:
       operationId: getReportingCenter
       description: Gets the Reporting Center by Id
@@ -384,8 +346,7 @@ paths:
             title: ReportingCenterControllerException
             schema:
               $ref: '#/definitions/Error'
-  /reportingCenter/delete/{id}:
-    get:
+    delete:
       operationId: deleteReportingCenter
       description: Deletes the Reporting Center by Id
       parameters:
@@ -407,7 +368,7 @@ paths:
             title: ReportingCenterControllerException
             schema:
               $ref: '#/definitions/Error'
-  /reportingCenter/getMulti/{maxResults}:
+  /reportingCenter/{maxResults}/{pageNumber}:
     get:
       operationId: getReportingCenters
       description: Gets the list of available Reporting Centers
@@ -416,6 +377,13 @@ paths:
           name: maxResults
           in: query
           description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
           required: true
           type: integer
           format: int32
@@ -437,30 +405,7 @@ paths:
           description: Unexpected Error
           schema:
             $ref: '#/definitions/Error'
-  /reportingCenter/create:
-    post:
-      operationId: createReportingCenter
-      description: Creates a Reporting Center entry
-      parameters:
-        -
-          name: reportingCenter
-          in: body
-          description: Reporting Center Object
-          required: true
-          schema:
-            $ref: '#/definitions/ReportingCenter'
-      responses:
-        200:
-          description: Successful response
-          schema:
-              $ref: '#/definitions/ReportingCenter'
-        500:
-          description: Internal Server Error
-          schema:
-            title: ReportingCenterControllerException
-            schema:
-              $ref: '#/definitions/Error'
-  /reportingCenter/createMulti:
+  /reportingCenter:
     post:
       operationId: createReportingCenters
       description: Create multiple testing type name entries
@@ -489,7 +434,6 @@ paths:
             title: ReportingCenterControllerException
             schema:
               $ref: '#/definitions/Error'
-  /reportingCenter/update:
     put:
       operationId: updateReportingCenter
       description: Update a single Reporting Center entry
@@ -512,8 +456,7 @@ paths:
             title: ReportingCenterControllerException
             schema:
               $ref: '#/definitions/Error'
-  /reportingCenter/delete:
-    post:
+    delete:
       operationId: deleteReportingCenter
       description: Delete a single Reporting Center entry
       parameters:
@@ -536,7 +479,7 @@ paths:
             title: ReportingCenterControllerException
             schema:
               $ref: '#/definitions/Error'
-  /typingTestName/get/{id}:
+  /typingTestName/{id}:
     get:
       operationId: getTypingTestName
       description: Gets the typing test name by Id
@@ -558,8 +501,7 @@ paths:
             title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
-  /typingTestName/delete/{id}:
-    get:
+    delete:
       operationId: deleteTypingTestName
       description: Deletes the typing test name by Id
       parameters:
@@ -581,7 +523,7 @@ paths:
             title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
-  /typingTestName/getMulti/{maxResults}:
+  /typingTestName/{maxResults}/{pageNumber}:
     get:
       operationId: getTypingTestNames
       description: Gets the list of available typing test names
@@ -590,6 +532,13 @@ paths:
           name: maxResults
           in: query
           description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
           required: true
           type: integer
           format: int32
@@ -611,30 +560,7 @@ paths:
           description: Unexpected Error
           schema:
             $ref: '#/definitions/Error'
-  /typingTestName/create:
-    post:
-      operationId: createTypingTestName
-      description: Creates a typing test name entry
-      parameters:
-        -
-          name: typingTestName
-          in: body
-          description: Typing Test Name Object
-          required: true
-          schema:
-            $ref: '#/definitions/TypingTestName'
-      responses:
-        200:
-          description: Successful response
-          schema:
-              $ref: '#/definitions/TypingTestName'
-        500:
-          description: Internal Server Error
-          schema:
-            title: TypingTestNameControllerException
-            schema:
-              $ref: '#/definitions/Error'
-  /typingTestName/createMulti:
+  /typingTestName:
     post:
       operationId: createTypingTestNames
       description: Create multiple testing type name entries
@@ -663,7 +589,6 @@ paths:
             title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
-  /typingTestName/update:
     put:
       operationId: updateTypingTestName
       description: Update a single typing test name entry
@@ -686,8 +611,7 @@ paths:
             title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
-  /typingTestName/delete:
-    post:
+    delete:
       operationId: deleteTypingTestName
       description: Delete a single typing test name entry
       parameters:

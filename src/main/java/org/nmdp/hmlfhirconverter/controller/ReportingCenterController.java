@@ -57,18 +57,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     }
 
     @Override
-    @RequestMapping(path = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public Callable<ResponseEntity<ReportingCenter>> createReportingCenter(@RequestBody ReportingCenter reportingCenter) throws NotFoundException {
-        try {
-            return () -> new ResponseEntity<>(reportingCenterService.createReportingCenter(reportingCenter).toDto(), HttpStatus.OK);
-        } catch (Exception ex) {
-            LOG.error("Error on /create", ex);
-            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @Override
-    @RequestMapping(path = "/createMulti", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<ReportingCenter>>> createReportingCenters(@RequestBody List<ReportingCenter> reportingCenters) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.createReportingCenters(reportingCenters);
@@ -81,7 +70,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     }
 
     @Override
-    @RequestMapping(path = "/delete", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteReportingCenter(@RequestBody ReportingCenter reportingCenter) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(reportingCenterService.deleteReportingCenter(reportingCenter), HttpStatus.OK);
@@ -92,7 +81,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     }
 
     @Override
-    @RequestMapping(path = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteReportingCenter(@PathVariable String id) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(reportingCenterService.deleteReportingCenter(id), HttpStatus.OK);
@@ -103,7 +92,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     }
 
     @Override
-    @RequestMapping(path = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<ReportingCenter>> getReportingCenter(@PathVariable String id) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(reportingCenterService.getReportingCenter(id).toDto(), HttpStatus.OK);
@@ -114,10 +103,10 @@ public class ReportingCenterController implements ReportingCenterApi {
     }
 
     @Override
-    @RequestMapping(path = "/getMulti/{maxResults}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public Callable<ResponseEntity<List<ReportingCenter>>> getReportingCenters(@PathVariable Integer maxResults) throws NotFoundException {
+    @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<List<ReportingCenter>>> getReportingCenters(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.findReportingCentersByMaxReturn(maxResults).getContent();
+            List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.findReportingCentersByMaxReturn(maxResults, pageNumber).getContent();
             List<ReportingCenter> transferResult = Converters.convertList(result, r -> r.toDto());
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -127,7 +116,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     }
 
     @Override
-    @RequestMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<ReportingCenter>> updateReportingCenter(@RequestBody ReportingCenter reportingCenter) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(reportingCenterService.updateReportingCenter(reportingCenter).toDto(), HttpStatus.OK);

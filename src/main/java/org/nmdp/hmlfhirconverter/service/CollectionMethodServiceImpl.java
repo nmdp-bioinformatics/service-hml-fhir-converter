@@ -55,15 +55,9 @@ public class CollectionMethodServiceImpl implements CollectionMethodService {
     }
 
     @Override
-    public Page<CollectionMethod> findCollectionMethodsByMaxReturn(Integer maxResults) {
-        PageRequest pageable = new PageRequest(0, maxResults);
+    public Page<CollectionMethod> findCollectionMethodsByMaxReturn(Integer maxResults, Integer pageNumber) {
+        PageRequest pageable = new PageRequest(pageNumber, maxResults);
         return collectionMethodRepository.findAll(pageable);
-    }
-
-    @Override
-    public CollectionMethod createCollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
-        CollectionMethod nmdpModel = new CollectionMethod(collectionMethod);
-        return collectionMethodRepository.save(nmdpModel);
     }
 
     @Override

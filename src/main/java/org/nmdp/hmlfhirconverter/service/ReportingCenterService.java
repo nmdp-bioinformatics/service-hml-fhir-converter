@@ -32,8 +32,7 @@ import java.util.List;
 
 public interface ReportingCenterService {
     ReportingCenter getReportingCenter(String id);
-    Page<ReportingCenter> findReportingCentersByMaxReturn(Integer maxResults);
-    ReportingCenter createReportingCenter(io.swagger.model.ReportingCenter reportingCenter);
+    Page<ReportingCenter> findReportingCentersByMaxReturn(Integer maxResults, Integer pageNumber);
     List<ReportingCenter> createReportingCenters(List<io.swagger.model.ReportingCenter> reportingCenters);
     ReportingCenter updateReportingCenter(io.swagger.model.ReportingCenter reportingCenter);
     Boolean deleteReportingCenter(String id);

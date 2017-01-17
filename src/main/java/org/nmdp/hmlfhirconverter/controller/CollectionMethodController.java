@@ -57,18 +57,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     }
 
     @Override
-    @RequestMapping(path = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public Callable<ResponseEntity<CollectionMethod>> createCollectionMethod(@RequestBody CollectionMethod collectionMethod) throws NotFoundException {
-        try {
-            return () -> new ResponseEntity<>(collectionMethodService.createCollectionMethod(collectionMethod).toDto(), HttpStatus.OK);
-        } catch (Exception ex) {
-            LOG.error("Error on /create", ex);
-            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @Override
-    @RequestMapping(path = "/createMulti", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<CollectionMethod>>> createCollectionMethods(@RequestBody List<CollectionMethod> collectionMethods) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.CollectionMethod> result = collectionMethodService.createCollectionMethods(collectionMethods);
@@ -81,7 +70,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     }
 
     @Override
-    @RequestMapping(path = "/delete", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteCollectionMethod(@RequestBody CollectionMethod collectionMethod) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(collectionMethodService.deleteCollectionMethod(collectionMethod), HttpStatus.OK);
@@ -92,7 +81,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     }
 
     @Override
-    @RequestMapping(path = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteCollectionMethod(@PathVariable String id) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(collectionMethodService.deleteCollectionMethod(id), HttpStatus.OK);
@@ -103,7 +92,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     }
 
     @Override
-    @RequestMapping(path = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<CollectionMethod>> getCollectionMethod(@PathVariable String id) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(collectionMethodService.getCollectionMethod(id).toDto(), HttpStatus.OK);
@@ -114,10 +103,10 @@ public class CollectionMethodController implements CollectionMethodApi {
     }
 
     @Override
-    @RequestMapping(path = "/getMulti/{maxResults}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public Callable<ResponseEntity<List<CollectionMethod>>> getCollectionMethods(@PathVariable Integer maxResults) throws NotFoundException {
+    @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<List<CollectionMethod>>> getCollectionMethods(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.CollectionMethod> result = collectionMethodService.findCollectionMethodsByMaxReturn(maxResults).getContent();
+            List<org.nmdp.hmlfhirconverter.domain.CollectionMethod> result = collectionMethodService.findCollectionMethodsByMaxReturn(maxResults, pageNumber).getContent();
             List<CollectionMethod> transferResult = Converters.convertList(result, r -> r.toDto());
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -127,7 +116,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     }
 
     @Override
-    @RequestMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<CollectionMethod>> updateCollectionMethod(@RequestBody CollectionMethod collectionMethod) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(collectionMethodService.updateCollectionMethod(collectionMethod).toDto(), HttpStatus.OK);
