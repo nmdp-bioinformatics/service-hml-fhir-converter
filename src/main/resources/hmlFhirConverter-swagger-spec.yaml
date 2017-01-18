@@ -523,6 +523,43 @@ paths:
             title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
+  /typingTestName/{maxResults}:
+    post:
+      operationId: getTypeaheadTypingTestNames
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfTypingTestNames
+            type: array
+            items:
+              $ref: '#/definitions/TypingTestName'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
   /typingTestName/{maxResults}/{pageNumber}:
     get:
       operationId: getTypingTestNames
@@ -694,6 +731,26 @@ definitions:
         description: array of center codes
         items:
           $ref: '#/definitions/CollectionMethod'
+  TypeaheadQuery:
+    type: object
+    properties:
+      criteria:
+        type: array
+        description: Query Criteria
+        items:
+          $ref: '#/definitions/QueryCriteria'
+  QueryCriteria:
+    type: object
+    properties:
+      propertyName:
+        type: string
+        description: The property name to query
+      queryValue:
+        type: string
+        description: The value to query against
+      useLike:
+        type: boolean
+        description: Allow for like queries
   CollectionMethod:
     type: object
     properties:

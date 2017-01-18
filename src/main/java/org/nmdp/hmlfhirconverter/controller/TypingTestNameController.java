@@ -4,6 +4,7 @@ package org.nmdp.hmlfhirconverter.controller;
  * Created by abrown3 on 12/21/16.
  */
 
+import io.swagger.model.TypeaheadQuery;
 import org.nmdp.hmlfhirconverter.service.TypingTestNameService;
 import org.nmdp.hmlfhirconverter.util.Converters;
 
@@ -67,6 +68,19 @@ public class TypingTestNameController implements TypingTestNameApi {
             return () -> new ResponseEntity<>(typingTestNameService.deleteTypingTestName(id), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /delete/{id}", ex);
+            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public Callable<ResponseEntity<List<TypingTestName>>> getTypeaheadTypingTestNames(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
+        try {
+            List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.getTypeaheadTypingTestNames(maxResults, typeaheadQuery);
+            List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto());
+            return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error on /{maxResults}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

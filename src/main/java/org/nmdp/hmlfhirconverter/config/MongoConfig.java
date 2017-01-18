@@ -30,6 +30,7 @@ import com.mongodb.Mongo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.context.annotation.Configuration;
@@ -68,6 +69,17 @@ public class MongoConfig extends AbstractMongoConfiguration {
     public Mongo mongo() throws Exception {
         try {
             return new MongoClient(mongoHost + ":" + mongoPort);
+        } catch (Exception ex) {
+            LOG.error("Error instantiating MongoDB.", ex);
+            throw new MongoInstantiationException(ex);
+        }
+    }
+
+    @Override
+    @Bean
+    public MongoTemplate mongoTemplate() throws Exception {
+        try {
+            return new MongoTemplate(new MongoClient(mongoHost + ":" + mongoPort), mongoDb);
         } catch (Exception ex) {
             LOG.error("Error instantiating MongoDB.", ex);
             throw new MongoInstantiationException(ex);

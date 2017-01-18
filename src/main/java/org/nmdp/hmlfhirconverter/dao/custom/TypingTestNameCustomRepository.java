@@ -1,10 +1,10 @@
-package org.nmdp.hmlfhirconverter.service;
+package org.nmdp.hmlfhirconverter.dao.custom;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 12/22/16.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/18/17.
  * <p>
  * service-hmlFhirConverter
- * Copyright (c) 2012-2016 National Marrow Donor Program (NMDP)
+ * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
  * <p>
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published
@@ -24,20 +24,28 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
-import org.springframework.data.domain.Page;
-
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface TypingTestNameService {
-    TypingTestName getTypingTestName(String id);
-    Page<TypingTestName> findTypingTestNamesByMaxReturn(Integer maxResults, Integer pageNumber);
-    List<TypingTestName> getTypeaheadTypingTestNames(Integer maxResults, TypeaheadQuery typeaheadQuery);
-    List<TypingTestName> createTypingTestNames(List<io.swagger.model.TypingTestName> typingTestNames);
-    TypingTestName updateTypingTestName(io.swagger.model.TypingTestName typingTestName);
-    Boolean deleteTypingTestName(String id);
-    Boolean deleteTypingTestName(io.swagger.model.TypingTestName typingTestName);
+@Repository
+public class TypingTestNameCustomRepository {
+
+    private final MongoOperations mongoOperations;
+
+    @Autowired
+    public TypingTestNameCustomRepository(@Qualifier("mongoTemplate") MongoTemplate mongoTemplate) {
+        this.mongoOperations = mongoTemplate;
+    }
+
+    public List<TypingTestName> findByQuery(Query query) {
+        return mongoOperations.find(query, TypingTestName.class);
+    }
 }

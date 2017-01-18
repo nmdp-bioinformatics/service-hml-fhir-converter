@@ -24,7 +24,12 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import io.swagger.model.QueryCriteria;
+import io.swagger.model.TypeaheadQuery;
+
 import org.apache.log4j.Logger;
+
+import org.nmdp.hmlfhirconverter.dao.custom.TypingTestNameCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 import org.nmdp.hmlfhirconverter.dao.TypingTestNameRepository;
 
@@ -32,6 +37,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,12 +49,14 @@ import java.util.stream.Collectors;
 @Service
 public class TypingTestNameServiceImpl implements TypingTestNameService {
     private final TypingTestNameRepository typingTestNameRepository;
-
+    private final TypingTestNameCustomRepository typingTestNameCustomRepository;
     private static final Logger LOG = Logger.getLogger(TypingTestNameService.class);
 
     @Autowired
-    public TypingTestNameServiceImpl(@Qualifier("typingTestNameRepository") TypingTestNameRepository typingTestNameRepository) {
+    public TypingTestNameServiceImpl(@Qualifier("typingTestNameRepository") TypingTestNameRepository typingTestNameRepository,
+                                     @Qualifier("typingTestNameCustomRepository") TypingTestNameCustomRepository typingTestNameCustomRepository) {
         this.typingTestNameRepository = typingTestNameRepository;
+        this.typingTestNameCustomRepository = typingTestNameCustomRepository;
     }
 
     @Override
@@ -58,6 +68,20 @@ public class TypingTestNameServiceImpl implements TypingTestNameService {
     public Page<TypingTestName> findTypingTestNamesByMaxReturn(Integer maxResults, Integer pageNumber) {
         PageRequest pageable = new PageRequest(pageNumber, maxResults);
         return typingTestNameRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<TypingTestName> getTypeaheadTypingTestNames(Integer maxResults, TypeaheadQuery typeaheadQuery) {
+        final Pageable pageable = new PageRequest(0, maxResults);
+        Query query = new Query();
+
+        query.with(pageable);
+
+        for (QueryCriteria criteria : typeaheadQuery.getCriteria()) {
+            query.addCriteria(Criteria.where(criteria.getPropertyName()).regex(criteria.getQueryValue()));
+        }
+
+        return typingTestNameCustomRepository.findByQuery(query);
     }
 
     @Override
