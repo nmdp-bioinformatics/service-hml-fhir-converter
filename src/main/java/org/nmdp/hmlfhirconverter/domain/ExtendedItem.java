@@ -38,9 +38,7 @@ import java.util.Date;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.Properties.ExtendedItems")
-public class ExtendedItem
-        extends MongoDbDocument<ExtendedItem, io.swagger.model.ExtendedItem>
-        implements Serializable {
+public class ExtendedItem extends MongoDbDocument implements Serializable {
 
     @XmlAttribute
     @Id

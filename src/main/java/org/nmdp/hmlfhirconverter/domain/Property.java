@@ -39,9 +39,7 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.Properties")
-public class Property
-        extends MongoDbDocument<Property, io.swagger.model.Property>
-        implements Serializable {
+public class Property extends MongoDbDocument implements Serializable {
 
     @XmlAttribute
     @Id

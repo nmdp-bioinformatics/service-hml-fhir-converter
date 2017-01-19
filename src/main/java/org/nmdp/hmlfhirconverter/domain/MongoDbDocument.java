@@ -39,7 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public abstract class MongoDbDocument<T, U> {
+public abstract class MongoDbDocument {
 
     private static final Logger LOG = Logger.getLogger(MongoDbDocument.class);
 

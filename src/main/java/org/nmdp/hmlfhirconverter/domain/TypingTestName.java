@@ -38,9 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.TypingTestNames")
-public class TypingTestName
-        extends MongoDbDocument<TypingTestName, io.swagger.model.TypingTestName>
-        implements Serializable {
+public class TypingTestName extends MongoDbDocument implements Serializable {
 
     @XmlAttribute
     @Id
