@@ -26,6 +26,7 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.ReportingCenterApi;
 import io.swagger.model.ReportingCenter;
+import io.swagger.model.TypeaheadQuery;
 import io.swagger.api.NotFoundException;
 
 import org.apache.log4j.Logger;
@@ -98,6 +99,19 @@ public class ReportingCenterController implements ReportingCenterApi {
             return () -> new ResponseEntity<>(reportingCenterService.getReportingCenter(id).toDto(), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
+            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public Callable<ResponseEntity<List<ReportingCenter>>> getTypeaheadReportingCenters(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
+        try {
+            List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.getTypeaheadReportingCenters(maxResults, typeaheadQuery);
+            List<ReportingCenter> transferResult = Converters.convertList(result, r -> r.toDto());
+            return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error on /{maxResults}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

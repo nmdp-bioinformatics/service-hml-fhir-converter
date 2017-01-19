@@ -24,15 +24,21 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import io.swagger.model.QueryCriteria;
+import io.swagger.model.TypeaheadQuery;
 import org.apache.log4j.Logger;
 
 import org.nmdp.hmlfhirconverter.dao.ReportingCenterRepository;
-
+import org.nmdp.hmlfhirconverter.dao.custom.ReportingCenterCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,17 +48,33 @@ import java.util.stream.Collectors;
 @Service
 public class ReportingCenterServiceImpl implements ReportingCenterService {
     private final ReportingCenterRepository reportingCenterRepository;
-
+    private final ReportingCenterCustomRepository reportingCenterCustomRepository;
     private static final Logger LOG = Logger.getLogger(ReportingCenterServiceImpl.class);
 
     @Autowired
-    public ReportingCenterServiceImpl(@Qualifier("reportingCenterRepository") ReportingCenterRepository reportingCenterRepository) {
+    public ReportingCenterServiceImpl(@Qualifier("reportingCenterRepository") ReportingCenterRepository reportingCenterRepository,
+                                      @Qualifier("reportingCenterCustomRepository") ReportingCenterCustomRepository reportingCenterCustomRepository) {
         this.reportingCenterRepository = reportingCenterRepository;
+        this.reportingCenterCustomRepository = reportingCenterCustomRepository;
     }
 
     @Override
     public ReportingCenter getReportingCenter(String id) {
         return reportingCenterRepository.findOne(id);
+    }
+
+    @Override
+    public List<ReportingCenter> getTypeaheadReportingCenters(Integer maxResults, TypeaheadQuery typeaheadQuery) {
+        final Pageable pageable = new PageRequest(0, maxResults);
+        Query query = new Query();
+
+        query.with(pageable);
+
+        for (QueryCriteria criteria : typeaheadQuery.getCriteria()) {
+            query.addCriteria(Criteria.where(criteria.getPropertyName()).regex(criteria.getQueryValue()));
+        }
+
+        return reportingCenterCustomRepository.findByQuery(query);
     }
 
     @Override

@@ -58,6 +58,43 @@ paths:
             title: CollectionMethodControllerException
             schema:
               $ref: '#/definitions/Error'
+  /collectionMethod/{maxResults}:
+    post:
+      operationId: getTypeaheadCollectionMethods
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfCollectionMethods
+            type: array
+            items:
+              $ref: '#/definitions/CollectionMethod'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
   /collectionMethod/{maxResults}/{pageNumber}:
     get:
       operationId: getCollectionMethods
@@ -213,6 +250,43 @@ paths:
             title: SampleControllerException
             schema:
               $ref: '#/definitions/Error'
+  /sample/{maxResults}:
+    post:
+      operationId: getTypeaheadSamples
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfSamples
+            type: array
+            items:
+              $ref: '#/definitions/Sample'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
   /sample/{maxResults}/{pageNumber}:
     get:
       operationId: getSamples
@@ -368,6 +442,43 @@ paths:
             title: ReportingCenterControllerException
             schema:
               $ref: '#/definitions/Error'
+  /reportingCenter/{maxResults}:
+    post:
+      operationId: getTypeaheadReportingCenters
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfReportingCenters
+            type: array
+            items:
+              $ref: '#/definitions/ReportingCenter'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
   /reportingCenter/{maxResults}/{pageNumber}:
     get:
       operationId: getReportingCenters

@@ -24,6 +24,8 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import io.swagger.model.TypeaheadQuery;
+
 import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
 
 import org.springframework.data.domain.Page;
@@ -33,6 +35,7 @@ import java.util.List;
 public interface ReportingCenterService {
     ReportingCenter getReportingCenter(String id);
     Page<ReportingCenter> findReportingCentersByMaxReturn(Integer maxResults, Integer pageNumber);
+    List<ReportingCenter> getTypeaheadReportingCenters(Integer maxResults, TypeaheadQuery typeaheadQuery);
     List<ReportingCenter> createReportingCenters(List<io.swagger.model.ReportingCenter> reportingCenters);
     ReportingCenter updateReportingCenter(io.swagger.model.ReportingCenter reportingCenter);
     Boolean deleteReportingCenter(String id);

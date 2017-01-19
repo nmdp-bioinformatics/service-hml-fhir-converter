@@ -27,6 +27,7 @@ package org.nmdp.hmlfhirconverter.controller;
 import io.swagger.api.NotFoundException;
 import io.swagger.api.SampleApi;
 import io.swagger.model.Sample;
+import io.swagger.model.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.SampleService;
@@ -97,6 +98,19 @@ public class SampleController implements SampleApi {
             return () -> new ResponseEntity<>(sampleService.getSample(id).toDto(), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
+            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public Callable<ResponseEntity<List<Sample>>> getTypeaheadSamples(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
+        try {
+            List<org.nmdp.hmlfhirconverter.domain.Sample> result = sampleService.getTypeaheadSamples(maxResults, typeaheadQuery);
+            List<Sample> transferResult = Converters.convertList(result, r -> r.toDto());
+            return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error on /{maxResults}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

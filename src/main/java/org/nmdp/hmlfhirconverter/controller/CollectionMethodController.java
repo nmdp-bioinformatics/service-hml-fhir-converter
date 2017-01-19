@@ -27,6 +27,7 @@ package org.nmdp.hmlfhirconverter.controller;
 import io.swagger.api.CollectionMethodApi;
 import io.swagger.api.NotFoundException;
 import io.swagger.model.CollectionMethod;
+import io.swagger.model.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 
@@ -98,6 +99,19 @@ public class CollectionMethodController implements CollectionMethodApi {
             return () -> new ResponseEntity<>(collectionMethodService.getCollectionMethod(id).toDto(), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
+            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public Callable<ResponseEntity<List<CollectionMethod>>> getTypeaheadCollectionMethods(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
+        try {
+            List<org.nmdp.hmlfhirconverter.domain.CollectionMethod> result = collectionMethodService.getTypeaheadCollectionMethods(maxResults, typeaheadQuery);
+            List<CollectionMethod> transferResult = Converters.convertList(result, r -> r.toDto());
+            return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error on /{maxResults}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

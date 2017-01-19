@@ -24,15 +24,21 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import io.swagger.model.QueryCriteria;
+import io.swagger.model.TypeaheadQuery;
 import org.apache.log4j.Logger;
 
 import org.nmdp.hmlfhirconverter.dao.CollectionMethodRepository;
+import org.nmdp.hmlfhirconverter.dao.custom.CollectionMethodCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.CollectionMethod;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,16 +48,33 @@ import java.util.stream.Collectors;
 @Service
 public class CollectionMethodServiceImpl implements CollectionMethodService {
     private final CollectionMethodRepository collectionMethodRepository;
+    private final CollectionMethodCustomRepository collectionMethodCustomRepository;
     private static final Logger LOG = Logger.getLogger(CollectionMethodServiceImpl.class);
 
     @Autowired
-    public CollectionMethodServiceImpl(@Qualifier("collectionMethodRepository") CollectionMethodRepository collectionMethodRepository) {
+    public CollectionMethodServiceImpl(@Qualifier("collectionMethodRepository") CollectionMethodRepository collectionMethodRepository,
+                                       @Qualifier("collectionMethodCustomRepository") CollectionMethodCustomRepository collectionMethodCustomRepository) {
         this.collectionMethodRepository = collectionMethodRepository;
+        this.collectionMethodCustomRepository = collectionMethodCustomRepository;
     }
 
     @Override
     public CollectionMethod getCollectionMethod(String id) {
         return collectionMethodRepository.findOne(id);
+    }
+
+    @Override
+    public List<CollectionMethod> getTypeaheadCollectionMethods(Integer maxResults, TypeaheadQuery typeaheadQuery) {
+        final Pageable pageable = new PageRequest(0, maxResults);
+        Query query = new Query();
+
+        query.with(pageable);
+
+        for (QueryCriteria criteria : typeaheadQuery.getCriteria()) {
+            query.addCriteria(Criteria.where(criteria.getPropertyName()).regex(criteria.getQueryValue()));
+        }
+
+        return collectionMethodCustomRepository.findByQuery(query);
     }
 
     @Override

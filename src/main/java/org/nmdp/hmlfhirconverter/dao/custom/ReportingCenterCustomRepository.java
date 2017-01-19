@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.service;
+package org.nmdp.hmlfhirconverter.dao.custom;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/12/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/18/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,20 +24,29 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
 
-import org.nmdp.hmlfhirconverter.domain.Sample;
+import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
 
-import org.springframework.data.domain.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface SampleService {
-    Sample getSample(String id);
-    Page<Sample> findSamplesByMaxReturn(Integer maxResults, Integer pageNumber);
-    List<Sample> getTypeaheadSamples(Integer maxResults, TypeaheadQuery typeaheadQuery);
-    List<Sample> createSamples(List<io.swagger.model.Sample> samples);
-    Sample updateSample(io.swagger.model.Sample sample);
-    Boolean deleteSample(String id);
-    Boolean deleteSample(io.swagger.model.Sample sample);
+@Repository
+public class ReportingCenterCustomRepository {
+
+    private final MongoOperations mongoOperations;
+
+    @Autowired
+    public ReportingCenterCustomRepository(@Qualifier("mongoTemplate") MongoTemplate mongoTemplate) {
+        this.mongoOperations = mongoTemplate;
+    }
+
+    public List<ReportingCenter> findByQuery(Query query) {
+        return mongoOperations.find(query, ReportingCenter.class);
+    }
 }
