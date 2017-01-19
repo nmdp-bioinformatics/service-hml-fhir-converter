@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.domain;
+package org.nmdp.hmlfhirconverter.service;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/12/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/19/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,8 +24,20 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.Sample;
+import io.swagger.model.TypeaheadQuery;
 
-public class SampleDto extends Sample {
+import org.nmdp.hmlfhirconverter.domain.Property;
 
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+
+public interface PropertyService {
+    Property getProperty(String id);
+    Page<Property> findPropertiesByMaxReturn(Integer maxResults, Integer pageNumber);
+    List<Property> getTypeaheadProperties(Integer maxResults, TypeaheadQuery typeaheadQuery);
+    List<Property> createProperties(List<io.swagger.model.Property> properties);
+    Property updateProperty(io.swagger.model.Property property);
+    Boolean deleteProperty(String id);
+    Boolean deleteProperty(io.swagger.model.Property property);
 }

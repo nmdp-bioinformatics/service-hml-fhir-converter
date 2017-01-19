@@ -38,7 +38,9 @@ import java.util.Date;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.ReportingCenters")
-public class ReportingCenter implements Serializable {
+public class ReportingCenter
+        extends MongoDbDocument<ReportingCenter, io.swagger.model.ReportingCenter>
+        implements Serializable {
 
     @XmlAttribute
     @Id
@@ -52,34 +54,4 @@ public class ReportingCenter implements Serializable {
 
     @XmlAttribute
     private Date dateCreated;
-
-    public ReportingCenter() {
-
-    }
-
-    public ReportingCenter(io.swagger.model.ReportingCenter reportingCenter) {
-        this.id = reportingCenter.getId();
-        this.context = reportingCenter.getContext();
-        this.active = reportingCenter.getActive();
-        this.dateCreated = handleDateStamping(reportingCenter.getDateCreated());
-    }
-
-    public ReportingCenterDto toDto() {
-        ReportingCenterDto dto = new ReportingCenterDto();
-
-        dto.setId(this.id);
-        dto.setContext(this.context);
-        dto.setActive(this.active);
-        dto.setDateCreated(this.dateCreated);
-
-        return dto;
-    }
-
-    private Date handleDateStamping(Date date) {
-        if (date == null) {
-            return new Date();
-        }
-
-        return date;
-    }
 }

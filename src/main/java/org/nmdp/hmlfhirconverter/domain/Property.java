@@ -1,7 +1,7 @@
 package org.nmdp.hmlfhirconverter.domain;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/11/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/19/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,10 +24,44 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
-import io.swagger.model.ReportingCenter;
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@Document(collection = "Hml.Properties")
+public class Property
+        extends MongoDbDocument<Property, io.swagger.model.Property>
+        implements Serializable {
 
-public class ReportingCenterDto extends ReportingCenter implements Serializable {
+    @XmlAttribute
+    @Id
+    private String id;
 
+    @XmlAttribute
+    private String name;
+
+    @XmlAttribute
+    private String value;
+
+    @XmlAttribute
+    private String description;
+
+    @XmlAttribute
+    private Boolean active;
+
+    @XmlAttribute
+    private Date dateCreated;
+
+    @XmlAttribute
+    List<ExtendedItem> extendedItems;
 }

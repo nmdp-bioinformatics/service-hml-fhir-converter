@@ -1,7 +1,7 @@
 package org.nmdp.hmlfhirconverter.service;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/12/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/19/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -26,11 +26,12 @@ package org.nmdp.hmlfhirconverter.service;
 
 import io.swagger.model.QueryCriteria;
 import io.swagger.model.TypeaheadQuery;
+
 import org.apache.log4j.Logger;
 
-import org.nmdp.hmlfhirconverter.dao.ReportingCenterRepository;
-import org.nmdp.hmlfhirconverter.dao.custom.ReportingCenterCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
+import org.nmdp.hmlfhirconverter.dao.PropertyRepository;
+import org.nmdp.hmlfhirconverter.dao.custom.PropertyCustomRepository;
+import org.nmdp.hmlfhirconverter.domain.Property;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -46,25 +47,25 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class ReportingCenterServiceImpl implements ReportingCenterService {
-    private final ReportingCenterRepository reportingCenterRepository;
-    private final ReportingCenterCustomRepository reportingCenterCustomRepository;
-    private static final Logger LOG = Logger.getLogger(ReportingCenterServiceImpl.class);
+public class PropertyServiceImpl implements PropertyService {
+    private final PropertyRepository propertyRepository;
+    private final PropertyCustomRepository propertyCustomRepository;
+    private static final Logger LOG = Logger.getLogger(PropertyService.class);
 
     @Autowired
-    public ReportingCenterServiceImpl(@Qualifier("reportingCenterRepository") ReportingCenterRepository reportingCenterRepository,
-                                      @Qualifier("reportingCenterCustomRepository") ReportingCenterCustomRepository reportingCenterCustomRepository) {
-        this.reportingCenterRepository = reportingCenterRepository;
-        this.reportingCenterCustomRepository = reportingCenterCustomRepository;
+    public PropertyServiceImpl(@Qualifier("propertyRepository") PropertyRepository propertyRepository,
+                           @Qualifier("propertyCustomRepository") PropertyCustomRepository propertyCustomRepository) {
+        this.propertyRepository = propertyRepository;
+        this.propertyCustomRepository = propertyCustomRepository;
     }
 
     @Override
-    public ReportingCenter getReportingCenter(String id) {
-        return reportingCenterRepository.findOne(id);
+    public Property getProperty(String id) {
+        return propertyRepository.findOne(id);
     }
 
     @Override
-    public List<ReportingCenter> getTypeaheadReportingCenters(Integer maxResults, TypeaheadQuery typeaheadQuery) {
+    public List<Property> getTypeaheadProperties(Integer maxResults, TypeaheadQuery typeaheadQuery) {
         final Pageable pageable = new PageRequest(0, maxResults);
         Query query = new Query();
 
@@ -74,49 +75,49 @@ public class ReportingCenterServiceImpl implements ReportingCenterService {
             query.addCriteria(Criteria.where(criteria.getPropertyName()).regex(criteria.getQueryValue()));
         }
 
-        return reportingCenterCustomRepository.findByQuery(query);
+        return propertyCustomRepository.findByQuery(query);
     }
 
     @Override
-    public Page<ReportingCenter> findReportingCentersByMaxReturn(Integer maxResults, Integer pageNumber) {
+    public Page<Property> findPropertiesByMaxReturn(Integer maxResults, Integer pageNumber) {
         PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return reportingCenterRepository.findAll(pageable);
+        return propertyRepository.findAll(pageable);
     }
 
     @Override
-    public List<ReportingCenter> createReportingCenters(List<io.swagger.model.ReportingCenter> reportingCenters) {
-        List<ReportingCenter> nmdpModel = reportingCenters.stream()
+    public List<Property> createProperties(List<io.swagger.model.Property> properties) {
+        List<Property> nmdpModel = properties.stream()
                 .filter(Objects::nonNull)
-                .map(obj -> ReportingCenter.convertFromSwagger(obj, ReportingCenter.class))
+                .map(obj -> Property.convertFromSwagger(obj, Property.class))
                 .collect(Collectors.toList());
 
-        return reportingCenterRepository.save(nmdpModel);
+        return propertyRepository.save(nmdpModel);
     }
 
     @Override
-    public ReportingCenter updateReportingCenter(io.swagger.model.ReportingCenter reportingCenter) {
-        ReportingCenter nmdpModel = ReportingCenter.convertFromSwagger(reportingCenter, ReportingCenter.class);
-        return reportingCenterRepository.save(nmdpModel);
+    public Property updateProperty(io.swagger.model.Property property) {
+        Property nmdpModel = Property.convertFromSwagger(property, Property.class);
+        return propertyRepository.save(nmdpModel);
     }
 
     @Override
-    public Boolean deleteReportingCenter(String id) {
+    public Boolean deleteProperty(String id) {
         try {
-            reportingCenterRepository.delete(id);
+            propertyRepository.delete(id);
             return true;
         } catch (Exception ex) {
-            LOG.error("Error deleting reporting center.", ex);
+            LOG.error("Error deleting property.", ex);
             return false;
         }
     }
 
     @Override
-    public Boolean deleteReportingCenter(io.swagger.model.ReportingCenter reportingCenter) {
+    public Boolean deleteProperty(io.swagger.model.Property property) {
         try {
-            reportingCenterRepository.delete(ReportingCenter.convertFromSwagger(reportingCenter, ReportingCenter.class));
+            propertyRepository.delete(Property.convertFromSwagger(property, Property.class));
             return true;
         } catch (Exception ex) {
-            LOG.error("Error deleting reporting center.", ex);
+            LOG.error("Error deleting property.", ex);
             return false;
         }
     }

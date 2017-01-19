@@ -88,7 +88,7 @@ public class TypingTestNameServiceImpl implements TypingTestNameService {
     public List<TypingTestName> createTypingTestNames(List<io.swagger.model.TypingTestName> typingTestNames) {
         List<TypingTestName> nmdpModel = typingTestNames.stream()
                 .filter(Objects::nonNull)
-                .map(obj -> new TypingTestName(obj))
+                .map(obj -> TypingTestName.convertFromSwagger(obj, TypingTestName.class))
                 .collect(Collectors.toList());
 
         return typingTestNameRepository.save(nmdpModel);
@@ -96,7 +96,7 @@ public class TypingTestNameServiceImpl implements TypingTestNameService {
 
     @Override
     public TypingTestName updateTypingTestName(io.swagger.model.TypingTestName typingTestName) {
-        TypingTestName nmdpModel = new TypingTestName(typingTestName);
+        TypingTestName nmdpModel = TypingTestName.convertFromSwagger(typingTestName, TypingTestName.class);
         return typingTestNameRepository.save(nmdpModel);
     }
 
@@ -114,7 +114,7 @@ public class TypingTestNameServiceImpl implements TypingTestNameService {
     @Override
     public Boolean deleteTypingTestName(io.swagger.model.TypingTestName typingTestName) {
         try {
-            typingTestNameRepository.delete(new TypingTestName(typingTestName));
+            typingTestNameRepository.delete(TypingTestName.convertFromSwagger(typingTestName, TypingTestName.class));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting typing test name.", ex);

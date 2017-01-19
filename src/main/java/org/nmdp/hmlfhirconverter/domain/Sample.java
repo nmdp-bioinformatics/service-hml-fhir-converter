@@ -24,7 +24,6 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.util.Converters;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -40,7 +39,9 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.Samples")
-public class Sample implements Serializable {
+public class Sample
+        extends MongoDbDocument<Sample, io.swagger.model.Sample>
+        implements Serializable {
 
     @XmlAttribute
     @Id
@@ -57,37 +58,4 @@ public class Sample implements Serializable {
 
     @XmlAttribute
     private Date dateCreated;
-
-    public Sample() {
-
-    }
-
-    public Sample(io.swagger.model.Sample sample) {
-        this.id = sample.getId();
-        this.centerCode = sample.getCenterCode();
-        this.collectionMethods = Converters.convertList(
-                sample.getCollectionMethods(), c -> new CollectionMethod(c));
-        this.active = sample.getActive();
-        this.dateCreated = handleDateStamping(sample.getDateCreated());
-    }
-
-    public SampleDto toDto() {
-        SampleDto dto = new SampleDto();
-
-        dto.setId(this.id);
-        dto.setCenterCode(this.centerCode);
-        dto.setCollectionMethods(Converters.convertList(this.collectionMethods, c -> c.toDto()));
-        dto.setActive(this.active);
-        dto.setDateCreated(this.dateCreated);
-
-        return dto;
-    }
-
-    private Date handleDateStamping(Date date) {
-        if (date == null) {
-            return new Date();
-        }
-
-        return date;
-    }
 }

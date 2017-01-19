@@ -46,6 +46,7 @@
         <springboot-version>1.4.3.RELEASE</springboot-version>
         <swagger-codegen-version>2.1.5</swagger-codegen-version>
         <maven-compiler-plugin-version>3.3</maven-compiler-plugin-version>
+        <model-mapper-version>0.7.5</model-mapper-version>
     </properties>
 
     <parent>
@@ -150,6 +151,11 @@
             <groupId>io.swagger</groupId>
             <artifactId>swagger-core</artifactId>
             <version>${swagger-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>${model-mapper-version}</version>
         </dependency>
     </dependencies>
 </project>

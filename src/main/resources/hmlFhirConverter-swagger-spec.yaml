@@ -782,6 +782,198 @@ paths:
             title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
+  /property/{id}:
+    get:
+      operationId: getProperty
+      description: Gets the Property by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Property in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Property'
+        500:
+          description: Internal Server Error
+          schema:
+            title: PropertyControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteProperty
+      description: Deletes the Property by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Property in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorProperty
+          schema:
+            title: PropertyControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /property/{maxResults}:
+    post:
+      operationId: getTypeaheadProperties
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfProperties
+            type: array
+            items:
+              $ref: '#/definitions/Property'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /property/{maxResults}/{pageNumber}:
+    get:
+      operationId: getProperties
+      description: Gets the list of available Properties
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfproperties
+            type: array
+            items:
+              $ref: '#/definitions/Property'
+        500:
+          description: Internal Server Error
+          schema:
+            title: PropertyControllerException
+            schema:
+              $ref: '#/definitions/PropertyControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /property:
+    post:
+      operationId: createProperties
+      description: Create Property entries
+      parameters:
+        -
+          name: properties
+          in: body
+          description: Array of Property Objects
+          required: true
+          schema:
+            title: ArrayOfproperties
+            type: array
+            items:
+              $ref: '#/definitions/Property'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfproperties
+            type: array
+            items:
+              $ref: '#/definitions/Property'
+        500:
+          description: Internal Server Error
+          schema:
+            title: PropertyControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateProperty
+      description: Update a single Property entry
+      parameters:
+        -
+          name: property
+          in: body
+          description: Property Object
+          required: true
+          schema:
+            $ref: '#/definitions/Property'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Property'
+        500:
+          description: Internal Server Error
+          schema:
+            title: PropertyControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteProperty
+      description: Delete a single Property entry
+      parameters:
+        -
+          name: property
+          in: body
+          description: Property Object
+          required: true
+          schema:
+            $ref: '#/definitions/Property'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: PropertyControllerException
+            schema:
+              $ref: '#/definitions/Error'
 definitions:
   TypingTestNameControllerException:
     type: object
@@ -900,3 +1092,46 @@ definitions:
         type: string
         format: date-time
         description: Creation date
+  Property:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of property
+      name:
+        type: string
+        description: Display/ Common name of property
+      value:
+        type: string
+        description: Value of property name
+      description:
+        type: string
+        description: Description of property
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      extendedItems:
+        type: array
+        description: Array of generic items
+        items:
+          $ref: '#/definitions/ExtendedItem'
+  ExtendedItem:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the extended item
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      item:
+        type: object
+        description: Generic object

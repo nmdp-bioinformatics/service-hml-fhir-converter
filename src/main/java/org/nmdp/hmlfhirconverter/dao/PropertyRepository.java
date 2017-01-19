@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.domain;
+package org.nmdp.hmlfhirconverter.dao;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/12/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/19/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,37 +24,12 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.nmdp.hmlfhirconverter.domain.Property;
 
-import java.io.Serializable;
-import java.util.Date;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.TypingTestNames")
-public class TypingTestName
-        extends MongoDbDocument<TypingTestName, io.swagger.model.TypingTestName>
-        implements Serializable {
-
-    @XmlAttribute
-    @Id
-    private String id;
-
-    @XmlAttribute
-    private String name;
-
-    @XmlAttribute
-    private String description;
-
-    @XmlAttribute
-    private Boolean active;
-
-    @XmlAttribute
-    private Date dateCreated;
+public interface PropertyRepository extends MongoRepository<Property, String> {
+    Page<Property> findAll(Pageable pageable);
 }

@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.domain;
+package org.nmdp.hmlfhirconverter.dao.custom;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/12/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/19/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,37 +24,28 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.nmdp.hmlfhirconverter.domain.Property;
 
-import java.io.Serializable;
-import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.TypingTestNames")
-public class TypingTestName
-        extends MongoDbDocument<TypingTestName, io.swagger.model.TypingTestName>
-        implements Serializable {
+@Repository
+public class PropertyCustomRepository {
 
-    @XmlAttribute
-    @Id
-    private String id;
+    private final MongoOperations mongoOperations;
 
-    @XmlAttribute
-    private String name;
+    @Autowired
+    public PropertyCustomRepository(@Qualifier("mongoTemplate")MongoTemplate mongoTemplate) {
+        this.mongoOperations = mongoTemplate;
+    }
 
-    @XmlAttribute
-    private String description;
-
-    @XmlAttribute
-    private Boolean active;
-
-    @XmlAttribute
-    private Date dateCreated;
+    public List<Property> findByQuery(Query query) {
+        return mongoOperations.find(query, Property.class);
+    }
 }

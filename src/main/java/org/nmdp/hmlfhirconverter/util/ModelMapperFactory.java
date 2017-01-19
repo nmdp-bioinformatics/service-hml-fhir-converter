@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.domain;
+package org.nmdp.hmlfhirconverter.util;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/13/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/19/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,8 +24,18 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.CollectionMethod;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.config.Configuration;
 
-public class CollectionMethodDto extends CollectionMethod {
+public class ModelMapperFactory {
 
+    private static final ModelMapper mapper = new ModelMapper();
+
+    public static ModelMapper getPrivateModelMapper() {
+        mapper.getConfiguration()
+            .setFieldMatchingEnabled(true)
+            .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE);
+
+        return mapper;
+    }
 }

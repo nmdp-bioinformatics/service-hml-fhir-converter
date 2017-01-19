@@ -61,7 +61,7 @@ public class SampleController implements SampleApi {
     public Callable<ResponseEntity<List<Sample>>> createSamples(@RequestBody List<Sample> samples) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.Sample> result = sampleService.createSamples(samples);
-            List<Sample> transferResult = Converters.convertList(result, r -> r.toDto());
+            List<Sample> transferResult = Converters.convertList(result, r -> r.toDto(r, Sample.class));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /createMulti", ex);
@@ -95,7 +95,8 @@ public class SampleController implements SampleApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Sample>> getSample(@PathVariable String id) throws NotFoundException {
         try {
-            return () -> new ResponseEntity<>(sampleService.getSample(id).toDto(), HttpStatus.OK);
+            org.nmdp.hmlfhirconverter.domain.Sample sample = sampleService.getSample(id);
+            return () -> new ResponseEntity<>(sample.toDto(sample, Sample.class), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -107,7 +108,7 @@ public class SampleController implements SampleApi {
     public Callable<ResponseEntity<List<Sample>>> getTypeaheadSamples(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.Sample> result = sampleService.getTypeaheadSamples(maxResults, typeaheadQuery);
-            List<Sample> transferResult = Converters.convertList(result, r -> r.toDto());
+            List<Sample> transferResult = Converters.convertList(result, r -> r.toDto(r, Sample.class));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /{maxResults}", ex);
@@ -120,7 +121,7 @@ public class SampleController implements SampleApi {
     public Callable<ResponseEntity<List<Sample>>> getSamples(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.Sample> result = sampleService.findSamplesByMaxReturn(maxResults, pageNumber).getContent();
-            List<Sample> transferResult = Converters.convertList(result, r -> r.toDto());
+            List<Sample> transferResult = Converters.convertList(result, r -> r.toDto(r, Sample.class));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /getMulti/{maxResults}", ex);
@@ -132,7 +133,8 @@ public class SampleController implements SampleApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Sample>> updateSample(@RequestBody Sample sample) throws NotFoundException {
         try {
-            return () -> new ResponseEntity<>(sampleService.updateSample(sample).toDto(), HttpStatus.OK);
+            org.nmdp.hmlfhirconverter.domain.Sample nmdpModel = sampleService.updateSample(sample);
+            return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel, Sample.class), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

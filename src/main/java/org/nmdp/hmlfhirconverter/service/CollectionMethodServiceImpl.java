@@ -87,7 +87,7 @@ public class CollectionMethodServiceImpl implements CollectionMethodService {
     public List<CollectionMethod> createCollectionMethods(List<io.swagger.model.CollectionMethod> collectionMethods) {
         List<CollectionMethod> nmdpModel = collectionMethods.stream()
                 .filter(Objects::nonNull)
-                .map(obj -> new CollectionMethod(obj))
+                .map(obj -> CollectionMethod.convertFromSwagger(obj, CollectionMethod.class))
                 .collect(Collectors.toList());
 
         return collectionMethodRepository.save(nmdpModel);
@@ -95,7 +95,7 @@ public class CollectionMethodServiceImpl implements CollectionMethodService {
 
     @Override
     public CollectionMethod updateCollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
-        CollectionMethod nmdpModel = new CollectionMethod(collectionMethod);
+        CollectionMethod nmdpModel = CollectionMethod.convertFromSwagger(collectionMethod, CollectionMethod.class);
         return collectionMethodRepository.save(nmdpModel);
     }
 
@@ -113,7 +113,7 @@ public class CollectionMethodServiceImpl implements CollectionMethodService {
     @Override
     public Boolean deleteCollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
         try {
-            collectionMethodRepository.delete(new CollectionMethod(collectionMethod));
+            collectionMethodRepository.delete(CollectionMethod.convertFromSwagger(collectionMethod, CollectionMethod.class));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting collection method.", ex);

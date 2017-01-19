@@ -1,10 +1,10 @@
 package org.nmdp.hmlfhirconverter.domain;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 12/22/16.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/19/17.
  * <p>
  * service-hmlFhirConverter
- * Copyright (c) 2012-2016 National Marrow Donor Program (NMDP)
+ * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
  * <p>
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published
@@ -24,10 +24,34 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypingTestName;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class TypingTestNameDto extends TypingTestName implements Serializable {
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@Document(collection = "Hml.Properties.ExtendedItems")
+public class ExtendedItem
+        extends MongoDbDocument<ExtendedItem, io.swagger.model.ExtendedItem>
+        implements Serializable {
 
+    @XmlAttribute
+    @Id
+    private String id;
+
+    @XmlAttribute
+    private Boolean active;
+
+    @XmlAttribute
+    private Date dateCreated;
+
+    @XmlAttribute
+    private Object item;
 }

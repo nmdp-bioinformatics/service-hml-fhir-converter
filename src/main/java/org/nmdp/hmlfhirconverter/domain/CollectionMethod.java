@@ -38,7 +38,9 @@ import java.util.Date;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.Samples.CollectionMethods")
-public class CollectionMethod implements Serializable {
+public class CollectionMethod
+        extends MongoDbDocument<CollectionMethod, io.swagger.model.CollectionMethod>
+        implements Serializable {
 
     @XmlAttribute
     @Id
@@ -55,36 +57,4 @@ public class CollectionMethod implements Serializable {
 
     @XmlAttribute
     private Date dateCreated;
-
-    public CollectionMethod() {
-
-    }
-
-    public CollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
-        this.id = collectionMethod.getId();
-        this.name = collectionMethod.getName();
-        this.description = collectionMethod.getDescription();
-        this.active = collectionMethod.getActive();
-        this.dateCreated = handleDateStamping(collectionMethod.getDateCreated());
-    }
-
-    public CollectionMethodDto toDto() {
-        CollectionMethodDto dto = new CollectionMethodDto();
-
-        dto.setId(this.id);
-        dto.setName(this.name);
-        dto.setDescription(this.description);
-        dto.setActive(this.active);
-        dto.setDateCreated(handleDateStamping(this.dateCreated));
-
-        return dto;
-    }
-
-    private Date handleDateStamping(Date date) {
-        if (date == null) {
-            return new Date();
-        }
-
-        return date;
-    }
 }

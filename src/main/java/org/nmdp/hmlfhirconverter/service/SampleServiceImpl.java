@@ -29,6 +29,7 @@ import io.swagger.model.TypeaheadQuery;
 
 import org.nmdp.hmlfhirconverter.dao.SampleRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.SampleCustomRepository;
+import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
 import org.nmdp.hmlfhirconverter.domain.Sample;
 
 import org.apache.log4j.Logger;
@@ -88,7 +89,7 @@ public class SampleServiceImpl implements SampleService {
     public List<Sample> createSamples(List<io.swagger.model.Sample> samples) {
         List<Sample> nmdpModel = samples.stream()
                 .filter(Objects::nonNull)
-                .map(obj -> new Sample(obj))
+                .map(obj -> Sample.convertFromSwagger(obj, Sample.class))
                 .collect(Collectors.toList());
 
         return sampleRepository.save(nmdpModel);
@@ -96,7 +97,7 @@ public class SampleServiceImpl implements SampleService {
 
     @Override
     public Sample updateSample(io.swagger.model.Sample sample) {
-        Sample nmdpModel = new Sample(sample);
+        Sample nmdpModel = Sample.convertFromSwagger(sample, Sample.class);
         return sampleRepository.save(nmdpModel);
     }
 
@@ -114,7 +115,7 @@ public class SampleServiceImpl implements SampleService {
     @Override
     public Boolean deleteSample(io.swagger.model.Sample sample) {
         try {
-            sampleRepository.delete(new Sample(sample));
+            sampleRepository.delete(Sample.convertFromSwagger(sample, Sample.class));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting sample.", ex);
