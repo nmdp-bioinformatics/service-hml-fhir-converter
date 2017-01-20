@@ -1051,6 +1051,9 @@ definitions:
       queryValue:
         type: string
         description: The value to query against
+      exclude:
+        type: boolean
+        description: Allow for positive or negative matching
       useLike:
         type: boolean
         description: Allow for like queries
