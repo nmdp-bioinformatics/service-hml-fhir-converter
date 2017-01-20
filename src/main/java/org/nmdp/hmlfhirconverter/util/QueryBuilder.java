@@ -76,7 +76,8 @@ public class QueryBuilder {
 
     private static void constructLikeNonExclusionQuery(Query query, List<QueryCriteria> criterium) {
         for (QueryCriteria qCriteria : criterium) {
-            query.addCriteria(Criteria.where(qCriteria.getPropertyName()).regex(qCriteria.getQueryValue()));
+            String regex = regexBuilder(qCriteria.getQueryValue(), false);
+            query.addCriteria(Criteria.where(qCriteria.getPropertyName()).regex(regex));
         }
     }
 
@@ -89,7 +90,7 @@ public class QueryBuilder {
 
     private static void constructLikeExclusionQuery(Query query, List<QueryCriteria> criterium) {
         for (QueryCriteria qCriteria : criterium) {
-            String regex = "^((?!" + qCriteria.getQueryValue() + ").)*$";
+            String regex = regexBuilder(qCriteria.getQueryValue(), true);
             query.addCriteria(Criteria.where(qCriteria.getPropertyName()).regex(regex));
         }
     }
@@ -141,6 +142,16 @@ public class QueryBuilder {
         for (List<QueryCriteria> isExclusionList : isExclusionQueries) {
             constructIsExclusionQuery(query, isExclusionList);
         }
+    }
+
+    private static String regexBuilder(String pattern, Boolean negativeMatch) {
+        String regex = negativeMatch ? "^((?!" : "^";
+
+        for (Character c : pattern.toCharArray()) {
+            regex += "[" + c.toUpperCase(c) + c.toLowerCase(c) + "]";
+        }
+
+        return regex + (negativeMatch ? ").)" : "");
     }
 
     private static <T> Predicate<T> distictByKey(Function<? super T, ?> keyExtractor) {
