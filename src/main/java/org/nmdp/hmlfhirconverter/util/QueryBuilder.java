@@ -145,10 +145,14 @@ public class QueryBuilder {
     }
 
     private static String regexBuilder(String pattern, Boolean negativeMatch) {
-        String regex = negativeMatch ? "^((?!" : "^";
+        String regex = negativeMatch ? "((?!" : "";
 
         for (Character c : pattern.toCharArray()) {
-            regex += "[" + c.toUpperCase(c) + c.toLowerCase(c) + "]";
+            if (c.isAlphabetic(c)) {
+                regex += "[" + c.toUpperCase(c) + c.toLowerCase(c) + "]";
+            } else {
+                regex += c;
+            }
         }
 
         return regex + (negativeMatch ? ").)" : "");
