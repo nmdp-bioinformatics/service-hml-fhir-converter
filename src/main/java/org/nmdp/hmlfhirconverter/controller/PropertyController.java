@@ -67,7 +67,7 @@ public class PropertyController implements PropertyApi {
     public Callable<ResponseEntity<List<Property>>> createProperties(@RequestBody List<Property> properties) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.Property> result = propertyService.createProperties(properties);
-            List<Property> transferResult = Converters.convertList(result, r -> r.toDto(r, Property.class));
+            List<Property> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /createMulti", ex);
@@ -102,7 +102,7 @@ public class PropertyController implements PropertyApi {
     public Callable<ResponseEntity<List<Property>>> getTypeaheadProperties(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.Property> result = propertyService.getTypeaheadProperties(maxResults, typeaheadQuery);
-            List<Property> transferResult = Converters.convertList(result, r -> r.toDto(r, Property.class));
+            List<Property> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /{maxResults}", ex);
@@ -115,7 +115,7 @@ public class PropertyController implements PropertyApi {
     public Callable<ResponseEntity<Property>> getProperty(@PathVariable String id) throws NotFoundException {
         try {
             org.nmdp.hmlfhirconverter.domain.Property property = propertyService.getProperty(id);
-            return () -> new ResponseEntity<>(property.toDto(property, Property.class), HttpStatus.OK);
+            return () -> new ResponseEntity<>(property.toDto(property), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -127,7 +127,7 @@ public class PropertyController implements PropertyApi {
     public Callable<ResponseEntity<List<Property>>> getProperties(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.Property> result = propertyService.findPropertiesByMaxReturn(maxResults, pageNumber).getContent();
-            List<Property> transferResult = Converters.convertList(result, r -> r.toDto(r, Property.class));
+            List<Property> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /getMulti/{maxResults}", ex);
@@ -140,7 +140,7 @@ public class PropertyController implements PropertyApi {
     public Callable<ResponseEntity<Property>> updateProperty(@RequestBody Property property) throws NotFoundException {
         try {
             org.nmdp.hmlfhirconverter.domain.Property nmdpModel = propertyService.updateProperty(property);
-            return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel, Property.class), HttpStatus.OK);
+            return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

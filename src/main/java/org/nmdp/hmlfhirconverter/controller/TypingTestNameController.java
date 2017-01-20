@@ -47,7 +47,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     public Callable<ResponseEntity<List<TypingTestName>>> createTypingTestNames(@RequestBody List<TypingTestName> typingTestNames) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.createTypingTestNames(typingTestNames);
-            List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto(r, TypingTestName.class));
+            List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /createMulti", ex);
@@ -82,7 +82,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     public Callable<ResponseEntity<List<TypingTestName>>> getTypeaheadTypingTestNames(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.getTypeaheadTypingTestNames(maxResults, typeaheadQuery);
-            List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto(r, TypingTestName.class));
+            List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /{maxResults}", ex);
@@ -95,7 +95,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     public Callable<ResponseEntity<TypingTestName>> getTypingTestName(@PathVariable String id) throws NotFoundException {
         try {
             org.nmdp.hmlfhirconverter.domain.TypingTestName typingTestName = typingTestNameService.getTypingTestName(id);
-            return () -> new ResponseEntity<>(typingTestName.toDto(typingTestName, TypingTestName.class), HttpStatus.OK);
+            return () -> new ResponseEntity<>(typingTestName.toDto(typingTestName), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -107,7 +107,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     public Callable<ResponseEntity<List<TypingTestName>>> getTypingTestNames(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.findTypingTestNamesByMaxReturn(maxResults, pageNumber).getContent();
-            List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto(r, TypingTestName.class));
+            List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /getMulti/{maxResults}", ex);
@@ -120,7 +120,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     public Callable<ResponseEntity<TypingTestName>> updateTypingTestName(@RequestBody TypingTestName typingTestName) throws NotFoundException {
         try {
             org.nmdp.hmlfhirconverter.domain.TypingTestName nmdpModel = typingTestNameService.updateTypingTestName(typingTestName);
-            return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel, TypingTestName.class), HttpStatus.OK);
+            return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

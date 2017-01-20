@@ -24,39 +24,21 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+abstract class SwaggerConverter<T, U> extends SwaggerStaticConverter {
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+    private Class<T> tClass;
+    private Class<U> uClass;
 
-import java.io.Serializable;
-import java.util.Date;
-
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Properties.ExtendedItems")
-public class ExtendedItem extends SwaggerConverter<ExtendedItem, io.swagger.model.ExtendedItem> implements Serializable {
-
-    private static Class<ExtendedItem> tClass = ExtendedItem.class;
-    private static Class<io.swagger.model.ExtendedItem> uClass = io.swagger.model.ExtendedItem.class;
-
-    public ExtendedItem() {
-        super(tClass, uClass);
+    protected SwaggerConverter(Class<T> tClass, Class<U> uClass) {
+        this.tClass = tClass;
+        this.uClass = uClass;
     }
 
-    @XmlAttribute
-    @Id
-    private String id;
+    public T convertFromSwagger(U swagger) {
+        return super.convertFromSwagger(swagger, tClass);
+    }
 
-    @XmlAttribute
-    private Boolean active;
-
-    @XmlAttribute
-    private Date dateCreated;
-
-    @XmlAttribute
-    private Object item;
+    public U toDto(T nmdpInstance) {
+        return super.toDto(nmdpInstance, uClass);
+    }
 }

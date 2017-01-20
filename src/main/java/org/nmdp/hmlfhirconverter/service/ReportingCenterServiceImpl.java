@@ -24,20 +24,20 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.QueryCriteria;
+
 import io.swagger.model.TypeaheadQuery;
+
 import org.apache.log4j.Logger;
 
 import org.nmdp.hmlfhirconverter.dao.ReportingCenterRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.ReportingCenterCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
 
+import org.nmdp.hmlfhirconverter.util.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
@@ -65,15 +65,7 @@ public class ReportingCenterServiceImpl implements ReportingCenterService {
 
     @Override
     public List<ReportingCenter> getTypeaheadReportingCenters(Integer maxResults, TypeaheadQuery typeaheadQuery) {
-        final Pageable pageable = new PageRequest(0, maxResults);
-        Query query = new Query();
-
-        query.with(pageable);
-
-        for (QueryCriteria criteria : typeaheadQuery.getCriteria()) {
-            query.addCriteria(Criteria.where(criteria.getPropertyName()).regex(criteria.getQueryValue()));
-        }
-
+        Query query = QueryBuilder.buildQuery(maxResults, typeaheadQuery);
         return reportingCenterCustomRepository.findByQuery(query);
     }
 
@@ -87,7 +79,7 @@ public class ReportingCenterServiceImpl implements ReportingCenterService {
     public List<ReportingCenter> createReportingCenters(List<io.swagger.model.ReportingCenter> reportingCenters) {
         List<ReportingCenter> nmdpModel = reportingCenters.stream()
                 .filter(Objects::nonNull)
-                .map(obj -> ReportingCenter.convertFromSwagger(obj, ReportingCenter.class))
+                .map(obj -> new ReportingCenter().convertFromSwagger(obj))
                 .collect(Collectors.toList());
 
         return reportingCenterRepository.save(nmdpModel);
@@ -95,7 +87,7 @@ public class ReportingCenterServiceImpl implements ReportingCenterService {
 
     @Override
     public ReportingCenter updateReportingCenter(io.swagger.model.ReportingCenter reportingCenter) {
-        ReportingCenter nmdpModel = ReportingCenter.convertFromSwagger(reportingCenter, ReportingCenter.class);
+        ReportingCenter nmdpModel = new ReportingCenter().convertFromSwagger(reportingCenter);
         return reportingCenterRepository.save(nmdpModel);
     }
 
@@ -113,7 +105,7 @@ public class ReportingCenterServiceImpl implements ReportingCenterService {
     @Override
     public Boolean deleteReportingCenter(io.swagger.model.ReportingCenter reportingCenter) {
         try {
-            reportingCenterRepository.delete(ReportingCenter.convertFromSwagger(reportingCenter, ReportingCenter.class));
+            reportingCenterRepository.delete(new ReportingCenter().convertFromSwagger(reportingCenter));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting reporting center.", ex);

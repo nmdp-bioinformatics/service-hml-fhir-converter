@@ -24,20 +24,19 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.QueryCriteria;
 import io.swagger.model.TypeaheadQuery;
+
 import org.apache.log4j.Logger;
 
 import org.nmdp.hmlfhirconverter.dao.CollectionMethodRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.CollectionMethodCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.CollectionMethod;
 
+import org.nmdp.hmlfhirconverter.util.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
@@ -65,15 +64,7 @@ public class CollectionMethodServiceImpl implements CollectionMethodService {
 
     @Override
     public List<CollectionMethod> getTypeaheadCollectionMethods(Integer maxResults, TypeaheadQuery typeaheadQuery) {
-        final Pageable pageable = new PageRequest(0, maxResults);
-        Query query = new Query();
-
-        query.with(pageable);
-
-        for (QueryCriteria criteria : typeaheadQuery.getCriteria()) {
-            query.addCriteria(Criteria.where(criteria.getPropertyName()).regex(criteria.getQueryValue()));
-        }
-
+        Query query = QueryBuilder.buildQuery(maxResults, typeaheadQuery);
         return collectionMethodCustomRepository.findByQuery(query);
     }
 
@@ -87,7 +78,7 @@ public class CollectionMethodServiceImpl implements CollectionMethodService {
     public List<CollectionMethod> createCollectionMethods(List<io.swagger.model.CollectionMethod> collectionMethods) {
         List<CollectionMethod> nmdpModel = collectionMethods.stream()
                 .filter(Objects::nonNull)
-                .map(obj -> CollectionMethod.convertFromSwagger(obj, CollectionMethod.class))
+                .map(obj -> new CollectionMethod().convertFromSwagger(obj))
                 .collect(Collectors.toList());
 
         return collectionMethodRepository.save(nmdpModel);
@@ -95,7 +86,7 @@ public class CollectionMethodServiceImpl implements CollectionMethodService {
 
     @Override
     public CollectionMethod updateCollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
-        CollectionMethod nmdpModel = CollectionMethod.convertFromSwagger(collectionMethod, CollectionMethod.class);
+        CollectionMethod nmdpModel = new CollectionMethod().convertFromSwagger(collectionMethod);
         return collectionMethodRepository.save(nmdpModel);
     }
 
@@ -113,7 +104,7 @@ public class CollectionMethodServiceImpl implements CollectionMethodService {
     @Override
     public Boolean deleteCollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
         try {
-            collectionMethodRepository.delete(CollectionMethod.convertFromSwagger(collectionMethod, CollectionMethod.class));
+            collectionMethodRepository.delete(new CollectionMethod().convertFromSwagger(collectionMethod));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting collection method.", ex);

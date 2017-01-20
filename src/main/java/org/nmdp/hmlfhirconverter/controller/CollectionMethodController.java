@@ -62,7 +62,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     public Callable<ResponseEntity<List<CollectionMethod>>> createCollectionMethods(@RequestBody List<CollectionMethod> collectionMethods) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.CollectionMethod> result = collectionMethodService.createCollectionMethods(collectionMethods);
-            List<CollectionMethod> transferResult = Converters.convertList(result, r -> r.toDto(r, CollectionMethod.class));
+            List<CollectionMethod> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /createMulti", ex);
@@ -97,7 +97,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     public Callable<ResponseEntity<CollectionMethod>> getCollectionMethod(@PathVariable String id) throws NotFoundException {
         try {
             org.nmdp.hmlfhirconverter.domain.CollectionMethod collectionMethod = collectionMethodService.getCollectionMethod(id);
-            return () -> new ResponseEntity<>(collectionMethod.toDto(collectionMethod, CollectionMethod.class), HttpStatus.OK);
+            return () -> new ResponseEntity<>(collectionMethod.toDto(collectionMethod), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -109,7 +109,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     public Callable<ResponseEntity<List<CollectionMethod>>> getTypeaheadCollectionMethods(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.CollectionMethod> result = collectionMethodService.getTypeaheadCollectionMethods(maxResults, typeaheadQuery);
-            List<CollectionMethod> transferResult = Converters.convertList(result, r -> r.toDto(r, CollectionMethod.class));
+            List<CollectionMethod> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /{maxResults}", ex);
@@ -122,7 +122,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     public Callable<ResponseEntity<List<CollectionMethod>>> getCollectionMethods(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.CollectionMethod> result = collectionMethodService.findCollectionMethodsByMaxReturn(maxResults, pageNumber).getContent();
-            List<CollectionMethod> transferResult = Converters.convertList(result, r -> r.toDto(r, CollectionMethod.class));
+            List<CollectionMethod> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /getMulti/{maxResults}", ex);
@@ -135,7 +135,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     public Callable<ResponseEntity<CollectionMethod>> updateCollectionMethod(@RequestBody CollectionMethod collectionMethod) throws NotFoundException {
         try {
             org.nmdp.hmlfhirconverter.domain.CollectionMethod nmdpModel = collectionMethodService.updateCollectionMethod(collectionMethod);
-            return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel, CollectionMethod.class), HttpStatus.OK);
+            return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

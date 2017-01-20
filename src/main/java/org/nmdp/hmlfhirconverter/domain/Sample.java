@@ -39,7 +39,14 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.Samples")
-public class Sample extends MongoDbDocument implements Serializable {
+public class Sample extends SwaggerConverter<Sample, io.swagger.model.Sample> implements Serializable {
+
+    private static Class<Sample> tClass = Sample.class;
+    private static Class<io.swagger.model.Sample> uClass = io.swagger.model.Sample.class;
+
+    public Sample() {
+        super(tClass, uClass);
+    }
 
     @XmlAttribute
     @Id

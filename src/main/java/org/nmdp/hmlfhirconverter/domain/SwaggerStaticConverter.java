@@ -39,9 +39,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public abstract class MongoDbDocument {
+abstract class SwaggerStaticConverter {
 
-    private static final Logger LOG = Logger.getLogger(MongoDbDocument.class);
+    private static final Logger LOG = Logger.getLogger(SwaggerStaticConverter.class);
 
     public static <T, U> T convertFromSwagger(U u, Class<T> tClass) {
         final ModelMapper mapper = ModelMapperFactory.getPrivateModelMapper();
@@ -64,7 +64,7 @@ public abstract class MongoDbDocument {
         return mapper.map(u, tClass);
     }
 
-    public static <T, U> U toDto(T t, Class<U> tClass) {
+    protected static <T, U> U toDto(T t, Class<U> tClass) {
         final ModelMapper mapper = ModelMapperFactory.getPrivateModelMapper();
         return mapper.map(t, tClass);
     }

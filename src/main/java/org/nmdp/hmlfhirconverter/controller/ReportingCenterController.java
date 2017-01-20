@@ -62,7 +62,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     public Callable<ResponseEntity<List<ReportingCenter>>> createReportingCenters(@RequestBody List<ReportingCenter> reportingCenters) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.createReportingCenters(reportingCenters);
-            List<ReportingCenter> transferResult = Converters.convertList(result, r -> r.toDto(r, ReportingCenter.class));
+            List<ReportingCenter> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /createMulti", ex);
@@ -97,7 +97,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     public Callable<ResponseEntity<ReportingCenter>> getReportingCenter(@PathVariable String id) throws NotFoundException {
         try {
             org.nmdp.hmlfhirconverter.domain.ReportingCenter reportingCenter = reportingCenterService.getReportingCenter(id);
-            return () -> new ResponseEntity<>(reportingCenter.toDto(reportingCenter, ReportingCenter.class), HttpStatus.OK);
+            return () -> new ResponseEntity<>(reportingCenter.toDto(reportingCenter), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -109,7 +109,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     public Callable<ResponseEntity<List<ReportingCenter>>> getTypeaheadReportingCenters(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.getTypeaheadReportingCenters(maxResults, typeaheadQuery);
-            List<ReportingCenter> transferResult = Converters.convertList(result, r -> r.toDto(r, ReportingCenter.class));
+            List<ReportingCenter> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /{maxResults}", ex);
@@ -122,7 +122,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     public Callable<ResponseEntity<List<ReportingCenter>>> getReportingCenters(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
             List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.findReportingCentersByMaxReturn(maxResults, pageNumber).getContent();
-            List<ReportingCenter> transferResult = Converters.convertList(result, r -> r.toDto(r, ReportingCenter.class));
+            List<ReportingCenter> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /getMulti/{maxResults}", ex);
@@ -135,7 +135,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     public Callable<ResponseEntity<ReportingCenter>> updateReportingCenter(@RequestBody ReportingCenter reportingCenter) throws NotFoundException {
         try {
             org.nmdp.hmlfhirconverter.domain.ReportingCenter nmdpModel = reportingCenterService.updateReportingCenter(reportingCenter);
-            return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel, ReportingCenter.class), HttpStatus.OK);
+            return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

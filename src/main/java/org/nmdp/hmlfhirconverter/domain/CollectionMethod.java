@@ -38,7 +38,14 @@ import java.util.Date;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.Samples.CollectionMethods")
-public class CollectionMethod extends MongoDbDocument implements Serializable {
+public class CollectionMethod extends SwaggerConverter<CollectionMethod, io.swagger.model.CollectionMethod> implements Serializable {
+
+    private static Class<CollectionMethod> tClass = CollectionMethod.class;
+    private static Class<io.swagger.model.CollectionMethod> uClass = io.swagger.model.CollectionMethod.class;
+
+    public CollectionMethod() {
+        super(tClass, uClass);
+    }
 
     @XmlAttribute
     @Id

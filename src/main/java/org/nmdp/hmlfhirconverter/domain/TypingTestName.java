@@ -38,8 +38,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.TypingTestNames")
-public class TypingTestName extends MongoDbDocument implements Serializable {
+public class TypingTestName extends SwaggerConverter<TypingTestName, io.swagger.model.TypingTestName> implements Serializable {
 
+    private static Class<TypingTestName> tClass = TypingTestName.class;
+    private static Class<io.swagger.model.TypingTestName> uClass = io.swagger.model.TypingTestName.class;
+
+    public TypingTestName() {
+        super(tClass, uClass);
+    }
+    
     @XmlAttribute
     @Id
     private String id;

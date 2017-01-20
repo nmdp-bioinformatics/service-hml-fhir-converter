@@ -24,7 +24,6 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.QueryCriteria;
 import io.swagger.model.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
@@ -33,12 +32,11 @@ import org.nmdp.hmlfhirconverter.dao.PropertyRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.PropertyCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.Property;
 
+import org.nmdp.hmlfhirconverter.util.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
@@ -66,15 +64,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public List<Property> getTypeaheadProperties(Integer maxResults, TypeaheadQuery typeaheadQuery) {
-        final Pageable pageable = new PageRequest(0, maxResults);
-        Query query = new Query();
-
-        query.with(pageable);
-
-        for (QueryCriteria criteria : typeaheadQuery.getCriteria()) {
-            query.addCriteria(Criteria.where(criteria.getPropertyName()).regex(criteria.getQueryValue()));
-        }
-
+        Query query = QueryBuilder.buildQuery(maxResults, typeaheadQuery);
         return propertyCustomRepository.findByQuery(query);
     }
 
