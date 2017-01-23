@@ -28,24 +28,14 @@ import org.nmdp.hmlfhirconverter.domain.HmlId;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public class HmlIdCustomRepository {
-
-    private final MongoOperations mongoOperations;
+public class HmlIdCustomRepository extends MongoTemplateRepository<HmlId> {
 
     @Autowired
     public HmlIdCustomRepository(@Qualifier("mongoTemplate") MongoTemplate mongoTemplate) {
-        this.mongoOperations = mongoTemplate;
-    }
-
-    public List<HmlId> findByQuery(Query query) {
-        return mongoOperations.find(query, HmlId.class);
+        super(HmlId.class, mongoTemplate);
     }
 }

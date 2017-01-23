@@ -28,24 +28,14 @@ import org.nmdp.hmlfhirconverter.domain.CollectionMethod;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public class CollectionMethodCustomRepository {
-
-    private final MongoOperations mongoOperations;
+public class CollectionMethodCustomRepository extends MongoTemplateRepository<CollectionMethod> {
 
     @Autowired
     public CollectionMethodCustomRepository(@Qualifier("mongoTemplate") MongoTemplate mongoTemplate) {
-        this.mongoOperations = mongoTemplate;
-    }
-
-    public List<CollectionMethod> findByQuery(Query query) {
-        return mongoOperations.find(query, CollectionMethod.class);
+        super(CollectionMethod.class, mongoTemplate);
     }
 }

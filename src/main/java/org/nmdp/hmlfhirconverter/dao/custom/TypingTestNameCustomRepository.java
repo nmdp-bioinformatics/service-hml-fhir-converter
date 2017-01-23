@@ -28,24 +28,14 @@ import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public class TypingTestNameCustomRepository {
-
-    private final MongoOperations mongoOperations;
+public class TypingTestNameCustomRepository extends MongoTemplateRepository<TypingTestName> {
 
     @Autowired
     public TypingTestNameCustomRepository(@Qualifier("mongoTemplate") MongoTemplate mongoTemplate) {
-        this.mongoOperations = mongoTemplate;
-    }
-
-    public List<TypingTestName> findByQuery(Query query) {
-        return mongoOperations.find(query, TypingTestName.class);
+        super(TypingTestName.class, mongoTemplate);
     }
 }

@@ -1,7 +1,7 @@
 package org.nmdp.hmlfhirconverter.dao.custom;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/18/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/23/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,19 +24,22 @@ package org.nmdp.hmlfhirconverter.dao.custom;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Query;
 
-import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Repository;
+abstract class MongoTemplateRepository<T> {
 
-@Repository
-public class ReportingCenterCustomRepository extends MongoTemplateRepository<ReportingCenter> {
+    private final Class<T> tClass;
+    private final MongoOperations mongoOperations;
 
-    @Autowired
-    public ReportingCenterCustomRepository(@Qualifier("mongoTemplate") MongoTemplate mongoTemplate) {
-        super(ReportingCenter.class, mongoTemplate);
+    public MongoTemplateRepository(Class<T> tClass, MongoOperations mongoOperations) {
+        this.tClass = tClass;
+        this.mongoOperations = mongoOperations;
+    }
+
+    public List<T> findByQuery(Query query) {
+        return mongoOperations.find(query, tClass);
     }
 }
