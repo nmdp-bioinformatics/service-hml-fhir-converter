@@ -107,7 +107,7 @@ public class QueryBuilder {
         List<List<QueryCriteria>> propertyGroupList = new ArrayList<>();
         List<String> properties = criteria.stream()
                 .filter(Objects::nonNull)
-                .filter(distictByKey(p -> p.getPropertyName()))
+                .filter(distinctByKey(p -> p.getPropertyName()))
                 .map(p -> p.getPropertyName())
                 .collect(Collectors.toList());
 
@@ -158,7 +158,7 @@ public class QueryBuilder {
         return regex + (negativeMatch ? ").)" : "");
     }
 
-    private static <T> Predicate<T> distictByKey(Function<? super T, ?> keyExtractor) {
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Map<Object, Boolean> observed = new ConcurrentHashMap<>();
 
         return t -> observed.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
