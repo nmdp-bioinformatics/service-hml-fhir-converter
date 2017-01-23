@@ -136,6 +136,17 @@ public class ProjectController implements ProjectApi {
     }
 
     @Override
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<Project>> getModel() {
+        try {
+            return () -> new ResponseEntity<>(new Project(), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error getting model.", ex);
+            return () -> new ResponseEntity<>(new Project(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Project>> updateProject(@RequestBody Project project) throws NotFoundException {
         try {

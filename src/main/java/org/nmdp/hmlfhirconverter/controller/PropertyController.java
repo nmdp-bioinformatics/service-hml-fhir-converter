@@ -136,6 +136,17 @@ public class PropertyController implements PropertyApi {
     }
 
     @Override
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<Property>> getModel() {
+        try {
+            return () -> new ResponseEntity<>(new Property(), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error getting model.", ex);
+            return () -> new ResponseEntity<>(new Property(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Property>> updateProperty(@RequestBody Property property) throws NotFoundException {
         try {

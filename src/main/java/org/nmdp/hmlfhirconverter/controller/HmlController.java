@@ -135,6 +135,17 @@ public class HmlController implements HmlApi {
     }
 
     @Override
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<Hml>> getModel() {
+        try {
+            return () -> new ResponseEntity<>(new Hml(), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error getting model.", ex);
+            return () -> new ResponseEntity<>(new Hml(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Hml>> updateHml(@RequestBody Hml hml) throws NotFoundException {
         try {

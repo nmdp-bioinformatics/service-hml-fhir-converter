@@ -116,6 +116,17 @@ public class TypingTestNameController implements TypingTestNameApi {
     }
 
     @Override
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<TypingTestName>> getModel() {
+        try {
+            return () -> new ResponseEntity<>(new TypingTestName(), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error getting model.", ex);
+            return () -> new ResponseEntity<>(new TypingTestName(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<TypingTestName>> updateTypingTestName(@RequestBody TypingTestName typingTestName) throws NotFoundException {
         try {

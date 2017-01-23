@@ -136,6 +136,17 @@ public class HmlIdController implements HmlIdApi {
     }
 
     @Override
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<HmlId>> getModel() {
+        try {
+            return () -> new ResponseEntity<>(new HmlId(), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error getting model.", ex);
+            return () -> new ResponseEntity<>(new HmlId(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<HmlId>> updateHmlId(@RequestBody HmlId hmlId) throws NotFoundException {
         try {

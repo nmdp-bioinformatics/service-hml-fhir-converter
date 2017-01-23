@@ -206,6 +206,20 @@ paths:
             title: CollectionMethodControllerException
             schema:
               $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/CollectionMethod'
+        500:
+          description:
+            schema:
+              title: CollectionMethodControllerException
+              schema:
+                $ref: '#/definitions/Error'
   /sample/{id}:
     get:
       operationId: getSample
@@ -398,6 +412,20 @@ paths:
             title: SampleControllerException
             schema:
               $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Sample'
+        500:
+          description:
+            schema:
+              title: SampleControllerException
+              schema:
+                $ref: '#/definitions/Error'
   /reportingCenter/{id}:
     get:
       operationId: getReportingCenter
@@ -590,6 +618,20 @@ paths:
             title: ReportingCenterControllerException
             schema:
               $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ReportingCenter'
+        500:
+          description:
+            schema:
+              title: ReportingCenterControllerException
+              schema:
+                $ref: '#/definitions/Error'
   /typingTestName/{id}:
     get:
       operationId: getTypingTestName
@@ -782,6 +824,20 @@ paths:
             title: TypingTestNameControllerException
             schema:
               $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/TypingTestName'
+        500:
+          description:
+            schema:
+              title: TypingTestNameControllerException
+              schema:
+                $ref: '#/definitions/Error'
   /property/{id}:
     get:
       operationId: getProperty
@@ -974,6 +1030,20 @@ paths:
             title: PropertyControllerException
             schema:
               $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Property'
+        500:
+          description:
+            schema:
+              title: PropertyControllerException
+              schema:
+                $ref: '#/definitions/Error'
   /hml/{id}:
     get:
       operationId: getHml
@@ -1166,6 +1236,20 @@ paths:
             title: HmlControllerException
             schema:
               $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Hml'
+        500:
+          description:
+            schema:
+              title: HmlControllerException
+              schema:
+                $ref: '#/definitions/Error'
   /hmlId/{id}:
     get:
       operationId: getHmlId
@@ -1358,6 +1442,20 @@ paths:
             title: HmlIdControllerException
             schema:
               $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/HmlId'
+        500:
+          description:
+            schema:
+              title: HmlIdControllerException
+              schema:
+                $ref: '#/definitions/Error'
   /project/{id}:
     get:
       operationId: getProject
@@ -1550,6 +1648,20 @@ paths:
             title: ProjectControllerException
             schema:
               $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Project'
+        500:
+          description:
+            schema:
+              title: ProjectControllerException
+              schema:
+                $ref: '#/definitions/Error'
 definitions:
   TypingTestNameControllerException:
     type: object

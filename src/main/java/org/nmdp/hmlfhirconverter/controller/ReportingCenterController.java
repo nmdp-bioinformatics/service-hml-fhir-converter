@@ -131,6 +131,17 @@ public class ReportingCenterController implements ReportingCenterApi {
     }
 
     @Override
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<ReportingCenter>> getModel() {
+        try {
+            return () -> new ResponseEntity<>(new ReportingCenter(), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error getting model.", ex);
+            return () -> new ResponseEntity<>(new ReportingCenter(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<ReportingCenter>> updateReportingCenter(@RequestBody ReportingCenter reportingCenter) throws NotFoundException {
         try {

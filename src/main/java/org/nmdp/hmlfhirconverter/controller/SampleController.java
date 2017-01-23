@@ -26,6 +26,7 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.SampleApi;
+import io.swagger.model.CollectionMethod;
 import io.swagger.model.Sample;
 import io.swagger.model.TypeaheadQuery;
 
@@ -126,6 +127,17 @@ public class SampleController implements SampleApi {
         } catch (Exception ex) {
             LOG.error("Error on /getMulti/{maxResults}", ex);
             return () -> new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<Sample>> getModel() {
+        try {
+            return () -> new ResponseEntity<>(new Sample(), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error getting model.", ex);
+            return () -> new ResponseEntity<>(new Sample(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
