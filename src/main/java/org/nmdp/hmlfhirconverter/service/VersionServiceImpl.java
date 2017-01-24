@@ -32,7 +32,9 @@ import org.nmdp.hmlfhirconverter.dao.custom.VersionCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.Version;
 import org.nmdp.hmlfhirconverter.dao.VersionRepository;
 
+import org.nmdp.hmlfhirconverter.util.Converters;
 import org.nmdp.hmlfhirconverter.util.QueryBuilder;
+import org.nmdp.hmlfhirconverter.util.VersionStringComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -40,6 +42,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -78,6 +81,19 @@ public class VersionServiceImpl implements VersionService {
     public Version getVersionByProperties(Version version, List<String> properties) {
         Query query = QueryBuilder.buildPropertyQuery(version, properties);
         return versionCustomRepository.findSingleByQuery(query);
+    }
+
+    @Override
+    public Version getDefaultVersion() {
+        Query query = QueryBuilder.buildPropertyQuery("description", "DEFAULT", true);
+        List<Version> versions = versionCustomRepository.findByQuery(query);
+        Collections.sort(Converters.convertList(versions, v -> v.toDto(v)), new VersionStringComparator());
+        return versions.stream().findFirst().get();
+    }
+
+    @Override
+    public List<Version> getAllVersions() {
+        return versionRepository.findAll();
     }
 
     @Override

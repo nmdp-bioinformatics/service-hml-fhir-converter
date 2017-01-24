@@ -81,6 +81,22 @@ public class QueryBuilder {
         return query;
     }
 
+    public static Query buildPropertyQuery(String propertyName, String propertyValue, boolean useLike) {
+        Query query = new Query();
+        List<QueryCriteria> qcs = new ArrayList<>();
+        QueryCriteriaExtended qc = new QueryCriteriaExtended(false, useLike, propertyName, propertyValue);
+
+        qcs.add(qc);
+
+        if (useLike) {
+            constructLikeNonExclusionQuery(query, qcs);
+        } else {
+            constructIsNonExclusionQuery(query, qcs);
+        }
+
+        return query;
+    }
+
     public static Query buildPropertyQuery(IMongoDataRepositoryModel model, List<String> properties) {
         Query query = new Query();
         List<QueryCriteria> qcs = new ArrayList<>();

@@ -161,6 +161,31 @@ public class VersionController implements VersionApi {
     }
 
     @Override
+    @RequestMapping(path = "/default", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<Version>> getDefaultVersion() {
+        try {
+            org.nmdp.hmlfhirconverter.domain.Version version = versionService.getDefaultVersion();
+            return () -> new ResponseEntity<>(version.toDto(version), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error getting default version.", ex);
+            return () -> new ResponseEntity<>(new Version(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    @RequestMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Callable<ResponseEntity<List<Version>>> getAllVersions() {
+        try {
+            List<org.nmdp.hmlfhirconverter.domain.Version> result = versionService.getAllVersions();
+            List<Version> transferResult = Converters.convertList(result, r -> r.toDto(r));
+            return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error on /all", ex);
+            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Version>> updateVersion(@RequestBody Version version) throws NotFoundException {
         try {

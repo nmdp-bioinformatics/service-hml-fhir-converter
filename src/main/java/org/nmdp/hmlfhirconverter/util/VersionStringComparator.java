@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.service;
+package org.nmdp.hmlfhirconverter.util;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/23/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/24/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,23 +24,23 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
+import io.swagger.model.Version;
 
-import org.springframework.data.domain.Page;
+import java.util.Comparator;
 
-import org.nmdp.hmlfhirconverter.domain.Version;
+public class VersionStringComparator implements Comparator<Version> {
 
-import java.util.List;
+    @Override
+    public int compare(Version v1, Version v2) {
+        int version1 = Integer.parseInt(v1.getName().replace(".", ""));
+        int version2 = Integer.parseInt(v2.getName().replace(".", ""));
 
-public interface VersionService {
-    Version getVersion(String id);
-    Page<Version> findVersionsByMaxReturn(Integer maxResults, Integer pageNumber);
-    List<Version> getAllVersions();
-    List<Version> getTypeaheadVersions(Integer maxResults, TypeaheadQuery typeaheadQuery);
-    List<Version> createVersions(List<io.swagger.model.Version> versions);
-    Version updateVersion(io.swagger.model.Version versions);
-    Boolean deleteVersion(String id);
-    Boolean deleteVersion(io.swagger.model.Version versions);
-    Version getVersionByProperties(Version version, List<String> properties);
-    Version getDefaultVersion();
+        if (version1 > version2) {
+            return 1;
+        } else if (version1 < version2) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
 }

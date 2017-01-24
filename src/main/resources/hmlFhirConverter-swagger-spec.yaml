@@ -1774,6 +1774,24 @@ paths:
           description: Unexpected Error
           schema:
             $ref: '#/definitions/Error'
+  /version/all:
+    get:
+      operationId: getAllVersions
+      description: Gets the list of available Versions
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfversions
+            type: array
+            items:
+              $ref: '#/definitions/Version'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VersionControllerException
+            schema:
+              $ref: '#/definitions/VersionControllerException'
   /version/{maxResults}/{pageNumber}:
     get:
       operationId: getVersions
@@ -1801,6 +1819,25 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Version'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VersionControllerException
+            schema:
+              $ref: '#/definitions/VersionControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /version/default:
+    get:
+      operationId: getDefaultVersion
+      description: Gets the current default HML version
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Version'
         500:
           description: Internal Server Error
           schema:
