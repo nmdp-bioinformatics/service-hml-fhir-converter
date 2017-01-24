@@ -146,6 +146,18 @@ public class VersionController implements VersionApi {
     }
 
     @Override
+    @RequestMapping(path = "/name", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public Callable<ResponseEntity<Version>> getVersionByName(@RequestBody Version version) throws NotFoundException {
+        try {
+            org.nmdp.hmlfhirconverter.domain.Version result = versionService.getVersionByName(version.getName());
+            return () -> new ResponseEntity<>(result.toDto(result), HttpStatus.OK);
+        } catch (Exception ex) {
+            LOG.error("Error getting model by name.", ex);
+            return () -> new ResponseEntity<>(new Version() , HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Version>> updateVersion(@RequestBody Version version) throws NotFoundException {
         try {

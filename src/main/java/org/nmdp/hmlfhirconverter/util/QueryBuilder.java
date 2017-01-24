@@ -74,6 +74,23 @@ public class QueryBuilder {
         return query;
     }
 
+    public static Query buildSinglePropertyQuery(String value, String property) {
+        Query query = new Query();
+        List<QueryCriteria> qcs = new ArrayList<>();
+        QueryCriteria qc = new QueryCriteria();
+
+        qc.setExclude(false);
+        qc.setPropertyName(property);
+        qc.setQueryValue(value);
+        qc.setUseLike(false);
+
+        qcs.add(qc);
+
+        constructIsExclusionQuery(query, qcs);
+
+        return query;
+    }
+
     private static void constructLikeNonExclusionQuery(Query query, List<QueryCriteria> criterium) {
         for (QueryCriteria qCriteria : criterium) {
             String regex = regexBuilder(qCriteria.getQueryValue(), false);

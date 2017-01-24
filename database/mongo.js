@@ -29,6 +29,12 @@
             defaultData: [
                 { name: 'Cheek swab', description: 'DNA obtained through inner cheek swab', active: true, dateCreated: new Date() }
             ]
+        },
+        {
+            name: 'Hml.Versions',
+            defaultData: [
+                { name: '1.0.1', description: 'Default HML Version', active: true, dateCreated: new Date() }
+            ]
         }
     ];
 

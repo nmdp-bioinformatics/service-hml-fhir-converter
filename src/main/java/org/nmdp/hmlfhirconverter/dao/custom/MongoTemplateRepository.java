@@ -42,4 +42,6 @@ abstract class MongoTemplateRepository<T> {
     public List<T> findByQuery(Query query) {
         return mongoOperations.find(query, tClass);
     }
+
+    public T findSingleByQuery(Query query) { return mongoOperations.findOne(query, tClass); }
 }

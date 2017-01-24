@@ -40,4 +40,5 @@ public interface VersionService {
     Version updateVersion(io.swagger.model.Version versions);
     Boolean deleteVersion(String id);
     Boolean deleteVersion(io.swagger.model.Version versions);
+    Version getVersionByName(String name);
 }

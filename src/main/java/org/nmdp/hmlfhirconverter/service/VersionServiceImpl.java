@@ -75,6 +75,12 @@ public class VersionServiceImpl implements VersionService {
     }
 
     @Override
+    public Version getVersionByName(String name) {
+        Query query = QueryBuilder.buildSinglePropertyQuery(name, "name");
+        return versionCustomRepository.findSingleByQuery(query);
+    }
+
+    @Override
     public List<Version> createVersions(List<io.swagger.model.Version> versions) {
         List<Version> nmdpModel = versions.stream()
                 .filter(Objects::nonNull)

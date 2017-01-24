@@ -40,11 +40,8 @@ import java.util.Date;
 @Document(collection = "Hml.Versions")
 public class Version extends SwaggerConverter<Version, io.swagger.model.Version> implements Serializable {
 
-    private static Class<Version> tClass = Version.class;
-    private static Class<io.swagger.model.Version> uClass = io.swagger.model.Version.class;
-
     public Version() {
-        super(tClass, uClass);
+        super(Version.class, io.swagger.model.Version.class);
     }
 
     @XmlAttribute

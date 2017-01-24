@@ -1706,6 +1706,29 @@ paths:
             title: VersionControllerException
             schema:
               $ref: '#/definitions/Error'
+  /version/name:
+    post:
+      operationId: getVersionByName
+      description: Gets the Version by name
+      parameters:
+        -
+          name: name
+          in: body
+          description: Name of Version in database
+          required: true
+          schema:
+            $ref: '#/definitions/Version'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Version'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VersionControllerException
+            schema:
+              $ref: '#/definitions/Error'
   /version/{maxResults}:
     post:
       operationId: getTypeaheadVersions
@@ -2123,7 +2146,7 @@ definitions:
       active:
         type: boolean
         description: Active record
-      dateCrated:
+      dateCreated:
         type: string
         format: date-time
         description: Creation date

@@ -24,10 +24,16 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-abstract class SwaggerConverter<T, U> extends SwaggerStaticConverter {
+import org.springframework.data.annotation.Transient;
 
-    private Class<T> tClass;
-    private Class<U> uClass;
+
+public abstract class SwaggerConverter<T, U> extends SwaggerStaticConverter {
+
+    @Transient
+    private final Class<T> tClass;
+
+    @Transient
+    private final Class<U> uClass;
 
     protected SwaggerConverter(Class<T> tClass, Class<U> uClass) {
         this.tClass = tClass;
