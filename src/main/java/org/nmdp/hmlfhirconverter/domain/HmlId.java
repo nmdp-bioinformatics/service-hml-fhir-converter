@@ -48,6 +48,11 @@ public class HmlId extends SwaggerConverter<HmlId, io.swagger.model.HmlId> imple
         super(tClass, uClass);
     }
 
+    public HmlId(Boolean active) {
+        super(HmlId.class, io.swagger.model.HmlId.class);
+        this.active = active;
+    }
+
     @XmlAttribute
     @Id
     private String id;

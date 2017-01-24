@@ -138,7 +138,8 @@ public class HmlController implements HmlApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Hml>> getModel() {
         try {
-            return () -> new ResponseEntity<>(new Hml(), HttpStatus.OK);
+            org.nmdp.hmlfhirconverter.domain.Hml hml = new org.nmdp.hmlfhirconverter.domain.Hml(true);
+            return () -> new ResponseEntity<>(hml.toDto(hml), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
             return () -> new ResponseEntity<>(new Hml(), HttpStatus.INTERNAL_SERVER_ERROR);

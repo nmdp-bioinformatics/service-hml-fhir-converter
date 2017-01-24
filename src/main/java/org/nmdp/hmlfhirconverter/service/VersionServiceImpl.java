@@ -75,8 +75,8 @@ public class VersionServiceImpl implements VersionService {
     }
 
     @Override
-    public Version getVersionByName(String name) {
-        Query query = QueryBuilder.buildSinglePropertyQuery(name, "name");
+    public Version getVersionByProperties(Version version, List<String> properties) {
+        Query query = QueryBuilder.buildPropertyQuery(version, properties);
         return versionCustomRepository.findSingleByQuery(query);
     }
 

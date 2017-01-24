@@ -37,7 +37,7 @@ import java.util.Date;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Samples.CollectionMethods")
+@Document(collection = "Hml.Sample.CollectionMethods")
 public class CollectionMethod extends SwaggerConverter<CollectionMethod, io.swagger.model.CollectionMethod> implements Serializable {
 
     private static Class<CollectionMethod> tClass = CollectionMethod.class;
@@ -45,6 +45,11 @@ public class CollectionMethod extends SwaggerConverter<CollectionMethod, io.swag
 
     public CollectionMethod() {
         super(tClass, uClass);
+    }
+
+    public CollectionMethod(Boolean active) {
+        super(CollectionMethod.class, io.swagger.model.CollectionMethod.class);
+        this.active = active;
     }
 
     @XmlAttribute

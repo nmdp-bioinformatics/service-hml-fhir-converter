@@ -134,7 +134,8 @@ public class CollectionMethodController implements CollectionMethodApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<CollectionMethod>> getModel() {
         try {
-            return () -> new ResponseEntity<>(new CollectionMethod(), HttpStatus.OK);
+            org.nmdp.hmlfhirconverter.domain.CollectionMethod collectionMethod = new org.nmdp.hmlfhirconverter.domain.CollectionMethod(true);
+            return () -> new ResponseEntity<>(collectionMethod.toDto(collectionMethod), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
             return () -> new ResponseEntity<>(new CollectionMethod(), HttpStatus.INTERNAL_SERVER_ERROR);

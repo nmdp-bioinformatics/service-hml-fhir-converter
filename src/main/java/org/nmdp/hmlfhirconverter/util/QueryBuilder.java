@@ -27,6 +27,10 @@ package org.nmdp.hmlfhirconverter.util;
 import io.swagger.model.QueryCriteria;
 import io.swagger.model.TypeaheadQuery;
 
+import org.apache.log4j.Logger;
+
+import org.nmdp.hmlfhirconverter.domain.IMongoDataRepositoryModel;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -42,6 +46,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class QueryBuilder {
+
+    private final static Logger LOG = Logger.getLogger(QueryBuilder.class);
+
     public static Query buildQuery(Integer maxResults, TypeaheadQuery typeaheadQuery) {
         final Pageable pageable = new PageRequest(0, maxResults);
         Query query = new Query();
@@ -74,26 +81,29 @@ public class QueryBuilder {
         return query;
     }
 
-    public static Query buildSinglePropertyQuery(String value, String property) {
+    public static Query buildPropertyQuery(IMongoDataRepositoryModel model, List<String> properties) {
         Query query = new Query();
         List<QueryCriteria> qcs = new ArrayList<>();
-        QueryCriteria qc = new QueryCriteria();
 
-        qc.setExclude(false);
-        qc.setPropertyName(property);
-        qc.setQueryValue(value);
-        qc.setUseLike(false);
+        for (String property : properties) {
+            try {
+                Object value = model.getPropertyValueByName(model, property);
+                QueryCriteriaExtended qc = new QueryCriteriaExtended(false, false, property, value);
+                qcs.add(qc);
+            } catch (Exception ex) {
+                LOG.error(ex);
+                continue;
+            }
+        }
 
-        qcs.add(qc);
-
-        constructIsExclusionQuery(query, qcs);
+        constructIsNonExclusionQuery(query, qcs);
 
         return query;
     }
 
     private static void constructLikeNonExclusionQuery(Query query, List<QueryCriteria> criterium) {
         for (QueryCriteria qCriteria : criterium) {
-            String regex = regexBuilder(qCriteria.getQueryValue(), false);
+            String regex = regexBuilder(qCriteria.getQueryValue().toString(), false);
             query.addCriteria(Criteria.where(qCriteria.getPropertyName()).regex(regex));
         }
     }
@@ -102,12 +112,13 @@ public class QueryBuilder {
         String propertyName = criterium.get(0).getPropertyName();
         query.addCriteria(Criteria.where(propertyName).in(criterium.stream()
             .filter(Objects::nonNull)
-            .map(q -> q.getQueryValue())));
+            .map(q -> q.getQueryValue().toString())
+            .collect(Collectors.toList())));
     }
 
     private static void constructLikeExclusionQuery(Query query, List<QueryCriteria> criterium) {
         for (QueryCriteria qCriteria : criterium) {
-            String regex = regexBuilder(qCriteria.getQueryValue(), true);
+            String regex = regexBuilder(qCriteria.getQueryValue().toString(), true);
             query.addCriteria(Criteria.where(qCriteria.getPropertyName()).regex(regex));
         }
     }
@@ -116,7 +127,7 @@ public class QueryBuilder {
         String propertyName = criterium.get(0).getPropertyName();
         query.addCriteria(Criteria.where(propertyName).nin(criterium.stream()
             .filter(Objects::nonNull)
-            .map(q -> q.getQueryValue())
+            .map(q -> q.getQueryValue().toString())
             .collect(Collectors.toList())));
     }
 

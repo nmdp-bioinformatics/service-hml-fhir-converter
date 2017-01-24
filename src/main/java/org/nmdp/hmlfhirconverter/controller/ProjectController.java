@@ -139,7 +139,8 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Project>> getModel() {
         try {
-            return () -> new ResponseEntity<>(new Project(), HttpStatus.OK);
+            org.nmdp.hmlfhirconverter.domain.Project project = new org.nmdp.hmlfhirconverter.domain.Project(true);
+            return () -> new ResponseEntity<>(project.toDto(project), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
             return () -> new ResponseEntity<>(new Project(), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -38,7 +38,7 @@ import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml")
+@Document(collection = "Hmls")
 public class Hml extends SwaggerConverter<Hml, io.swagger.model.Hml> implements Serializable {
 
     private static Class<Hml> tClass = Hml.class;
@@ -46,6 +46,11 @@ public class Hml extends SwaggerConverter<Hml, io.swagger.model.Hml> implements 
 
     public Hml() {
         super(tClass, uClass);
+    }
+
+    public Hml(Boolean active) {
+        super(Hml.class, io.swagger.model.Hml.class);
+        this.active = active;
     }
 
     @XmlAttribute

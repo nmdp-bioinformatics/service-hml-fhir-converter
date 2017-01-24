@@ -139,7 +139,8 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Property>> getModel() {
         try {
-            return () -> new ResponseEntity<>(new Property(), HttpStatus.OK);
+            org.nmdp.hmlfhirconverter.domain.Property property = new org.nmdp.hmlfhirconverter.domain.Property();
+            return () -> new ResponseEntity<>(property.toDto(property), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
             return () -> new ResponseEntity<>(new Property(), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -138,7 +138,8 @@ public class VersionController implements VersionApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Version>> getModel() {
         try {
-            return () -> new ResponseEntity<>(new Version(), HttpStatus.OK);
+            org.nmdp.hmlfhirconverter.domain.Version version = new org.nmdp.hmlfhirconverter.domain.Version(true);
+            return () -> new ResponseEntity<>(version.toDto(version), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
             return () -> new ResponseEntity<>(new Version(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -146,10 +147,12 @@ public class VersionController implements VersionApi {
     }
 
     @Override
-    @RequestMapping(path = "/name", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public Callable<ResponseEntity<Version>> getVersionByName(@RequestBody Version version) throws NotFoundException {
+    @RequestMapping(path = "/properties/{properties}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public Callable<ResponseEntity<Version>> getVersionByProperties(@RequestBody Version version, @PathVariable List<String> properties) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Version result = versionService.getVersionByName(version.getName());
+            org.nmdp.hmlfhirconverter.domain.Version queryModel = org.nmdp.hmlfhirconverter.domain.Version
+                    .convertFromSwagger(version, org.nmdp.hmlfhirconverter.domain.Version.class);
+            org.nmdp.hmlfhirconverter.domain.Version result = versionService.getVersionByProperties(queryModel, properties);
             return () -> new ResponseEntity<>(result.toDto(result), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model by name.", ex);

@@ -139,7 +139,8 @@ public class HmlIdController implements HmlIdApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<HmlId>> getModel() {
         try {
-            return () -> new ResponseEntity<>(new HmlId(), HttpStatus.OK);
+            org.nmdp.hmlfhirconverter.domain.HmlId hmlId = new org.nmdp.hmlfhirconverter.domain.HmlId(true);
+            return () -> new ResponseEntity<>(hmlId.toDto(hmlId), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
             return () -> new ResponseEntity<>(new HmlId(), HttpStatus.INTERNAL_SERVER_ERROR);

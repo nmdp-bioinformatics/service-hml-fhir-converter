@@ -48,6 +48,11 @@ public class Sample extends SwaggerConverter<Sample, io.swagger.model.Sample> im
         super(tClass, uClass);
     }
 
+    public Sample(Boolean active) {
+        super(Sample.class, io.swagger.model.Sample.class);
+        this.active = active;
+    }
+
     @XmlAttribute
     @Id
     private String id;

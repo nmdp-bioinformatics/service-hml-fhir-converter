@@ -44,6 +44,11 @@ public class Version extends SwaggerConverter<Version, io.swagger.model.Version>
         super(Version.class, io.swagger.model.Version.class);
     }
 
+    public Version(Boolean active) {
+        super(Version.class, io.swagger.model.Version.class);
+        this.active = active;
+    }
+
     @XmlAttribute
     @Id
     private String id;

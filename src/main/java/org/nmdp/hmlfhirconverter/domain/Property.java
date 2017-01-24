@@ -48,6 +48,11 @@ public class Property extends SwaggerConverter<Property, io.swagger.model.Proper
         super(tClass, uClass);
     }
 
+    public Property(Boolean active) {
+        super(Property.class, io.swagger.model.Property.class);
+        this.active = active;
+    }
+
     @XmlAttribute
     @Id
     private String id;

@@ -46,6 +46,11 @@ public class TypingTestName extends SwaggerConverter<TypingTestName, io.swagger.
     public TypingTestName() {
         super(tClass, uClass);
     }
+
+    public TypingTestName(Boolean active) {
+        super(TypingTestName.class, io.swagger.model.TypingTestName.class);
+        this.active = active;
+    }
     
     @XmlAttribute
     @Id

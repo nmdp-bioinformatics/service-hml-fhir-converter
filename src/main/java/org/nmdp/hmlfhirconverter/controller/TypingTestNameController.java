@@ -119,7 +119,8 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<TypingTestName>> getModel() {
         try {
-            return () -> new ResponseEntity<>(new TypingTestName(), HttpStatus.OK);
+            org.nmdp.hmlfhirconverter.domain.TypingTestName typingTestName = new org.nmdp.hmlfhirconverter.domain.TypingTestName(true);
+            return () -> new ResponseEntity<>(typingTestName.toDto(typingTestName), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
             return () -> new ResponseEntity<>(new TypingTestName(), HttpStatus.INTERNAL_SERVER_ERROR);

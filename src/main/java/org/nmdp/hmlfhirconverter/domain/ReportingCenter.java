@@ -47,6 +47,11 @@ public class ReportingCenter extends SwaggerConverter<ReportingCenter, io.swagge
         super(tClass, uClass);
     }
 
+    public ReportingCenter(Boolean active) {
+        super(ReportingCenter.class, io.swagger.model.ReportingCenter.class);
+        this.active = active;
+    }
+
     @XmlAttribute
     @Id
     private String id;

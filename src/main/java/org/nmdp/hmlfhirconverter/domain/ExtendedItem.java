@@ -37,7 +37,7 @@ import java.util.Date;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Properties.ExtendedItems")
+@Document(collection = "Hml.Property.ExtendedItems")
 public class ExtendedItem extends SwaggerConverter<ExtendedItem, io.swagger.model.ExtendedItem> implements Serializable {
 
     private static Class<ExtendedItem> tClass = ExtendedItem.class;
@@ -45,6 +45,11 @@ public class ExtendedItem extends SwaggerConverter<ExtendedItem, io.swagger.mode
 
     public ExtendedItem() {
         super(tClass, uClass);
+    }
+
+    public ExtendedItem(Boolean active) {
+        super(ExtendedItem.class, io.swagger.model.ExtendedItem.class);
+        this.active = active;
     }
 
     @XmlAttribute

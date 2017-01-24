@@ -1706,18 +1706,26 @@ paths:
             title: VersionControllerException
             schema:
               $ref: '#/definitions/Error'
-  /version/name:
+  /version/properties{properties}:
     post:
-      operationId: getVersionByName
+      operationId: getVersionByProperties
       description: Gets the Version by name
       parameters:
         -
-          name: name
+          name: version
           in: body
           description: Name of Version in database
           required: true
           schema:
             $ref: '#/definitions/Version'
+        -
+          name: properties
+          in: query
+          description: String array of properties to query
+          required: true
+          type: array
+          items:
+            type: string
       responses:
         200:
           description: Successful response
@@ -1966,7 +1974,7 @@ definitions:
         type: string
         description: The property name to query
       queryValue:
-        type: string
+        type: object
         description: The value to query against
       exclude:
         type: boolean

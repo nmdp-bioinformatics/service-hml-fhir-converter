@@ -134,7 +134,8 @@ public class SampleController implements SampleApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Sample>> getModel() {
         try {
-            return () -> new ResponseEntity<>(new Sample(), HttpStatus.OK);
+            org.nmdp.hmlfhirconverter.domain.Sample sample = new org.nmdp.hmlfhirconverter.domain.Sample(true);
+            return () -> new ResponseEntity<>(sample.toDto(sample), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
             return () -> new ResponseEntity<>(new Sample(), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -48,6 +48,11 @@ public class Project extends SwaggerConverter<Project, io.swagger.model.Project>
         super(tClass, uClass);
     }
 
+    public Project(Boolean active) {
+        super(Project.class, io.swagger.model.Project.class);
+        this.active = active;
+    }
+
     @XmlAttribute
     @Id
     private String id;

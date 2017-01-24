@@ -134,7 +134,8 @@ public class ReportingCenterController implements ReportingCenterApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<ReportingCenter>> getModel() {
         try {
-            return () -> new ResponseEntity<>(new ReportingCenter(), HttpStatus.OK);
+            org.nmdp.hmlfhirconverter.domain.ReportingCenter reportingCenter = new org.nmdp.hmlfhirconverter.domain.ReportingCenter(true);
+            return () -> new ResponseEntity<>(reportingCenter.toDto(reportingCenter), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
             return () -> new ResponseEntity<>(new ReportingCenter(), HttpStatus.INTERNAL_SERVER_ERROR);

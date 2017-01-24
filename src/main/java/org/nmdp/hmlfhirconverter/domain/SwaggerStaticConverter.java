@@ -39,7 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-abstract class SwaggerStaticConverter {
+abstract class SwaggerStaticConverter extends MongoDataRepositoryModel implements IMongoDataRepositoryModel {
 
     private static final Logger LOG = Logger.getLogger(SwaggerStaticConverter.class);
 

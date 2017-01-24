@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.service;
+package org.nmdp.hmlfhirconverter.util;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/23/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/24/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,21 +24,14 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
+import io.swagger.model.QueryCriteria;
 
-import org.springframework.data.domain.Page;
+public class QueryCriteriaExtended extends QueryCriteria {
 
-import org.nmdp.hmlfhirconverter.domain.Version;
-
-import java.util.List;
-
-public interface VersionService {
-    Version getVersion(String id);
-    Page<Version> findVersionsByMaxReturn(Integer maxResults, Integer pageNumber);
-    List<Version> getTypeaheadVersions(Integer maxResults, TypeaheadQuery typeaheadQuery);
-    List<Version> createVersions(List<io.swagger.model.Version> versions);
-    Version updateVersion(io.swagger.model.Version versions);
-    Boolean deleteVersion(String id);
-    Boolean deleteVersion(io.swagger.model.Version versions);
-    Version getVersionByProperties(Version version, List<String> properties);
+    public QueryCriteriaExtended(Boolean exclude, Boolean useLike, String property, Object value) {
+        super.setExclude(exclude);
+        super.setUseLike(useLike);
+        super.setPropertyName(property);
+        super.setQueryValue(value);
+    }
 }
