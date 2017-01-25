@@ -29,7 +29,7 @@ import io.swagger.model.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 
-import org.nmdp.hmlfhirconverter.domain.IMongoDataRepositoryModel;
+import org.nmdp.hmlfhirconverter.domain.base.IMongoDataRepositoryModel;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

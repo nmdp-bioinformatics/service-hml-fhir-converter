@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.domain;
+package org.nmdp.hmlfhirconverter.domain.base;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/25/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/19/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,10 +24,35 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.springframework.data.annotation.Transient;
+
 import org.nmdp.hmlfhirconverter.util.MappingConverter;
 
-public interface ISwaggerConverter<T extends ISwaggerConverter<T, U>, U> {
-    T convertFromSwagger(U swagger);
-    U toDto(T nmdpInstance);
-    U toDto(T nmdpInstance, MappingConverter<T, U> mapper);
+public abstract class SwaggerConverter<T extends ISwaggerConverter<T, U>, U> extends SwaggerStaticConverter implements ISwaggerConverter<T, U> {
+
+    @Transient
+    private final Class<T> tClass;
+
+    @Transient
+    private final Class<U> uClass;
+
+    protected SwaggerConverter(Class<T> tClass, Class<U> uClass) {
+        this.tClass = tClass;
+        this.uClass = uClass;
+    }
+
+    @Override
+    public T convertFromSwagger(U swagger) {
+        return super.convertFromSwagger(swagger, tClass);
+    }
+
+    @Override
+    public U toDto(T nmdpInstance) {
+        return super.toDto(nmdpInstance, uClass);
+    }
+
+    @Override
+    public U toDto(T nmdpInstance, MappingConverter<T, U> mapper) {
+        return super.toDto(nmdpInstance, uClass, mapper);
+    }
 }

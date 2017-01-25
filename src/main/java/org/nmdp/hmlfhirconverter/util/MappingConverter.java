@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.util;
 
 import org.modelmapper.AbstractConverter;
 
-import org.nmdp.hmlfhirconverter.domain.ISwaggerConverter;
+import org.nmdp.hmlfhirconverter.domain.base.ISwaggerConverter;
 
 public class MappingConverter<T extends ISwaggerConverter<T, U>, U> extends AbstractConverter<T, U> {
 

@@ -24,6 +24,7 @@ package org.nmdp.hmlfhirconverter.domain;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.nmdp.hmlfhirconverter.domain.base.SwaggerConverter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -34,7 +35,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

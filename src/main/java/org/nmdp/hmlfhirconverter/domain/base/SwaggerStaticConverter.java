@@ -1,4 +1,4 @@
-package org.nmdp.hmlfhirconverter.domain;
+package org.nmdp.hmlfhirconverter.domain.base;
 
 /**
  * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/19/17.
