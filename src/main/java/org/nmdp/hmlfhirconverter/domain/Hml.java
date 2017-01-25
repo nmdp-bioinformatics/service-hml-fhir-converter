@@ -25,6 +25,7 @@ package org.nmdp.hmlfhirconverter.domain;
  */
 
 import org.nmdp.hmlfhirconverter.domain.base.SwaggerConverter;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -40,7 +41,7 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hmls")
-public class Hml extends SwaggerConverter<Hml, io.swagger.model.Hml> implements Serializable {
+public class Hml extends SwaggerConverter<Hml, io.swagger.model.Hml> implements Serializable, ICascadable {
 
     private static Class<Hml> tClass = Hml.class;
     private static Class<io.swagger.model.Hml> uClass = io.swagger.model.Hml.class;

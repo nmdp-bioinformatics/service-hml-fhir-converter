@@ -25,6 +25,7 @@ package org.nmdp.hmlfhirconverter.domain;
  */
 
 import org.nmdp.hmlfhirconverter.domain.base.SwaggerConverter;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -39,7 +40,7 @@ import java.util.Date;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.ReportingCenters")
-public class ReportingCenter extends SwaggerConverter<ReportingCenter, io.swagger.model.ReportingCenter> implements Serializable {
+public class ReportingCenter extends SwaggerConverter<ReportingCenter, io.swagger.model.ReportingCenter> implements Serializable, ICascadable {
 
     private static Class<ReportingCenter> tClass = ReportingCenter.class;
     private static Class<io.swagger.model.ReportingCenter> uClass = io.swagger.model.ReportingCenter.class;

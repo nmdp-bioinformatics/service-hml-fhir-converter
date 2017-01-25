@@ -31,8 +31,9 @@ import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.dao.PropertyRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.PropertyCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.Property;
-
 import org.nmdp.hmlfhirconverter.util.QueryBuilder;
+import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -45,21 +46,20 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class PropertyServiceImpl implements PropertyService {
-    private final PropertyRepository propertyRepository;
+public class PropertyServiceImpl extends CascadingRepositoryService<Property> implements PropertyService {
     private final PropertyCustomRepository propertyCustomRepository;
     private static final Logger LOG = Logger.getLogger(PropertyService.class);
 
     @Autowired
     public PropertyServiceImpl(@Qualifier("propertyRepository") PropertyRepository propertyRepository,
                            @Qualifier("propertyCustomRepository") PropertyCustomRepository propertyCustomRepository) {
-        this.propertyRepository = propertyRepository;
+        super(propertyRepository);
         this.propertyCustomRepository = propertyCustomRepository;
     }
 
     @Override
     public Property getProperty(String id) {
-        return propertyRepository.findOne(id);
+        return mongoRepository.findOne(id);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public Page<Property> findPropertiesByMaxReturn(Integer maxResults, Integer pageNumber) {
         PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return propertyRepository.findAll(pageable);
+        return mongoRepository.findAll(pageable);
     }
 
     @Override
@@ -81,19 +81,19 @@ public class PropertyServiceImpl implements PropertyService {
                 .map(obj -> Property.convertFromSwagger(obj, Property.class))
                 .collect(Collectors.toList());
 
-        return propertyRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Property updateProperty(io.swagger.model.Property property) {
         Property nmdpModel = Property.convertFromSwagger(property, Property.class);
-        return propertyRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Boolean deleteProperty(String id) {
         try {
-            propertyRepository.delete(id);
+            mongoRepository.delete(id);
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting property.", ex);
@@ -104,7 +104,7 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public Boolean deleteProperty(io.swagger.model.Property property) {
         try {
-            propertyRepository.delete(Property.convertFromSwagger(property, Property.class));
+            mongoRepository.delete(Property.convertFromSwagger(property, Property.class));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting property.", ex);

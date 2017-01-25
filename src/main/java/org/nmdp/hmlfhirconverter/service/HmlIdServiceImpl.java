@@ -32,6 +32,7 @@ import org.nmdp.hmlfhirconverter.dao.HmlIdRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.HmlIdCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.HmlId;
 import org.nmdp.hmlfhirconverter.util.QueryBuilder;
+import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,21 +46,20 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class HmlIdServiceImpl implements HmlIdService {
-    private final HmlIdRepository hmlIdRepository;
+public class HmlIdServiceImpl extends CascadingRepositoryService<HmlId> implements HmlIdService {
     private final HmlIdCustomRepository hmlIdCustomRepository;
     private static final Logger LOG = Logger.getLogger(HmlIdService.class);
 
     @Autowired
     public HmlIdServiceImpl(@Qualifier("hmlIdRepository") HmlIdRepository hmlIdRepository,
                             @Qualifier("hmlIdCustomRepository") HmlIdCustomRepository hmlIdCustomRepository) {
-        this.hmlIdRepository = hmlIdRepository;
+        super(hmlIdRepository);
         this.hmlIdCustomRepository = hmlIdCustomRepository;
     }
 
     @Override
     public HmlId getHmlId(String id) {
-        return hmlIdRepository.findOne(id);
+        return mongoRepository.findOne(id);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class HmlIdServiceImpl implements HmlIdService {
     @Override
     public Page<HmlId> findHmlIdsByMaxReturn(Integer maxResults, Integer pageNumber) {
         PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return hmlIdRepository.findAll(pageable);
+        return mongoRepository.findAll(pageable);
     }
 
     @Override
@@ -81,19 +81,19 @@ public class HmlIdServiceImpl implements HmlIdService {
                 .map(obj -> HmlId.convertFromSwagger(obj, HmlId.class))
                 .collect(Collectors.toList());
 
-        return hmlIdRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public HmlId updateHmlId(io.swagger.model.HmlId hmlId) {
         HmlId nmdpModel = HmlId.convertFromSwagger(hmlId, HmlId.class);
-        return hmlIdRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Boolean deleteHmlId(String id) {
         try {
-            hmlIdRepository.delete(id);
+            mongoRepository.delete(id);
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting hml.", ex);
@@ -104,7 +104,7 @@ public class HmlIdServiceImpl implements HmlIdService {
     @Override
     public Boolean deleteHmlId(io.swagger.model.HmlId hmlId) {
         try {
-            hmlIdRepository.delete(HmlId.convertFromSwagger(hmlId, HmlId.class));
+            mongoRepository.delete(HmlId.convertFromSwagger(hmlId, HmlId.class));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting hml.", ex);

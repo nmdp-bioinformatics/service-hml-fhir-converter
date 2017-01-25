@@ -30,7 +30,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Objects;
 
-abstract class MongoDataRepositoryModel implements IMongoDataRepositoryModel {
+abstract class MongoDataRepositoryModel extends CascadingUpdate implements IMongoDataRepositoryModel {
 
     private static final Logger LOG = Logger.getLogger(MongoDataRepositoryModel.class);
 

@@ -31,8 +31,9 @@ import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.dao.custom.TypingTestNameCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 import org.nmdp.hmlfhirconverter.dao.TypingTestNameRepository;
-
 import org.nmdp.hmlfhirconverter.util.QueryBuilder;
+import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -45,27 +46,26 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class TypingTestNameServiceImpl implements TypingTestNameService {
-    private final TypingTestNameRepository typingTestNameRepository;
+public class TypingTestNameServiceImpl extends CascadingRepositoryService<TypingTestName> implements TypingTestNameService {
     private final TypingTestNameCustomRepository typingTestNameCustomRepository;
     private static final Logger LOG = Logger.getLogger(TypingTestNameService.class);
 
     @Autowired
     public TypingTestNameServiceImpl(@Qualifier("typingTestNameRepository") TypingTestNameRepository typingTestNameRepository,
                                      @Qualifier("typingTestNameCustomRepository") TypingTestNameCustomRepository typingTestNameCustomRepository) {
-        this.typingTestNameRepository = typingTestNameRepository;
+        super(typingTestNameRepository);
         this.typingTestNameCustomRepository = typingTestNameCustomRepository;
     }
 
     @Override
     public TypingTestName getTypingTestName(String id) {
-        return typingTestNameRepository.findOne(id);
+        return mongoRepository.findOne(id);
     }
 
     @Override
     public Page<TypingTestName> findTypingTestNamesByMaxReturn(Integer maxResults, Integer pageNumber) {
         PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return typingTestNameRepository.findAll(pageable);
+        return mongoRepository.findAll(pageable);
     }
 
     @Override
@@ -81,19 +81,19 @@ public class TypingTestNameServiceImpl implements TypingTestNameService {
                 .map(obj -> TypingTestName.convertFromSwagger(obj, TypingTestName.class))
                 .collect(Collectors.toList());
 
-        return typingTestNameRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public TypingTestName updateTypingTestName(io.swagger.model.TypingTestName typingTestName) {
         TypingTestName nmdpModel = TypingTestName.convertFromSwagger(typingTestName, TypingTestName.class);
-        return typingTestNameRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Boolean deleteTypingTestName(String id) {
         try {
-            typingTestNameRepository.delete(id);
+            mongoRepository.delete(id);
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting typing test name.", ex);
@@ -104,7 +104,7 @@ public class TypingTestNameServiceImpl implements TypingTestNameService {
     @Override
     public Boolean deleteTypingTestName(io.swagger.model.TypingTestName typingTestName) {
         try {
-            typingTestNameRepository.delete(TypingTestName.convertFromSwagger(typingTestName, TypingTestName.class));
+            mongoRepository.delete(TypingTestName.convertFromSwagger(typingTestName, TypingTestName.class));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting typing test name.", ex);

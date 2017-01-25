@@ -29,10 +29,11 @@ import io.swagger.model.TypeaheadQuery;
 import org.nmdp.hmlfhirconverter.dao.SampleRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.SampleCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.Sample;
+import org.nmdp.hmlfhirconverter.util.QueryBuilder;
+import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
 
 import org.apache.log4j.Logger;
 
-import org.nmdp.hmlfhirconverter.util.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -45,21 +46,20 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class SampleServiceImpl implements SampleService {
-    private final SampleRepository sampleRepository;
+public class SampleServiceImpl extends CascadingRepositoryService<Sample> implements SampleService {
     private final SampleCustomRepository sampleCustomRepository;
     private static final Logger LOG = Logger.getLogger(SampleServiceImpl.class);
 
     @Autowired
     public SampleServiceImpl(@Qualifier("sampleRepository") SampleRepository sampleRepository,
                              @Qualifier("sampleCustomRepository") SampleCustomRepository sampleCustomRepository) {
-        this.sampleRepository = sampleRepository;
+        super(sampleRepository);
         this.sampleCustomRepository = sampleCustomRepository;
     }
 
     @Override
     public Sample getSample(String id) {
-        return sampleRepository.findOne(id);
+        return mongoRepository.findOne(id);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class SampleServiceImpl implements SampleService {
     @Override
     public Page<Sample> findSamplesByMaxReturn(Integer maxResults, Integer pageNumber) {
         PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return sampleRepository.findAll(pageable);
+        return mongoRepository.findAll(pageable);
     }
 
     @Override
@@ -81,19 +81,19 @@ public class SampleServiceImpl implements SampleService {
                 .map(obj -> Sample.convertFromSwagger(obj, Sample.class))
                 .collect(Collectors.toList());
 
-        return sampleRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Sample updateSample(io.swagger.model.Sample sample) {
         Sample nmdpModel = Sample.convertFromSwagger(sample, Sample.class);
-        return sampleRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Boolean deleteSample(String id) {
         try {
-            sampleRepository.delete(id);
+            mongoRepository.delete(id);
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting sample.", ex);
@@ -104,7 +104,7 @@ public class SampleServiceImpl implements SampleService {
     @Override
     public Boolean deleteSample(io.swagger.model.Sample sample) {
         try {
-            sampleRepository.delete(Sample.convertFromSwagger(sample, Sample.class));
+            mongoRepository.delete(Sample.convertFromSwagger(sample, Sample.class));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting sample.", ex);

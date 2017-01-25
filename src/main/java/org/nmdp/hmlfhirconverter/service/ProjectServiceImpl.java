@@ -32,6 +32,7 @@ import org.nmdp.hmlfhirconverter.dao.ProjectRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.ProjectCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.Project;
 import org.nmdp.hmlfhirconverter.util.QueryBuilder;
+import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,21 +46,20 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class ProjectServiceImpl implements ProjectService {
-    private final ProjectRepository projectRepository;
+public class ProjectServiceImpl extends CascadingRepositoryService<Project> implements ProjectService {
     private final ProjectCustomRepository projectCustomRepository;
     private static final Logger LOG = Logger.getLogger(ProjectService.class);
 
     @Autowired
     public ProjectServiceImpl(@Qualifier("projectRepository") ProjectRepository projectRepository,
                               @Qualifier("projectCustomRepository") ProjectCustomRepository projectCustomRepository) {
-        this.projectRepository = projectRepository;
+        super(projectRepository);
         this.projectCustomRepository = projectCustomRepository;
     }
 
     @Override
     public Project getProject(String id) {
-        return projectRepository.findOne(id);
+        return mongoRepository.findOne(id);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Page<Project> findProjectsByMaxReturn(Integer maxResults, Integer pageNumber) {
         PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return projectRepository.findAll(pageable);
+        return mongoRepository.findAll(pageable);
     }
 
     @Override
@@ -81,19 +81,19 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(obj -> Project.convertFromSwagger(obj, Project.class))
                 .collect(Collectors.toList());
 
-        return projectRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Project updateProject(io.swagger.model.Project project) {
         Project nmdpModel = Project.convertFromSwagger(project, Project.class);
-        return projectRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Boolean deleteProject(String id) {
         try {
-            projectRepository.delete(id);
+            mongoRepository.delete(id);
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting hml.", ex);
@@ -104,7 +104,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Boolean deleteProject(io.swagger.model.Project project) {
         try {
-            projectRepository.delete(Project.convertFromSwagger(project, Project.class));
+            mongoRepository.delete(Project.convertFromSwagger(project, Project.class));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting hml.", ex);

@@ -32,6 +32,7 @@ import org.nmdp.hmlfhirconverter.dao.HmlRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.HmlCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.Hml;
 import org.nmdp.hmlfhirconverter.util.QueryBuilder;
+import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,21 +46,20 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class HmlServiceImpl implements HmlService {
-    private final HmlRepository hmlRepository;
+public class HmlServiceImpl extends CascadingRepositoryService<Hml> implements HmlService {
     private final HmlCustomRepository hmlCustomRepository;
     private static final Logger LOG = Logger.getLogger(HmlService.class);
 
     @Autowired
     public HmlServiceImpl(@Qualifier("hmlRepository") HmlRepository hmlRepository,
                                @Qualifier("hmlCustomRepository") HmlCustomRepository hmlCustomRepository) {
-        this.hmlRepository = hmlRepository;
+        super(hmlRepository);
         this.hmlCustomRepository = hmlCustomRepository;
     }
 
     @Override
     public Hml getHml(String id) {
-        return hmlRepository.findOne(id);
+        return mongoRepository.findOne(id);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class HmlServiceImpl implements HmlService {
     @Override
     public Page<Hml> findHmlsByMaxReturn(Integer maxResults, Integer pageNumber) {
         PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return hmlRepository.findAll(pageable);
+        return mongoRepository.findAll(pageable);
     }
 
     @Override
@@ -81,19 +81,23 @@ public class HmlServiceImpl implements HmlService {
                 .map(obj -> Hml.convertFromSwagger(obj, Hml.class))
                 .collect(Collectors.toList());
 
-        return hmlRepository.save(nmdpModel);
+        for (Hml hml : nmdpModel) {
+            hml.saveCollectionProperties(hml);
+        }
+
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Hml updateHml(io.swagger.model.Hml hml) {
         Hml nmdpModel = Hml.convertFromSwagger(hml, Hml.class);
-        return hmlRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Boolean deleteHml(String id) {
         try {
-            hmlRepository.delete(id);
+            mongoRepository.delete(id);
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting hml.", ex);
@@ -104,7 +108,7 @@ public class HmlServiceImpl implements HmlService {
     @Override
     public Boolean deleteHml(io.swagger.model.Hml hml) {
         try {
-            hmlRepository.delete(Hml.convertFromSwagger(hml, Hml.class));
+            mongoRepository.delete(Hml.convertFromSwagger(hml, Hml.class));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting hml.", ex);

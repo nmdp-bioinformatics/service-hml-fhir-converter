@@ -30,9 +30,10 @@ import org.apache.log4j.Logger;
 
 import org.nmdp.hmlfhirconverter.dao.CollectionMethodRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.CollectionMethodCustomRepository;
+import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
 import org.nmdp.hmlfhirconverter.domain.CollectionMethod;
-
 import org.nmdp.hmlfhirconverter.util.QueryBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -45,21 +46,20 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class CollectionMethodServiceImpl implements CollectionMethodService {
-    private final CollectionMethodRepository collectionMethodRepository;
+public class CollectionMethodServiceImpl extends CascadingRepositoryService<CollectionMethod> implements CollectionMethodService {
     private final CollectionMethodCustomRepository collectionMethodCustomRepository;
     private static final Logger LOG = Logger.getLogger(CollectionMethodServiceImpl.class);
 
     @Autowired
     public CollectionMethodServiceImpl(@Qualifier("collectionMethodRepository") CollectionMethodRepository collectionMethodRepository,
                                        @Qualifier("collectionMethodCustomRepository") CollectionMethodCustomRepository collectionMethodCustomRepository) {
-        this.collectionMethodRepository = collectionMethodRepository;
+        super(collectionMethodRepository);
         this.collectionMethodCustomRepository = collectionMethodCustomRepository;
     }
 
     @Override
     public CollectionMethod getCollectionMethod(String id) {
-        return collectionMethodRepository.findOne(id);
+        return mongoRepository.findOne(id);
     }
 
     @Override
@@ -71,7 +71,8 @@ public class CollectionMethodServiceImpl implements CollectionMethodService {
     @Override
     public Page<CollectionMethod> findCollectionMethodsByMaxReturn(Integer maxResults, Integer pageNumber) {
         PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return collectionMethodRepository.findAll(pageable);
+
+        return mongoRepository.findAll(pageable);
     }
 
     @Override
@@ -81,19 +82,19 @@ public class CollectionMethodServiceImpl implements CollectionMethodService {
                 .map(obj -> new CollectionMethod().convertFromSwagger(obj))
                 .collect(Collectors.toList());
 
-        return collectionMethodRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public CollectionMethod updateCollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
         CollectionMethod nmdpModel = new CollectionMethod().convertFromSwagger(collectionMethod);
-        return collectionMethodRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Boolean deleteCollectionMethod(String id) {
         try {
-            collectionMethodRepository.delete(id);
+            mongoRepository.delete(id);
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting collection method.", ex);
@@ -104,7 +105,7 @@ public class CollectionMethodServiceImpl implements CollectionMethodService {
     @Override
     public Boolean deleteCollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
         try {
-            collectionMethodRepository.delete(new CollectionMethod().convertFromSwagger(collectionMethod));
+            mongoRepository.delete(new CollectionMethod().convertFromSwagger(collectionMethod));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting collection method.", ex);

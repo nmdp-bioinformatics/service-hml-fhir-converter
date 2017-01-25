@@ -31,10 +31,11 @@ import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.dao.custom.VersionCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.Version;
 import org.nmdp.hmlfhirconverter.dao.VersionRepository;
-
 import org.nmdp.hmlfhirconverter.util.Converters;
 import org.nmdp.hmlfhirconverter.util.QueryBuilder;
 import org.nmdp.hmlfhirconverter.util.VersionStringComparator;
+import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -48,27 +49,26 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class VersionServiceImpl implements VersionService {
-    private final VersionRepository versionRepository;
+public class VersionServiceImpl extends CascadingRepositoryService<Version> implements VersionService {
     private final VersionCustomRepository versionCustomRepository;
     private static final Logger LOG = Logger.getLogger(VersionServiceImpl.class);
 
     @Autowired
     public VersionServiceImpl(@Qualifier("versionRepository") VersionRepository versionRepository,
                               @Qualifier("versionCustomRepository") VersionCustomRepository versionCustomRepository) {
-        this.versionRepository = versionRepository;
+        super(versionRepository);
         this.versionCustomRepository = versionCustomRepository;
     }
 
     @Override
     public Version getVersion(String id) {
-        return versionRepository.findOne(id);
+        return mongoRepository.findOne(id);
     }
 
     @Override
     public Page<Version> findVersionsByMaxReturn(Integer maxResults, Integer pageNumber) {
         PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return versionRepository.findAll(pageable);
+        return mongoRepository.findAll(pageable);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class VersionServiceImpl implements VersionService {
 
     @Override
     public List<Version> getAllVersions() {
-        return versionRepository.findAll();
+        return mongoRepository.findAll();
     }
 
     @Override
@@ -103,19 +103,19 @@ public class VersionServiceImpl implements VersionService {
                 .map(obj -> Version.convertFromSwagger(obj, Version.class))
                 .collect(Collectors.toList());
 
-        return versionRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Version updateVersion(io.swagger.model.Version version) {
         Version nmdpModel = Version.convertFromSwagger(version, Version.class);
-        return versionRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Boolean deleteVersion(String id) {
         try {
-            versionRepository.delete(id);
+            mongoRepository.delete(id);
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting version.", ex);
@@ -126,7 +126,7 @@ public class VersionServiceImpl implements VersionService {
     @Override
     public Boolean deleteVersion(io.swagger.model.Version version) {
         try {
-            versionRepository.delete(Version.convertFromSwagger(version, Version.class));
+            mongoRepository.delete(Version.convertFromSwagger(version, Version.class));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting version.", ex);

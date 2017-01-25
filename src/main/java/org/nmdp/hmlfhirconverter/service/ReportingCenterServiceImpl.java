@@ -32,8 +32,9 @@ import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.dao.ReportingCenterRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.ReportingCenterCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
-
 import org.nmdp.hmlfhirconverter.util.QueryBuilder;
+import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -46,21 +47,20 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class ReportingCenterServiceImpl implements ReportingCenterService {
-    private final ReportingCenterRepository reportingCenterRepository;
+public class ReportingCenterServiceImpl extends CascadingRepositoryService<ReportingCenter> implements ReportingCenterService {
     private final ReportingCenterCustomRepository reportingCenterCustomRepository;
     private static final Logger LOG = Logger.getLogger(ReportingCenterServiceImpl.class);
 
     @Autowired
     public ReportingCenterServiceImpl(@Qualifier("reportingCenterRepository") ReportingCenterRepository reportingCenterRepository,
                                       @Qualifier("reportingCenterCustomRepository") ReportingCenterCustomRepository reportingCenterCustomRepository) {
-        this.reportingCenterRepository = reportingCenterRepository;
+        super(reportingCenterRepository);
         this.reportingCenterCustomRepository = reportingCenterCustomRepository;
     }
 
     @Override
     public ReportingCenter getReportingCenter(String id) {
-        return reportingCenterRepository.findOne(id);
+        return mongoRepository.findOne(id);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ReportingCenterServiceImpl implements ReportingCenterService {
     @Override
     public Page<ReportingCenter> findReportingCentersByMaxReturn(Integer maxResults, Integer pageNumber) {
         PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return reportingCenterRepository.findAll(pageable);
+        return mongoRepository.findAll(pageable);
     }
 
     @Override
@@ -82,19 +82,19 @@ public class ReportingCenterServiceImpl implements ReportingCenterService {
                 .map(obj -> new ReportingCenter().convertFromSwagger(obj))
                 .collect(Collectors.toList());
 
-        return reportingCenterRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public ReportingCenter updateReportingCenter(io.swagger.model.ReportingCenter reportingCenter) {
         ReportingCenter nmdpModel = new ReportingCenter().convertFromSwagger(reportingCenter);
-        return reportingCenterRepository.save(nmdpModel);
+        return mongoRepository.save(nmdpModel);
     }
 
     @Override
     public Boolean deleteReportingCenter(String id) {
         try {
-            reportingCenterRepository.delete(id);
+            mongoRepository.delete(id);
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting reporting center.", ex);
@@ -105,7 +105,7 @@ public class ReportingCenterServiceImpl implements ReportingCenterService {
     @Override
     public Boolean deleteReportingCenter(io.swagger.model.ReportingCenter reportingCenter) {
         try {
-            reportingCenterRepository.delete(new ReportingCenter().convertFromSwagger(reportingCenter));
+            mongoRepository.delete(new ReportingCenter().convertFromSwagger(reportingCenter));
             return true;
         } catch (Exception ex) {
             LOG.error("Error deleting reporting center.", ex);

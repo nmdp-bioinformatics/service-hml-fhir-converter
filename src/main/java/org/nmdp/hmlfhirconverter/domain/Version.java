@@ -25,6 +25,7 @@ package org.nmdp.hmlfhirconverter.domain;
  */
 
 import org.nmdp.hmlfhirconverter.domain.base.SwaggerConverter;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -39,7 +40,7 @@ import java.util.Date;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.Versions")
-public class Version extends SwaggerConverter<Version, io.swagger.model.Version> implements Serializable {
+public class Version extends SwaggerConverter<Version, io.swagger.model.Version> implements Serializable, ICascadable {
 
     public Version() {
         super(Version.class, io.swagger.model.Version.class);

@@ -25,6 +25,7 @@ package org.nmdp.hmlfhirconverter.domain;
  */
 
 import org.nmdp.hmlfhirconverter.domain.base.SwaggerConverter;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -39,7 +40,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.TypingTestNames")
-public class TypingTestName extends SwaggerConverter<TypingTestName, io.swagger.model.TypingTestName> implements Serializable {
+public class TypingTestName extends SwaggerConverter<TypingTestName, io.swagger.model.TypingTestName> implements Serializable, ICascadable {
 
     private static Class<TypingTestName> tClass = TypingTestName.class;
     private static Class<io.swagger.model.TypingTestName> uClass = io.swagger.model.TypingTestName.class;

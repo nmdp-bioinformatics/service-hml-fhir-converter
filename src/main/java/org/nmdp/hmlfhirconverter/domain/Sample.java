@@ -25,6 +25,7 @@ package org.nmdp.hmlfhirconverter.domain;
  */
 
 import org.nmdp.hmlfhirconverter.domain.base.SwaggerConverter;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -40,7 +41,7 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.Samples")
-public class Sample extends SwaggerConverter<Sample, io.swagger.model.Sample> implements Serializable {
+public class Sample extends SwaggerConverter<Sample, io.swagger.model.Sample> implements Serializable, ICascadable {
 
     private static Class<Sample> tClass = Sample.class;
     private static Class<io.swagger.model.Sample> uClass = io.swagger.model.Sample.class;

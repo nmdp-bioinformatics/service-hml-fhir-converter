@@ -25,6 +25,7 @@ package org.nmdp.hmlfhirconverter.domain;
  */
 
 import org.nmdp.hmlfhirconverter.domain.base.SwaggerConverter;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -39,7 +40,7 @@ import java.util.Date;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Document(collection = "Hml.Property.ExtendedItems")
-public class ExtendedItem extends SwaggerConverter<ExtendedItem, io.swagger.model.ExtendedItem> implements Serializable {
+public class ExtendedItem extends SwaggerConverter<ExtendedItem, io.swagger.model.ExtendedItem> implements Serializable, ICascadable {
 
     private static Class<ExtendedItem> tClass = ExtendedItem.class;
     private static Class<io.swagger.model.ExtendedItem> uClass = io.swagger.model.ExtendedItem.class;
