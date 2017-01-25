@@ -61,7 +61,7 @@ abstract class SwaggerStaticConverter extends MongoDataRepositoryModel implement
         return mapper.map(t, uClass);
     }
 
-    private static <T, U> T swaggerConversionHandler(U u, Class<T> tClass, ModelMapper mapper) {
+    private static <T, U> T swaggerConversionHandler(U u, Class<T> tClass, final ModelMapper mapper) {
         List<Field> dateFields = Arrays.stream(u.getClass().getDeclaredFields())
                 .filter(Objects::nonNull)
                 .filter(f -> f.getType().equals(Date.class))
