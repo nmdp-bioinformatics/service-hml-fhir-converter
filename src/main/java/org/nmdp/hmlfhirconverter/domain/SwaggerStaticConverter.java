@@ -29,12 +29,10 @@ import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
 
 import org.nmdp.hmlfhirconverter.util.ModelMapperFactory;
+import org.nmdp.hmlfhirconverter.util.MappingConverter;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -45,6 +43,25 @@ abstract class SwaggerStaticConverter extends MongoDataRepositoryModel implement
 
     public static <T, U> T convertFromSwagger(U u, Class<T> tClass) {
         final ModelMapper mapper = ModelMapperFactory.getPrivateModelMapper();
+        return swaggerConversionHandler(u, tClass, mapper);
+    }
+
+    public static <T extends ISwaggerConverter<T, U>, U> T convertFromSwagger(U u, Class<T> tClass, MappingConverter<T, U> converter) {
+        final ModelMapper mapper = ModelMapperFactory.getPrivateModelMapper(converter);
+        return swaggerConversionHandler(u, tClass, mapper);
+    }
+
+    protected static <T, U> U toDto(T t, Class<U> uClass) {
+        final ModelMapper mapper = ModelMapperFactory.getPrivateModelMapper();
+        return mapper.map(t, uClass);
+    }
+
+    protected static <T extends ISwaggerConverter<T, U>, U> U toDto(T t, Class<U> uClass, MappingConverter<T, U> converter) {
+        final ModelMapper mapper = ModelMapperFactory.getPrivateModelMapper(converter);
+        return mapper.map(t, uClass);
+    }
+
+    private static <T, U> T swaggerConversionHandler(U u, Class<T> tClass, ModelMapper mapper) {
         List<Field> dateFields = Arrays.stream(u.getClass().getDeclaredFields())
                 .filter(Objects::nonNull)
                 .filter(f -> f.getType().equals(Date.class))
@@ -62,11 +79,6 @@ abstract class SwaggerStaticConverter extends MongoDataRepositoryModel implement
         }
 
         return mapper.map(u, tClass);
-    }
-
-    protected static <T, U> U toDto(T t, Class<U> tClass) {
-        final ModelMapper mapper = ModelMapperFactory.getPrivateModelMapper();
-        return mapper.map(t, tClass);
     }
 
     private static <U> Date handleDateField(Field field, U u) {

@@ -27,6 +27,7 @@ package org.nmdp.hmlfhirconverter.controller;
 import org.nmdp.hmlfhirconverter.service.HmlService;
 import org.nmdp.hmlfhirconverter.util.Converters;
 
+import org.nmdp.hmlfhirconverter.util.MappingConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -139,7 +140,7 @@ public class HmlController implements HmlApi {
     public Callable<ResponseEntity<Hml>> getModel() {
         try {
             org.nmdp.hmlfhirconverter.domain.Hml hml = new org.nmdp.hmlfhirconverter.domain.Hml(true);
-            return () -> new ResponseEntity<>(hml.toDto(hml), HttpStatus.OK);
+            return () -> new ResponseEntity<>(hml.toDto(hml, new MappingConverter<>()), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
             return () -> new ResponseEntity<>(new Hml(), HttpStatus.INTERNAL_SERVER_ERROR);

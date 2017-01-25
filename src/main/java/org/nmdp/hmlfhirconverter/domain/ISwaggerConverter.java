@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.util;
+package org.nmdp.hmlfhirconverter.domain;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/19/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/25/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,28 +24,10 @@ package org.nmdp.hmlfhirconverter.util;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.config.Configuration;
-import org.nmdp.hmlfhirconverter.domain.ISwaggerConverter;
+import org.nmdp.hmlfhirconverter.util.MappingConverter;
 
-public class ModelMapperFactory {
-
-    private static final ModelMapper mapper = new ModelMapper();
-
-    public static ModelMapper getPrivateModelMapper() {
-        mapper.getConfiguration()
-            .setFieldMatchingEnabled(true)
-            .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE);
-
-        return mapper;
-    }
-
-    public static <T extends ISwaggerConverter<T, U>, U> ModelMapper getPrivateModelMapper(MappingConverter<T, U> converter) {
-        mapper.addConverter(converter);
-        mapper.getConfiguration()
-            .setFieldMatchingEnabled(true)
-            .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE);
-
-        return mapper;
-    }
+public interface ISwaggerConverter<T extends ISwaggerConverter<T, U>, U> {
+    T convertFromSwagger(U swagger);
+    U toDto(T nmdpInstance);
+    U toDto(T nmdpInstance, MappingConverter<T, U> mapper);
 }

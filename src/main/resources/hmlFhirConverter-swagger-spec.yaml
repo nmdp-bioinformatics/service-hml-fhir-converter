@@ -2141,13 +2141,14 @@ definitions:
       id:
         type: string
         description: Id of the hml item
+      hmlId:
+        $ref: HmlId
+        description: HmlId object
       version:
-        type:
-          $ref: '#/definitions/Version'
+        $ref: Version
         description: Version of Hml
       project:
-        type:
-          $ref: '#/definitions/Project'
+        $ref: Project
         description: Project object
       reportingCenters:
         type: array

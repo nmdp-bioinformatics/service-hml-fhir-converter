@@ -26,8 +26,9 @@ package org.nmdp.hmlfhirconverter.domain;
 
 import org.springframework.data.annotation.Transient;
 
+import org.nmdp.hmlfhirconverter.util.MappingConverter;
 
-public abstract class SwaggerConverter<T, U> extends SwaggerStaticConverter {
+public abstract class SwaggerConverter<T extends ISwaggerConverter<T, U>, U> extends SwaggerStaticConverter implements ISwaggerConverter<T, U> {
 
     @Transient
     private final Class<T> tClass;
@@ -40,11 +41,18 @@ public abstract class SwaggerConverter<T, U> extends SwaggerStaticConverter {
         this.uClass = uClass;
     }
 
+    @Override
     public T convertFromSwagger(U swagger) {
         return super.convertFromSwagger(swagger, tClass);
     }
 
+    @Override
     public U toDto(T nmdpInstance) {
         return super.toDto(nmdpInstance, uClass);
+    }
+
+    @Override
+    public U toDto(T nmdpInstance, MappingConverter<T, U> mapper) {
+        return super.toDto(nmdpInstance, uClass, mapper);
     }
 }

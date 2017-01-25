@@ -51,6 +51,8 @@ public class Hml extends SwaggerConverter<Hml, io.swagger.model.Hml> implements 
     public Hml(Boolean active) {
         super(Hml.class, io.swagger.model.Hml.class);
         this.active = active;
+        this.project = new Project(active);
+        this.hmlId = new HmlId(active);
     }
 
     @XmlAttribute
@@ -58,7 +60,7 @@ public class Hml extends SwaggerConverter<Hml, io.swagger.model.Hml> implements 
     private String id;
 
     @XmlAttribute
-    private String version;
+    private Version version;
 
     @XmlAttribute
     private Project project;
