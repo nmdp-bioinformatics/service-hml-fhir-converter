@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.dao.custom;
+package org.nmdp.hmlfhirconverter.service.base;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/23/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/25/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,24 +24,6 @@ package org.nmdp.hmlfhirconverter.dao.custom;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.Query;
+public interface CascadingRepositoryServiceFactory {
 
-import java.util.List;
-
-public abstract class MongoTemplateRepository<T> {
-
-    private final Class<T> tClass;
-    private final MongoOperations mongoOperations;
-
-    public MongoTemplateRepository(Class<T> tClass, MongoOperations mongoOperations) {
-        this.tClass = tClass;
-        this.mongoOperations = mongoOperations;
-    }
-
-    public List<T> findByQuery(Query query) {
-        return mongoOperations.find(query, tClass);
-    }
-
-    public T findSingleByQuery(Query query) { return mongoOperations.findOne(query, tClass); }
 }

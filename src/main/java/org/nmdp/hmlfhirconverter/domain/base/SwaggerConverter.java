@@ -28,7 +28,7 @@ import org.springframework.data.annotation.Transient;
 
 import org.nmdp.hmlfhirconverter.util.MappingConverter;
 
-public abstract class SwaggerConverter<T extends ISwaggerConverter<T, U>, U> extends SwaggerStaticConverter implements ISwaggerConverter<T, U> {
+public class SwaggerConverter<T extends ISwaggerConverter<T, U>, U> extends SwaggerStaticConverter implements ISwaggerConverter<T, U> {
 
     @Transient
     private final Class<T> tClass;
@@ -36,7 +36,7 @@ public abstract class SwaggerConverter<T extends ISwaggerConverter<T, U>, U> ext
     @Transient
     private final Class<U> uClass;
 
-    protected SwaggerConverter(Class<T> tClass, Class<U> uClass) {
+    public SwaggerConverter(Class<T> tClass, Class<U> uClass) {
         this.tClass = tClass;
         this.uClass = uClass;
     }

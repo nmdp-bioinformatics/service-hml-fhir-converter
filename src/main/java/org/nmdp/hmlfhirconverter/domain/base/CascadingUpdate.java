@@ -46,28 +46,36 @@ abstract class CascadingUpdate implements ICascadingUpdate {
 
     @Override
     public <T> void saveCollectionProperties(T entity) {
-        List<Field> saveableEntityFields = Arrays.asList(entity.getClass().getDeclaredFields()).stream()
+        List<Field> saveableEntityFields = Arrays.stream(entity.getClass().getDeclaredFields())
                 .filter(Objects::nonNull)
-                .filter(r -> r.getClass().isAssignableFrom(ICascadable.class))
+                .filter(r -> implementsCascading(r))
                 .collect(Collectors.toList());
 
         for (Field field : saveableEntityFields) {
-            Class<?> propertyClass = field.getClass();
+            Class<?> propertyClass = field.getType();
             field.setAccessible(true);
-            String repositoryName = propertyClass.getName() + "Repository";
-            ICascadingRepositoryService<T> nonTemplateRepository;
+            String repositoryName = "org.nmdp.hmlfhirconverter.dao." + propertyClass.getSimpleName() + "Repository";
+            Object nonTemplateRepository;
             Object propertyValue;
 
             try {
-                nonTemplateRepository = (ICascadingRepositoryService<T>) Class.forName(repositoryName).newInstance();
+                Class<?> uClass = CascadingRepositoryService<T>().class;
+                ClassLoader loader = uClass.getClassLoader();
+                nonTemplateRepository = loader.loadClass(repositoryName);
                 propertyValue = field.get(entity);
             } catch (Exception ex) {
                 LOG.error(ex);
                 continue;
             }
 
-            MongoRepository repository = nonTemplateRepository.getNonTemplateRepository();
+            MongoRepository repository = ((ICascadingRepositoryService<T>)nonTemplateRepository).getNonTemplateRepository();
             repository.save(propertyValue);
         }
+    }
+
+    private Boolean implementsCascading(Field field) {
+        return Arrays.stream(field.getType().getInterfaces())
+                .filter(Objects::nonNull)
+                .anyMatch(i -> i.equals(ICascadable.class));
     }
 }
