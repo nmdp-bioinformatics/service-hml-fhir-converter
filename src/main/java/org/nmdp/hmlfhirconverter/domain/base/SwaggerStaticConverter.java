@@ -28,14 +28,12 @@ import org.apache.log4j.Logger;
 
 import org.modelmapper.ModelMapper;
 
+import org.nmdp.hmlfhirconverter.util.Converters;
 import org.nmdp.hmlfhirconverter.util.ModelMapperFactory;
 import org.nmdp.hmlfhirconverter.util.MappingConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 abstract class SwaggerStaticConverter extends MongoDataRepositoryModel implements IMongoDataRepositoryModel {
@@ -69,7 +67,7 @@ abstract class SwaggerStaticConverter extends MongoDataRepositoryModel implement
                 .collect(Collectors.toList());
 
         for (Field field : dateFields) {
-            Date handledDate = handleDateField(field, u);
+            Date handledDate = Converters.handleDateField(field, u);
 
             try {
                 field.setAccessible(true);
@@ -80,28 +78,5 @@ abstract class SwaggerStaticConverter extends MongoDataRepositoryModel implement
         }
 
         return mapper.map(u, tClass);
-    }
-
-    private static <U> Date handleDateField(Field field, U u) {
-        field.setAccessible(true);
-        final Pattern pattern = Pattern.compile(".*?[Cc]reated");
-
-        try {
-            final Matcher matcher = pattern.matcher(field.getName());
-
-            if (!matcher.matches()) {
-                return (Date)field.get(u);
-            }
-
-            if (field.get(u) == null) {
-                return new Date();
-            }
-
-            return (Date)field.get(u);
-        } catch (Exception ex) {
-            LOG.error(ex);
-        }
-
-        return new Date();
     }
 }

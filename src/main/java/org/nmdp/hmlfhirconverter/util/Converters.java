@@ -1,9 +1,5 @@
 package org.nmdp.hmlfhirconverter.util;
 
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 /**
  * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 12/30/16.
  * <p>
@@ -28,8 +24,71 @@ import java.util.stream.Collectors;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.apache.log4j.Logger;
+import org.nmdp.hmlfhirconverter.domain.base.IMongoDataRepositoryModel;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 public class Converters {
+
+    private static final Logger LOG = Logger.getLogger(Converters.class);
+    private static final Pattern pattern = Pattern.compile(".*?[Cc]reated");
+
     public static <T, U> List<U> convertList(List<T> from, Function<T, U> func) {
         return from.stream().map(func).collect(Collectors.toList());
+    }
+
+    public static IMongoDataRepositoryModel handleDateField(IMongoDataRepositoryModel model) {
+        List<Field> fields = Arrays.stream(model.getClass().getDeclaredFields())
+                .filter(Objects::nonNull)
+                .filter(prop -> prop.getType().equals(Date.class))
+                .collect(Collectors.toList());
+
+        for (Field field : fields) {
+            Date handledDate = handleDateField(field, model);
+
+            try {
+                field.setAccessible(true);
+                field.set(model, handledDate);
+            } catch (Exception ex) {
+                LOG.error(ex);
+            }
+        }
+
+        return model;
+    }
+
+    public static <U> Date handleDateField(Field field, U u) {
+        return handleDateField(u, field);
+    }
+
+    private static Date handleDateField(Object model, Field field) {
+        field.setAccessible(true);
+
+        try {
+            final Matcher matcher = pattern.matcher(field.getName());
+
+            if (!matcher.matches()) {
+                return (Date)field.get(model);
+            }
+
+            if (field.get(model) == null) {
+                return new Date();
+            }
+
+            return (Date)field.get(model);
+        } catch (Exception ex) {
+            LOG.error(ex);
+        }
+
+        return new Date();
     }
 }

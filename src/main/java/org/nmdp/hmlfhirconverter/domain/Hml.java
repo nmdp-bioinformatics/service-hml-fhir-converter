@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -55,6 +56,10 @@ public class Hml extends SwaggerConverter<Hml, io.swagger.model.Hml> implements 
         this.active = active;
         this.project = new Project(active);
         this.hmlId = new HmlId(active);
+        this.typingTestNames = new ArrayList<>();
+        this.reportingCenters = new ArrayList<>();
+        this.samples = new ArrayList<>();
+        this.properties = new ArrayList<>();
     }
 
     @XmlAttribute

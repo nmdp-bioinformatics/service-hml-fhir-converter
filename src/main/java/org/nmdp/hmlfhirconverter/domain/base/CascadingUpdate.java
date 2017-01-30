@@ -26,12 +26,13 @@ package org.nmdp.hmlfhirconverter.domain.base;
  */
 
 import com.mongodb.MongoClient;
+
 import org.apache.log4j.Logger;
 
-import org.nmdp.hmlfhirconverter.config.MongoConfig;
 import org.nmdp.hmlfhirconverter.domain.ICascadable;
-
 import org.nmdp.hmlfhirconverter.domain.internal.MongoConfiguration;
+import org.nmdp.hmlfhirconverter.util.Converters;
+
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -67,16 +68,16 @@ abstract class CascadingUpdate<T extends SwaggerConverter<T, U>, U> implements I
             Document document = (Document)annotation;
             String collectionName = document.collection();
             field.setAccessible(true);
-            Object propertyValue;
+            IMongoDataRepositoryModel propertyValue;
 
             try {
-                propertyValue = field.get(entity);
+                propertyValue = (IMongoDataRepositoryModel)field.get(entity);
             } catch (Exception ex) {
                 LOG.error(ex);
                 continue;
             }
 
-            mongoTemplate.save(propertyValue, collectionName);
+            mongoTemplate.save(Converters.handleDateField(propertyValue), collectionName);
         }
     }
 
