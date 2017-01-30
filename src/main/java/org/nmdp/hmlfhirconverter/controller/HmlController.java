@@ -66,7 +66,7 @@ public class HmlController implements HmlApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Hml>>> createHmls(@RequestBody List<Hml> hmls) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Hml> result = hmlService.createHmls(hmls);
+            List<org.nmdp.hmlfhirconverter.domain.Hml> result = hmlService.createItems(hmls);
             List<Hml> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -79,7 +79,7 @@ public class HmlController implements HmlApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteHml(@RequestBody Hml hml) throws NotFoundException {
         try {
-            return () -> new ResponseEntity<>(hmlService.deleteHml(hml), HttpStatus.OK);
+            return () -> new ResponseEntity<>(hmlService.deleteItem(hml), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /delete", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -90,7 +90,7 @@ public class HmlController implements HmlApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Boolean>> deleteHml(@PathVariable String id) throws NotFoundException {
         try {
-            return () -> new ResponseEntity<>(hmlService.deleteHml(id), HttpStatus.OK);
+            return () -> new ResponseEntity<>(hmlService.deleteItem(id), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /delete/{id}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -101,7 +101,7 @@ public class HmlController implements HmlApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Hml>>> getTypeaheadHmls(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Hml> result = hmlService.getTypeaheadHmls(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconverter.domain.Hml> result = hmlService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Hml> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -114,7 +114,7 @@ public class HmlController implements HmlApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Hml>> getHml(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Hml hml = hmlService.getHml(id);
+            org.nmdp.hmlfhirconverter.domain.Hml hml = hmlService.getById(id);
             return () -> new ResponseEntity<>(hml.toDto(hml), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -126,7 +126,7 @@ public class HmlController implements HmlApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Hml>>> getHmls(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Hml> result = hmlService.findHmlsByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconverter.domain.Hml> result = hmlService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Hml> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -151,7 +151,7 @@ public class HmlController implements HmlApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Hml>> updateHml(@RequestBody Hml hml) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Hml nmdpModel = hmlService.updateHml(hml);
+            org.nmdp.hmlfhirconverter.domain.Hml nmdpModel = hmlService.updateItem(hml);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

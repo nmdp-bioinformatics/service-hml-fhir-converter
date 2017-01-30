@@ -24,91 +24,21 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
-import org.apache.log4j.Logger;
-
 import org.nmdp.hmlfhirconverter.dao.HmlIdRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.HmlIdCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.HmlId;
-import org.nmdp.hmlfhirconverter.util.QueryBuilder;
-import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
+import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 @Service
-public class HmlIdServiceImpl extends CascadingRepositoryService<HmlId> implements HmlIdService {
-    private final HmlIdCustomRepository hmlIdCustomRepository;
-    private static final Logger LOG = Logger.getLogger(HmlIdService.class);
+public class HmlIdServiceImpl extends MongoCrudRepositoryService<HmlId, io.swagger.model.HmlId> implements HmlIdService {
 
     @Autowired
     public HmlIdServiceImpl(@Qualifier("hmlIdRepository") HmlIdRepository hmlIdRepository,
                             @Qualifier("hmlIdCustomRepository") HmlIdCustomRepository hmlIdCustomRepository) {
-        super(hmlIdRepository);
-        this.hmlIdCustomRepository = hmlIdCustomRepository;
-    }
-
-    @Override
-    public HmlId getHmlId(String id) {
-        return mongoRepository.findOne(id);
-    }
-
-    @Override
-    public List<HmlId> getTypeaheadHmlIds(Integer maxResults, TypeaheadQuery typeaheadQuery) {
-        Query query = QueryBuilder.buildQuery(maxResults, typeaheadQuery);
-        return hmlIdCustomRepository.findByQuery(query);
-    }
-
-    @Override
-    public Page<HmlId> findHmlIdsByMaxReturn(Integer maxResults, Integer pageNumber) {
-        PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return mongoRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<HmlId> createHmlIds(List<io.swagger.model.HmlId> hmlIds) {
-        List<HmlId> nmdpModel = hmlIds.stream()
-                .filter(Objects::nonNull)
-                .map(obj -> HmlId.convertFromSwagger(obj, HmlId.class))
-                .collect(Collectors.toList());
-
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public HmlId updateHmlId(io.swagger.model.HmlId hmlId) {
-        HmlId nmdpModel = HmlId.convertFromSwagger(hmlId, HmlId.class);
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public Boolean deleteHmlId(String id) {
-        try {
-            mongoRepository.delete(id);
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting hml.", ex);
-            return false;
-        }
-    }
-
-    @Override
-    public Boolean deleteHmlId(io.swagger.model.HmlId hmlId) {
-        try {
-            mongoRepository.delete(HmlId.convertFromSwagger(hmlId, HmlId.class));
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting hml.", ex);
-            return false;
-        }
+        super(hmlIdCustomRepository, hmlIdRepository, HmlId.class, io.swagger.model.HmlId.class);
     }
 }

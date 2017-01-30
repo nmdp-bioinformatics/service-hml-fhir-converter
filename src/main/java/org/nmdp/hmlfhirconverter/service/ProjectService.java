@@ -24,20 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
 import org.nmdp.hmlfhirconverter.domain.Project;
+import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-import org.springframework.data.domain.Page;
+public interface ProjectService extends IMongoCrudRepositoryService<Project, io.swagger.model.Project> {
 
-import java.util.List;
-
-public interface ProjectService {
-    Project getProject(String id);
-    Page<Project> findProjectsByMaxReturn(Integer maxResults, Integer pageNumber);
-    List<Project> getTypeaheadProjects(Integer maxResults, TypeaheadQuery typeaheadQuery);
-    List<Project> createProjects(List<io.swagger.model.Project> project);
-    Project updateProject(io.swagger.model.Project project);
-    Boolean deleteProject(String id);
-    Boolean deleteProject(io.swagger.model.Project project);
 }

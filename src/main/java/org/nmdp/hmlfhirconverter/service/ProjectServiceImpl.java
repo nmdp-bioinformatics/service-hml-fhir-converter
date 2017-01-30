@@ -24,91 +24,21 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
-import org.apache.log4j.Logger;
-
 import org.nmdp.hmlfhirconverter.dao.ProjectRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.ProjectCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.Project;
-import org.nmdp.hmlfhirconverter.util.QueryBuilder;
-import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
+import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 @Service
-public class ProjectServiceImpl extends CascadingRepositoryService<Project> implements ProjectService {
-    private final ProjectCustomRepository projectCustomRepository;
-    private static final Logger LOG = Logger.getLogger(ProjectService.class);
+public class ProjectServiceImpl extends MongoCrudRepositoryService<Project, io.swagger.model.Project> implements ProjectService {
 
     @Autowired
     public ProjectServiceImpl(@Qualifier("projectRepository") ProjectRepository projectRepository,
                               @Qualifier("projectCustomRepository") ProjectCustomRepository projectCustomRepository) {
-        super(projectRepository);
-        this.projectCustomRepository = projectCustomRepository;
-    }
-
-    @Override
-    public Project getProject(String id) {
-        return mongoRepository.findOne(id);
-    }
-
-    @Override
-    public List<Project> getTypeaheadProjects(Integer maxResults, TypeaheadQuery typeaheadQuery) {
-        Query query = QueryBuilder.buildQuery(maxResults, typeaheadQuery);
-        return projectCustomRepository.findByQuery(query);
-    }
-
-    @Override
-    public Page<Project> findProjectsByMaxReturn(Integer maxResults, Integer pageNumber) {
-        PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return mongoRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<Project> createProjects(List<io.swagger.model.Project> projects) {
-        List<Project> nmdpModel = projects.stream()
-                .filter(Objects::nonNull)
-                .map(obj -> Project.convertFromSwagger(obj, Project.class))
-                .collect(Collectors.toList());
-
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public Project updateProject(io.swagger.model.Project project) {
-        Project nmdpModel = Project.convertFromSwagger(project, Project.class);
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public Boolean deleteProject(String id) {
-        try {
-            mongoRepository.delete(id);
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting hml.", ex);
-            return false;
-        }
-    }
-
-    @Override
-    public Boolean deleteProject(io.swagger.model.Project project) {
-        try {
-            mongoRepository.delete(Project.convertFromSwagger(project, Project.class));
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting hml.", ex);
-            return false;
-        }
+        super(projectCustomRepository, projectRepository, Project.class, io.swagger.model.Project.class);
     }
 }

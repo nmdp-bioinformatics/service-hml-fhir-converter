@@ -25,27 +25,32 @@ package org.nmdp.hmlfhirconverter.domain.base;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import com.mongodb.MongoClient;
 import org.apache.log4j.Logger;
 
+import org.nmdp.hmlfhirconverter.config.MongoConfig;
 import org.nmdp.hmlfhirconverter.domain.ICascadable;
-import org.nmdp.hmlfhirconverter.service.base.ICascadingRepositoryService;
-import org.springframework.data.mongodb.repository.MongoRepository;
 
+import org.nmdp.hmlfhirconverter.domain.internal.MongoConfiguration;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-abstract class CascadingUpdate implements ICascadingUpdate {
+abstract class CascadingUpdate<T extends SwaggerConverter<T, U>, U> implements ICascadingUpdate<T, U> {
 
     @Transient
     private final static Logger LOG = Logger.getLogger(CascadingUpdate.class);
 
     @Override
-    public <T> void saveCollectionProperties(T entity) {
+    public void saveCollectionProperties(T entity, MongoConfiguration mongoConfiguration) {
+        MongoTemplate mongoTemplate = new MongoTemplate(new MongoClient(createMongoConnectionString(mongoConfiguration)), mongoConfiguration.getDatabaseName());
         List<Field> saveableEntityFields = Arrays.stream(entity.getClass().getDeclaredFields())
                 .filter(Objects::nonNull)
                 .filter(r -> implementsCascading(r))
@@ -53,23 +58,25 @@ abstract class CascadingUpdate implements ICascadingUpdate {
 
         for (Field field : saveableEntityFields) {
             Class<?> propertyClass = field.getType();
+            Annotation annotation = Arrays.stream(propertyClass.getAnnotations())
+                    .filter(Objects::nonNull)
+                    .filter(a -> a.annotationType().equals(Document.class))
+                    .findFirst()
+                    .get();
+
+            Document document = (Document)annotation;
+            String collectionName = document.collection();
             field.setAccessible(true);
-            String repositoryName = "org.nmdp.hmlfhirconverter.dao." + propertyClass.getSimpleName() + "Repository";
-            Object nonTemplateRepository;
             Object propertyValue;
 
             try {
-                Class<?> uClass = CascadingRepositoryService<T>().class;
-                ClassLoader loader = uClass.getClassLoader();
-                nonTemplateRepository = loader.loadClass(repositoryName);
                 propertyValue = field.get(entity);
             } catch (Exception ex) {
                 LOG.error(ex);
                 continue;
             }
 
-            MongoRepository repository = ((ICascadingRepositoryService<T>)nonTemplateRepository).getNonTemplateRepository();
-            repository.save(propertyValue);
+            mongoTemplate.save(propertyValue, collectionName);
         }
     }
 
@@ -77,5 +84,9 @@ abstract class CascadingUpdate implements ICascadingUpdate {
         return Arrays.stream(field.getType().getInterfaces())
                 .filter(Objects::nonNull)
                 .anyMatch(i -> i.equals(ICascadable.class));
+    }
+
+    private String createMongoConnectionString(MongoConfiguration config) {
+        return config.getHost() + ":" + config.getPortNo();
     }
 }

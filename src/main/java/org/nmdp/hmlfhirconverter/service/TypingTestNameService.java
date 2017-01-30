@@ -24,20 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
-import org.springframework.data.domain.Page;
-
+import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 import org.nmdp.hmlfhirconverter.domain.TypingTestName;
 
-import java.util.List;
+public interface TypingTestNameService extends IMongoCrudRepositoryService<TypingTestName, io.swagger.model.TypingTestName> {
 
-public interface TypingTestNameService {
-    TypingTestName getTypingTestName(String id);
-    Page<TypingTestName> findTypingTestNamesByMaxReturn(Integer maxResults, Integer pageNumber);
-    List<TypingTestName> getTypeaheadTypingTestNames(Integer maxResults, TypeaheadQuery typeaheadQuery);
-    List<TypingTestName> createTypingTestNames(List<io.swagger.model.TypingTestName> typingTestNames);
-    TypingTestName updateTypingTestName(io.swagger.model.TypingTestName typingTestName);
-    Boolean deleteTypingTestName(String id);
-    Boolean deleteTypingTestName(io.swagger.model.TypingTestName typingTestName);
 }

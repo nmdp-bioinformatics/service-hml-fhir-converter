@@ -24,91 +24,23 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
 import org.nmdp.hmlfhirconverter.dao.SampleRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.SampleCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.Sample;
-import org.nmdp.hmlfhirconverter.util.QueryBuilder;
-import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
+import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 @Service
-public class SampleServiceImpl extends CascadingRepositoryService<Sample> implements SampleService {
-    private final SampleCustomRepository sampleCustomRepository;
-    private static final Logger LOG = Logger.getLogger(SampleServiceImpl.class);
+public class SampleServiceImpl extends MongoCrudRepositoryService<Sample, io.swagger.model.Sample> implements SampleService {
 
     @Autowired
     public SampleServiceImpl(@Qualifier("sampleRepository") SampleRepository sampleRepository,
                              @Qualifier("sampleCustomRepository") SampleCustomRepository sampleCustomRepository) {
-        super(sampleRepository);
-        this.sampleCustomRepository = sampleCustomRepository;
-    }
-
-    @Override
-    public Sample getSample(String id) {
-        return mongoRepository.findOne(id);
-    }
-
-    @Override
-    public List<Sample> getTypeaheadSamples(Integer maxResults, TypeaheadQuery typeaheadQuery) {
-        Query query = QueryBuilder.buildQuery(maxResults, typeaheadQuery);
-        return sampleCustomRepository.findByQuery(query);
-    }
-
-    @Override
-    public Page<Sample> findSamplesByMaxReturn(Integer maxResults, Integer pageNumber) {
-        PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return mongoRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<Sample> createSamples(List<io.swagger.model.Sample> samples) {
-        List<Sample> nmdpModel = samples.stream()
-                .filter(Objects::nonNull)
-                .map(obj -> Sample.convertFromSwagger(obj, Sample.class))
-                .collect(Collectors.toList());
-
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public Sample updateSample(io.swagger.model.Sample sample) {
-        Sample nmdpModel = Sample.convertFromSwagger(sample, Sample.class);
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public Boolean deleteSample(String id) {
-        try {
-            mongoRepository.delete(id);
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting sample.", ex);
-            return false;
-        }
-    }
-
-    @Override
-    public Boolean deleteSample(io.swagger.model.Sample sample) {
-        try {
-            mongoRepository.delete(Sample.convertFromSwagger(sample, Sample.class));
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting sample.", ex);
-            return false;
-        }
+        super(sampleCustomRepository, sampleRepository, Sample.class, io.swagger.model.Sample.class);
     }
 }

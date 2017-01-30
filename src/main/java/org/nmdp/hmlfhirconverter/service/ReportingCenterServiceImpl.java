@@ -24,92 +24,21 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-
-import io.swagger.model.TypeaheadQuery;
-
-import org.apache.log4j.Logger;
-
 import org.nmdp.hmlfhirconverter.dao.ReportingCenterRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.ReportingCenterCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
-import org.nmdp.hmlfhirconverter.util.QueryBuilder;
-import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
+import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 @Service
-public class ReportingCenterServiceImpl extends CascadingRepositoryService<ReportingCenter> implements ReportingCenterService {
-    private final ReportingCenterCustomRepository reportingCenterCustomRepository;
-    private static final Logger LOG = Logger.getLogger(ReportingCenterServiceImpl.class);
+public class ReportingCenterServiceImpl extends MongoCrudRepositoryService<ReportingCenter, io.swagger.model.ReportingCenter> implements ReportingCenterService {
 
     @Autowired
     public ReportingCenterServiceImpl(@Qualifier("reportingCenterRepository") ReportingCenterRepository reportingCenterRepository,
                                       @Qualifier("reportingCenterCustomRepository") ReportingCenterCustomRepository reportingCenterCustomRepository) {
-        super(reportingCenterRepository);
-        this.reportingCenterCustomRepository = reportingCenterCustomRepository;
-    }
-
-    @Override
-    public ReportingCenter getReportingCenter(String id) {
-        return mongoRepository.findOne(id);
-    }
-
-    @Override
-    public List<ReportingCenter> getTypeaheadReportingCenters(Integer maxResults, TypeaheadQuery typeaheadQuery) {
-        Query query = QueryBuilder.buildQuery(maxResults, typeaheadQuery);
-        return reportingCenterCustomRepository.findByQuery(query);
-    }
-
-    @Override
-    public Page<ReportingCenter> findReportingCentersByMaxReturn(Integer maxResults, Integer pageNumber) {
-        PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return mongoRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<ReportingCenter> createReportingCenters(List<io.swagger.model.ReportingCenter> reportingCenters) {
-        List<ReportingCenter> nmdpModel = reportingCenters.stream()
-                .filter(Objects::nonNull)
-                .map(obj -> new ReportingCenter().convertFromSwagger(obj))
-                .collect(Collectors.toList());
-
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public ReportingCenter updateReportingCenter(io.swagger.model.ReportingCenter reportingCenter) {
-        ReportingCenter nmdpModel = new ReportingCenter().convertFromSwagger(reportingCenter);
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public Boolean deleteReportingCenter(String id) {
-        try {
-            mongoRepository.delete(id);
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting reporting center.", ex);
-            return false;
-        }
-    }
-
-    @Override
-    public Boolean deleteReportingCenter(io.swagger.model.ReportingCenter reportingCenter) {
-        try {
-            mongoRepository.delete(new ReportingCenter().convertFromSwagger(reportingCenter));
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting reporting center.", ex);
-            return false;
-        }
+        super(reportingCenterCustomRepository, reportingCenterRepository, ReportingCenter.class, io.swagger.model.ReportingCenter.class);
     }
 }

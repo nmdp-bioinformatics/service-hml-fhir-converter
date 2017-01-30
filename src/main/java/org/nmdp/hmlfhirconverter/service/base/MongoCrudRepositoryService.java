@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 
 public abstract class MongoCrudRepositoryService<T extends SwaggerConverter<T, U>, U> extends CascadingRepositoryService<T> implements IMongoCrudRepositoryService<T, U> {
 
-    private final MongoTemplateRepository<T> mongoCustomRepository;
+    protected final MongoTemplateRepository<T> mongoCustomRepository;
     private final Class<T> tClass;
     private final Class<U> uClass;
     private static final Logger LOG = Logger.getLogger(MongoCrudRepositoryService.class);

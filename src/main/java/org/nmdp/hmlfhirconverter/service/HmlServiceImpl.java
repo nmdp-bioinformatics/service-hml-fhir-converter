@@ -24,21 +24,14 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
-import org.apache.log4j.Logger;
-
 import org.nmdp.hmlfhirconverter.dao.HmlRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.HmlCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.Hml;
-import org.nmdp.hmlfhirconverter.util.QueryBuilder;
-import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
+import org.nmdp.hmlfhirconverter.domain.internal.MongoConfiguration;
+import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,74 +39,29 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class HmlServiceImpl extends CascadingRepositoryService<Hml> implements HmlService {
-    private final HmlCustomRepository hmlCustomRepository;
-    private static final Logger LOG = Logger.getLogger(HmlService.class);
+public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, io.swagger.model.Hml> implements HmlService {
+
+    private final MongoConfiguration mongoConfiguration;
 
     @Autowired
     public HmlServiceImpl(@Qualifier("hmlRepository") HmlRepository hmlRepository,
-                               @Qualifier("hmlCustomRepository") HmlCustomRepository hmlCustomRepository) {
-        super(hmlRepository);
-        this.hmlCustomRepository = hmlCustomRepository;
+                          @Qualifier("hmlCustomRepository") HmlCustomRepository hmlCustomRepository,
+                          @Qualifier("mongoConfiguration") MongoConfiguration mongoConfiguration) {
+        super(hmlCustomRepository, hmlRepository, Hml.class, io.swagger.model.Hml.class);
+        this.mongoConfiguration = mongoConfiguration;
     }
 
     @Override
-    public Hml getHml(String id) {
-        return mongoRepository.findOne(id);
-    }
-
-    @Override
-    public List<Hml> getTypeaheadHmls(Integer maxResults, TypeaheadQuery typeaheadQuery) {
-        Query query = QueryBuilder.buildQuery(maxResults, typeaheadQuery);
-        return hmlCustomRepository.findByQuery(query);
-    }
-
-    @Override
-    public Page<Hml> findHmlsByMaxReturn(Integer maxResults, Integer pageNumber) {
-        PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return mongoRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<Hml> createHmls(List<io.swagger.model.Hml> hmls) {
-        List<Hml> nmdpModel = hmls.stream()
+    public List<Hml> createItems(List<io.swagger.model.Hml> items) {
+        List<Hml> nmdpModel = items.stream()
                 .filter(Objects::nonNull)
                 .map(obj -> Hml.convertFromSwagger(obj, Hml.class))
                 .collect(Collectors.toList());
 
         for (Hml hml : nmdpModel) {
-            hml.saveCollectionProperties(hml);
+            hml.saveCollectionProperties(hml, mongoConfiguration);
         }
 
-        return mongoRepository.save(nmdpModel);
+        return super.mongoRepository.save(nmdpModel);
     }
-
-    @Override
-    public Hml updateHml(io.swagger.model.Hml hml) {
-        Hml nmdpModel = Hml.convertFromSwagger(hml, Hml.class);
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public Boolean deleteHml(String id) {
-        try {
-            mongoRepository.delete(id);
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting hml.", ex);
-            return false;
-        }
-    }
-
-    @Override
-    public Boolean deleteHml(io.swagger.model.Hml hml) {
-        try {
-            mongoRepository.delete(Hml.convertFromSwagger(hml, Hml.class));
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting hml.", ex);
-            return false;
-        }
-    }
-
 }

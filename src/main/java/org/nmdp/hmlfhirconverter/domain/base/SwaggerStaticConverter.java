@@ -30,6 +30,7 @@ import org.modelmapper.ModelMapper;
 
 import org.nmdp.hmlfhirconverter.util.ModelMapperFactory;
 import org.nmdp.hmlfhirconverter.util.MappingConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
 import java.util.*;

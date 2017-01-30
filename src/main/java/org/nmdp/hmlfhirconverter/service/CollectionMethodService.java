@@ -24,20 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
 import org.nmdp.hmlfhirconverter.domain.CollectionMethod;
+import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-import org.springframework.data.domain.Page;
+public interface CollectionMethodService extends IMongoCrudRepositoryService<CollectionMethod, io.swagger.model.CollectionMethod> {
 
-import java.util.List;
-
-public interface CollectionMethodService {
-    CollectionMethod getCollectionMethod(String id);
-    Page<CollectionMethod> findCollectionMethodsByMaxReturn(Integer maxResults, Integer pageNumber);
-    List<CollectionMethod> getTypeaheadCollectionMethods(Integer maxResults, TypeaheadQuery typeaheadQuery);
-    List<CollectionMethod> createCollectionMethods(List<io.swagger.model.CollectionMethod> collectionMethods);
-    CollectionMethod updateCollectionMethod(io.swagger.model.CollectionMethod collectionMethod);
-    Boolean deleteCollectionMethod(String id);
-    Boolean deleteCollectionMethod(io.swagger.model.CollectionMethod collectionMethod);
 }

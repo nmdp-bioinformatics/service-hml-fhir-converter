@@ -24,20 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
 import org.nmdp.hmlfhirconverter.domain.Sample;
+import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-import org.springframework.data.domain.Page;
+public interface SampleService extends IMongoCrudRepositoryService<Sample, io.swagger.model.Sample> {
 
-import java.util.List;
-
-public interface SampleService {
-    Sample getSample(String id);
-    Page<Sample> findSamplesByMaxReturn(Integer maxResults, Integer pageNumber);
-    List<Sample> getTypeaheadSamples(Integer maxResults, TypeaheadQuery typeaheadQuery);
-    List<Sample> createSamples(List<io.swagger.model.Sample> samples);
-    Sample updateSample(io.swagger.model.Sample sample);
-    Boolean deleteSample(String id);
-    Boolean deleteSample(io.swagger.model.Sample sample);
 }

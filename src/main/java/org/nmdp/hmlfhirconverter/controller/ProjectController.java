@@ -66,7 +66,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Project>>> createProjects(@RequestBody List<Project> projects) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Project> result = projectService.createProjects(projects);
+            List<org.nmdp.hmlfhirconverter.domain.Project> result = projectService.createItems(projects);
             List<Project> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -79,7 +79,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteProject(@RequestBody Project project) throws NotFoundException {
         try {
-            return () -> new ResponseEntity<>(projectService.deleteProject(project), HttpStatus.OK);
+            return () -> new ResponseEntity<>(projectService.deleteItem(project), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /delete", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -90,7 +90,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Boolean>> deleteProject(@PathVariable String id) throws NotFoundException {
         try {
-            return () -> new ResponseEntity<>(projectService.deleteProject(id), HttpStatus.OK);
+            return () -> new ResponseEntity<>(projectService.deleteItem(id), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /delete/{id}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -101,7 +101,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Project>>> getTypeaheadProjects(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Project> result = projectService.getTypeaheadProjects(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconverter.domain.Project> result = projectService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Project> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -114,7 +114,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Project>> getProject(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Project project = projectService.getProject(id);
+            org.nmdp.hmlfhirconverter.domain.Project project = projectService.getById(id);
             return () -> new ResponseEntity<>(project.toDto(project), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -126,7 +126,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Project>>> getProjects(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Project> result = projectService.findProjectsByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconverter.domain.Project> result = projectService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Project> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -151,7 +151,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Project>> updateProject(@RequestBody Project project) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Project nmdpModel = projectService.updateProject(project);
+            org.nmdp.hmlfhirconverter.domain.Project nmdpModel = projectService.updateItem(project);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

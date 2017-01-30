@@ -24,113 +24,47 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
-import org.apache.log4j.Logger;
-
 import org.nmdp.hmlfhirconverter.dao.custom.VersionCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.Version;
 import org.nmdp.hmlfhirconverter.dao.VersionRepository;
+import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 import org.nmdp.hmlfhirconverter.util.Converters;
 import org.nmdp.hmlfhirconverter.util.QueryBuilder;
 import org.nmdp.hmlfhirconverter.util.VersionStringComparator;
-import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
-public class VersionServiceImpl extends CascadingRepositoryService<Version> implements VersionService {
-    private final VersionCustomRepository versionCustomRepository;
-    private static final Logger LOG = Logger.getLogger(VersionServiceImpl.class);
+public class VersionServiceImpl extends MongoCrudRepositoryService<Version, io.swagger.model.Version> implements VersionService {
 
     @Autowired
     public VersionServiceImpl(@Qualifier("versionRepository") VersionRepository versionRepository,
                               @Qualifier("versionCustomRepository") VersionCustomRepository versionCustomRepository) {
-        super(versionRepository);
-        this.versionCustomRepository = versionCustomRepository;
+        super(versionCustomRepository, versionRepository, Version.class, io.swagger.model.Version.class);
     }
 
     @Override
-    public Version getVersion(String id) {
-        return mongoRepository.findOne(id);
-    }
-
-    @Override
-    public Page<Version> findVersionsByMaxReturn(Integer maxResults, Integer pageNumber) {
-        PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return mongoRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<Version> getTypeaheadVersions(Integer maxResults, TypeaheadQuery typeaheadQuery) {
-        Query query = QueryBuilder.buildQuery(maxResults, typeaheadQuery);
-        return versionCustomRepository.findByQuery(query);
-    }
-
-    @Override
-    public Version getVersionByProperties(Version version, List<String> properties) {
+    public Version getByProperties(Version version, List<String> properties) {
         Query query = QueryBuilder.buildPropertyQuery(version, properties);
-        return versionCustomRepository.findSingleByQuery(query);
+        return super.mongoCustomRepository.findSingleByQuery(query);
     }
 
     @Override
-    public Version getDefaultVersion() {
+    public Version getDefault() {
         Query query = QueryBuilder.buildPropertyQuery("description", "DEFAULT", true);
-        List<Version> versions = versionCustomRepository.findByQuery(query);
+        List<Version> versions = super.mongoCustomRepository.findByQuery(query);
         Collections.sort(Converters.convertList(versions, v -> v.toDto(v)), new VersionStringComparator());
         return versions.stream().findFirst().get();
     }
 
     @Override
-    public List<Version> getAllVersions() {
-        return mongoRepository.findAll();
-    }
-
-    @Override
-    public List<Version> createVersions(List<io.swagger.model.Version> versions) {
-        List<Version> nmdpModel = versions.stream()
-                .filter(Objects::nonNull)
-                .map(obj -> Version.convertFromSwagger(obj, Version.class))
-                .collect(Collectors.toList());
-
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public Version updateVersion(io.swagger.model.Version version) {
-        Version nmdpModel = Version.convertFromSwagger(version, Version.class);
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public Boolean deleteVersion(String id) {
-        try {
-            mongoRepository.delete(id);
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting version.", ex);
-            return false;
-        }
-    }
-
-    @Override
-    public Boolean deleteVersion(io.swagger.model.Version version) {
-        try {
-            mongoRepository.delete(Version.convertFromSwagger(version, Version.class));
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting version.", ex);
-            return false;
-        }
+    public List<Version> getAll() {
+        return super.mongoRepository.findAll();
     }
 }

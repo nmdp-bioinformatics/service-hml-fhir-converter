@@ -66,7 +66,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Property>>> createProperties(@RequestBody List<Property> properties) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Property> result = propertyService.createProperties(properties);
+            List<org.nmdp.hmlfhirconverter.domain.Property> result = propertyService.createItems(properties);
             List<Property> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -79,7 +79,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteProperty(@RequestBody Property property) throws NotFoundException {
         try {
-            return () -> new ResponseEntity<>(propertyService.deleteProperty(property), HttpStatus.OK);
+            return () -> new ResponseEntity<>(propertyService.deleteItem(property), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /delete", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -90,7 +90,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Boolean>> deleteProperty(@PathVariable String id) throws NotFoundException {
         try {
-            return () -> new ResponseEntity<>(propertyService.deleteProperty(id), HttpStatus.OK);
+            return () -> new ResponseEntity<>(propertyService.deleteItem(id), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /delete/{id}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -101,7 +101,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Property>>> getTypeaheadProperties(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Property> result = propertyService.getTypeaheadProperties(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconverter.domain.Property> result = propertyService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Property> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -114,7 +114,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Property>> getProperty(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Property property = propertyService.getProperty(id);
+            org.nmdp.hmlfhirconverter.domain.Property property = propertyService.getById(id);
             return () -> new ResponseEntity<>(property.toDto(property), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -126,7 +126,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Property>>> getProperties(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Property> result = propertyService.findPropertiesByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconverter.domain.Property> result = propertyService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Property> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -151,7 +151,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Property>> updateProperty(@RequestBody Property property) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Property nmdpModel = propertyService.updateProperty(property);
+            org.nmdp.hmlfhirconverter.domain.Property nmdpModel = propertyService.updateItem(property);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

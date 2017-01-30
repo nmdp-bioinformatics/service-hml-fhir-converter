@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.service.base;
+package org.nmdp.hmlfhirconverter.domain.internal;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/25/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/30/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,6 +24,24 @@ package org.nmdp.hmlfhirconverter.service.base;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public interface CascadingRepositoryServiceFactory {
+public class MongoConfiguration {
+    private String host;
+    private Integer portNo;
+    private String databaseName;
 
+    public MongoConfiguration(String host, Integer portNo, String databaseName) {
+        this.host = host; this.portNo = portNo; this.databaseName = databaseName;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public Integer getPortNo() {
+        return portNo;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
 }

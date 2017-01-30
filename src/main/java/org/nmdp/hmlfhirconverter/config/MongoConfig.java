@@ -27,6 +27,7 @@ package org.nmdp.hmlfhirconverter.config;
 import com.mongodb.MongoClient;
 import com.mongodb.Mongo;
 
+import org.nmdp.hmlfhirconverter.domain.internal.MongoConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
@@ -84,6 +85,11 @@ public class MongoConfig extends AbstractMongoConfiguration {
             LOG.error("Error instantiating MongoDB.", ex);
             throw new MongoInstantiationException(ex);
         }
+    }
+
+    @Bean
+    public MongoConfiguration mongoConfiguration() {
+        return new MongoConfiguration(mongoHost, Integer.parseInt(mongoPort), mongoDb);
     }
 
     @Override

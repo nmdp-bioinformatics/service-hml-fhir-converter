@@ -1,5 +1,7 @@
 package org.nmdp.hmlfhirconverter.domain.base;
 
+import org.nmdp.hmlfhirconverter.domain.internal.MongoConfiguration;
+
 /**
  * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/25/17.
  * <p>
@@ -24,6 +26,6 @@ package org.nmdp.hmlfhirconverter.domain.base;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public interface ICascadingUpdate {
-    <T> void saveCollectionProperties(T entity);
+public interface ICascadingUpdate<T extends SwaggerConverter<T, U>, U> {
+    void saveCollectionProperties(T entity, MongoConfiguration mongoConfiguration);
 }

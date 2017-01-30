@@ -24,20 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
 import org.nmdp.hmlfhirconverter.domain.Property;
+import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-import org.springframework.data.domain.Page;
+public interface PropertyService extends IMongoCrudRepositoryService<Property, io.swagger.model.Property> {
 
-import java.util.List;
-
-public interface PropertyService {
-    Property getProperty(String id);
-    Page<Property> findPropertiesByMaxReturn(Integer maxResults, Integer pageNumber);
-    List<Property> getTypeaheadProperties(Integer maxResults, TypeaheadQuery typeaheadQuery);
-    List<Property> createProperties(List<io.swagger.model.Property> properties);
-    Property updateProperty(io.swagger.model.Property property);
-    Boolean deleteProperty(String id);
-    Boolean deleteProperty(io.swagger.model.Property property);
 }

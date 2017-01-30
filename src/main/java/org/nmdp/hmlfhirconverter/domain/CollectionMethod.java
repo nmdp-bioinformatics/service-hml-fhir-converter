@@ -50,7 +50,7 @@ public class CollectionMethod extends SwaggerConverter<CollectionMethod, io.swag
     }
 
     public CollectionMethod(Boolean active) {
-        super(CollectionMethod.class, io.swagger.model.CollectionMethod.class);
+        super(tClass, uClass);
         this.active = active;
     }
 

@@ -46,7 +46,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<TypingTestName>>> createTypingTestNames(@RequestBody List<TypingTestName> typingTestNames) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.createTypingTestNames(typingTestNames);
+            List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.createItems(typingTestNames);
             List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -59,7 +59,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteTypingTestName(@RequestBody TypingTestName typingTestName) throws NotFoundException {
         try {
-            return () -> new ResponseEntity<>(typingTestNameService.deleteTypingTestName(typingTestName), HttpStatus.OK);
+            return () -> new ResponseEntity<>(typingTestNameService.deleteItem(typingTestName), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /delete", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -70,7 +70,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Boolean>> deleteTypingTestName(@PathVariable String id) throws NotFoundException {
         try {
-            return () -> new ResponseEntity<>(typingTestNameService.deleteTypingTestName(id), HttpStatus.OK);
+            return () -> new ResponseEntity<>(typingTestNameService.deleteItem(id), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /delete/{id}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -81,7 +81,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<TypingTestName>>> getTypeaheadTypingTestNames(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.getTypeaheadTypingTestNames(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -94,7 +94,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<TypingTestName>> getTypingTestName(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.TypingTestName typingTestName = typingTestNameService.getTypingTestName(id);
+            org.nmdp.hmlfhirconverter.domain.TypingTestName typingTestName = typingTestNameService.getById(id);
             return () -> new ResponseEntity<>(typingTestName.toDto(typingTestName), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -106,7 +106,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<TypingTestName>>> getTypingTestNames(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.findTypingTestNamesByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -131,7 +131,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<TypingTestName>> updateTypingTestName(@RequestBody TypingTestName typingTestName) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.TypingTestName nmdpModel = typingTestNameService.updateTypingTestName(typingTestName);
+            org.nmdp.hmlfhirconverter.domain.TypingTestName nmdpModel = typingTestNameService.updateItem(typingTestName);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

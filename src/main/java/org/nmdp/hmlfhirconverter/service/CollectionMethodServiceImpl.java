@@ -24,92 +24,22 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
-import org.apache.log4j.Logger;
-
 import org.nmdp.hmlfhirconverter.dao.CollectionMethodRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.CollectionMethodCustomRepository;
-import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
 import org.nmdp.hmlfhirconverter.domain.CollectionMethod;
-import org.nmdp.hmlfhirconverter.util.QueryBuilder;
+import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
-public class CollectionMethodServiceImpl extends CascadingRepositoryService<CollectionMethod> implements CollectionMethodService {
-    private final CollectionMethodCustomRepository collectionMethodCustomRepository;
-    private static final Logger LOG = Logger.getLogger(CollectionMethodServiceImpl.class);
+public class CollectionMethodServiceImpl extends MongoCrudRepositoryService<CollectionMethod, io.swagger.model.CollectionMethod> implements CollectionMethodService {
 
     @Autowired
     public CollectionMethodServiceImpl(@Qualifier("collectionMethodRepository") CollectionMethodRepository collectionMethodRepository,
                                        @Qualifier("collectionMethodCustomRepository") CollectionMethodCustomRepository collectionMethodCustomRepository) {
-        super(collectionMethodRepository);
-        this.collectionMethodCustomRepository = collectionMethodCustomRepository;
-    }
-
-    @Override
-    public CollectionMethod getCollectionMethod(String id) {
-        return mongoRepository.findOne(id);
-    }
-
-    @Override
-    public List<CollectionMethod> getTypeaheadCollectionMethods(Integer maxResults, TypeaheadQuery typeaheadQuery) {
-        Query query = QueryBuilder.buildQuery(maxResults, typeaheadQuery);
-        return collectionMethodCustomRepository.findByQuery(query);
-    }
-
-    @Override
-    public Page<CollectionMethod> findCollectionMethodsByMaxReturn(Integer maxResults, Integer pageNumber) {
-        PageRequest pageable = new PageRequest(pageNumber, maxResults);
-
-        return mongoRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<CollectionMethod> createCollectionMethods(List<io.swagger.model.CollectionMethod> collectionMethods) {
-        List<CollectionMethod> nmdpModel = collectionMethods.stream()
-                .filter(Objects::nonNull)
-                .map(obj -> new CollectionMethod().convertFromSwagger(obj))
-                .collect(Collectors.toList());
-
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public CollectionMethod updateCollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
-        CollectionMethod nmdpModel = new CollectionMethod().convertFromSwagger(collectionMethod);
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public Boolean deleteCollectionMethod(String id) {
-        try {
-            mongoRepository.delete(id);
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting collection method.", ex);
-            return false;
-        }
-    }
-
-    @Override
-    public Boolean deleteCollectionMethod(io.swagger.model.CollectionMethod collectionMethod) {
-        try {
-            mongoRepository.delete(new CollectionMethod().convertFromSwagger(collectionMethod));
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting collection method.", ex);
-            return false;
-        }
+        super(collectionMethodCustomRepository, collectionMethodRepository, CollectionMethod.class, io.swagger.model.CollectionMethod.class);
     }
 }

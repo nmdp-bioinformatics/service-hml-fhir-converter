@@ -24,91 +24,21 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
-
-import org.apache.log4j.Logger;
-
 import org.nmdp.hmlfhirconverter.dao.PropertyRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.PropertyCustomRepository;
 import org.nmdp.hmlfhirconverter.domain.Property;
-import org.nmdp.hmlfhirconverter.util.QueryBuilder;
-import org.nmdp.hmlfhirconverter.service.base.CascadingRepositoryService;
+import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 @Service
-public class PropertyServiceImpl extends CascadingRepositoryService<Property> implements PropertyService {
-    private final PropertyCustomRepository propertyCustomRepository;
-    private static final Logger LOG = Logger.getLogger(PropertyService.class);
+public class PropertyServiceImpl extends MongoCrudRepositoryService<Property, io.swagger.model.Property> implements PropertyService {
 
     @Autowired
     public PropertyServiceImpl(@Qualifier("propertyRepository") PropertyRepository propertyRepository,
                            @Qualifier("propertyCustomRepository") PropertyCustomRepository propertyCustomRepository) {
-        super(propertyRepository);
-        this.propertyCustomRepository = propertyCustomRepository;
-    }
-
-    @Override
-    public Property getProperty(String id) {
-        return mongoRepository.findOne(id);
-    }
-
-    @Override
-    public List<Property> getTypeaheadProperties(Integer maxResults, TypeaheadQuery typeaheadQuery) {
-        Query query = QueryBuilder.buildQuery(maxResults, typeaheadQuery);
-        return propertyCustomRepository.findByQuery(query);
-    }
-
-    @Override
-    public Page<Property> findPropertiesByMaxReturn(Integer maxResults, Integer pageNumber) {
-        PageRequest pageable = new PageRequest(pageNumber, maxResults);
-        return mongoRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<Property> createProperties(List<io.swagger.model.Property> properties) {
-        List<Property> nmdpModel = properties.stream()
-                .filter(Objects::nonNull)
-                .map(obj -> Property.convertFromSwagger(obj, Property.class))
-                .collect(Collectors.toList());
-
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public Property updateProperty(io.swagger.model.Property property) {
-        Property nmdpModel = Property.convertFromSwagger(property, Property.class);
-        return mongoRepository.save(nmdpModel);
-    }
-
-    @Override
-    public Boolean deleteProperty(String id) {
-        try {
-            mongoRepository.delete(id);
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting property.", ex);
-            return false;
-        }
-    }
-
-    @Override
-    public Boolean deleteProperty(io.swagger.model.Property property) {
-        try {
-            mongoRepository.delete(Property.convertFromSwagger(property, Property.class));
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error deleting property.", ex);
-            return false;
-        }
+        super(propertyCustomRepository, propertyRepository, Property.class, io.swagger.model.Property.class);
     }
 }

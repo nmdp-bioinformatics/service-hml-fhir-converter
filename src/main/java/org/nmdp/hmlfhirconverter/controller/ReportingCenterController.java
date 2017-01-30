@@ -61,7 +61,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<ReportingCenter>>> createReportingCenters(@RequestBody List<ReportingCenter> reportingCenters) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.createReportingCenters(reportingCenters);
+            List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.createItems(reportingCenters);
             List<ReportingCenter> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -74,7 +74,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteReportingCenter(@RequestBody ReportingCenter reportingCenter) throws NotFoundException {
         try {
-            return () -> new ResponseEntity<>(reportingCenterService.deleteReportingCenter(reportingCenter), HttpStatus.OK);
+            return () -> new ResponseEntity<>(reportingCenterService.deleteItem(reportingCenter), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /delete", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -85,7 +85,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteReportingCenter(@PathVariable String id) throws NotFoundException {
         try {
-            return () -> new ResponseEntity<>(reportingCenterService.deleteReportingCenter(id), HttpStatus.OK);
+            return () -> new ResponseEntity<>(reportingCenterService.deleteItem(id), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /delete/{id}", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -96,7 +96,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<ReportingCenter>> getReportingCenter(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.ReportingCenter reportingCenter = reportingCenterService.getReportingCenter(id);
+            org.nmdp.hmlfhirconverter.domain.ReportingCenter reportingCenter = reportingCenterService.getById(id);
             return () -> new ResponseEntity<>(reportingCenter.toDto(reportingCenter), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -108,7 +108,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<ReportingCenter>>> getTypeaheadReportingCenters(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.getTypeaheadReportingCenters(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<ReportingCenter> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -121,7 +121,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<ReportingCenter>>> getReportingCenters(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.findReportingCentersByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconverter.domain.ReportingCenter> result = reportingCenterService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<ReportingCenter> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -146,7 +146,7 @@ public class ReportingCenterController implements ReportingCenterApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<ReportingCenter>> updateReportingCenter(@RequestBody ReportingCenter reportingCenter) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.ReportingCenter nmdpModel = reportingCenterService.updateReportingCenter(reportingCenter);
+            org.nmdp.hmlfhirconverter.domain.ReportingCenter nmdpModel = reportingCenterService.updateItem(reportingCenter);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);
