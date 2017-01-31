@@ -87,7 +87,7 @@ public class HmlController implements HmlApi {
     }
 
     @Override
-    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteHml(@PathVariable String id) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(hmlService.deleteItem(id), HttpStatus.OK);
@@ -111,7 +111,7 @@ public class HmlController implements HmlApi {
     }
 
     @Override
-    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
+    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Hml>> getHml(@PathVariable String id) throws NotFoundException {
         try {
             org.nmdp.hmlfhirconverter.domain.Hml hml = hmlService.getById(id);
