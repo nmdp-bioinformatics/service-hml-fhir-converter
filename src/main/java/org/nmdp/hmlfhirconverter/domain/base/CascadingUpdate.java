@@ -25,20 +25,29 @@ package org.nmdp.hmlfhirconverter.domain.base;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import com.mongodb.MongoClient;
+import com.mongodb.*;
 
 import org.apache.log4j.Logger;
 
 import org.nmdp.hmlfhirconverter.domain.ICascadable;
 import org.nmdp.hmlfhirconverter.domain.internal.MongoConfiguration;
-import org.nmdp.hmlfhirconverter.util.Converters;
+import org.nmdp.hmlfhirconverter.util.*;
 
+import org.nmdp.hmlfhirconverter.util.QueryBuilder;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.CollectionCallback;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+import javax.xml.bind.annotation.XmlAttribute;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+
 import java.util.List;
 import java.util.Arrays;
 import java.util.Objects;
@@ -51,7 +60,7 @@ abstract class CascadingUpdate<T extends SwaggerConverter<T, U>, U> implements I
 
     @Override
     public void saveCollectionProperties(T entity, MongoConfiguration mongoConfiguration) {
-        MongoTemplate mongoTemplate = new MongoTemplate(new MongoClient(createMongoConnectionString(mongoConfiguration)), mongoConfiguration.getDatabaseName());
+        MongoOperations mongoOperations = new MongoTemplate(new MongoClient(createMongoConnectionString(mongoConfiguration)), mongoConfiguration.getDatabaseName());
         List<Field> saveableEntityFields = Arrays.stream(entity.getClass().getDeclaredFields())
                 .filter(Objects::nonNull)
                 .filter(r -> implementsCascading(r))
@@ -68,17 +77,73 @@ abstract class CascadingUpdate<T extends SwaggerConverter<T, U>, U> implements I
             Document document = (Document)annotation;
             String collectionName = document.collection();
             field.setAccessible(true);
-            IMongoDataRepositoryModel propertyValue;
+            IMongoDataRepositoryModel model;
 
             try {
-                propertyValue = (IMongoDataRepositoryModel)field.get(entity);
+                model = (IMongoDataRepositoryModel)field.get(entity);
+                Converters.handleDateField(model);
+                field.set(entity, upsert(model, mongoOperations, collectionName));
             } catch (Exception ex) {
                 LOG.error(ex);
                 continue;
             }
-
-            mongoTemplate.save(Converters.handleDateField(propertyValue), collectionName);
         }
+    }
+
+    private IMongoDataRepositoryModel upsert(IMongoDataRepositoryModel model, MongoOperations mongoOperations, String collectionName) {
+        WriteResult writeResult = mongoOperations.upsert(buildUpsertQuery(model), buildUpsertUpdate(model), collectionName);
+        DBCollection collection = mongoOperations.getCollection(collectionName);
+        DBObject result = collection.findOne(writeResult.getUpsertedId());
+
+        return model.convertGenericResultToModel(result, model, getDocumentProperties(model));
+    }
+
+    private Query buildUpsertQuery(IMongoDataRepositoryModel model) {
+        List<String> propertyNames = getDocumentProperties(model).stream()
+                .filter(Objects::nonNull)
+                .map(field -> field.getName())
+                .collect(Collectors.toList());
+
+        return QueryBuilder.buildPropertyQuery(model, propertyNames);
+    }
+
+    private Update buildUpsertUpdate(IMongoDataRepositoryModel model) {
+        Update update = new Update();
+        List<Field> documentPropertyFields = getDocumentProperties(model);
+
+        for (Field field : documentPropertyFields) {
+            field.setAccessible(true);
+            String fieldName = field.getName();
+            Object fieldValue = getFieldValue(model, field);
+
+            if (fieldName == "id") {
+               continue;
+            }
+
+            update.set(fieldName, fieldValue);
+        }
+
+        return update;
+    }
+
+    private List<Field> getDocumentProperties(IMongoDataRepositoryModel model) {
+        return Arrays.stream(model.getClass().getDeclaredFields())
+                .filter(Objects::nonNull)
+                .filter(obj -> !Arrays.stream(obj.getAnnotations())
+                        .filter(Objects::nonNull)
+                        .filter(a -> a.annotationType().equals(XmlAttribute.class))
+                        .collect(Collectors.toList()).isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    private Object getFieldValue(Object model, Field field) {
+        try {
+            return field.get(model);
+        } catch (Exception ex) {
+            LOG.error(ex);
+        }
+
+        return null;
     }
 
     private Boolean implementsCascading(Field field) {

@@ -69,4 +69,9 @@ public class TypingTestName extends SwaggerConverter<TypingTestName, io.swagger.
 
     @XmlAttribute
     private Date dateCreated;
+
+    @Override
+    public String getId() {
+        return id;
+    }
 }

@@ -31,7 +31,7 @@ import org.nmdp.hmlfhirconverter.util.MappingConverter;
 public class SwaggerConverter<T extends ISwaggerConverter<T, U>, U> extends SwaggerStaticConverter implements ISwaggerConverter<T, U> {
 
     @Transient
-    private final Class<T> tClass;
+    protected final Class<T> tClass;
 
     @Transient
     private final Class<U> uClass;

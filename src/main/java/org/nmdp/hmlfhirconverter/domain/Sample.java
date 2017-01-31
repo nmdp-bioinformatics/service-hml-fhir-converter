@@ -70,4 +70,9 @@ public class Sample extends SwaggerConverter<Sample, io.swagger.model.Sample> im
 
     @XmlAttribute
     private Date dateCreated;
+
+    @Override
+    public String getId() {
+        return id;
+    }
 }

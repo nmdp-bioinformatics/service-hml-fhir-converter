@@ -36,10 +36,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -103,7 +100,8 @@ public class QueryBuilder {
 
         for (String property : properties) {
             try {
-                Object value = model.getPropertyValueByName(model, property);
+                Object propertyValue = model.getPropertyValueByName(model, property);
+                Object value = propertyValue == null ? "" : propertyValue;
                 QueryCriteriaExtended qc = new QueryCriteriaExtended(false, false, property, value);
                 qcs.add(qc);
             } catch (Exception ex) {

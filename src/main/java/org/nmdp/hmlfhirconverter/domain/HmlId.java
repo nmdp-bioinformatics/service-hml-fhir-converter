@@ -69,4 +69,9 @@ public class HmlId extends SwaggerConverter<HmlId, io.swagger.model.HmlId> imple
 
     @XmlAttribute
     private Date dateCreated;
+
+    @Override
+    public String getId() {
+        return id;
+    }
 }

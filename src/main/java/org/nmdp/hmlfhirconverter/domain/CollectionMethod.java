@@ -69,4 +69,9 @@ public class CollectionMethod extends SwaggerConverter<CollectionMethod, io.swag
 
     @XmlAttribute
     private Date dateCreated;
+
+    @Override
+    public String getId() {
+        return id;
+    }
 }

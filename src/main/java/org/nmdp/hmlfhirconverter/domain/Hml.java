@@ -92,4 +92,9 @@ public class Hml extends SwaggerConverter<Hml, io.swagger.model.Hml> implements 
 
     @XmlAttribute
     private Date dateCreated;
+
+    @Override
+    public String getId() {
+        return id;
+    }
 }

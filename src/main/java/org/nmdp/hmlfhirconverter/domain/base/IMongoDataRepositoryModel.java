@@ -1,5 +1,10 @@
 package org.nmdp.hmlfhirconverter.domain.base;
 
+import com.mongodb.DBObject;
+
+import java.lang.reflect.Field;
+import java.util.List;
+
 /**
  * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/24/17.
  * <p>
@@ -26,4 +31,6 @@ package org.nmdp.hmlfhirconverter.domain.base;
 
 public interface IMongoDataRepositoryModel {
     <T> Object getPropertyValueByName(T t, String propertyName) throws NoSuchFieldException;
+    IMongoDataRepositoryModel convertGenericResultToModel(DBObject result, IMongoDataRepositoryModel model, List<Field> modelFields);
+    String getId();
 }

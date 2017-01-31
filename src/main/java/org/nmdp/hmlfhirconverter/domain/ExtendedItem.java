@@ -66,4 +66,9 @@ public class ExtendedItem extends SwaggerConverter<ExtendedItem, io.swagger.mode
 
     @XmlAttribute
     private Object item;
+
+    @Override
+    public String getId() {
+        return id;
+    }
 }

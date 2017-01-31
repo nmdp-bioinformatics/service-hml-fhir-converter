@@ -24,6 +24,8 @@ package org.nmdp.hmlfhirconverter.dao.custom;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.apache.log4j.Logger;
+
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -33,6 +35,8 @@ public abstract class MongoTemplateRepository<T> {
 
     private final Class<T> tClass;
     private final MongoOperations mongoOperations;
+
+    private static final Logger LOG = Logger.getLogger(MongoTemplateRepository.class);
 
     public MongoTemplateRepository(Class<T> tClass, MongoOperations mongoOperations) {
         this.tClass = tClass;

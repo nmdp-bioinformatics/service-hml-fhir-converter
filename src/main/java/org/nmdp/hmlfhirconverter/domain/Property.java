@@ -76,4 +76,9 @@ public class Property extends SwaggerConverter<Property, io.swagger.model.Proper
 
     @XmlAttribute
     List<ExtendedItem> extendedItems;
+
+    @Override
+    public String getId() {
+        return id;
+    }
 }

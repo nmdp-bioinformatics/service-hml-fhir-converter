@@ -24,10 +24,12 @@ package org.nmdp.hmlfhirconverter.domain.base;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import com.mongodb.DBObject;
 import org.apache.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 abstract class MongoDataRepositoryModel extends CascadingUpdate implements IMongoDataRepositoryModel {
@@ -53,5 +55,43 @@ abstract class MongoDataRepositoryModel extends CascadingUpdate implements IMong
             LOG.error(ex);
             throw new ClassCastException();
         }
+    }
+
+    @Override
+    public IMongoDataRepositoryModel convertGenericResultToModel(DBObject result, IMongoDataRepositoryModel model, List<Field> modelFields) {
+        for (Field field : modelFields) {
+            field.setAccessible(true);
+
+            try {
+                String key = field.getName() == "id" ? "_" + field.getName() : field.getName();
+                Object savedValue = handleGenericEvaluation(result.get(key), field.getType());
+                field.set(model, savedValue);
+            } catch (Exception ex) {
+                LOG.error(ex);
+                continue;
+            }
+        }
+
+        return model;
+    }
+
+    public String getId() {
+        return "";
+    }
+
+    private Object handleGenericEvaluation(Object obj, Class<?> eClass) {
+        if (eClass.isAssignableFrom(obj.getClass())) {
+            return eClass.cast(obj);
+        }
+
+        if (eClass.equals(String.class)) {
+            return obj.toString();
+        }
+
+        if (eClass.equals(Integer.class)) {
+            return new Integer(obj.toString());
+        }
+
+        return obj;
     }
 }

@@ -66,4 +66,9 @@ public class ReportingCenter extends SwaggerConverter<ReportingCenter, io.swagge
 
     @XmlAttribute
     private Date dateCreated;
+
+    @Override
+    public String getId() {
+        return id;
+    }
 }

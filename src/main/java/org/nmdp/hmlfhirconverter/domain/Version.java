@@ -66,4 +66,9 @@ public class Version extends SwaggerConverter<Version, io.swagger.model.Version>
 
     @XmlAttribute
     private Date dateCreated;
+
+    @Override
+    public String getId() {
+        return id;
+    }
 }

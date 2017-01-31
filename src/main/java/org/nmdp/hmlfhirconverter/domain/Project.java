@@ -66,4 +66,9 @@ public class Project extends SwaggerConverter<Project, io.swagger.model.Project>
 
     @XmlAttribute
     private Date dateCreated;
+
+    @Override
+    public String getId() {
+        return id;
+    }
 }
