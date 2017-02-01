@@ -49,6 +49,7 @@ public class Version extends SwaggerConverter<Version, io.swagger.model.Version>
     public Version(Boolean active) {
         super(Version.class, io.swagger.model.Version.class);
         this.active = active;
+        this.dateUpdated = null;
     }
 
     @XmlAttribute
@@ -67,8 +68,6 @@ public class Version extends SwaggerConverter<Version, io.swagger.model.Version>
     @XmlAttribute
     private Date dateCreated;
 
-    @Override
-    public String getId() {
-        return id;
-    }
+    @XmlAttribute
+    private Date dateUpdated;
 }

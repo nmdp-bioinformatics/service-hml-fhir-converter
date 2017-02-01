@@ -64,4 +64,11 @@ public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, io.swagger.m
 
         return super.mongoRepository.save(nmdpModel);
     }
+
+    @Override
+    public Hml updateItem(io.swagger.model.Hml item) {
+        Hml nmdpModel = Hml.convertFromSwagger(item, Hml.class);
+        nmdpModel.updateCollectionProperties(nmdpModel, mongoConfiguration);
+        return super.mongoRepository.save(nmdpModel);
+    }
 }

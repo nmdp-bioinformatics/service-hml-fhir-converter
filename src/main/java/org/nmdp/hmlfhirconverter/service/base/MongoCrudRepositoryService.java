@@ -36,6 +36,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -85,6 +87,15 @@ public abstract class MongoCrudRepositoryService<T extends SwaggerConverter<T, U
     @Override
     public T updateItem(U item) {
         T nmdpModel = new SwaggerConverter(tClass, uClass).convertFromSwagger(item, tClass);
+
+        try {
+            Field field = nmdpModel.getClass().getDeclaredField("dateUpdated");
+            field.setAccessible(true);
+            field.set(nmdpModel, new Date());
+        } catch (Exception ex) {
+            LOG.error("Error setting dateUpdated field.", ex);
+        }
+
         return super.mongoRepository.save(nmdpModel);
     }
 

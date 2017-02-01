@@ -75,11 +75,11 @@ abstract class MongoDataRepositoryModel extends CascadingUpdate implements IMong
         return model;
     }
 
-    public String getId() {
-        return "";
-    }
-
     private Object handleGenericEvaluation(Object obj, Class<?> eClass) {
+        if (obj == null) {
+            return obj;
+        }
+
         if (eClass.isAssignableFrom(obj.getClass())) {
             return eClass.cast(obj);
         }

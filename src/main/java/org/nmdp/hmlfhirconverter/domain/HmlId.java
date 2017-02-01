@@ -52,6 +52,7 @@ public class HmlId extends SwaggerConverter<HmlId, io.swagger.model.HmlId> imple
     public HmlId(Boolean active) {
         super(HmlId.class, io.swagger.model.HmlId.class);
         this.active = active;
+        this.dateUpdated = null;
     }
 
     @XmlAttribute
@@ -70,8 +71,6 @@ public class HmlId extends SwaggerConverter<HmlId, io.swagger.model.HmlId> imple
     @XmlAttribute
     private Date dateCreated;
 
-    @Override
-    public String getId() {
-        return id;
-    }
+    @XmlAttribute
+    private Date dateUpdated;
 }

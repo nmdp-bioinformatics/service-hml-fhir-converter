@@ -1975,6 +1975,10 @@ definitions:
         type: string
         format: date-time
         description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
   Sample:
     type: object
     properties:
@@ -1991,6 +1995,10 @@ definitions:
         type: string
         format: date-time
         description: Date record was created
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
       collectionMethods:
         type: array
         description: array of center codes
@@ -2038,6 +2046,10 @@ definitions:
         type: string
         format: date-time
         description: Date entry was created
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
   TypingTestName:
     type: object
     properties:
@@ -2057,6 +2069,10 @@ definitions:
         type: string
         format: date-time
         description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
   Property:
     type: object
     properties:
@@ -2079,6 +2095,10 @@ definitions:
         type: string
         format: date-time
         description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
       extendedItems:
         type: array
         description: Array of generic items
@@ -2097,6 +2117,10 @@ definitions:
         type: string
         format: date-time
         description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
       item:
         type: object
         description: Generic object
@@ -2116,6 +2140,10 @@ definitions:
         type: string
         format: date-time
         description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
   HmlId:
     type: object
     properties:
@@ -2135,6 +2163,10 @@ definitions:
         type: string
         format: date-time
         description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
   Hml:
     type: object
     properties:
@@ -2177,6 +2209,10 @@ definitions:
         type: string
         format: date-time
         description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
   Version:
     type: object
     properties:
@@ -2196,3 +2232,7 @@ definitions:
         type: string
         format: date-time
         description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated

@@ -28,4 +28,5 @@ import org.nmdp.hmlfhirconverter.domain.internal.MongoConfiguration;
 
 public interface ICascadingUpdate<T extends SwaggerConverter<T, U>, U> {
     void saveCollectionProperties(T entity, MongoConfiguration mongoConfiguration);
+    void updateCollectionProperties (T entity, MongoConfiguration mongoConfiguration);
 }

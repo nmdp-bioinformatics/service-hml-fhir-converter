@@ -53,6 +53,7 @@ public class Sample extends SwaggerConverter<Sample, io.swagger.model.Sample> im
     public Sample(Boolean active) {
         super(Sample.class, io.swagger.model.Sample.class);
         this.active = active;
+        this.dateUpdated = null;
     }
 
     @XmlAttribute
@@ -71,8 +72,6 @@ public class Sample extends SwaggerConverter<Sample, io.swagger.model.Sample> im
     @XmlAttribute
     private Date dateCreated;
 
-    @Override
-    public String getId() {
-        return id;
-    }
+    @XmlAttribute
+    private Date dateUpdated;
 }

@@ -52,6 +52,7 @@ public class ReportingCenter extends SwaggerConverter<ReportingCenter, io.swagge
     public ReportingCenter(Boolean active) {
         super(ReportingCenter.class, io.swagger.model.ReportingCenter.class);
         this.active = active;
+        this.dateUpdated = null;
     }
 
     @XmlAttribute
@@ -67,8 +68,6 @@ public class ReportingCenter extends SwaggerConverter<ReportingCenter, io.swagge
     @XmlAttribute
     private Date dateCreated;
 
-    @Override
-    public String getId() {
-        return id;
-    }
+    @XmlAttribute
+    private Date dateUpdated;
 }

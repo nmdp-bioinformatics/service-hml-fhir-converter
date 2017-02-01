@@ -60,6 +60,7 @@ public class Hml extends SwaggerConverter<Hml, io.swagger.model.Hml> implements 
         this.reportingCenters = new ArrayList<>();
         this.samples = new ArrayList<>();
         this.properties = new ArrayList<>();
+        this.dateUpdated = null;
     }
 
     @XmlAttribute
@@ -93,8 +94,6 @@ public class Hml extends SwaggerConverter<Hml, io.swagger.model.Hml> implements 
     @XmlAttribute
     private Date dateCreated;
 
-    @Override
-    public String getId() {
-        return id;
-    }
+    @XmlAttribute
+    private Date dateUpdated;
 }

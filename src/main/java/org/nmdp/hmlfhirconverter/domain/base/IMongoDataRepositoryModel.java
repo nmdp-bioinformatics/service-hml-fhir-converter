@@ -3,6 +3,7 @@ package org.nmdp.hmlfhirconverter.domain.base;
 import com.mongodb.DBObject;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,5 +33,4 @@ import java.util.List;
 public interface IMongoDataRepositoryModel {
     <T> Object getPropertyValueByName(T t, String propertyName) throws NoSuchFieldException;
     IMongoDataRepositoryModel convertGenericResultToModel(DBObject result, IMongoDataRepositoryModel model, List<Field> modelFields);
-    String getId();
 }

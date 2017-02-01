@@ -52,6 +52,7 @@ public class ExtendedItem extends SwaggerConverter<ExtendedItem, io.swagger.mode
     public ExtendedItem(Boolean active) {
         super(ExtendedItem.class, io.swagger.model.ExtendedItem.class);
         this.active = active;
+        this.dateUpdated = null;
     }
 
     @XmlAttribute
@@ -67,8 +68,6 @@ public class ExtendedItem extends SwaggerConverter<ExtendedItem, io.swagger.mode
     @XmlAttribute
     private Object item;
 
-    @Override
-    public String getId() {
-        return id;
-    }
+    @XmlAttribute
+    private Date dateUpdated;
 }

@@ -52,6 +52,7 @@ public class Project extends SwaggerConverter<Project, io.swagger.model.Project>
     public Project(Boolean active) {
         super(Project.class, io.swagger.model.Project.class);
         this.active = active;
+        this.dateUpdated = null;
     }
 
     @XmlAttribute
@@ -67,8 +68,6 @@ public class Project extends SwaggerConverter<Project, io.swagger.model.Project>
     @XmlAttribute
     private Date dateCreated;
 
-    @Override
-    public String getId() {
-        return id;
-    }
+    @XmlAttribute
+    private Date dateUpdated;
 }

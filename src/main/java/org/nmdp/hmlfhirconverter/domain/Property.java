@@ -53,6 +53,7 @@ public class Property extends SwaggerConverter<Property, io.swagger.model.Proper
     public Property(Boolean active) {
         super(Property.class, io.swagger.model.Property.class);
         this.active = active;
+        this.dateUpdated = null;
     }
 
     @XmlAttribute
@@ -75,10 +76,8 @@ public class Property extends SwaggerConverter<Property, io.swagger.model.Proper
     private Date dateCreated;
 
     @XmlAttribute
-    List<ExtendedItem> extendedItems;
+    private Date dateUpdated;
 
-    @Override
-    public String getId() {
-        return id;
-    }
+    @XmlAttribute
+    List<ExtendedItem> extendedItems;
 }

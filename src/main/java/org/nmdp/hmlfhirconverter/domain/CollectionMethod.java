@@ -52,6 +52,7 @@ public class CollectionMethod extends SwaggerConverter<CollectionMethod, io.swag
     public CollectionMethod(Boolean active) {
         super(tClass, uClass);
         this.active = active;
+        this.dateUpdated = null;
     }
 
     @XmlAttribute
@@ -70,8 +71,6 @@ public class CollectionMethod extends SwaggerConverter<CollectionMethod, io.swag
     @XmlAttribute
     private Date dateCreated;
 
-    @Override
-    public String getId() {
-        return id;
-    }
+    @XmlAttribute
+    private Date dateUpdated;
 }

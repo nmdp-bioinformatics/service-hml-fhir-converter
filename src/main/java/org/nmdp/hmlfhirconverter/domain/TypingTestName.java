@@ -52,6 +52,7 @@ public class TypingTestName extends SwaggerConverter<TypingTestName, io.swagger.
     public TypingTestName(Boolean active) {
         super(TypingTestName.class, io.swagger.model.TypingTestName.class);
         this.active = active;
+        this.dateUpdated = null;
     }
     
     @XmlAttribute
@@ -70,8 +71,6 @@ public class TypingTestName extends SwaggerConverter<TypingTestName, io.swagger.
     @XmlAttribute
     private Date dateCreated;
 
-    @Override
-    public String getId() {
-        return id;
-    }
+    @XmlAttribute
+    private Date dateUpdated;
 }
