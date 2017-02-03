@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -54,6 +55,7 @@ public class Sample extends SwaggerConverter<Sample, io.swagger.model.Sample> im
         super(Sample.class, io.swagger.model.Sample.class);
         this.active = active;
         this.dateUpdated = null;
+        this.collectionMethods = new ArrayList<>();
     }
 
     @XmlAttribute
