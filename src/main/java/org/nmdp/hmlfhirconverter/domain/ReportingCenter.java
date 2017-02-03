@@ -63,6 +63,9 @@ public class ReportingCenter extends SwaggerConverter<ReportingCenter, io.swagge
     private String context;
 
     @XmlAttribute
+    private String centerId;
+
+    @XmlAttribute
     private Boolean active;
 
     @XmlAttribute

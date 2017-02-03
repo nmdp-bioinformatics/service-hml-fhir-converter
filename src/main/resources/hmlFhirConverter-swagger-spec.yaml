@@ -1968,6 +1968,9 @@ definitions:
       context:
         type: string
         description: Context of reporting center
+      centerId:
+        type: string
+        description: Id of reporting center
       active:
         type: boolean
         description: Active center
