@@ -147,25 +147,30 @@ abstract class CascadingUpdate<T extends SwaggerConverter<T, U>, U> implements I
     }
 
     private Query buildUpsertQuery(IMongoDataRepositoryModel model) {
+        List<String> propertyNames = getDocumentProperties(model).stream()
+                .filter(Objects::nonNull)
+                .filter(obj -> !fieldPropertyIsNull(model, obj))
+                .map(obj -> obj.getName())
+                .collect(Collectors.toList());
+
+        return QueryBuilder.buildEqualsPropertyQuery(model, propertyNames);
+    }
+
+    private Boolean fieldPropertyIsNull(IMongoDataRepositoryModel model, Field field) {
         try {
-            Field field = getDocumentProperties(model).stream()
-                    .filter(Objects::nonNull)
-                    .filter(f -> f.getName().equals("id"))
-                    .findFirst()
-                    .get();
-
             field.setAccessible(true);
-            Object id = field.get(model);
+            Object fieldValue = getFieldValue(model, field);
 
-            if (id == null || id.toString().isEmpty()) {
-                return new Query();
+            if (fieldValue == null) {
+                return true;
             }
 
-            return QueryBuilder.buildPropertyQuery("_id", id.toString(), false);
+            return false;
         } catch (Exception ex) {
             LOG.error(ex);
-            return new Query();
         }
+
+        return true;
     }
 
     private Update buildUpsertUpdate(IMongoDataRepositoryModel model, Boolean includeId) {

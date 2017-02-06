@@ -78,6 +78,14 @@ public class QueryBuilder {
         return query;
     }
 
+    public static Query buildEqualsPropertyQuery(IMongoDataRepositoryModel model, List<String> properties) {
+        Query query = new Query();
+        List<QueryCriteria> qcs = getQueryCriteria(model, properties);
+        constructEqualsNonExclusionQuery(query, qcs);
+
+        return query;
+    }
+
     public static Query buildPropertyQuery(String propertyName, String propertyValue, boolean useLike) {
         Query query = new Query();
         List<QueryCriteria> qcs = new ArrayList<>();
@@ -96,6 +104,13 @@ public class QueryBuilder {
 
     public static Query buildPropertyQuery(IMongoDataRepositoryModel model, List<String> properties) {
         Query query = new Query();
+        List<QueryCriteria> qcs = getQueryCriteria(model, properties);
+        constructIsNonExclusionQuery(query, qcs);
+
+        return query;
+    }
+
+    private static List<QueryCriteria> getQueryCriteria(IMongoDataRepositoryModel model, List<String> properties) {
         List<QueryCriteria> qcs = new ArrayList<>();
 
         for (String property : properties) {
@@ -110,9 +125,7 @@ public class QueryBuilder {
             }
         }
 
-        constructIsNonExclusionQuery(query, qcs);
-
-        return query;
+        return qcs;
     }
 
     private static void constructLikeNonExclusionQuery(Query query, List<QueryCriteria> criterium) {
@@ -128,6 +141,14 @@ public class QueryBuilder {
             .filter(Objects::nonNull)
             .map(q -> q.getQueryValue().toString())
             .collect(Collectors.toList())));
+    }
+
+    private static void constructEqualsNonExclusionQuery(Query query, List<QueryCriteria> criterium) {
+        String propertyName = criterium.get(0).getPropertyName();
+        query.addCriteria(Criteria.where(propertyName).is(criterium.stream()
+                .filter(Objects::nonNull)
+                .map(q -> q.getQueryValue().toString())
+                .collect(Collectors.toList())));
     }
 
     private static void constructLikeExclusionQuery(Query query, List<QueryCriteria> criterium) {
