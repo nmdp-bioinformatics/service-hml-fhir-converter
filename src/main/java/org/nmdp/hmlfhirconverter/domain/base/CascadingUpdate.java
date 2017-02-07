@@ -29,12 +29,14 @@ import com.mongodb.*;
 
 import org.apache.log4j.Logger;
 
+import org.bson.types.ObjectId;
 import org.nmdp.hmlfhirconverter.domain.ICascadable;
 import org.nmdp.hmlfhirconverter.domain.internal.MongoConfiguration;
 import org.nmdp.hmlfhirconverter.util.*;
 
 import org.nmdp.hmlfhirconverter.util.QueryBuilder;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.CollectionCallback;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -144,7 +146,8 @@ abstract class CascadingUpdate<T extends SwaggerConverter<T, U>, U> implements I
             try {
                 Field field = model.getClass().getDeclaredField("id");
                 field.setAccessible(true);
-                upsertedId = field.get(model);
+                String id = field.get(model).toString();
+                upsertedId = objectifyId(id);
             } catch (Exception ex) {
                 LOG.error(ex);
                 throw new Exception("Unable to evaluate 'id' property", ex);
@@ -155,6 +158,10 @@ abstract class CascadingUpdate<T extends SwaggerConverter<T, U>, U> implements I
 
         DBObject result = collection.findOne(upsertedId);
         return model.convertGenericResultToModel(result, model, getDocumentProperties(model));
+    }
+
+    private ObjectId objectifyId(String id) {
+        return new ObjectId(id);
     }
 
     private Query buildUpsertQuery(IMongoDataRepositoryModel model) {
