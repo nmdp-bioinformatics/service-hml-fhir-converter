@@ -78,10 +78,13 @@ public class QueryBuilder {
         return query;
     }
 
-    public static Query buildEqualsPropertyQuery(IMongoDataRepositoryModel model, List<String> properties) {
+    public static Query buildEqualsPropertyQuery(IMongoDataRepositoryModel model, List<String> properties, Boolean hyphenateId) {
         Query query = new Query();
-        List<QueryCriteria> qcs = getQueryCriteria(model, properties);
-        constructEqualsNonExclusionQuery(query, qcs);
+        List<QueryCriteria> qcs = getQueryCriteria(model, properties, hyphenateId);
+
+        for (QueryCriteria qc : qcs) {
+            constructEqualsNonExclusionQuery(query, qc);
+        }
 
         return query;
     }
@@ -128,6 +131,29 @@ public class QueryBuilder {
         return qcs;
     }
 
+    private static List<QueryCriteria> getQueryCriteria(IMongoDataRepositoryModel model, List<String> properties, Boolean hyphenateId) {
+        List<QueryCriteria> qcs = new ArrayList<>();
+
+        for (String property : properties) {
+            try {
+                Object propertyValue = model.getPropertyValueByName(model, property);
+                Object value = propertyValue == null ? "" : propertyValue;
+
+                if (hyphenateId && property == "id") {
+                    property = "_" + property;
+                }
+
+                QueryCriteriaExtended qc = new QueryCriteriaExtended(false, false, property, value);
+                qcs.add(qc);
+            } catch (Exception ex) {
+                LOG.error(ex);
+                continue;
+            }
+        }
+
+        return qcs;
+    }
+
     private static void constructLikeNonExclusionQuery(Query query, List<QueryCriteria> criterium) {
         for (QueryCriteria qCriteria : criterium) {
             String regex = regexBuilder(qCriteria.getQueryValue().toString(), false);
@@ -143,12 +169,9 @@ public class QueryBuilder {
             .collect(Collectors.toList())));
     }
 
-    private static void constructEqualsNonExclusionQuery(Query query, List<QueryCriteria> criterium) {
-        String propertyName = criterium.get(0).getPropertyName();
-        query.addCriteria(Criteria.where(propertyName).is(criterium.stream()
-                .filter(Objects::nonNull)
-                .map(q -> q.getQueryValue().toString())
-                .collect(Collectors.toList())));
+    private static void constructEqualsNonExclusionQuery(Query query, QueryCriteria criteria) {
+        String propertyName = criteria.getPropertyName();
+        query.addCriteria(Criteria.where(propertyName).is(criteria.getQueryValue()));
     }
 
     private static void constructLikeExclusionQuery(Query query, List<QueryCriteria> criterium) {
