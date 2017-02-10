@@ -46,6 +46,14 @@ public class Converters {
         return from.stream().map(func).collect(Collectors.toList());
     }
 
+    public static List<IMongoDataRepositoryModel> handleListDateField(List<IMongoDataRepositoryModel> model) {
+        for (IMongoDataRepositoryModel m : model) {
+            handleDateField(m);
+        }
+
+        return model;
+    }
+
     public static IMongoDataRepositoryModel handleDateField(IMongoDataRepositoryModel model) {
         List<Field> fields = Arrays.stream(model.getClass().getDeclaredFields())
                 .filter(Objects::nonNull)

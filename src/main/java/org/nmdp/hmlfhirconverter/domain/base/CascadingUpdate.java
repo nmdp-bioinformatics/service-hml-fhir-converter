@@ -35,10 +35,7 @@ import org.nmdp.hmlfhirconverter.domain.internal.MongoConfiguration;
 import org.nmdp.hmlfhirconverter.util.*;
 
 import org.nmdp.hmlfhirconverter.util.QueryBuilder;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.CollectionCallback;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -48,7 +45,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import javax.xml.bind.annotation.XmlAttribute;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
+import java.lang.reflect.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -60,49 +57,105 @@ abstract class CascadingUpdate<T extends SwaggerConverter<T, U>, U> implements I
 
     @Override
     public void updateCollectionProperties(T entity, MongoConfiguration mongoConfiguration) {
-        MongoOperations mongoOperations = getMongoOperations(mongoConfiguration);
-        List<Field> saveableEntityFields = getSavableFields(entity);
-
-        for (Field field : saveableEntityFields) {
-            Class<?> propertyClass = field.getType();
-            Document document = getDocumentFromField(propertyClass);
-            String collectionName = document.collection();
-            field.setAccessible(true);
-            IMongoDataRepositoryModel model;
-
-            try {
-                model = (IMongoDataRepositoryModel)field.get(entity);
-                Converters.handleDateField(model);
-                setUpdatedDateOnModel(model);
-                field.set(entity, upsert(model, mongoOperations, collectionName));
-            } catch (Exception ex) {
-                LOG.error(ex);
-                continue;
-            }
-        }
+        save(entity, mongoConfiguration, true);
     }
 
     @Override
     public void saveCollectionProperties(T entity, MongoConfiguration mongoConfiguration) {
-        MongoOperations mongoOperations = getMongoOperations(mongoConfiguration);
-        List<Field> saveableEntityFields = getSavableFields(entity);
+        save(entity, mongoConfiguration, false);
+    }
 
-        for (Field field : saveableEntityFields) {
+    private void save(T entity, MongoConfiguration mongoConfiguration, Boolean isUpdate) {
+        List<Field> cascadingFields = getSavableFields(entity);
+        MongoOperations mongoOperations = getMongoOperations(mongoConfiguration);
+
+        for (Field field : cascadingFields) {
             Class<?> propertyClass = field.getType();
-            Document document = getDocumentFromField(propertyClass);
+            Document document = getDocumentFromField(propertyClass, field);
             String collectionName = document.collection();
             field.setAccessible(true);
-            IMongoDataRepositoryModel model;
-
-            try {
-                model = (IMongoDataRepositoryModel)field.get(entity);
-                Converters.handleDateField(model);
-                field.set(entity, upsert(model, mongoOperations, collectionName));
-            } catch (Exception ex) {
-                LOG.error(ex);
-                continue;
-            }
+            handleCascade(field, entity, mongoOperations, collectionName, isUpdate);
         }
+    }
+
+    private void handleCascade(Field field, T entity, MongoOperations mongoOperations, String collectionName, Boolean isUpdate) {
+        try {
+            Object model = convertToDataModel(field, entity);
+
+            if (isUpdate) {
+                handleUpdatedDate(model, field);
+            }
+
+            handleDateField(model, field);
+            setModelField(model, field, mongoOperations, collectionName, entity);
+        } catch (Exception ex) {
+            LOG.error(ex);
+        }
+    }
+
+    private void setModelField(Object model, Field field, MongoOperations mongoOperations, String collectionName, T entity) {
+        field.setAccessible(true);
+
+        try {
+            if (field.getGenericType() instanceof ParameterizedType) {
+                List<IMongoDataRepositoryModel> savedCollection = new ArrayList<>();
+                for (IMongoDataRepositoryModel item : (List<IMongoDataRepositoryModel>)model) {
+                    IMongoDataRepositoryModel savedItem = upsert(item, mongoOperations, collectionName);
+                    savedCollection.add(savedItem);
+                }
+
+                field.set(entity, savedCollection);
+                return;
+            }
+
+            field.set(entity, upsert((IMongoDataRepositoryModel)model, mongoOperations, collectionName));
+        } catch (Exception ex) {
+            LOG.error(ex);
+        }
+    }
+
+    private void handleDateField(Object model, Field field) {
+        field.setAccessible(true);
+
+        try {
+            if (field.getGenericType() instanceof  ParameterizedType) {
+                Converters.handleListDateField((List<IMongoDataRepositoryModel>)model);
+                return;
+            }
+
+            Converters.handleDateField((IMongoDataRepositoryModel)model);
+        } catch (Exception ex) {
+            LOG.error(ex);
+        }
+    }
+
+    private Object convertToDataModel(Field field, T entity) {
+        field.setAccessible(true);
+
+        try {
+            if (field.getGenericType() instanceof ParameterizedType) {
+                return (List<IMongoDataRepositoryModel>) field.get(entity);
+            }
+
+            return (IMongoDataRepositoryModel)field.get(entity);
+        } catch (Exception ex) {
+            LOG.error(ex);
+            return null;
+        }
+    }
+
+    private void handleUpdatedDate(Object model, Field field) {
+        field.setAccessible(true);
+
+        if (field.getGenericType() instanceof ParameterizedType) {
+            for (IMongoDataRepositoryModel m : (List<IMongoDataRepositoryModel>)model) {
+                setUpdatedDateOnModel(m);
+            }
+
+            return;
+        }
+
+        setUpdatedDateOnModel((IMongoDataRepositoryModel)model);
     }
 
     private void setUpdatedDateOnModel(IMongoDataRepositoryModel model) {
@@ -124,17 +177,8 @@ abstract class CascadingUpdate<T extends SwaggerConverter<T, U>, U> implements I
         return Arrays.stream(entity.getClass().getDeclaredFields())
                 .filter(Objects::nonNull)
                 .filter(r -> implementsCascading(r))
+                .filter(r -> !isStaticField(r))
                 .collect(Collectors.toList());
-    }
-
-    private Document getDocumentFromField(Class<?> propertyClass) {
-        Annotation annotation = Arrays.stream(propertyClass.getAnnotations())
-                .filter(Objects::nonNull)
-                .filter(a -> a.annotationType().equals(Document.class))
-                .findFirst()
-                .get();
-
-        return (Document)annotation;
     }
 
     private IMongoDataRepositoryModel upsert(IMongoDataRepositoryModel model, MongoOperations mongoOperations, String collectionName) throws Exception {
@@ -234,10 +278,50 @@ abstract class CascadingUpdate<T extends SwaggerConverter<T, U>, U> implements I
         return null;
     }
 
-    private Boolean implementsCascading(Field field) {
-        return Arrays.stream(field.getType().getInterfaces())
+    private Document getDocumentFromField(Class<?> propertyClass, Field field) {
+        Type type = field.getGenericType();
+
+        if (!(type instanceof ParameterizedType)) {
+            return (Document)Arrays.stream(propertyClass.getAnnotations())
+                    .filter(Objects::nonNull)
+                    .filter(a -> a.annotationType().equals(Document.class))
+                    .findFirst()
+                    .orElse(null);
+        }
+
+        return (Document)Arrays.stream(((ParameterizedType)field.getGenericType()).getActualTypeArguments())
                 .filter(Objects::nonNull)
-                .anyMatch(i -> i.equals(ICascadable.class));
+                .map(t -> getDocumentAnnotation((Class<?>)t))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Annotation getDocumentAnnotation(Class<?> aClass) {
+        return Arrays.stream(aClass.getDeclaredAnnotations())
+                .filter(Objects::nonNull)
+                .filter(annotation -> annotation.annotationType().equals(Document.class))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Boolean implementsCascading(Field field) {
+        Type type = field.getGenericType();
+
+        if (!(type instanceof ParameterizedType)) {
+            return Arrays.stream(field.getType().getInterfaces())
+                    .filter(Objects::nonNull)
+                    .anyMatch(i -> i.equals(ICascadable.class));
+        }
+
+        return Arrays.stream(field.getDeclaringClass().getInterfaces())
+            .filter(Objects::nonNull)
+            .anyMatch(c -> c.equals(ICascadable.class));
+    }
+
+    private Boolean isStaticField(Field field) {
+        field.setAccessible(true);
+        return Modifier.isStatic(field.getModifiers());
     }
 
     private String createMongoConnectionString(MongoConfiguration config) {
