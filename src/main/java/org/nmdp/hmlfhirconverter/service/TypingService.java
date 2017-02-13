@@ -1,7 +1,9 @@
 package org.nmdp.hmlfhirconverter.service;
 
+
+
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/12/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 2/12/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,21 +26,8 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.dao.SampleRepository;
-import org.nmdp.hmlfhirconverter.dao.custom.SampleCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Sample;
-import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
+import org.nmdp.hmlfhirconverter.domain.Typing;
+import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-
-@Service
-public class SampleServiceImpl extends MongoCrudRepositoryService<Sample, io.swagger.model.Sample> implements SampleService {
-
-    @Autowired
-    public SampleServiceImpl(@Qualifier("sampleRepository") SampleRepository sampleRepository,
-                             @Qualifier("sampleCustomRepository") SampleCustomRepository sampleCustomRepository) {
-        super(sampleCustomRepository, sampleRepository, Sample.class, io.swagger.model.Sample.class);
-    }
+public interface TypingService extends IMongoCrudRepositoryService<Typing, io.swagger.model.Typing> {
 }

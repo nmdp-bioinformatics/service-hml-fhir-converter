@@ -1,7 +1,7 @@
 package org.nmdp.hmlfhirconverter.domain;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 1/20/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 2/12/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -39,18 +39,18 @@ import java.util.Date;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Projects")
-public class Project extends SwaggerConverter<Project, io.swagger.model.Project> implements Serializable, ICascadable {
+@Document(collection = "Hml.Samples.Typings")
+public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> implements Serializable, ICascadable {
 
-    private static Class<Project> tClass = Project.class;
-    private static Class<io.swagger.model.Project> uClass = io.swagger.model.Project.class;
+    private static Class<Typing> tClass = Typing.class;
+    private static Class<io.swagger.model.Typing> uClass = io.swagger.model.Typing.class;
 
-    public Project() {
+    public Typing() {
         super(tClass, uClass);
     }
 
-    public Project(Boolean active) {
-        super(Project.class, io.swagger.model.Project.class);
+    public Typing(Boolean active) {
+        super (tClass, uClass);
         this.active = active;
         this.dateUpdated = null;
     }
@@ -60,10 +60,10 @@ public class Project extends SwaggerConverter<Project, io.swagger.model.Project>
     private String id;
 
     @XmlAttribute
-    private String name;
+    private String geneFamily;
 
     @XmlAttribute
-    private String description;
+    private Date date;
 
     @XmlAttribute
     private Boolean active;

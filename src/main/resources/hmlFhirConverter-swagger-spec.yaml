@@ -14,6 +14,212 @@ produces:
   - application/json
 
 paths:
+  /typing/{id}:
+    get:
+      operationId: getTyping
+      description: Gets the Typing by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Typing in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Typing'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteTyping
+      description: Deletes the Typing by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Typing in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorTyping
+          schema:
+            title: TypingControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /typing/{maxResults}:
+    post:
+      operationId: getTypeaheadTypings
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfTypings
+            type: array
+            items:
+              $ref: '#/definitions/Typing'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /typing/{maxResults}/{pageNumber}:
+    get:
+      operationId: getTypings
+      description: Gets the list of available Typings
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOftypings
+            type: array
+            items:
+              $ref: '#/definitions/Typing'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingControllerException
+            schema:
+              $ref: '#/definitions/TypingControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /typing:
+    post:
+      operationId: createTypings
+      description: Create Typing entries
+      parameters:
+        -
+          name: typings
+          in: body
+          description: Array of Typing Objects
+          required: true
+          schema:
+            title: ArrayOftypings
+            type: array
+            items:
+              $ref: '#/definitions/Typing'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOftypings
+            type: array
+            items:
+              $ref: '#/definitions/Typing'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateTyping
+      description: Update a single Typing entry
+      parameters:
+        -
+          name: typing
+          in: body
+          description: Typing Object
+          required: true
+          schema:
+            $ref: '#/definitions/Typing'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Typing'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteTyping
+      description: Delete a single Typing entry
+      parameters:
+        -
+          name: typing
+          in: body
+          description: Typing Object
+          required: true
+          schema:
+            $ref: '#/definitions/Typing'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Typing'
+        500:
+          description:
+            schema:
+              title: TypingControllerException
+              schema:
+                $ref: '#/definitions/Error'
   /collectionMethod/{id}:
     get:
       operationId: getCollectionMethod
@@ -2002,6 +2208,14 @@ definitions:
         type: string
         format: date-time
         description: Date updated
+      properties:
+        type: array
+        description: array of properties
+        items:
+          $ref: '#/definitions/Property'
+      typing:
+        $ref: Typing
+        description: typing data associated with sample
       collectionMethods:
         type: array
         description: array of center codes
@@ -2147,6 +2361,9 @@ definitions:
         type: string
         format: date-time
         description: Date updated
+      description:
+        type: string
+        description: Description of HML project
   HmlId:
     type: object
     properties:
@@ -2228,6 +2445,26 @@ definitions:
       description:
         type: string
         description: Short description of version
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  Typing:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      geneFamily:
+        type: string
+        description: gene type
       active:
         type: boolean
         description: Active record
