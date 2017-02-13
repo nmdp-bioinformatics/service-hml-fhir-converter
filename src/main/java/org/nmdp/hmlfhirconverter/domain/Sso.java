@@ -35,30 +35,27 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Samples.Typings")
-public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> implements Serializable, ICascadable {
+@Document(collection = "Hml.Samples.Typings.TypingMethods.Ssos")
+public class Sso extends SwaggerConverter<Sso, io.swagger.model.Sso> implements Serializable, ICascadable {
 
-    private static Class<Typing> tClass = Typing.class;
-    private static Class<io.swagger.model.Typing> uClass = io.swagger.model.Typing.class;
+    private static Class<Sso> tClass = Sso.class;
+    private static Class<io.swagger.model.Sso> uClass = io.swagger.model.Sso.class;
 
-    public Typing() {
+    public Sso() {
         super(tClass, uClass);
     }
 
-    public Typing(Boolean active) {
+    public Sso(Boolean active) {
         super (tClass, uClass);
         this.active = active;
         this.dateUpdated = null;
         this.properties = new ArrayList<>();
-        this.alleleAssignment = new AlleleAssignment(true);
-        this.typingMethod = new TypingMethod(true);
-        this.consensusSequence = new ConsensusSequence(true);
     }
 
     @XmlAttribute
@@ -66,22 +63,16 @@ public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> im
     private String id;
 
     @XmlAttribute
-    private String geneFamily;
+    private String locus;
 
     @XmlAttribute
-    private Date date;
+    private String testId;
+
+    @XmlAttribute
+    private String testIdSource;
 
     @XmlAttribute
     private List<Property> properties;
-
-    @XmlAttribute
-    private AlleleAssignment alleleAssignment;
-
-    @XmlAttribute
-    private TypingMethod typingMethod;
-
-    @XmlAttribute
-    private ConsensusSequence consensusSequence;
 
     @XmlAttribute
     private Boolean active;

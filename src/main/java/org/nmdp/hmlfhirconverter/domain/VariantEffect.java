@@ -36,29 +36,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Samples.Typings")
-public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> implements Serializable, ICascadable {
+@Document(collection = "Hml.Samples.Typings.ConsensusSequences.ConsensusSequenceBlocks.Variants.VariantEffects")
+public class VariantEffect extends SwaggerConverter<VariantEffect, io.swagger.model.VariantEffect> implements Serializable, ICascadable {
 
-    private static Class<Typing> tClass = Typing.class;
-    private static Class<io.swagger.model.Typing> uClass = io.swagger.model.Typing.class;
+    private static Class<VariantEffect> tClass = VariantEffect.class;
+    private static Class<io.swagger.model.VariantEffect> uClass = io.swagger.model.VariantEffect.class;
 
-    public Typing() {
+    public VariantEffect() {
         super(tClass, uClass);
     }
 
-    public Typing(Boolean active) {
+    public VariantEffect(Boolean active) {
         super (tClass, uClass);
         this.active = active;
         this.dateUpdated = null;
-        this.properties = new ArrayList<>();
-        this.alleleAssignment = new AlleleAssignment(true);
-        this.typingMethod = new TypingMethod(true);
-        this.consensusSequence = new ConsensusSequence(true);
     }
 
     @XmlAttribute
@@ -66,22 +60,16 @@ public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> im
     private String id;
 
     @XmlAttribute
-    private String geneFamily;
+    private String term;
 
     @XmlAttribute
-    private Date date;
+    private String hgvs;
 
     @XmlAttribute
-    private List<Property> properties;
+    private String uri;
 
     @XmlAttribute
-    private AlleleAssignment alleleAssignment;
-
-    @XmlAttribute
-    private TypingMethod typingMethod;
-
-    @XmlAttribute
-    private ConsensusSequence consensusSequence;
+    private Object anyAttribute;
 
     @XmlAttribute
     private Boolean active;

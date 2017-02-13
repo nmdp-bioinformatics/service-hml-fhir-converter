@@ -36,29 +36,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Samples.Typings")
-public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> implements Serializable, ICascadable {
+@Document(collection = "Hml.Samples.Typings.ConsensusSequences.ConsensusSequenceBlocks.Variants")
+public class Variant extends SwaggerConverter<Variant, io.swagger.model.Variant> implements Serializable, ICascadable {
 
-    private static Class<Typing> tClass = Typing.class;
-    private static Class<io.swagger.model.Typing> uClass = io.swagger.model.Typing.class;
+    private static Class<Variant> tClass = Variant.class;
+    private static Class<io.swagger.model.Variant> uClass = io.swagger.model.Variant.class;
 
-    public Typing() {
+    public Variant() {
         super(tClass, uClass);
     }
 
-    public Typing(Boolean active) {
+    public Variant(Boolean active) {
         super (tClass, uClass);
         this.active = active;
         this.dateUpdated = null;
-        this.properties = new ArrayList<>();
-        this.alleleAssignment = new AlleleAssignment(true);
-        this.typingMethod = new TypingMethod(true);
-        this.consensusSequence = new ConsensusSequence(true);
+        this.variantEffect = new VariantEffect(true);
     }
 
     @XmlAttribute
@@ -66,22 +61,34 @@ public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> im
     private String id;
 
     @XmlAttribute
-    private String geneFamily;
+    private String variantId;
 
     @XmlAttribute
-    private Date date;
+    private String name;
 
     @XmlAttribute
-    private List<Property> properties;
+    private Integer start;
 
     @XmlAttribute
-    private AlleleAssignment alleleAssignment;
+    private Integer end;
 
     @XmlAttribute
-    private TypingMethod typingMethod;
+    private String referenceBases;
 
     @XmlAttribute
-    private ConsensusSequence consensusSequence;
+    private String alternateBases;
+
+    @XmlAttribute
+    private String qualityScore;
+
+    @XmlAttribute
+    private String filter;
+
+    @XmlAttribute
+    private VariantEffect variantEffect;
+
+    @XmlAttribute
+    private Object anyAttribute;
 
     @XmlAttribute
     private Boolean active;

@@ -2468,6 +2468,736 @@ definitions:
       active:
         type: boolean
         description: Active record
+      alleleAssignment:
+        $ref: AlleleAssignment
+        description: allele assigned by this typing
+      typingMethod:
+        $ref: TypingMethod
+        description: method used to determine typing
+      properties:
+        type: array
+        description: Properteis belonging to this item
+        items:
+          $ref: '#/definitions/Property'
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  AlleleAssignment:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      date:
+        type: string
+        format: date-time
+        description: date of assignment
+      alleleDb:
+        type: string
+        description: allele database
+      alleleVersion:
+        type: string
+        description: version of the allele
+      properties:
+        type: array
+        description: Properteis belonging to this item
+        items:
+          $ref: '#/definitions/Property'
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      haploid:
+        $ref: Haploid
+      genotypes:
+        type: array
+        items:
+          $ref: '#/definitions/Genotype'
+      glString:
+        $ref: GlString
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  TypingMethod:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      sso:
+        $ref: Sso
+        description: method sso
+      ssp:
+        $ref: Ssp
+        description: method ssp
+      sbtSanger:
+        $ref: SbtSanger
+        description: method sanger sbt
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  Sso:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      locus:
+        type: string
+        description: gene locus
+      testId:
+        type: string
+        description: id of test
+      testIdSource:
+        type: string
+        description: source of test id
+      properties:
+        type: array
+        description: Properteis belonging to this item
+        items:
+          $ref: '#/definitions/Property'
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  Ssp:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      locus:
+        type: string
+        description: gene locus
+      testId:
+        type: string
+        description: id of test
+      testIdSource:
+        type: string
+        description: source of test id
+      scores:
+        type: string
+        description: scores of test id
+      properties:
+        type: array
+        description: Properteis belonging to this item
+        items:
+          $ref: '#/definitions/Property'
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  SbtNgs:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      locus:
+        type: string
+        description: locus of ngs location
+      testId:
+        type: string
+        description: id of ngs test
+      testIdSource:
+        type: string
+        description: source of test id
+      properties:
+        type: array
+        description: Properteis belonging to this item
+        items:
+          $ref: '#/definitions/Property'
+      rawReads:
+        type: array
+        description: raw read data
+        items:
+          $ref: '#/definitions/RawRead'
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  SbtSanger:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      locus:
+        type: string
+        description: gene locus
+      testId:
+        type: string
+        description: id of test
+      testIdSource:
+        type: string
+        description: source of test id
+      properties:
+        type: array
+        description: Properteis belonging to this item
+        items:
+          $ref: '#/definitions/Property'
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  Amplification:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      registeredName:
+        type: string
+        description: registered name of amplification
+      sequence:
+        $ref: Sequence
+        description: sequence of amplification
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  SubAmplification:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      registeredName:
+        type: string
+        description: registered name of sub-amplification
+      sequence:
+        $ref: Sequence
+        description: sequence of amplification
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  Gssp:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      registeredName:
+        type: string
+        description: registered name of gssp
+      primerSequence:
+        type: string
+        description: sequence of primers used
+      primerTarget:
+        type: string
+        description: intended primer sequence target
+      sequence:
+        $ref: Sequence
+        description: sequence of amplification
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  Sequence:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      sequence:
+        type: string
+        description: sequence data
+      anyAttribute:
+        type: object
+        description: generic attribute
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  RawRead:
+    type: object
+    properies:
+      id:
+        type: string
+        description: Id of the typing
+      uri:
+        type: string
+        description: data location uri
+      format:
+        type: string
+        description: format of uri
+      paired:
+        type: boolean
+        description: paired reads
+      pooled:
+        type: boolean
+        description: pooled sample reads
+      availability:
+        type: string
+        description: availability of reads
+      adapterTrimmed:
+        type: boolean
+        description: adapter was trimmed
+      qualityTrimmed:
+        type: boolean
+        description: trimmed quality
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  ConsensusSequence:
+    type: object
+    properites:
+      id:
+        type: string
+        description: Id of the typing
+      date:
+        type: string
+        format: date-time
+        description: date created
+      referenceDatabase:
+        $ref: ReferenceDatabase
+        description: reference database
+      consensusSequenceBlock:
+        $ref: ConsensusSequenceBlock
+        description: block of consensus sequence
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  ConsensusSequenceBlock:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      referenceSequenceId:
+        type: string
+        description: id of reference sequence
+      start:
+        type: integer
+        format: int32
+      end:
+        type: integer
+        format: int32
+      strand:
+        type: string
+      phasingGroup:
+        type: string
+      phaseSet:
+        type: string
+      continuity:
+        type: boolean
+      sequence:
+        $ref: Sequence
+      variant:
+        $ref: Variant
+      expectedCopyNumber:
+        type: integer
+        format: int32
+      description:
+        type: string
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  ReferenceDatabase:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Id of the typing
+      name:
+        type: string
+      description:
+        type: string
+      version:
+        type: string
+      availability:
+        type: string
+      curated:
+        type: boolean
+      referenceSequence:
+        $ref: ReferenceSequence
+      uri:
+        type: string
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  ReferenceSequence:
+    type: object
+    properties:
+      id:
+        type: string
+      referenceSequenceId:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      start:
+        type: integer
+        format: int32
+      end:
+        type: integer
+        format: int32
+      accession:
+        type: string
+      strand:
+        type: string
+      uri:
+        type: string
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  Sequence:
+    type: object
+    properties:
+      id:
+        type: string
+      sequence:
+        type: string
+      anyAttribute:
+        type: object
+      iupacBases:
+        type: array
+        items:
+          $ref: '#/definitions/IupacBases'
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  IupacBases:
+    type: object
+    properties:
+      id:
+        type: string
+      property:
+        type: string
+      value:
+        type: string
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  Variant:
+    type: object
+    properties:
+      id:
+        type: string
+      variantId:
+        type: string
+      name:
+        type: string
+      start:
+        type: integer
+        format: int32
+      end:
+        type: integer
+        format: int32
+      referenceBases:
+        type: string
+      alternateBases:
+        type: string
+      qualityScore:
+        type: string
+      filter:
+        type: string
+      variantEffect:
+        $ref: VariantEffect
+      anyAttribute:
+        type: object
+      uri:
+        type: string
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  VariantEffect:
+    type: object
+    properties:
+      id:
+        type: string
+      term:
+        type: string
+      hgvs:
+        type: string
+      uri:
+        type: string
+      anyAttribute:
+        type: object
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  SequenceQuality:
+    type: object
+    properties:
+      id:
+        type: string
+      sequenceStart:
+        type: integer
+        format: int32
+      sequenceEnd:
+        type: integer
+        format: int32
+      qualityScore:
+        type: string
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  Haploid:
+    type: object
+    properties:
+      id:
+        type: string
+      locus:
+        type: string
+      method:
+        type: string
+      type:
+        type: string
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  Genotype:
+    type: object
+    properties:
+      id:
+        type: string
+      diploidCombinations:
+        type: array
+        items:
+          $ref: '#/DiploidCombination'
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  GlString:
+    type: object
+    properties:
+      id:
+        type: string
+      uri:
+        type: string
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  DiploidCombination:
+    type: object
+    properties:
+      id:
+        type: string
+      locusBlock:
+        $ref: LocusBlock
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  LocusBlock:
+    type: object
+    properties:
+      id:
+        type: string
+      alleles:
+        type: array
+        items:
+          $ref: '#/definitions/Allele'
+      active:
+        type: boolean
+        description: Active record
+      dateCreated:
+        type: string
+        format: date-time
+        description: Creation date
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Date updated
+  Allele:
+    type: object
+    properties:
+      id:
+        type: string
+      present:
+        type: string
+      name:
+        type: string
+      active:
+        type: boolean
+        description: Active record
       dateCreated:
         type: string
         format: date-time

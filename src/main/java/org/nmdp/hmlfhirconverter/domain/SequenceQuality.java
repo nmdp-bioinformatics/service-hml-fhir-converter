@@ -36,29 +36,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Samples.Typings")
-public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> implements Serializable, ICascadable {
+@Document(collection = "Hml.Samples.Typings.ConsensusSequences.ConsensusSequenceBlocks.SequenceQualities")
+public class SequenceQuality extends SwaggerConverter<SequenceQuality, io.swagger.model.SequenceQuality> implements Serializable, ICascadable {
 
-    private static Class<Typing> tClass = Typing.class;
-    private static Class<io.swagger.model.Typing> uClass = io.swagger.model.Typing.class;
+    private static Class<SequenceQuality> tClass = SequenceQuality.class;
+    private static Class<io.swagger.model.SequenceQuality> uClass = io.swagger.model.SequenceQuality.class;
 
-    public Typing() {
+    public SequenceQuality() {
         super(tClass, uClass);
     }
 
-    public Typing(Boolean active) {
+    public SequenceQuality(Boolean active) {
         super (tClass, uClass);
         this.active = active;
         this.dateUpdated = null;
-        this.properties = new ArrayList<>();
-        this.alleleAssignment = new AlleleAssignment(true);
-        this.typingMethod = new TypingMethod(true);
-        this.consensusSequence = new ConsensusSequence(true);
     }
 
     @XmlAttribute
@@ -66,22 +60,16 @@ public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> im
     private String id;
 
     @XmlAttribute
-    private String geneFamily;
+    private Integer sequenceStart;
+
+    @XmlAttribute
+    private Integer sequenceEnd;
+
+    @XmlAttribute
+    private String qualityScore;
 
     @XmlAttribute
     private Date date;
-
-    @XmlAttribute
-    private List<Property> properties;
-
-    @XmlAttribute
-    private AlleleAssignment alleleAssignment;
-
-    @XmlAttribute
-    private TypingMethod typingMethod;
-
-    @XmlAttribute
-    private ConsensusSequence consensusSequence;
 
     @XmlAttribute
     private Boolean active;

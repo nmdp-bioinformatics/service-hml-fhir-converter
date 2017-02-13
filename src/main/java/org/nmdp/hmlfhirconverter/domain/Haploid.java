@@ -36,29 +36,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Samples.Typings")
-public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> implements Serializable, ICascadable {
+@Document(collection = "Hml.Samples.Typings.Haploids")
+public class Haploid extends SwaggerConverter<Haploid, io.swagger.model.Haploid> implements Serializable, ICascadable  {
 
-    private static Class<Typing> tClass = Typing.class;
-    private static Class<io.swagger.model.Typing> uClass = io.swagger.model.Typing.class;
+    private static Class<Haploid> tClass = Haploid.class;
+    private static Class<io.swagger.model.Haploid> uClass = io.swagger.model.Haploid.class;
 
-    public Typing() {
+    public Haploid() {
         super(tClass, uClass);
     }
 
-    public Typing(Boolean active) {
+    public Haploid(Boolean active) {
         super (tClass, uClass);
         this.active = active;
         this.dateUpdated = null;
-        this.properties = new ArrayList<>();
-        this.alleleAssignment = new AlleleAssignment(true);
-        this.typingMethod = new TypingMethod(true);
-        this.consensusSequence = new ConsensusSequence(true);
     }
 
     @XmlAttribute
@@ -66,22 +60,13 @@ public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> im
     private String id;
 
     @XmlAttribute
-    private String geneFamily;
+    private String locus;
 
     @XmlAttribute
-    private Date date;
+    private String method;
 
     @XmlAttribute
-    private List<Property> properties;
-
-    @XmlAttribute
-    private AlleleAssignment alleleAssignment;
-
-    @XmlAttribute
-    private TypingMethod typingMethod;
-
-    @XmlAttribute
-    private ConsensusSequence consensusSequence;
+    private String type;
 
     @XmlAttribute
     private Boolean active;

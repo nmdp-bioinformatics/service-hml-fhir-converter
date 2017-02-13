@@ -36,29 +36,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Samples.Typings")
-public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> implements Serializable, ICascadable {
+@Document(collection = "Hml.Samples.Typings.TypingMethods.SbtSangers.Amplifications")
+public class Amplification extends SwaggerConverter<Amplification, io.swagger.model.Amplification> implements Serializable, ICascadable {
 
-    private static Class<Typing> tClass = Typing.class;
-    private static Class<io.swagger.model.Typing> uClass = io.swagger.model.Typing.class;
+    private static Class<Amplification> tClass = Amplification.class;
+    private static Class<io.swagger.model.Amplification> uClass = io.swagger.model.Amplification.class;
 
-    public Typing() {
+    public Amplification() {
         super(tClass, uClass);
     }
 
-    public Typing(Boolean active) {
+    public Amplification(Boolean active) {
         super (tClass, uClass);
         this.active = active;
         this.dateUpdated = null;
-        this.properties = new ArrayList<>();
-        this.alleleAssignment = new AlleleAssignment(true);
-        this.typingMethod = new TypingMethod(true);
-        this.consensusSequence = new ConsensusSequence(true);
+        this.sequence = new Sequence(true);
     }
 
     @XmlAttribute
@@ -66,22 +61,10 @@ public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> im
     private String id;
 
     @XmlAttribute
-    private String geneFamily;
+    private String registeredName;
 
     @XmlAttribute
-    private Date date;
-
-    @XmlAttribute
-    private List<Property> properties;
-
-    @XmlAttribute
-    private AlleleAssignment alleleAssignment;
-
-    @XmlAttribute
-    private TypingMethod typingMethod;
-
-    @XmlAttribute
-    private ConsensusSequence consensusSequence;
+    private Sequence sequence;
 
     @XmlAttribute
     private Boolean active;

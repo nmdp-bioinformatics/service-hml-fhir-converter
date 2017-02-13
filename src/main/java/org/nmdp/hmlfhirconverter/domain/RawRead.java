@@ -36,29 +36,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Samples.Typings")
-public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> implements Serializable, ICascadable {
+@Document(collection = "Hml.Samples.Typings.TypingMethods.SbtSangers.SbtNgs.RawReads")
+public class RawRead extends SwaggerConverter<RawRead, io.swagger.model.RawRead> implements Serializable, ICascadable {
 
-    private static Class<Typing> tClass = Typing.class;
-    private static Class<io.swagger.model.Typing> uClass = io.swagger.model.Typing.class;
+    private static Class<RawRead> tClass = RawRead.class;
+    private static Class<io.swagger.model.RawRead> uClass = io.swagger.model.RawRead.class;
 
-    public Typing() {
+    public RawRead() {
         super(tClass, uClass);
     }
 
-    public Typing(Boolean active) {
+    public RawRead(Boolean active) {
         super (tClass, uClass);
         this.active = active;
         this.dateUpdated = null;
-        this.properties = new ArrayList<>();
-        this.alleleAssignment = new AlleleAssignment(true);
-        this.typingMethod = new TypingMethod(true);
-        this.consensusSequence = new ConsensusSequence(true);
     }
 
     @XmlAttribute
@@ -66,22 +60,25 @@ public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> im
     private String id;
 
     @XmlAttribute
-    private String geneFamily;
+    private String uri;
 
     @XmlAttribute
-    private Date date;
+    private String format;
 
     @XmlAttribute
-    private List<Property> properties;
+    private Boolean paired;
 
     @XmlAttribute
-    private AlleleAssignment alleleAssignment;
+    private Boolean pooled;
 
     @XmlAttribute
-    private TypingMethod typingMethod;
+    private String availability;
 
     @XmlAttribute
-    private ConsensusSequence consensusSequence;
+    private Boolean adapterTrimmed;
+
+    @XmlAttribute
+    private Boolean qualityTrimmed;
 
     @XmlAttribute
     private Boolean active;

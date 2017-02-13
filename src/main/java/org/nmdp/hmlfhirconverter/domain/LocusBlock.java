@@ -35,30 +35,27 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Samples.Typings")
-public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> implements Serializable, ICascadable {
+@Document(collection = "Hml.Samples.Typings.AlleleAssignments.GenotypeLists.DiploidCombinations.LocusBlocks")
+public class LocusBlock extends SwaggerConverter<LocusBlock, io.swagger.model.LocusBlock> implements Serializable, ICascadable {
 
-    private static Class<Typing> tClass = Typing.class;
-    private static Class<io.swagger.model.Typing> uClass = io.swagger.model.Typing.class;
+    private static Class<LocusBlock> tClass = LocusBlock.class;
+    private static Class<io.swagger.model.LocusBlock> uClass = io.swagger.model.LocusBlock.class;
 
-    public Typing() {
+    public LocusBlock() {
         super(tClass, uClass);
     }
 
-    public Typing(Boolean active) {
+    public LocusBlock(Boolean active) {
         super (tClass, uClass);
         this.active = active;
         this.dateUpdated = null;
-        this.properties = new ArrayList<>();
-        this.alleleAssignment = new AlleleAssignment(true);
-        this.typingMethod = new TypingMethod(true);
-        this.consensusSequence = new ConsensusSequence(true);
+        this.alleles = new ArrayList<>();
     }
 
     @XmlAttribute
@@ -66,22 +63,7 @@ public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> im
     private String id;
 
     @XmlAttribute
-    private String geneFamily;
-
-    @XmlAttribute
-    private Date date;
-
-    @XmlAttribute
-    private List<Property> properties;
-
-    @XmlAttribute
-    private AlleleAssignment alleleAssignment;
-
-    @XmlAttribute
-    private TypingMethod typingMethod;
-
-    @XmlAttribute
-    private ConsensusSequence consensusSequence;
+    private List<Allele> alleles;
 
     @XmlAttribute
     private Boolean active;

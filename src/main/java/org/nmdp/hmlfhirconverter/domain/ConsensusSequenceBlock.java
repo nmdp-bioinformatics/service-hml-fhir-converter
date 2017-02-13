@@ -1,5 +1,12 @@
 package org.nmdp.hmlfhirconverter.domain;
 
+import org.nmdp.hmlfhirconverter.domain.base.SwaggerConverter;
+import org.springframework.data.annotation.Id;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 2/12/17.
  * <p>
@@ -36,29 +43,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Samples.Typings")
-public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> implements Serializable, ICascadable {
+@Document(collection = "Hml.Samples.Typings.ConsensusSequences.ConsensusSequenceBlocks")
+public class ConsensusSequenceBlock extends SwaggerConverter<ConsensusSequenceBlock, io.swagger.model.ConsensusSequenceBlock> implements Serializable, ICascadable {
 
-    private static Class<Typing> tClass = Typing.class;
-    private static Class<io.swagger.model.Typing> uClass = io.swagger.model.Typing.class;
+    private static Class<ConsensusSequenceBlock> tClass = ConsensusSequenceBlock.class;
+    private static Class<io.swagger.model.ConsensusSequenceBlock> uClass = io.swagger.model.ConsensusSequenceBlock.class;
 
-    public Typing() {
+    public ConsensusSequenceBlock() {
         super(tClass, uClass);
     }
 
-    public Typing(Boolean active) {
+    public ConsensusSequenceBlock(Boolean active) {
         super (tClass, uClass);
         this.active = active;
         this.dateUpdated = null;
-        this.properties = new ArrayList<>();
-        this.alleleAssignment = new AlleleAssignment(true);
-        this.typingMethod = new TypingMethod(true);
-        this.consensusSequence = new ConsensusSequence(true);
     }
 
     @XmlAttribute
@@ -66,22 +67,37 @@ public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> im
     private String id;
 
     @XmlAttribute
-    private String geneFamily;
+    private String referenceSequenceId;
 
     @XmlAttribute
-    private Date date;
+    private Integer start;
 
     @XmlAttribute
-    private List<Property> properties;
+    private Integer end;
 
     @XmlAttribute
-    private AlleleAssignment alleleAssignment;
+    private String strand;
 
     @XmlAttribute
-    private TypingMethod typingMethod;
+    private String phasingGroup;
 
     @XmlAttribute
-    private ConsensusSequence consensusSequence;
+    private String phaseSet;
+
+    @XmlAttribute
+    private Boolean continuity;
+
+    @XmlAttribute
+    private Sequence sequence;
+
+    @XmlAttribute
+    private Variant variant;
+
+    @XmlAttribute
+    private Integer expectedCopyNumber;
+
+    @XmlAttribute
+    private String description;
 
     @XmlAttribute
     private Boolean active;

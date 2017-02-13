@@ -36,29 +36,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Document(collection = "Hml.Samples.Typings")
-public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> implements Serializable, ICascadable {
+@Document(collection = "Hml.Samples.Typings.ConsesnusSequences")
+public class ConsensusSequence extends SwaggerConverter<ConsensusSequence, io.swagger.model.ConsensusSequence> implements Serializable, ICascadable {
 
-    private static Class<Typing> tClass = Typing.class;
-    private static Class<io.swagger.model.Typing> uClass = io.swagger.model.Typing.class;
+    private static Class<ConsensusSequence> tClass = ConsensusSequence.class;
+    private static Class<io.swagger.model.ConsensusSequence> uClass = io.swagger.model.ConsensusSequence.class;
 
-    public Typing() {
+    public ConsensusSequence() {
         super(tClass, uClass);
     }
 
-    public Typing(Boolean active) {
+    public ConsensusSequence(Boolean active) {
         super (tClass, uClass);
         this.active = active;
         this.dateUpdated = null;
-        this.properties = new ArrayList<>();
-        this.alleleAssignment = new AlleleAssignment(true);
-        this.typingMethod = new TypingMethod(true);
-        this.consensusSequence = new ConsensusSequence(true);
+        this.referenceDatabase = new ReferenceDatabase(true);
+        this.consensusSequenceBlock = new ConsensusSequenceBlock(true);
     }
 
     @XmlAttribute
@@ -66,22 +62,13 @@ public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> im
     private String id;
 
     @XmlAttribute
-    private String geneFamily;
-
-    @XmlAttribute
     private Date date;
 
     @XmlAttribute
-    private List<Property> properties;
+    private ReferenceDatabase referenceDatabase;
 
     @XmlAttribute
-    private AlleleAssignment alleleAssignment;
-
-    @XmlAttribute
-    private TypingMethod typingMethod;
-
-    @XmlAttribute
-    private ConsensusSequence consensusSequence;
+    private ConsensusSequenceBlock consensusSequenceBlock;
 
     @XmlAttribute
     private Boolean active;
