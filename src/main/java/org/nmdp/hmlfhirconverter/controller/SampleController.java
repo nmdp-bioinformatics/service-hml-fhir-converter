@@ -26,7 +26,6 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.SampleApi;
-import io.swagger.model.CollectionMethod;
 import io.swagger.model.Sample;
 import io.swagger.model.TypeaheadQuery;
 
