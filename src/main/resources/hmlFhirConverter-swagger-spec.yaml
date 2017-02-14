@@ -14,6 +14,624 @@ produces:
   - application/json
 
 paths:
+  /sbtSanger/{id}:
+    get:
+      operationId: getSbtSanger
+      description: Gets the SbtSanger by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of SbtSanger in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/SbtSanger'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SbtSangerControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSbtSanger
+      description: Deletes the SbtSanger by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of SbtSanger in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorSbtSanger
+          schema:
+            title: SbtSangerControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sbtSanger/{maxResults}:
+    post:
+      operationId: getTypeaheadSbtSangers
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfSbtSangers
+            type: array
+            items:
+              $ref: '#/definitions/SbtSanger'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SbtSangerTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sbtSanger/{maxResults}/{pageNumber}:
+    get:
+      operationId: getSbtSangers
+      description: Gets the list of available SbtSangers
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsbtSangers
+            type: array
+            items:
+              $ref: '#/definitions/SbtSanger'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SbtSangerControllerException
+            schema:
+              $ref: '#/definitions/SbtSangerControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sbtSanger:
+    post:
+      operationId: createSbtSangers
+      description: Create SbtSanger entries
+      parameters:
+        -
+          name: sbtSangers
+          in: body
+          description: Array of SbtSanger Objects
+          required: true
+          schema:
+            title: ArrayOfsbtSangers
+            type: array
+            items:
+              $ref: '#/definitions/SbtSanger'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsbtSangers
+            type: array
+            items:
+              $ref: '#/definitions/SbtSanger'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SbtSangerControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateSbtSanger
+      description: Update a single SbtSanger entry
+      parameters:
+        -
+          name: sbtSanger
+          in: body
+          description: SbtSanger Object
+          required: true
+          schema:
+            $ref: '#/definitions/SbtSanger'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/SbtSanger'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SbtSangerControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSbtSanger
+      description: Delete a single SbtSanger entry
+      parameters:
+        -
+          name: sbtSanger
+          in: body
+          description: SbtSanger Object
+          required: true
+          schema:
+            $ref: '#/definitions/SbtSanger'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: SbtSangerControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/SbtSanger'
+        500:
+          description:
+            schema:
+              title: SbtSangerControllerException
+              schema:
+                $ref: '#/definitions/Error'
+  /ssp/{id}:
+    get:
+      operationId: getSsp
+      description: Gets the Ssp by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Ssp in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Ssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSsp
+      description: Deletes the Ssp by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Ssp in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorSsp
+          schema:
+            title: SspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /ssp/{maxResults}:
+    post:
+      operationId: getTypeaheadSsps
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfSsps
+            type: array
+            items:
+              $ref: '#/definitions/Ssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SspTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /ssp/{maxResults}/{pageNumber}:
+    get:
+      operationId: getSsps
+      description: Gets the list of available Ssps
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfssps
+            type: array
+            items:
+              $ref: '#/definitions/Ssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SspControllerException
+            schema:
+              $ref: '#/definitions/SspControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /ssp:
+    post:
+      operationId: createSsps
+      description: Create Ssp entries
+      parameters:
+        -
+          name: ssps
+          in: body
+          description: Array of Ssp Objects
+          required: true
+          schema:
+            title: ArrayOfssps
+            type: array
+            items:
+              $ref: '#/definitions/Ssp'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfssps
+            type: array
+            items:
+              $ref: '#/definitions/Ssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateSsp
+      description: Update a single Ssp entry
+      parameters:
+        -
+          name: ssp
+          in: body
+          description: Ssp Object
+          required: true
+          schema:
+            $ref: '#/definitions/Ssp'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Ssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSsp
+      description: Delete a single Ssp entry
+      parameters:
+        -
+          name: ssp
+          in: body
+          description: Ssp Object
+          required: true
+          schema:
+            $ref: '#/definitions/Ssp'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: SspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Ssp'
+        500:
+          description:
+            schema:
+              title: SspControllerException
+              schema:
+                $ref: '#/definitions/Error'
+  /sso/{id}:
+    get:
+      operationId: getSso
+      description: Gets the Sso by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Sso in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Sso'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SsoControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSso
+      description: Deletes the Sso by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Sso in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorSso
+          schema:
+            title: SsoControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sso/{maxResults}:
+    post:
+      operationId: getTypeaheadSsos
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfSsos
+            type: array
+            items:
+              $ref: '#/definitions/Sso'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SsoTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sso/{maxResults}/{pageNumber}:
+    get:
+      operationId: getSsos
+      description: Gets the list of available Ssos
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfssos
+            type: array
+            items:
+              $ref: '#/definitions/Sso'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SsoControllerException
+            schema:
+              $ref: '#/definitions/SsoControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sso:
+    post:
+      operationId: createSsos
+      description: Create Sso entries
+      parameters:
+        -
+          name: ssos
+          in: body
+          description: Array of Sso Objects
+          required: true
+          schema:
+            title: ArrayOfssos
+            type: array
+            items:
+              $ref: '#/definitions/Sso'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfssos
+            type: array
+            items:
+              $ref: '#/definitions/Sso'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SsoControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateSso
+      description: Update a single Sso entry
+      parameters:
+        -
+          name: sso
+          in: body
+          description: Sso Object
+          required: true
+          schema:
+            $ref: '#/definitions/Sso'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Sso'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SsoControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSso
+      description: Delete a single Sso entry
+      parameters:
+        -
+          name: sso
+          in: body
+          description: Sso Object
+          required: true
+          schema:
+            $ref: '#/definitions/Sso'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: SsoControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Sso'
+        500:
+          description:
+            schema:
+              title: SsoControllerException
+              schema:
+                $ref: '#/definitions/Error'
   /typingMethod/{id}:
     get:
       operationId: getTypingMethod
