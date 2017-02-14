@@ -57,7 +57,7 @@ public class Sample extends SwaggerConverter<Sample, io.swagger.model.Sample> im
         this.dateUpdated = null;
         this.collectionMethods = new ArrayList<>();
         this.properties = new ArrayList<>();
-        this.typing = new Typing();
+        this.typing = new Typing(true);
     }
 
     @XmlAttribute
