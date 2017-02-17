@@ -1,0 +1,8 @@
+TypeaheadQuery:
+  type: object
+  properties:
+    criteria:
+      type: array
+      description: Query Criteria
+      items:
+        $ref: '#/definitions/QueryCriteria'
