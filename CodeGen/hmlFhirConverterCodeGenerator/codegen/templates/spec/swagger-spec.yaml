@@ -1,0 +1,16 @@
+swagger: '2.0'
+info:
+  version: "0.0.1"
+  title: service-hmlFhirConverter
+  description: Mid level API to handle services of web-hmlFhirAngularClient
+schemes:
+  - https
+basePath: /v1
+produces:
+  - application/json
+paths:
+  -
+    path:
+definitions:
+  -
+    definition:

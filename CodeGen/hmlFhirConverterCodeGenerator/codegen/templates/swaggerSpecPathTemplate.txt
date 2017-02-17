@@ -1,0 +1,206 @@
+  /**classname**/{id}:
+    get:
+      operationId: get**CLASSNAME**
+      description: Gets the **CLASSNAME** by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of **CLASSNAME** in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/**CLASSNAME**'
+        500:
+          description: Internal Server Error
+          schema:
+            title: **CLASSNAME**ControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: delete**CLASSNAME**
+      description: Deletes the **CLASSNAME** by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of **CLASSNAME** in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error**CLASSNAME**
+          schema:
+            title: **CLASSNAME**ControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /**classname**/{maxResults}:
+    post:
+      operationId: getTypeahead**PLURAL**
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOf**PLURAL**
+            type: array
+            items:
+              $ref: '#/definitions/**CLASSNAME**'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /**classname**/{maxResults}/{pageNumber}:
+    get:
+      operationId: get**PLURAL**
+      description: Gets the list of available **PLURAL**
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOf**plural**
+            type: array
+            items:
+              $ref: '#/definitions/**CLASSNAME**'
+        500:
+          description: Internal Server Error
+          schema:
+            title: **CLASSNAME**ControllerException
+            schema:
+              $ref: '#/definitions/**CLASSNAME**ControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /**classname**:
+    post:
+      operationId: create**PLURAL**
+      description: Create **CLASSNAME** entries
+      parameters:
+        -
+          name: **plural**
+          in: body
+          description: Array of **CLASSNAME** Objects
+          required: true
+          schema:
+            title: ArrayOf**plural**
+            type: array
+            items:
+              $ref: '#/definitions/**CLASSNAME**'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOf**plural**
+            type: array
+            items:
+              $ref: '#/definitions/**CLASSNAME**'
+        500:
+          description: Internal Server Error
+          schema:
+            title: **CLASSNAME**ControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: update**CLASSNAME**
+      description: Update a single **CLASSNAME** entry
+      parameters:
+        -
+          name: **classname**
+          in: body
+          description: **CLASSNAME** Object
+          required: true
+          schema:
+            $ref: '#/definitions/**CLASSNAME**'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/**CLASSNAME**'
+        500:
+          description: Internal Server Error
+          schema:
+            title: **CLASSNAME**ControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: delete**CLASSNAME**
+      description: Delete a single **CLASSNAME** entry
+      parameters:
+        -
+          name: **classname**
+          in: body
+          description: **CLASSNAME** Object
+          required: true
+          schema:
+            $ref: '#/definitions/**CLASSNAME**'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: **CLASSNAME**ControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/**CLASSNAME**'
+        500:
+          description:
+            schema:
+              title: **CLASSNAME**ControllerException
+              schema:
+                $ref: '#/definitions/Error'
