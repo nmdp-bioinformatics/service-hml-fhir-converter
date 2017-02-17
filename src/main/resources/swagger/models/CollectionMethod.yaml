@@ -1,0 +1,9 @@
+CollectionMethod:
+  properties:
+    active: {description: Active item, type: boolean}
+    dateCreated: {description: Date entry was created, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    description: {description: Description of method, type: string}
+    id: {description: Id of collection method, type: string}
+    name: {description: Name of method, type: string}
+  type: object

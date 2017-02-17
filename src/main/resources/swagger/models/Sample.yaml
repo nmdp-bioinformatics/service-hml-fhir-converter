@@ -1,0 +1,17 @@
+Sample:
+  properties:
+    active: {description: Active record, type: boolean}
+    centerCode: {description: Center code, type: string}
+    collectionMethods:
+      description: array of center codes
+      items: {$ref: '#/definitions/CollectionMethod'}
+      type: array
+    dateCreated: {description: Date record was created, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    id: {description: Id of sample, type: string}
+    properties:
+      description: array of properties
+      items: {$ref: '#/definitions/Property'}
+      type: array
+    typing: {$ref: Typing, description: typing data associated with sample}
+  type: object

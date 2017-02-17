@@ -1,0 +1,206 @@
+  /locusBlock/{id}:
+    get:
+      operationId: getLocusBlock
+      description: Gets the LocusBlock by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of LocusBlock in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/LocusBlock'
+        500:
+          description: Internal Server Error
+          schema:
+            title: LocusBlockControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteLocusBlock
+      description: Deletes the LocusBlock by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of LocusBlock in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorLocusBlock
+          schema:
+            title: LocusBlockControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /locusBlock/{maxResults}:
+    post:
+      operationId: getTypeaheadLocusBlocks
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfLocusBlocks
+            type: array
+            items:
+              $ref: '#/definitions/LocusBlock'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /locusBlock/{maxResults}/{pageNumber}:
+    get:
+      operationId: getLocusBlocks
+      description: Gets the list of available LocusBlocks
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOflocusblocks
+            type: array
+            items:
+              $ref: '#/definitions/LocusBlock'
+        500:
+          description: Internal Server Error
+          schema:
+            title: LocusBlockControllerException
+            schema:
+              $ref: '#/definitions/LocusBlockControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /locusBlock:
+    post:
+      operationId: createLocusBlocks
+      description: Create LocusBlock entries
+      parameters:
+        -
+          name: locusblocks
+          in: body
+          description: Array of LocusBlock Objects
+          required: true
+          schema:
+            title: ArrayOflocusblocks
+            type: array
+            items:
+              $ref: '#/definitions/LocusBlock'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOflocusblocks
+            type: array
+            items:
+              $ref: '#/definitions/LocusBlock'
+        500:
+          description: Internal Server Error
+          schema:
+            title: LocusBlockControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateLocusBlock
+      description: Update a single LocusBlock entry
+      parameters:
+        -
+          name: locusBlock
+          in: body
+          description: LocusBlock Object
+          required: true
+          schema:
+            $ref: '#/definitions/LocusBlock'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/LocusBlock'
+        500:
+          description: Internal Server Error
+          schema:
+            title: LocusBlockControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteLocusBlock
+      description: Delete a single LocusBlock entry
+      parameters:
+        -
+          name: locusBlock
+          in: body
+          description: LocusBlock Object
+          required: true
+          schema:
+            $ref: '#/definitions/LocusBlock'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: LocusBlockControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/LocusBlock'
+        500:
+          description:
+            schema:
+              title: LocusBlockControllerException
+              schema:
+                $ref: '#/definitions/Error'

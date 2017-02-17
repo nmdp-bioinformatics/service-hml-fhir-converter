@@ -1,0 +1,206 @@
+  /hml/{id}:
+    get:
+      operationId: getHml
+      description: Gets the Hml by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Hml in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Hml'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteHml
+      description: Deletes the Hml by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Hml in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorHml
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /hml/{maxResults}:
+    post:
+      operationId: getTypeaheadHmls
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfHmls
+            type: array
+            items:
+              $ref: '#/definitions/Hml'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /hml/{maxResults}/{pageNumber}:
+    get:
+      operationId: getHmls
+      description: Gets the list of available Hmls
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfhmls
+            type: array
+            items:
+              $ref: '#/definitions/Hml'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /hml:
+    post:
+      operationId: createHmls
+      description: Create Hml entries
+      parameters:
+        -
+          name: hmls
+          in: body
+          description: Array of Hml Objects
+          required: true
+          schema:
+            title: ArrayOfhmls
+            type: array
+            items:
+              $ref: '#/definitions/Hml'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfhmls
+            type: array
+            items:
+              $ref: '#/definitions/Hml'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateHml
+      description: Update a single Hml entry
+      parameters:
+        -
+          name: hml
+          in: body
+          description: Hml Object
+          required: true
+          schema:
+            $ref: '#/definitions/Hml'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Hml'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteHml
+      description: Delete a single Hml entry
+      parameters:
+        -
+          name: hml
+          in: body
+          description: Hml Object
+          required: true
+          schema:
+            $ref: '#/definitions/Hml'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: HmlControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Hml'
+        500:
+          description:
+            schema:
+              title: HmlControllerException
+              schema:
+                $ref: '#/definitions/Error'

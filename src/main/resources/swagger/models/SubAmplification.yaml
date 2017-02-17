@@ -1,0 +1,9 @@
+SubAmplification:
+  properties:
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    id: {description: Id of the typing, type: string}
+    registeredName: {description: registered name of sub-amplification, type: string}
+    sequence: {$ref: Sequence, description: sequence of amplification}
+  type: object

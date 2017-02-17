@@ -1,0 +1,9 @@
+TypingTestName:
+  properties:
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    description: {description: Description of typing test name, type: string}
+    id: {description: Id of testing type name, type: string}
+    name: {description: Display / Common name of typing test, type: string}
+  type: object

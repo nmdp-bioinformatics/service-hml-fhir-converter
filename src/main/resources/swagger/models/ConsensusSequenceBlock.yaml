@@ -1,0 +1,18 @@
+ConsensusSequenceBlock:
+  properties:
+    active: {description: Active record, type: boolean}
+    continuity: {type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    description: {type: string}
+    end: {format: int32, type: integer}
+    expectedCopyNumber: {format: int32, type: integer}
+    id: {description: Id of the typing, type: string}
+    phaseSet: {type: string}
+    phasingGroup: {type: string}
+    referenceSequenceId: {description: id of reference sequence, type: string}
+    sequence: {$ref: Sequence}
+    start: {format: int32, type: integer}
+    strand: {type: string}
+    variant: {$ref: Variant}
+  type: object

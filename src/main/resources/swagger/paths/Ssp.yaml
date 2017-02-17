@@ -1,0 +1,206 @@
+  /ssp/{id}:
+    get:
+      operationId: getSsp
+      description: Gets the Ssp by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Ssp in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Ssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSsp
+      description: Deletes the Ssp by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Ssp in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorSsp
+          schema:
+            title: SspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /ssp/{maxResults}:
+    post:
+      operationId: getTypeaheadSsps
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfSsps
+            type: array
+            items:
+              $ref: '#/definitions/Ssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /ssp/{maxResults}/{pageNumber}:
+    get:
+      operationId: getSsps
+      description: Gets the list of available Ssps
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfssps
+            type: array
+            items:
+              $ref: '#/definitions/Ssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SspControllerException
+            schema:
+              $ref: '#/definitions/SspControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /ssp:
+    post:
+      operationId: createSsps
+      description: Create Ssp entries
+      parameters:
+        -
+          name: ssps
+          in: body
+          description: Array of Ssp Objects
+          required: true
+          schema:
+            title: ArrayOfssps
+            type: array
+            items:
+              $ref: '#/definitions/Ssp'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfssps
+            type: array
+            items:
+              $ref: '#/definitions/Ssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateSsp
+      description: Update a single Ssp entry
+      parameters:
+        -
+          name: ssp
+          in: body
+          description: Ssp Object
+          required: true
+          schema:
+            $ref: '#/definitions/Ssp'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Ssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSsp
+      description: Delete a single Ssp entry
+      parameters:
+        -
+          name: ssp
+          in: body
+          description: Ssp Object
+          required: true
+          schema:
+            $ref: '#/definitions/Ssp'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: SspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Ssp'
+        500:
+          description:
+            schema:
+              title: SspControllerException
+              schema:
+                $ref: '#/definitions/Error'

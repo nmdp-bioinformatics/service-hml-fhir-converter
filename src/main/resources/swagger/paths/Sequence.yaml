@@ -1,0 +1,206 @@
+  /sequence/{id}:
+    get:
+      operationId: getSequence
+      description: Gets the Sequence by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Sequence in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Sequence'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SequenceControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSequence
+      description: Deletes the Sequence by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Sequence in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorSequence
+          schema:
+            title: SequenceControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sequence/{maxResults}:
+    post:
+      operationId: getTypeaheadSequences
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfSequences
+            type: array
+            items:
+              $ref: '#/definitions/Sequence'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sequence/{maxResults}/{pageNumber}:
+    get:
+      operationId: getSequences
+      description: Gets the list of available Sequences
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsequences
+            type: array
+            items:
+              $ref: '#/definitions/Sequence'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SequenceControllerException
+            schema:
+              $ref: '#/definitions/SequenceControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sequence:
+    post:
+      operationId: createSequences
+      description: Create Sequence entries
+      parameters:
+        -
+          name: sequences
+          in: body
+          description: Array of Sequence Objects
+          required: true
+          schema:
+            title: ArrayOfsequences
+            type: array
+            items:
+              $ref: '#/definitions/Sequence'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsequences
+            type: array
+            items:
+              $ref: '#/definitions/Sequence'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SequenceControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateSequence
+      description: Update a single Sequence entry
+      parameters:
+        -
+          name: sequence
+          in: body
+          description: Sequence Object
+          required: true
+          schema:
+            $ref: '#/definitions/Sequence'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Sequence'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SequenceControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSequence
+      description: Delete a single Sequence entry
+      parameters:
+        -
+          name: sequence
+          in: body
+          description: Sequence Object
+          required: true
+          schema:
+            $ref: '#/definitions/Sequence'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: SequenceControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Sequence'
+        500:
+          description:
+            schema:
+              title: SequenceControllerException
+              schema:
+                $ref: '#/definitions/Error'

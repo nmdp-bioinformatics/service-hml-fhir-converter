@@ -1,0 +1,206 @@
+  /sso/{id}:
+    get:
+      operationId: getSso
+      description: Gets the Sso by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Sso in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Sso'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SsoControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSso
+      description: Deletes the Sso by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Sso in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorSso
+          schema:
+            title: SsoControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sso/{maxResults}:
+    post:
+      operationId: getTypeaheadSsos
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfSsos
+            type: array
+            items:
+              $ref: '#/definitions/Sso'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sso/{maxResults}/{pageNumber}:
+    get:
+      operationId: getSsos
+      description: Gets the list of available Ssos
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfssos
+            type: array
+            items:
+              $ref: '#/definitions/Sso'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SsoControllerException
+            schema:
+              $ref: '#/definitions/SsoControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sso:
+    post:
+      operationId: createSsos
+      description: Create Sso entries
+      parameters:
+        -
+          name: ssos
+          in: body
+          description: Array of Sso Objects
+          required: true
+          schema:
+            title: ArrayOfssos
+            type: array
+            items:
+              $ref: '#/definitions/Sso'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfssos
+            type: array
+            items:
+              $ref: '#/definitions/Sso'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SsoControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateSso
+      description: Update a single Sso entry
+      parameters:
+        -
+          name: sso
+          in: body
+          description: Sso Object
+          required: true
+          schema:
+            $ref: '#/definitions/Sso'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Sso'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SsoControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSso
+      description: Delete a single Sso entry
+      parameters:
+        -
+          name: sso
+          in: body
+          description: Sso Object
+          required: true
+          schema:
+            $ref: '#/definitions/Sso'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: SsoControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Sso'
+        500:
+          description:
+            schema:
+              title: SsoControllerException
+              schema:
+                $ref: '#/definitions/Error'

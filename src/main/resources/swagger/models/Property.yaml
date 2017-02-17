@@ -1,0 +1,14 @@
+Property:
+  properties:
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    description: {description: Description of property, type: string}
+    extendedItems:
+      description: Array of generic items
+      items: {$ref: '#/definitions/ExtendedItem'}
+      type: array
+    id: {description: Id of property, type: string}
+    name: {description: Display/ Common name of property, type: string}
+    value: {description: Value of property name, type: string}
+  type: object

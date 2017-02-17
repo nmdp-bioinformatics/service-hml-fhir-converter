@@ -1,0 +1,9 @@
+ReportingCenter:
+  properties:
+    active: {description: Active center, type: boolean}
+    centerId: {description: Id of reporting center, type: string}
+    context: {description: Context of reporting center, type: string}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    id: {description: Id of reporting center, type: string}
+  type: object

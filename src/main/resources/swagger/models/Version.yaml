@@ -1,0 +1,9 @@
+Version:
+  properties:
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    description: {description: Short description of version, type: string}
+    id: {description: Id of the version item, type: string}
+    name: {description: Name of the item, type: string}
+  type: object

@@ -1,0 +1,15 @@
+QueryCriteria:
+  type: object
+  properties:
+    propertyName:
+      type: string
+      description: The property name to query
+    queryValue:
+      type: object
+      description: The value to query against
+    exclude:
+      type: boolean
+      description: Allow for positive or negative matching
+    useLike:
+      type: boolean
+      description: Allow for like queries

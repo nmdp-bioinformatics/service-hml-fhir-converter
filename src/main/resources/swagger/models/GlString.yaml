@@ -1,0 +1,8 @@
+GlString:
+  properties:
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    id: {type: string}
+    uri: {type: string}
+  type: object

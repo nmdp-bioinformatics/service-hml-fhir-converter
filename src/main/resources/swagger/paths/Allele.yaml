@@ -1,0 +1,206 @@
+  /allele/{id}:
+    get:
+      operationId: getAllele
+      description: Gets the Allele by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Allele in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Allele'
+        500:
+          description: Internal Server Error
+          schema:
+            title: AlleleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteAllele
+      description: Deletes the Allele by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Allele in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorAllele
+          schema:
+            title: AlleleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /allele/{maxResults}:
+    post:
+      operationId: getTypeaheadAlleles
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfAlleles
+            type: array
+            items:
+              $ref: '#/definitions/Allele'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /allele/{maxResults}/{pageNumber}:
+    get:
+      operationId: getAlleles
+      description: Gets the list of available Alleles
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfalleles
+            type: array
+            items:
+              $ref: '#/definitions/Allele'
+        500:
+          description: Internal Server Error
+          schema:
+            title: AlleleControllerException
+            schema:
+              $ref: '#/definitions/AlleleControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /allele:
+    post:
+      operationId: createAlleles
+      description: Create Allele entries
+      parameters:
+        -
+          name: alleles
+          in: body
+          description: Array of Allele Objects
+          required: true
+          schema:
+            title: ArrayOfalleles
+            type: array
+            items:
+              $ref: '#/definitions/Allele'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfalleles
+            type: array
+            items:
+              $ref: '#/definitions/Allele'
+        500:
+          description: Internal Server Error
+          schema:
+            title: AlleleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateAllele
+      description: Update a single Allele entry
+      parameters:
+        -
+          name: allele
+          in: body
+          description: Allele Object
+          required: true
+          schema:
+            $ref: '#/definitions/Allele'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Allele'
+        500:
+          description: Internal Server Error
+          schema:
+            title: AlleleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteAllele
+      description: Delete a single Allele entry
+      parameters:
+        -
+          name: allele
+          in: body
+          description: Allele Object
+          required: true
+          schema:
+            $ref: '#/definitions/Allele'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: AlleleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Allele'
+        500:
+          description:
+            schema:
+              title: AlleleControllerException
+              schema:
+                $ref: '#/definitions/Error'

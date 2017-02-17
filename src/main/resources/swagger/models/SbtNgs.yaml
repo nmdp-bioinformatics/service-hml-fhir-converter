@@ -1,0 +1,18 @@
+SbtNgs:
+  properties:
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    id: {description: Id of the typing, type: string}
+    locus: {description: locus of ngs location, type: string}
+    properties:
+      description: Properteis belonging to this item
+      items: {$ref: '#/definitions/Property'}
+      type: array
+    rawReads:
+      description: raw read data
+      items: {$ref: '#/definitions/RawRead'}
+      type: array
+    testId: {description: id of ngs test, type: string}
+    testIdSource: {description: source of test id, type: string}
+  type: object

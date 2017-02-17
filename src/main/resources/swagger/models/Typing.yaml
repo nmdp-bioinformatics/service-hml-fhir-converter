@@ -1,0 +1,15 @@
+Typing:
+  properties:
+    active: {description: Active record, type: boolean}
+    alleleAssignment: {$ref: AlleleAssignment, description: allele assigned by this
+        typing}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    geneFamily: {description: gene type, type: string}
+    id: {description: Id of the typing, type: string}
+    properties:
+      description: Properteis belonging to this item
+      items: {$ref: '#/definitions/Property'}
+      type: array
+    typingMethod: {$ref: TypingMethod, description: method used to determine typing}
+  type: object

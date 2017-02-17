@@ -1,0 +1,206 @@
+  /reportingCenter/{id}:
+    get:
+      operationId: getReportingCenter
+      description: Gets the ReportingCenter by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of ReportingCenter in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ReportingCenter'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteReportingCenter
+      description: Deletes the ReportingCenter by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of ReportingCenter in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorReportingCenter
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /reportingCenter/{maxResults}:
+    post:
+      operationId: getTypeaheadReportingCenters
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfReportingCenters
+            type: array
+            items:
+              $ref: '#/definitions/ReportingCenter'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /reportingCenter/{maxResults}/{pageNumber}:
+    get:
+      operationId: getReportingCenters
+      description: Gets the list of available ReportingCenters
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfreportingcenters
+            type: array
+            items:
+              $ref: '#/definitions/ReportingCenter'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/ReportingCenterControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /reportingCenter:
+    post:
+      operationId: createReportingCenters
+      description: Create ReportingCenter entries
+      parameters:
+        -
+          name: reportingcenters
+          in: body
+          description: Array of ReportingCenter Objects
+          required: true
+          schema:
+            title: ArrayOfreportingcenters
+            type: array
+            items:
+              $ref: '#/definitions/ReportingCenter'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfreportingcenters
+            type: array
+            items:
+              $ref: '#/definitions/ReportingCenter'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateReportingCenter
+      description: Update a single ReportingCenter entry
+      parameters:
+        -
+          name: reportingCenter
+          in: body
+          description: ReportingCenter Object
+          required: true
+          schema:
+            $ref: '#/definitions/ReportingCenter'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/ReportingCenter'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteReportingCenter
+      description: Delete a single ReportingCenter entry
+      parameters:
+        -
+          name: reportingCenter
+          in: body
+          description: ReportingCenter Object
+          required: true
+          schema:
+            $ref: '#/definitions/ReportingCenter'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReportingCenterControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ReportingCenter'
+        500:
+          description:
+            schema:
+              title: ReportingCenterControllerException
+              schema:
+                $ref: '#/definitions/Error'

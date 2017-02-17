@@ -1,0 +1,11 @@
+Gssp:
+  properties:
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    id: {description: Id of the typing, type: string}
+    primerSequence: {description: sequence of primers used, type: string}
+    primerTarget: {description: intended primer sequence target, type: string}
+    registeredName: {description: registered name of gssp, type: string}
+    sequence: {$ref: Sequence, description: sequence of amplification}
+  type: object

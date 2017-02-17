@@ -1,0 +1,206 @@
+  /sample/{id}:
+    get:
+      operationId: getSample
+      description: Gets the Sample by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Sample in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Sample'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSample
+      description: Deletes the Sample by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Sample in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorSample
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sample/{maxResults}:
+    post:
+      operationId: getTypeaheadSamples
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfSamples
+            type: array
+            items:
+              $ref: '#/definitions/Sample'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sample/{maxResults}/{pageNumber}:
+    get:
+      operationId: getSamples
+      description: Gets the list of available Samples
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsamples
+            type: array
+            items:
+              $ref: '#/definitions/Sample'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/SampleControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sample:
+    post:
+      operationId: createSamples
+      description: Create Sample entries
+      parameters:
+        -
+          name: samples
+          in: body
+          description: Array of Sample Objects
+          required: true
+          schema:
+            title: ArrayOfsamples
+            type: array
+            items:
+              $ref: '#/definitions/Sample'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsamples
+            type: array
+            items:
+              $ref: '#/definitions/Sample'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateSample
+      description: Update a single Sample entry
+      parameters:
+        -
+          name: sample
+          in: body
+          description: Sample Object
+          required: true
+          schema:
+            $ref: '#/definitions/Sample'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Sample'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSample
+      description: Delete a single Sample entry
+      parameters:
+        -
+          name: sample
+          in: body
+          description: Sample Object
+          required: true
+          schema:
+            $ref: '#/definitions/Sample'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: SampleControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Sample'
+        500:
+          description:
+            schema:
+              title: SampleControllerException
+              schema:
+                $ref: '#/definitions/Error'

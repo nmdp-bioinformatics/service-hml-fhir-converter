@@ -1,0 +1,15 @@
+ReferenceSequence:
+  properties:
+    accession: {type: string}
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    description: {type: string}
+    end: {format: int32, type: integer}
+    id: {type: string}
+    name: {type: string}
+    referenceSequenceId: {type: string}
+    start: {format: int32, type: integer}
+    strand: {type: string}
+    uri: {type: string}
+  type: object

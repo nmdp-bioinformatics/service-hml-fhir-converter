@@ -1,0 +1,12 @@
+Sequence:
+  properties:
+    active: {description: Active record, type: boolean}
+    anyAttribute: {type: object}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    id: {type: string}
+    iupacBases:
+      items: {$ref: '#/definitions/IupacBases'}
+      type: array
+    sequence: {type: string}
+  type: object

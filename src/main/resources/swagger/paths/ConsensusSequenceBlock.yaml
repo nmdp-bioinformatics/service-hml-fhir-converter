@@ -1,0 +1,206 @@
+  /consensusSequenceBlock/{id}:
+    get:
+      operationId: getConsensusSequenceBlock
+      description: Gets the ConsensusSequenceBlock by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of ConsensusSequenceBlock in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ConsensusSequenceBlock'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ConsensusSequenceBlockControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteConsensusSequenceBlock
+      description: Deletes the ConsensusSequenceBlock by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of ConsensusSequenceBlock in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorConsensusSequenceBlock
+          schema:
+            title: ConsensusSequenceBlockControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /consensusSequenceBlock/{maxResults}:
+    post:
+      operationId: getTypeaheadConsensusSequenceBlocks
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfConsensusSequenceBlocks
+            type: array
+            items:
+              $ref: '#/definitions/ConsensusSequenceBlock'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /consensusSequenceBlock/{maxResults}/{pageNumber}:
+    get:
+      operationId: getConsensusSequenceBlocks
+      description: Gets the list of available ConsensusSequenceBlocks
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfconsensussequenceblocks
+            type: array
+            items:
+              $ref: '#/definitions/ConsensusSequenceBlock'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ConsensusSequenceBlockControllerException
+            schema:
+              $ref: '#/definitions/ConsensusSequenceBlockControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /consensusSequenceBlock:
+    post:
+      operationId: createConsensusSequenceBlocks
+      description: Create ConsensusSequenceBlock entries
+      parameters:
+        -
+          name: consensussequenceblocks
+          in: body
+          description: Array of ConsensusSequenceBlock Objects
+          required: true
+          schema:
+            title: ArrayOfconsensussequenceblocks
+            type: array
+            items:
+              $ref: '#/definitions/ConsensusSequenceBlock'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfconsensussequenceblocks
+            type: array
+            items:
+              $ref: '#/definitions/ConsensusSequenceBlock'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ConsensusSequenceBlockControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateConsensusSequenceBlock
+      description: Update a single ConsensusSequenceBlock entry
+      parameters:
+        -
+          name: consensusSequenceBlock
+          in: body
+          description: ConsensusSequenceBlock Object
+          required: true
+          schema:
+            $ref: '#/definitions/ConsensusSequenceBlock'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/ConsensusSequenceBlock'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ConsensusSequenceBlockControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteConsensusSequenceBlock
+      description: Delete a single ConsensusSequenceBlock entry
+      parameters:
+        -
+          name: consensusSequenceBlock
+          in: body
+          description: ConsensusSequenceBlock Object
+          required: true
+          schema:
+            $ref: '#/definitions/ConsensusSequenceBlock'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: ConsensusSequenceBlockControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ConsensusSequenceBlock'
+        500:
+          description:
+            schema:
+              title: ConsensusSequenceBlockControllerException
+              schema:
+                $ref: '#/definitions/Error'

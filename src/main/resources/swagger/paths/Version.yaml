@@ -1,0 +1,274 @@
+  /version/{id}:
+    get:
+      operationId: getVersion
+      description: Gets the Version by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Version in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Version'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VersionControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteVersion
+      description: Deletes the Version by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Version in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorVersion
+          schema:
+            title: VersionControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /version/properties{properties}:
+    post:
+      operationId: getVersionByProperties
+      description: Gets the Version by name
+      parameters:
+        -
+          name: version
+          in: body
+          description: Name of Version in database
+          required: true
+          schema:
+            $ref: '#/definitions/Version'
+        -
+          name: properties
+          in: query
+          description: String array of properties to query
+          required: true
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Version'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VersionControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /version/{maxResults}:
+    post:
+      operationId: getTypeaheadVersions
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfVersions
+            type: array
+            items:
+              $ref: '#/definitions/Version'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /version/all:
+    get:
+      operationId: getAllVersions
+      description: Gets the list of available Versions
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfversions
+            type: array
+            items:
+              $ref: '#/definitions/Version'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VersionControllerException
+            schema:
+              $ref: '#/definitions/VersionControllerException'
+  /version/{maxResults}/{pageNumber}:
+    get:
+      operationId: getVersions
+      description: Gets the list of available Versions
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfversions
+            type: array
+            items:
+              $ref: '#/definitions/Version'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VersionControllerException
+            schema:
+              $ref: '#/definitions/VersionControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /version/default:
+    get:
+      operationId: getDefaultVersion
+      description: Gets the current default HML version
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Version'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VersionControllerException
+            schema:
+              $ref: '#/definitions/VersionControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /version:
+    post:
+      operationId: createVersions
+      description: Create Version entries
+      parameters:
+        -
+          name: versions
+          in: body
+          description: Array of Version Objects
+          required: true
+          schema:
+            title: ArrayOfversions
+            type: array
+            items:
+              $ref: '#/definitions/Version'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfversions
+            type: array
+            items:
+              $ref: '#/definitions/Version'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VersionControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateVersion
+      description: Update a single Version entry
+      parameters:
+        -
+          name: version
+          in: body
+          description: Version Object
+          required: true
+          schema:
+            $ref: '#/definitions/Version'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Version'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VersionControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteVersion
+      description: Delete a single Version entry
+      parameters:
+        -
+          name: version
+          in: body
+          description: Version Object
+          required: true
+          schema:
+            $ref: '#/definitions/Version'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: VersionControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Version'
+        500:
+          description:
+            schema:
+              title: VersionControllerException
+              schema:
+                $ref: '#/definitions/Error'

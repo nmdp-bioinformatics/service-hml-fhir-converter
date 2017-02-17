@@ -1,0 +1,206 @@
+  /project/{id}:
+    get:
+      operationId: getProject
+      description: Gets the Project by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Project in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Project'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ProjectControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteProject
+      description: Deletes the Project by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Project in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorProject
+          schema:
+            title: ProjectControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /project/{maxResults}:
+    post:
+      operationId: getTypeaheadProjects
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfProjects
+            type: array
+            items:
+              $ref: '#/definitions/Project'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /project/{maxResults}/{pageNumber}:
+    get:
+      operationId: getProjects
+      description: Gets the list of available Projects
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfprojects
+            type: array
+            items:
+              $ref: '#/definitions/Project'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ProjectControllerException
+            schema:
+              $ref: '#/definitions/ProjectControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /project:
+    post:
+      operationId: createProjects
+      description: Create Project entries
+      parameters:
+        -
+          name: projects
+          in: body
+          description: Array of Project Objects
+          required: true
+          schema:
+            title: ArrayOfprojects
+            type: array
+            items:
+              $ref: '#/definitions/Project'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfprojects
+            type: array
+            items:
+              $ref: '#/definitions/Project'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ProjectControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateProject
+      description: Update a single Project entry
+      parameters:
+        -
+          name: project
+          in: body
+          description: Project Object
+          required: true
+          schema:
+            $ref: '#/definitions/Project'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Project'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ProjectControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteProject
+      description: Delete a single Project entry
+      parameters:
+        -
+          name: project
+          in: body
+          description: Project Object
+          required: true
+          schema:
+            $ref: '#/definitions/Project'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: ProjectControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Project'
+        500:
+          description:
+            schema:
+              title: ProjectControllerException
+              schema:
+                $ref: '#/definitions/Error'

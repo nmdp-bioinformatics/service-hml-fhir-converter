@@ -1,0 +1,206 @@
+  /variant/{id}:
+    get:
+      operationId: getVariant
+      description: Gets the Variant by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Variant in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Variant'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VariantControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteVariant
+      description: Deletes the Variant by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Variant in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorVariant
+          schema:
+            title: VariantControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /variant/{maxResults}:
+    post:
+      operationId: getTypeaheadVariants
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfVariants
+            type: array
+            items:
+              $ref: '#/definitions/Variant'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /variant/{maxResults}/{pageNumber}:
+    get:
+      operationId: getVariants
+      description: Gets the list of available Variants
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfvariants
+            type: array
+            items:
+              $ref: '#/definitions/Variant'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VariantControllerException
+            schema:
+              $ref: '#/definitions/VariantControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /variant:
+    post:
+      operationId: createVariants
+      description: Create Variant entries
+      parameters:
+        -
+          name: variants
+          in: body
+          description: Array of Variant Objects
+          required: true
+          schema:
+            title: ArrayOfvariants
+            type: array
+            items:
+              $ref: '#/definitions/Variant'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfvariants
+            type: array
+            items:
+              $ref: '#/definitions/Variant'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VariantControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateVariant
+      description: Update a single Variant entry
+      parameters:
+        -
+          name: variant
+          in: body
+          description: Variant Object
+          required: true
+          schema:
+            $ref: '#/definitions/Variant'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Variant'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VariantControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteVariant
+      description: Delete a single Variant entry
+      parameters:
+        -
+          name: variant
+          in: body
+          description: Variant Object
+          required: true
+          schema:
+            $ref: '#/definitions/Variant'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: VariantControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Variant'
+        500:
+          description:
+            schema:
+              title: VariantControllerException
+              schema:
+                $ref: '#/definitions/Error'

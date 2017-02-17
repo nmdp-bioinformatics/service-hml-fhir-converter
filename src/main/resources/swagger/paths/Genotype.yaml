@@ -1,0 +1,206 @@
+  /genotype/{id}:
+    get:
+      operationId: getGenotype
+      description: Gets the Genotype by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Genotype in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Genotype'
+        500:
+          description: Internal Server Error
+          schema:
+            title: GenotypeControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteGenotype
+      description: Deletes the Genotype by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Genotype in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorGenotype
+          schema:
+            title: GenotypeControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /genotype/{maxResults}:
+    post:
+      operationId: getTypeaheadGenotypes
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfGenotypes
+            type: array
+            items:
+              $ref: '#/definitions/Genotype'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /genotype/{maxResults}/{pageNumber}:
+    get:
+      operationId: getGenotypes
+      description: Gets the list of available Genotypes
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfgenotypes
+            type: array
+            items:
+              $ref: '#/definitions/Genotype'
+        500:
+          description: Internal Server Error
+          schema:
+            title: GenotypeControllerException
+            schema:
+              $ref: '#/definitions/GenotypeControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /genotype:
+    post:
+      operationId: createGenotypes
+      description: Create Genotype entries
+      parameters:
+        -
+          name: genotypes
+          in: body
+          description: Array of Genotype Objects
+          required: true
+          schema:
+            title: ArrayOfgenotypes
+            type: array
+            items:
+              $ref: '#/definitions/Genotype'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfgenotypes
+            type: array
+            items:
+              $ref: '#/definitions/Genotype'
+        500:
+          description: Internal Server Error
+          schema:
+            title: GenotypeControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateGenotype
+      description: Update a single Genotype entry
+      parameters:
+        -
+          name: genotype
+          in: body
+          description: Genotype Object
+          required: true
+          schema:
+            $ref: '#/definitions/Genotype'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Genotype'
+        500:
+          description: Internal Server Error
+          schema:
+            title: GenotypeControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteGenotype
+      description: Delete a single Genotype entry
+      parameters:
+        -
+          name: genotype
+          in: body
+          description: Genotype Object
+          required: true
+          schema:
+            $ref: '#/definitions/Genotype'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: GenotypeControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Genotype'
+        500:
+          description:
+            schema:
+              title: GenotypeControllerException
+              schema:
+                $ref: '#/definitions/Error'

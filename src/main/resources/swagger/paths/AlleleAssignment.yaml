@@ -1,0 +1,206 @@
+  /alleleAssignment/{id}:
+    get:
+      operationId: getAlleleAssignment
+      description: Gets the AlleleAssignment by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of AlleleAssignment in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/AlleleAssignment'
+        500:
+          description: Internal Server Error
+          schema:
+            title: AlleleAssignmentControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteAlleleAssignment
+      description: Deletes the AlleleAssignment by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of AlleleAssignment in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorAlleleAssignment
+          schema:
+            title: AlleleAssignmentControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /alleleAssignment/{maxResults}:
+    post:
+      operationId: getTypeaheadAlleleAssignments
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfAlleleAssignments
+            type: array
+            items:
+              $ref: '#/definitions/AlleleAssignment'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /alleleAssignment/{maxResults}/{pageNumber}:
+    get:
+      operationId: getAlleleAssignments
+      description: Gets the list of available AlleleAssignments
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfalleleassignments
+            type: array
+            items:
+              $ref: '#/definitions/AlleleAssignment'
+        500:
+          description: Internal Server Error
+          schema:
+            title: AlleleAssignmentControllerException
+            schema:
+              $ref: '#/definitions/AlleleAssignmentControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /alleleAssignment:
+    post:
+      operationId: createAlleleAssignments
+      description: Create AlleleAssignment entries
+      parameters:
+        -
+          name: alleleassignments
+          in: body
+          description: Array of AlleleAssignment Objects
+          required: true
+          schema:
+            title: ArrayOfalleleassignments
+            type: array
+            items:
+              $ref: '#/definitions/AlleleAssignment'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfalleleassignments
+            type: array
+            items:
+              $ref: '#/definitions/AlleleAssignment'
+        500:
+          description: Internal Server Error
+          schema:
+            title: AlleleAssignmentControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateAlleleAssignment
+      description: Update a single AlleleAssignment entry
+      parameters:
+        -
+          name: alleleAssignment
+          in: body
+          description: AlleleAssignment Object
+          required: true
+          schema:
+            $ref: '#/definitions/AlleleAssignment'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/AlleleAssignment'
+        500:
+          description: Internal Server Error
+          schema:
+            title: AlleleAssignmentControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteAlleleAssignment
+      description: Delete a single AlleleAssignment entry
+      parameters:
+        -
+          name: alleleAssignment
+          in: body
+          description: AlleleAssignment Object
+          required: true
+          schema:
+            $ref: '#/definitions/AlleleAssignment'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: AlleleAssignmentControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/AlleleAssignment'
+        500:
+          description:
+            schema:
+              title: AlleleAssignmentControllerException
+              schema:
+                $ref: '#/definitions/Error'

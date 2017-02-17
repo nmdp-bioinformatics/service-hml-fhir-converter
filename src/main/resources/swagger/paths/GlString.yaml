@@ -1,0 +1,206 @@
+  /glString/{id}:
+    get:
+      operationId: getGlString
+      description: Gets the GlString by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of GlString in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/GlString'
+        500:
+          description: Internal Server Error
+          schema:
+            title: GlStringControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteGlString
+      description: Deletes the GlString by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of GlString in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorGlString
+          schema:
+            title: GlStringControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /glString/{maxResults}:
+    post:
+      operationId: getTypeaheadGlStrings
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfGlStrings
+            type: array
+            items:
+              $ref: '#/definitions/GlString'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /glString/{maxResults}/{pageNumber}:
+    get:
+      operationId: getGlStrings
+      description: Gets the list of available GlStrings
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfglstrings
+            type: array
+            items:
+              $ref: '#/definitions/GlString'
+        500:
+          description: Internal Server Error
+          schema:
+            title: GlStringControllerException
+            schema:
+              $ref: '#/definitions/GlStringControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /glString:
+    post:
+      operationId: createGlStrings
+      description: Create GlString entries
+      parameters:
+        -
+          name: glstrings
+          in: body
+          description: Array of GlString Objects
+          required: true
+          schema:
+            title: ArrayOfglstrings
+            type: array
+            items:
+              $ref: '#/definitions/GlString'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfglstrings
+            type: array
+            items:
+              $ref: '#/definitions/GlString'
+        500:
+          description: Internal Server Error
+          schema:
+            title: GlStringControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateGlString
+      description: Update a single GlString entry
+      parameters:
+        -
+          name: glString
+          in: body
+          description: GlString Object
+          required: true
+          schema:
+            $ref: '#/definitions/GlString'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/GlString'
+        500:
+          description: Internal Server Error
+          schema:
+            title: GlStringControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteGlString
+      description: Delete a single GlString entry
+      parameters:
+        -
+          name: glString
+          in: body
+          description: GlString Object
+          required: true
+          schema:
+            $ref: '#/definitions/GlString'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: GlStringControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/GlString'
+        500:
+          description:
+            schema:
+              title: GlStringControllerException
+              schema:
+                $ref: '#/definitions/Error'

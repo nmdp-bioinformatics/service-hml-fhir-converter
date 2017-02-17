@@ -1,0 +1,206 @@
+  /sbtSanger/{id}:
+    get:
+      operationId: getSbtSanger
+      description: Gets the SbtSanger by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of SbtSanger in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/SbtSanger'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SbtSangerControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSbtSanger
+      description: Deletes the SbtSanger by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of SbtSanger in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorSbtSanger
+          schema:
+            title: SbtSangerControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sbtSanger/{maxResults}:
+    post:
+      operationId: getTypeaheadSbtSangers
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfSbtSangers
+            type: array
+            items:
+              $ref: '#/definitions/SbtSanger'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sbtSanger/{maxResults}/{pageNumber}:
+    get:
+      operationId: getSbtSangers
+      description: Gets the list of available SbtSangers
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsbtsangers
+            type: array
+            items:
+              $ref: '#/definitions/SbtSanger'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SbtSangerControllerException
+            schema:
+              $ref: '#/definitions/SbtSangerControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sbtSanger:
+    post:
+      operationId: createSbtSangers
+      description: Create SbtSanger entries
+      parameters:
+        -
+          name: sbtsangers
+          in: body
+          description: Array of SbtSanger Objects
+          required: true
+          schema:
+            title: ArrayOfsbtsangers
+            type: array
+            items:
+              $ref: '#/definitions/SbtSanger'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsbtsangers
+            type: array
+            items:
+              $ref: '#/definitions/SbtSanger'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SbtSangerControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateSbtSanger
+      description: Update a single SbtSanger entry
+      parameters:
+        -
+          name: sbtSanger
+          in: body
+          description: SbtSanger Object
+          required: true
+          schema:
+            $ref: '#/definitions/SbtSanger'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/SbtSanger'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SbtSangerControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSbtSanger
+      description: Delete a single SbtSanger entry
+      parameters:
+        -
+          name: sbtSanger
+          in: body
+          description: SbtSanger Object
+          required: true
+          schema:
+            $ref: '#/definitions/SbtSanger'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: SbtSangerControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/SbtSanger'
+        500:
+          description:
+            schema:
+              title: SbtSangerControllerException
+              schema:
+                $ref: '#/definitions/Error'

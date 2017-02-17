@@ -1,0 +1,26 @@
+Hml:
+  properties:
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    hmlId: {$ref: HmlId, description: HmlId object}
+    id: {description: Id of the hml item, type: string}
+    project: {$ref: Project, description: Project object}
+    properties:
+      description: Properteis belonging to this item
+      items: {$ref: '#/definitions/Property'}
+      type: array
+    reportingCenters:
+      description: Repoting centers for this item
+      items: {$ref: '#/definitions/ReportingCenter'}
+      type: array
+    samples:
+      description: Samples used in this item
+      items: {$ref: '#/definitions/Sample'}
+      type: array
+    typingTestNames:
+      description: Typing test names used for this item
+      items: {$ref: '#/definitions/TypingTestName'}
+      type: array
+    version: {$ref: Version, description: Version of Hml}
+  type: object

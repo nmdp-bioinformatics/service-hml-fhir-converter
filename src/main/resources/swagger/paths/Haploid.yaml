@@ -1,0 +1,206 @@
+  /haploid/{id}:
+    get:
+      operationId: getHaploid
+      description: Gets the Haploid by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Haploid in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Haploid'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HaploidControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteHaploid
+      description: Deletes the Haploid by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Haploid in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorHaploid
+          schema:
+            title: HaploidControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /haploid/{maxResults}:
+    post:
+      operationId: getTypeaheadHaploids
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfHaploids
+            type: array
+            items:
+              $ref: '#/definitions/Haploid'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /haploid/{maxResults}/{pageNumber}:
+    get:
+      operationId: getHaploids
+      description: Gets the list of available Haploids
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfhaploids
+            type: array
+            items:
+              $ref: '#/definitions/Haploid'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HaploidControllerException
+            schema:
+              $ref: '#/definitions/HaploidControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /haploid:
+    post:
+      operationId: createHaploids
+      description: Create Haploid entries
+      parameters:
+        -
+          name: haploids
+          in: body
+          description: Array of Haploid Objects
+          required: true
+          schema:
+            title: ArrayOfhaploids
+            type: array
+            items:
+              $ref: '#/definitions/Haploid'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfhaploids
+            type: array
+            items:
+              $ref: '#/definitions/Haploid'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HaploidControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateHaploid
+      description: Update a single Haploid entry
+      parameters:
+        -
+          name: haploid
+          in: body
+          description: Haploid Object
+          required: true
+          schema:
+            $ref: '#/definitions/Haploid'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Haploid'
+        500:
+          description: Internal Server Error
+          schema:
+            title: HaploidControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteHaploid
+      description: Delete a single Haploid entry
+      parameters:
+        -
+          name: haploid
+          in: body
+          description: Haploid Object
+          required: true
+          schema:
+            $ref: '#/definitions/Haploid'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: HaploidControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Haploid'
+        500:
+          description:
+            schema:
+              title: HaploidControllerException
+              schema:
+                $ref: '#/definitions/Error'

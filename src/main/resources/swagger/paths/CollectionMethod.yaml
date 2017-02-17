@@ -1,0 +1,206 @@
+  /collectionMethod/{id}:
+    get:
+      operationId: getCollectionMethod
+      description: Gets the CollectionMethod by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of CollectionMethod in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/CollectionMethod'
+        500:
+          description: Internal Server Error
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteCollectionMethod
+      description: Deletes the CollectionMethod by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of CollectionMethod in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorCollectionMethod
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /collectionMethod/{maxResults}:
+    post:
+      operationId: getTypeaheadCollectionMethods
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfCollectionMethods
+            type: array
+            items:
+              $ref: '#/definitions/CollectionMethod'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /collectionMethod/{maxResults}/{pageNumber}:
+    get:
+      operationId: getCollectionMethods
+      description: Gets the list of available CollectionMethods
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfcollectionmethods
+            type: array
+            items:
+              $ref: '#/definitions/CollectionMethod'
+        500:
+          description: Internal Server Error
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/CollectionMethodControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /collectionMethod:
+    post:
+      operationId: createCollectionMethods
+      description: Create CollectionMethod entries
+      parameters:
+        -
+          name: collectionmethods
+          in: body
+          description: Array of CollectionMethod Objects
+          required: true
+          schema:
+            title: ArrayOfcollectionmethods
+            type: array
+            items:
+              $ref: '#/definitions/CollectionMethod'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfcollectionmethods
+            type: array
+            items:
+              $ref: '#/definitions/CollectionMethod'
+        500:
+          description: Internal Server Error
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateCollectionMethod
+      description: Update a single CollectionMethod entry
+      parameters:
+        -
+          name: collectionMethod
+          in: body
+          description: CollectionMethod Object
+          required: true
+          schema:
+            $ref: '#/definitions/CollectionMethod'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/CollectionMethod'
+        500:
+          description: Internal Server Error
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteCollectionMethod
+      description: Delete a single CollectionMethod entry
+      parameters:
+        -
+          name: collectionMethod
+          in: body
+          description: CollectionMethod Object
+          required: true
+          schema:
+            $ref: '#/definitions/CollectionMethod'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: CollectionMethodControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/CollectionMethod'
+        500:
+          description:
+            schema:
+              title: CollectionMethodControllerException
+              schema:
+                $ref: '#/definitions/Error'

@@ -1,0 +1,9 @@
+Project:
+  properties:
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    description: {description: Description of HML project, type: string}
+    id: {description: Id of the project item, type: string}
+    name: {description: Name of project, type: string}
+  type: object

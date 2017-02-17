@@ -1,0 +1,206 @@
+  /diploidCombination/{id}:
+    get:
+      operationId: getDiploidCombination
+      description: Gets the DiploidCombination by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of DiploidCombination in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/DiploidCombination'
+        500:
+          description: Internal Server Error
+          schema:
+            title: DiploidCombinationControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteDiploidCombination
+      description: Deletes the DiploidCombination by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of DiploidCombination in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorDiploidCombination
+          schema:
+            title: DiploidCombinationControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /diploidCombination/{maxResults}:
+    post:
+      operationId: getTypeaheadDiploidCombinations
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfDiploidCombinations
+            type: array
+            items:
+              $ref: '#/definitions/DiploidCombination'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /diploidCombination/{maxResults}/{pageNumber}:
+    get:
+      operationId: getDiploidCombinations
+      description: Gets the list of available DiploidCombinations
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfdiploidcombinations
+            type: array
+            items:
+              $ref: '#/definitions/DiploidCombination'
+        500:
+          description: Internal Server Error
+          schema:
+            title: DiploidCombinationControllerException
+            schema:
+              $ref: '#/definitions/DiploidCombinationControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /diploidCombination:
+    post:
+      operationId: createDiploidCombinations
+      description: Create DiploidCombination entries
+      parameters:
+        -
+          name: diploidcombinations
+          in: body
+          description: Array of DiploidCombination Objects
+          required: true
+          schema:
+            title: ArrayOfdiploidcombinations
+            type: array
+            items:
+              $ref: '#/definitions/DiploidCombination'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfdiploidcombinations
+            type: array
+            items:
+              $ref: '#/definitions/DiploidCombination'
+        500:
+          description: Internal Server Error
+          schema:
+            title: DiploidCombinationControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateDiploidCombination
+      description: Update a single DiploidCombination entry
+      parameters:
+        -
+          name: diploidCombination
+          in: body
+          description: DiploidCombination Object
+          required: true
+          schema:
+            $ref: '#/definitions/DiploidCombination'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/DiploidCombination'
+        500:
+          description: Internal Server Error
+          schema:
+            title: DiploidCombinationControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteDiploidCombination
+      description: Delete a single DiploidCombination entry
+      parameters:
+        -
+          name: diploidCombination
+          in: body
+          description: DiploidCombination Object
+          required: true
+          schema:
+            $ref: '#/definitions/DiploidCombination'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: DiploidCombinationControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/DiploidCombination'
+        500:
+          description:
+            schema:
+              title: DiploidCombinationControllerException
+              schema:
+                $ref: '#/definitions/Error'

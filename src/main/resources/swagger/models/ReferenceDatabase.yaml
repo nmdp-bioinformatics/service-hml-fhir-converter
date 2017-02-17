@@ -1,0 +1,14 @@
+ReferenceDatabase:
+  properties:
+    active: {description: Active record, type: boolean}
+    availability: {type: string}
+    curated: {type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    description: {type: string}
+    id: {description: Id of the typing, type: string}
+    name: {type: string}
+    referenceSequence: {$ref: ReferenceSequence}
+    uri: {type: string}
+    version: {type: string}
+  type: object

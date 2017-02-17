@@ -1,0 +1,18 @@
+Variant:
+  properties:
+    active: {description: Active record, type: boolean}
+    alternateBases: {type: string}
+    anyAttribute: {type: object}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    end: {format: int32, type: integer}
+    filter: {type: string}
+    id: {type: string}
+    name: {type: string}
+    qualityScore: {type: string}
+    referenceBases: {type: string}
+    start: {format: int32, type: integer}
+    uri: {type: string}
+    variantEffect: {$ref: VariantEffect}
+    variantId: {type: string}
+  type: object

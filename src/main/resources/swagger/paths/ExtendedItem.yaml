@@ -1,0 +1,206 @@
+  /extendedItem/{id}:
+    get:
+      operationId: getExtendedItem
+      description: Gets the ExtendedItem by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of ExtendedItem in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ExtendedItem'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ExtendedItemControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteExtendedItem
+      description: Deletes the ExtendedItem by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of ExtendedItem in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorExtendedItem
+          schema:
+            title: ExtendedItemControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /extendedItem/{maxResults}:
+    post:
+      operationId: getTypeaheadExtendedItems
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfExtendedItems
+            type: array
+            items:
+              $ref: '#/definitions/ExtendedItem'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /extendedItem/{maxResults}/{pageNumber}:
+    get:
+      operationId: getExtendedItems
+      description: Gets the list of available ExtendedItems
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfextendeditems
+            type: array
+            items:
+              $ref: '#/definitions/ExtendedItem'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ExtendedItemControllerException
+            schema:
+              $ref: '#/definitions/ExtendedItemControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /extendedItem:
+    post:
+      operationId: createExtendedItems
+      description: Create ExtendedItem entries
+      parameters:
+        -
+          name: extendeditems
+          in: body
+          description: Array of ExtendedItem Objects
+          required: true
+          schema:
+            title: ArrayOfextendeditems
+            type: array
+            items:
+              $ref: '#/definitions/ExtendedItem'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfextendeditems
+            type: array
+            items:
+              $ref: '#/definitions/ExtendedItem'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ExtendedItemControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateExtendedItem
+      description: Update a single ExtendedItem entry
+      parameters:
+        -
+          name: extendedItem
+          in: body
+          description: ExtendedItem Object
+          required: true
+          schema:
+            $ref: '#/definitions/ExtendedItem'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/ExtendedItem'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ExtendedItemControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteExtendedItem
+      description: Delete a single ExtendedItem entry
+      parameters:
+        -
+          name: extendedItem
+          in: body
+          description: ExtendedItem Object
+          required: true
+          schema:
+            $ref: '#/definitions/ExtendedItem'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: ExtendedItemControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ExtendedItem'
+        500:
+          description:
+            schema:
+              title: ExtendedItemControllerException
+              schema:
+                $ref: '#/definitions/Error'

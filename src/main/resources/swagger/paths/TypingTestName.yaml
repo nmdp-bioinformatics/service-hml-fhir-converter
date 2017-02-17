@@ -1,0 +1,206 @@
+  /typingTestName/{id}:
+    get:
+      operationId: getTypingTestName
+      description: Gets the TypingTestName by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of TypingTestName in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/TypingTestName'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteTypingTestName
+      description: Deletes the TypingTestName by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of TypingTestName in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorTypingTestName
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /typingTestName/{maxResults}:
+    post:
+      operationId: getTypeaheadTypingTestNames
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfTypingTestNames
+            type: array
+            items:
+              $ref: '#/definitions/TypingTestName'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /typingTestName/{maxResults}/{pageNumber}:
+    get:
+      operationId: getTypingTestNames
+      description: Gets the list of available TypingTestNames
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOftypingtestnames
+            type: array
+            items:
+              $ref: '#/definitions/TypingTestName'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/TypingTestNameControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /typingTestName:
+    post:
+      operationId: createTypingTestNames
+      description: Create TypingTestName entries
+      parameters:
+        -
+          name: typingtestnames
+          in: body
+          description: Array of TypingTestName Objects
+          required: true
+          schema:
+            title: ArrayOftypingtestnames
+            type: array
+            items:
+              $ref: '#/definitions/TypingTestName'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOftypingtestnames
+            type: array
+            items:
+              $ref: '#/definitions/TypingTestName'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateTypingTestName
+      description: Update a single TypingTestName entry
+      parameters:
+        -
+          name: typingTestName
+          in: body
+          description: TypingTestName Object
+          required: true
+          schema:
+            $ref: '#/definitions/TypingTestName'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/TypingTestName'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteTypingTestName
+      description: Delete a single TypingTestName entry
+      parameters:
+        -
+          name: typingTestName
+          in: body
+          description: TypingTestName Object
+          required: true
+          schema:
+            $ref: '#/definitions/TypingTestName'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/TypingTestName'
+        500:
+          description:
+            schema:
+              title: TypingTestNameControllerException
+              schema:
+                $ref: '#/definitions/Error'

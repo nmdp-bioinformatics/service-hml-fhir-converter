@@ -1,0 +1,9 @@
+HmlId:
+  properties:
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    extension: {description: Extendsion of hml id, type: string}
+    id: {description: Id of the hmlid item, type: string}
+    rootName: {description: Root name of hml, type: string}
+  type: object

@@ -1,0 +1,206 @@
+  /variantEffect/{id}:
+    get:
+      operationId: getVariantEffect
+      description: Gets the VariantEffect by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of VariantEffect in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/VariantEffect'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VariantEffectControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteVariantEffect
+      description: Deletes the VariantEffect by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of VariantEffect in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorVariantEffect
+          schema:
+            title: VariantEffectControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /variantEffect/{maxResults}:
+    post:
+      operationId: getTypeaheadVariantEffects
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfVariantEffects
+            type: array
+            items:
+              $ref: '#/definitions/VariantEffect'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /variantEffect/{maxResults}/{pageNumber}:
+    get:
+      operationId: getVariantEffects
+      description: Gets the list of available VariantEffects
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfvarianteffects
+            type: array
+            items:
+              $ref: '#/definitions/VariantEffect'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VariantEffectControllerException
+            schema:
+              $ref: '#/definitions/VariantEffectControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /variantEffect:
+    post:
+      operationId: createVariantEffects
+      description: Create VariantEffect entries
+      parameters:
+        -
+          name: varianteffects
+          in: body
+          description: Array of VariantEffect Objects
+          required: true
+          schema:
+            title: ArrayOfvarianteffects
+            type: array
+            items:
+              $ref: '#/definitions/VariantEffect'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfvarianteffects
+            type: array
+            items:
+              $ref: '#/definitions/VariantEffect'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VariantEffectControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateVariantEffect
+      description: Update a single VariantEffect entry
+      parameters:
+        -
+          name: variantEffect
+          in: body
+          description: VariantEffect Object
+          required: true
+          schema:
+            $ref: '#/definitions/VariantEffect'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/VariantEffect'
+        500:
+          description: Internal Server Error
+          schema:
+            title: VariantEffectControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteVariantEffect
+      description: Delete a single VariantEffect entry
+      parameters:
+        -
+          name: variantEffect
+          in: body
+          description: VariantEffect Object
+          required: true
+          schema:
+            $ref: '#/definitions/VariantEffect'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: VariantEffectControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/VariantEffect'
+        500:
+          description:
+            schema:
+              title: VariantEffectControllerException
+              schema:
+                $ref: '#/definitions/Error'

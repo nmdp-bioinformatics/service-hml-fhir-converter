@@ -1,0 +1,206 @@
+  /referenceDatabase/{id}:
+    get:
+      operationId: getReferenceDatabase
+      description: Gets the ReferenceDatabase by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of ReferenceDatabase in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ReferenceDatabase'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReferenceDatabaseControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteReferenceDatabase
+      description: Deletes the ReferenceDatabase by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of ReferenceDatabase in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorReferenceDatabase
+          schema:
+            title: ReferenceDatabaseControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /referenceDatabase/{maxResults}:
+    post:
+      operationId: getTypeaheadReferenceDatabases
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfReferenceDatabases
+            type: array
+            items:
+              $ref: '#/definitions/ReferenceDatabase'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /referenceDatabase/{maxResults}/{pageNumber}:
+    get:
+      operationId: getReferenceDatabases
+      description: Gets the list of available ReferenceDatabases
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfreferencedatabases
+            type: array
+            items:
+              $ref: '#/definitions/ReferenceDatabase'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReferenceDatabaseControllerException
+            schema:
+              $ref: '#/definitions/ReferenceDatabaseControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /referenceDatabase:
+    post:
+      operationId: createReferenceDatabases
+      description: Create ReferenceDatabase entries
+      parameters:
+        -
+          name: referencedatabases
+          in: body
+          description: Array of ReferenceDatabase Objects
+          required: true
+          schema:
+            title: ArrayOfreferencedatabases
+            type: array
+            items:
+              $ref: '#/definitions/ReferenceDatabase'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfreferencedatabases
+            type: array
+            items:
+              $ref: '#/definitions/ReferenceDatabase'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReferenceDatabaseControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateReferenceDatabase
+      description: Update a single ReferenceDatabase entry
+      parameters:
+        -
+          name: referenceDatabase
+          in: body
+          description: ReferenceDatabase Object
+          required: true
+          schema:
+            $ref: '#/definitions/ReferenceDatabase'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/ReferenceDatabase'
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReferenceDatabaseControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteReferenceDatabase
+      description: Delete a single ReferenceDatabase entry
+      parameters:
+        -
+          name: referenceDatabase
+          in: body
+          description: ReferenceDatabase Object
+          required: true
+          schema:
+            $ref: '#/definitions/ReferenceDatabase'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: ReferenceDatabaseControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ReferenceDatabase'
+        500:
+          description:
+            schema:
+              title: ReferenceDatabaseControllerException
+              schema:
+                $ref: '#/definitions/Error'

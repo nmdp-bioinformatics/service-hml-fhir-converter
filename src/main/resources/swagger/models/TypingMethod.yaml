@@ -1,0 +1,10 @@
+TypingMethod:
+  properties:
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    id: {description: Id of the typing, type: string}
+    sbtSanger: {$ref: SbtSanger, description: method sanger sbt}
+    sso: {$ref: Sso, description: method sso}
+    ssp: {$ref: Ssp, description: method ssp}
+  type: object

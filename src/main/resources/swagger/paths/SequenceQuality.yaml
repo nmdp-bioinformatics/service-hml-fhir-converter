@@ -1,0 +1,206 @@
+  /sequenceQuality/{id}:
+    get:
+      operationId: getSequenceQuality
+      description: Gets the SequenceQuality by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of SequenceQuality in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/SequenceQuality'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SequenceQualityControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSequenceQuality
+      description: Deletes the SequenceQuality by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of SequenceQuality in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorSequenceQuality
+          schema:
+            title: SequenceQualityControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /sequenceQuality/{maxResults}:
+    post:
+      operationId: getTypeaheadSequenceQualities
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfSequenceQualities
+            type: array
+            items:
+              $ref: '#/definitions/SequenceQuality'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sequenceQuality/{maxResults}/{pageNumber}:
+    get:
+      operationId: getSequenceQualities
+      description: Gets the list of available SequenceQualities
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsequencequalities
+            type: array
+            items:
+              $ref: '#/definitions/SequenceQuality'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SequenceQualityControllerException
+            schema:
+              $ref: '#/definitions/SequenceQualityControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /sequenceQuality:
+    post:
+      operationId: createSequenceQualities
+      description: Create SequenceQuality entries
+      parameters:
+        -
+          name: sequencequalities
+          in: body
+          description: Array of SequenceQuality Objects
+          required: true
+          schema:
+            title: ArrayOfsequencequalities
+            type: array
+            items:
+              $ref: '#/definitions/SequenceQuality'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsequencequalities
+            type: array
+            items:
+              $ref: '#/definitions/SequenceQuality'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SequenceQualityControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateSequenceQuality
+      description: Update a single SequenceQuality entry
+      parameters:
+        -
+          name: sequenceQuality
+          in: body
+          description: SequenceQuality Object
+          required: true
+          schema:
+            $ref: '#/definitions/SequenceQuality'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/SequenceQuality'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SequenceQualityControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSequenceQuality
+      description: Delete a single SequenceQuality entry
+      parameters:
+        -
+          name: sequenceQuality
+          in: body
+          description: SequenceQuality Object
+          required: true
+          schema:
+            $ref: '#/definitions/SequenceQuality'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: SequenceQualityControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/SequenceQuality'
+        500:
+          description:
+            schema:
+              title: SequenceQualityControllerException
+              schema:
+                $ref: '#/definitions/Error'

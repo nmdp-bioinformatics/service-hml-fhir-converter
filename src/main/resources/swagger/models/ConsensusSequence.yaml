@@ -1,0 +1,10 @@
+ConsensusSequence:
+  properites:
+    active: {description: Active record, type: boolean}
+    consensusSequenceBlock: {$ref: ConsensusSequenceBlock, description: block of consensus sequence}
+    date: {description: date created, format: date-time, type: string}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    id: {description: Id of the typing, type: string}
+    referenceDatabase: {$ref: ReferenceDatabase, description: reference database}
+  type: object

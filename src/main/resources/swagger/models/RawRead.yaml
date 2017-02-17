@@ -1,0 +1,14 @@
+RawRead:
+  properies:
+    active: {description: Active record, type: boolean}
+    adapterTrimmed: {description: adapter was trimmed, type: boolean}
+    availability: {description: availability of reads, type: string}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    format: {description: format of uri, type: string}
+    id: {description: Id of the typing, type: string}
+    paired: {description: paired reads, type: boolean}
+    pooled: {description: pooled sample reads, type: boolean}
+    qualityTrimmed: {description: trimmed quality, type: boolean}
+    uri: {description: data location uri, type: string}
+  type: object

@@ -1,0 +1,15 @@
+Ssp:
+  properties:
+    active: {description: Active record, type: boolean}
+    dateCreated: {description: Creation date, format: date-time, type: string}
+    dateUpdated: {description: Date updated, format: date-time, type: string}
+    id: {description: Id of the typing, type: string}
+    locus: {description: gene locus, type: string}
+    properties:
+      description: Properteis belonging to this item
+      items: {$ref: '#/definitions/Property'}
+      type: array
+    scores: {description: scores of test id, type: string}
+    testId: {description: id of test, type: string}
+    testIdSource: {description: source of test id, type: string}
+  type: object

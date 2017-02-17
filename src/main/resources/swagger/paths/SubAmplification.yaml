@@ -1,0 +1,206 @@
+  /subAmplification/{id}:
+    get:
+      operationId: getSubAmplification
+      description: Gets the SubAmplification by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of SubAmplification in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/SubAmplification'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SubAmplificationControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSubAmplification
+      description: Deletes the SubAmplification by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of SubAmplification in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorSubAmplification
+          schema:
+            title: SubAmplificationControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /subAmplification/{maxResults}:
+    post:
+      operationId: getTypeaheadSubAmplifications
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfSubAmplifications
+            type: array
+            items:
+              $ref: '#/definitions/SubAmplification'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /subAmplification/{maxResults}/{pageNumber}:
+    get:
+      operationId: getSubAmplifications
+      description: Gets the list of available SubAmplifications
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsubamplifications
+            type: array
+            items:
+              $ref: '#/definitions/SubAmplification'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SubAmplificationControllerException
+            schema:
+              $ref: '#/definitions/SubAmplificationControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /subAmplification:
+    post:
+      operationId: createSubAmplifications
+      description: Create SubAmplification entries
+      parameters:
+        -
+          name: subamplifications
+          in: body
+          description: Array of SubAmplification Objects
+          required: true
+          schema:
+            title: ArrayOfsubamplifications
+            type: array
+            items:
+              $ref: '#/definitions/SubAmplification'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfsubamplifications
+            type: array
+            items:
+              $ref: '#/definitions/SubAmplification'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SubAmplificationControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateSubAmplification
+      description: Update a single SubAmplification entry
+      parameters:
+        -
+          name: subAmplification
+          in: body
+          description: SubAmplification Object
+          required: true
+          schema:
+            $ref: '#/definitions/SubAmplification'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/SubAmplification'
+        500:
+          description: Internal Server Error
+          schema:
+            title: SubAmplificationControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteSubAmplification
+      description: Delete a single SubAmplification entry
+      parameters:
+        -
+          name: subAmplification
+          in: body
+          description: SubAmplification Object
+          required: true
+          schema:
+            $ref: '#/definitions/SubAmplification'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: SubAmplificationControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/SubAmplification'
+        500:
+          description:
+            schema:
+              title: SubAmplificationControllerException
+              schema:
+                $ref: '#/definitions/Error'

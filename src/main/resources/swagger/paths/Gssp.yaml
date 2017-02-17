@@ -1,0 +1,206 @@
+  /gssp/{id}:
+    get:
+      operationId: getGssp
+      description: Gets the Gssp by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Gssp in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Gssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: GsspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteGssp
+      description: Deletes the Gssp by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of Gssp in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorGssp
+          schema:
+            title: GsspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /gssp/{maxResults}:
+    post:
+      operationId: getTypeaheadGssps
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfGssps
+            type: array
+            items:
+              $ref: '#/definitions/Gssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /gssp/{maxResults}/{pageNumber}:
+    get:
+      operationId: getGssps
+      description: Gets the list of available Gssps
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfgssps
+            type: array
+            items:
+              $ref: '#/definitions/Gssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: GsspControllerException
+            schema:
+              $ref: '#/definitions/GsspControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /gssp:
+    post:
+      operationId: createGssps
+      description: Create Gssp entries
+      parameters:
+        -
+          name: gssps
+          in: body
+          description: Array of Gssp Objects
+          required: true
+          schema:
+            title: ArrayOfgssps
+            type: array
+            items:
+              $ref: '#/definitions/Gssp'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfgssps
+            type: array
+            items:
+              $ref: '#/definitions/Gssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: GsspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateGssp
+      description: Update a single Gssp entry
+      parameters:
+        -
+          name: gssp
+          in: body
+          description: Gssp Object
+          required: true
+          schema:
+            $ref: '#/definitions/Gssp'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/Gssp'
+        500:
+          description: Internal Server Error
+          schema:
+            title: GsspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteGssp
+      description: Delete a single Gssp entry
+      parameters:
+        -
+          name: gssp
+          in: body
+          description: Gssp Object
+          required: true
+          schema:
+            $ref: '#/definitions/Gssp'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: GsspControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Gssp'
+        500:
+          description:
+            schema:
+              title: GsspControllerException
+              schema:
+                $ref: '#/definitions/Error'

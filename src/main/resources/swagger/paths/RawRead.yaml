@@ -1,0 +1,206 @@
+  /rawRead/{id}:
+    get:
+      operationId: getRawRead
+      description: Gets the RawRead by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of RawRead in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/RawRead'
+        500:
+          description: Internal Server Error
+          schema:
+            title: RawReadControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteRawRead
+      description: Deletes the RawRead by Id
+      parameters:
+        -
+          name: id
+          in: query
+          description: Id of RawRead in database
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server ErrorRawRead
+          schema:
+            title: RawReadControllerException
+            schema:
+              $ref: '#/definitions/Error'
+  /rawRead/{maxResults}:
+    post:
+      operationId: getTypeaheadRawReads
+      description: Gets the available options for typeahead criteria
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results to return
+          required: true
+          type: integer
+          format: int32
+        -
+          name: typeaheadQuery
+          in: body
+          description: Query object for typeahead
+          required: true
+          schema:
+            $ref: '#/definitions/TypeaheadQuery'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfRawReads
+            type: array
+            items:
+              $ref: '#/definitions/RawRead'
+        500:
+          description: Internal Server Error
+          schema:
+            title: TypingTestNameControllerException
+            schema:
+              $ref: '#/definitions/HmlControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /rawRead/{maxResults}/{pageNumber}:
+    get:
+      operationId: getRawReads
+      description: Gets the list of available RawReads
+      parameters:
+        -
+          name: maxResults
+          in: query
+          description: Number of results returned
+          required: true
+          type: integer
+          format: int32
+        -
+          name: pageNumber
+          in: query
+          description: Page number of results
+          required: true
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfrawreads
+            type: array
+            items:
+              $ref: '#/definitions/RawRead'
+        500:
+          description: Internal Server Error
+          schema:
+            title: RawReadControllerException
+            schema:
+              $ref: '#/definitions/RawReadControllerException'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /rawRead:
+    post:
+      operationId: createRawReads
+      description: Create RawRead entries
+      parameters:
+        -
+          name: rawreads
+          in: body
+          description: Array of RawRead Objects
+          required: true
+          schema:
+            title: ArrayOfrawreads
+            type: array
+            items:
+              $ref: '#/definitions/RawRead'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: ArrayOfrawreads
+            type: array
+            items:
+              $ref: '#/definitions/RawRead'
+        500:
+          description: Internal Server Error
+          schema:
+            title: RawReadControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    put:
+      operationId: updateRawRead
+      description: Update a single RawRead entry
+      parameters:
+        -
+          name: rawRead
+          in: body
+          description: RawRead Object
+          required: true
+          schema:
+            $ref: '#/definitions/RawRead'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              $ref: '#/definitions/RawRead'
+        500:
+          description: Internal Server Error
+          schema:
+            title: RawReadControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    delete:
+      operationId: deleteRawRead
+      description: Delete a single RawRead entry
+      parameters:
+        -
+          name: rawRead
+          in: body
+          description: RawRead Object
+          required: true
+          schema:
+            $ref: '#/definitions/RawRead'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: BooleanOfSuccessfulOperation
+            type: boolean
+        500:
+          description: Internal Server Error
+          schema:
+            title: RawReadControllerException
+            schema:
+              $ref: '#/definitions/Error'
+    get:
+      operationId: getModel
+      description: Get a newly instantiated model
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/RawRead'
+        500:
+          description:
+            schema:
+              title: RawReadControllerException
+              schema:
+                $ref: '#/definitions/Error'
