@@ -67,7 +67,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     }
 
     @Override
-    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteTypingTestName(@PathVariable String id) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(typingTestNameService.deleteItem(id), HttpStatus.OK);
@@ -91,7 +91,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     }
 
     @Override
-    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
+    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<TypingTestName>> getTypingTestName(@PathVariable String id) throws NotFoundException {
         try {
             org.nmdp.hmlfhirconverter.domain.TypingTestName typingTestName = typingTestNameService.getById(id);

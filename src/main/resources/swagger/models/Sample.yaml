@@ -9,6 +9,7 @@ Sample:
     dateCreated: {description: Date record was created, format: date-time, type: string}
     dateUpdated: {description: Date updated, format: date-time, type: string}
     id: {description: Id of sample, type: string}
+    sampleId: {description: user input Id of sample, type: string}
     properties:
       description: array of properties
       items: {$ref: '#/definitions/Property'}

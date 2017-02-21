@@ -8117,6 +8117,9 @@ definitions:
         description: Date updated
         format: date-time
         type: string
+      sampleId:
+        description: user input Id of sample
+        type: string
       id:
         description: Id of sample
         type: string

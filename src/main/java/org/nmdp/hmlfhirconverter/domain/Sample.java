@@ -65,6 +65,9 @@ public class Sample extends SwaggerConverter<Sample, io.swagger.model.Sample> im
     private String id;
 
     @XmlAttribute
+    private String sampleId;
+
+    @XmlAttribute
     private String centerCode;
 
     @XmlAttribute

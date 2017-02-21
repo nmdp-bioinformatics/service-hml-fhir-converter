@@ -87,7 +87,7 @@ public class ProjectController implements ProjectApi {
     }
 
     @Override
-    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Boolean>> deleteProject(@PathVariable String id) throws NotFoundException {
         try {
             return () -> new ResponseEntity<>(projectService.deleteItem(id), HttpStatus.OK);
@@ -111,7 +111,7 @@ public class ProjectController implements ProjectApi {
     }
 
     @Override
-    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
+    @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Project>> getProject(@PathVariable String id) throws NotFoundException {
         try {
             org.nmdp.hmlfhirconverter.domain.Project project = projectService.getById(id);
