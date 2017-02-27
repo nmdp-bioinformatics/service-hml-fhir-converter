@@ -8343,6 +8343,10 @@ definitions:
       alleleAssignment:
         $ref: AlleleAssignment
         description: allele assigned by this typing
+      date:
+        description: Sample date
+        format: date-time
+        type: string
       dateCreated:
         description: Creation date
         format: date-time

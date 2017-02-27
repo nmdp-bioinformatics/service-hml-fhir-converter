@@ -5,6 +5,7 @@ Typing:
         typing}
     dateCreated: {description: Creation date, format: date-time, type: string}
     dateUpdated: {description: Date updated, format: date-time, type: string}
+    date: {description: Date of typing, format: date-time, type: string}
     geneFamily: {description: gene type, type: string}
     id: {description: Id of the typing, type: string}
     properties:
