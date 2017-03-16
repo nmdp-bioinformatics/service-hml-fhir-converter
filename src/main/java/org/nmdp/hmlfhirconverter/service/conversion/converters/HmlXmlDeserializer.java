@@ -26,7 +26,44 @@ package org.nmdp.hmlfhirconverter.service.conversion.converters;
 
 import com.google.gson.*;
 
+import com.sun.org.apache.xml.internal.security.signature.reference.ReferenceData;
 import io.swagger.model.*;
+import io.swagger.model.Allele;
+import io.swagger.model.AlleleAssignment;
+import io.swagger.model.Amplification;
+import io.swagger.model.CollectionMethod;
+import io.swagger.model.ConsensusSequence;
+import io.swagger.model.ConsensusSequenceBlock;
+import io.swagger.model.DiploidCombination;
+import io.swagger.model.ExtendedItem;
+import io.swagger.model.Genotype;
+import io.swagger.model.GlString;
+import io.swagger.model.Gssp;
+import io.swagger.model.Haploid;
+import io.swagger.model.Hml;
+import io.swagger.model.HmlId;
+import io.swagger.model.IupacBases;
+import io.swagger.model.LocusBlock;
+import io.swagger.model.Project;
+import io.swagger.model.Property;
+import io.swagger.model.RawRead;
+import io.swagger.model.ReferenceDatabase;
+import io.swagger.model.ReportingCenter;
+import io.swagger.model.Sample;
+import io.swagger.model.SbtNgs;
+import io.swagger.model.SbtSanger;
+import io.swagger.model.Sequence;
+import io.swagger.model.SequenceQuality;
+import io.swagger.model.Sso;
+import io.swagger.model.Ssp;
+import io.swagger.model.SubAmplification;
+import io.swagger.model.Typing;
+import io.swagger.model.TypingMethod;
+import io.swagger.model.TypingTestName;
+import io.swagger.model.Variant;
+import io.swagger.model.VariantEffect;
+import io.swagger.model.Version;
+import org.nmdp.hmlfhirconverter.domain.*;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -40,7 +77,6 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         JsonObject jsonObject = rootJson.get("hml").getAsJsonObject();
 
         Hml hml = new Hml();
-        Version version = new Version();
 
         hml.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
         hml.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
@@ -223,7 +259,126 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
     }
 
     private ConsensusSequence createConsensusSequence(JsonObject jsonObject) {
-        return new ConsensusSequence();
+        ConsensusSequence consensusSequence = new ConsensusSequence();
+
+        if (jsonObject == null) {
+            return consensusSequence;
+        }
+
+        consensusSequence.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        consensusSequence.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        consensusSequence.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        consensusSequence.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+        consensusSequence.setDate(jsonObject.has("date") ? new Date(jsonObject.get("date").getAsString()) : null);
+        consensusSequence.setReferenceDatabase(createReferenceDatabase(jsonObject.has("reference-database") ? jsonObject.get("reference-database").getAsJsonObject() : null));
+        consensusSequence.setConsensusSequenceBlock(createConsensusSequenceBlock(jsonObject.has("consensus-sequence-block") ? jsonObject.get("conensus-sequence-block").getAsJsonObject() : null));
+
+        return consensusSequence;
+    }
+
+    private ConsensusSequenceBlock createConsensusSequenceBlock(JsonObject jsonObject) {
+        ConsensusSequenceBlock consensusSequenceBlock = new ConsensusSequenceBlock();
+
+        if (jsonObject == null) {
+            return  consensusSequenceBlock;
+        }
+
+        consensusSequenceBlock.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        consensusSequenceBlock.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        consensusSequenceBlock.setContinuity(jsonObject.has("continuity") ? jsonObject.get("continuity").getAsBoolean() : null);
+        consensusSequenceBlock.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        consensusSequenceBlock.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+        consensusSequenceBlock.setDescription(jsonObject.has("description") ? jsonObject.get("description").getAsString() : null);
+        consensusSequenceBlock.setEnd(jsonObject.has("end") ? jsonObject.get("end").getAsInt() : null);
+        consensusSequenceBlock.setExpectedCopyNumber(jsonObject.has("expected-copy-number") ? jsonObject.get("expected-copy-number").getAsInt() : null);
+        consensusSequenceBlock.setPhaseSet(jsonObject.has("phase-set") ? jsonObject.get("phase-set").getAsString() : null);
+        consensusSequenceBlock.setPhasingGroup(jsonObject.has("phasing-group") ? jsonObject.get("phasing-group").getAsString() : null);
+        consensusSequenceBlock.setReferenceSequenceId(jsonObject.has("reference-sequence-id") ? jsonObject.get("reference-sequence-id").getAsString() : null);
+        consensusSequenceBlock.setSequence(createSequence(jsonObject.has("sequence") ? jsonObject.get("sequence").getAsJsonObject() : null));
+        consensusSequenceBlock.setStart(jsonObject.has("start") ? jsonObject.get("start").getAsInt() : null);
+        consensusSequenceBlock.setStrand(jsonObject.has("strand") ? jsonObject.get("strand").getAsString() : null);
+        consensusSequenceBlock.setVariant(createVariant(jsonObject.has("variant") ? jsonObject.get("variant").getAsJsonObject() : null));
+        consensusSequenceBlock.setSequenceQuality(createSequenceQuality(jsonObject.has("sequence-quality") ? jsonObject.get("sequence-quality").getAsJsonObject() : null));
+
+        return consensusSequenceBlock;
+    }
+
+    private Variant createVariant(JsonObject jsonObject) {
+        Variant variant = new Variant();
+
+        if (jsonObject == null) {
+            return variant;
+        }
+
+        variant.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        variant.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        variant.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        variant.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+        variant.setAlternateBases(jsonObject.has("alternate-bases") ? jsonObject.get("alternate-bases").getAsString() : null);
+        variant.setAnyAttribute(jsonObject.has("any-attribute") ? jsonObject.get("any-attribute").getAsJsonObject() : null);
+        variant.setEnd(jsonObject.has("end") ? jsonObject.get("end").getAsInt() : null);
+        variant.setFilter(jsonObject.has("filter") ? jsonObject.get("filter").getAsString() : null);
+        variant.setName(jsonObject.has("name") ? jsonObject.get("name").getAsString() : null);
+        variant.setQualityScore(jsonObject.has("quality-score") ? jsonObject.get("quality-score").getAsString() : null);
+        variant.setReferenceBases(jsonObject.has("reference-bases") ? jsonObject.get("reference-bases").getAsString() : null);
+        variant.setStart(jsonObject.has("start") ? jsonObject.get("start").getAsInt() : null);
+        variant.setUri(jsonObject.has("uri") ? jsonObject.get("uri").getAsString() : null);
+        variant.setVariantId(jsonObject.has("variant-id") ? jsonObject.get("variant-id").getAsString() : null);
+        variant.setVariantEffect(createVariantEffect(jsonObject.has("variant-effect") ? jsonObject.get("variant-effect").getAsJsonObject() : null));
+
+        return variant;
+    }
+
+    private VariantEffect createVariantEffect(JsonObject jsonObject) {
+        VariantEffect variantEffect = new VariantEffect();
+
+        if (jsonObject == null) {
+            return variantEffect;
+        }
+
+        variantEffect.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        variantEffect.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        variantEffect.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        variantEffect.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+        variantEffect.setAnyAttribute(jsonObject.has("any-attribute") ? jsonObject.get("any-attribute").getAsJsonObject() : null);
+        variantEffect.setHgvs(jsonObject.has("hgvs") ? jsonObject.get("hgvs").getAsString() : null);
+        variantEffect.setTerm(jsonObject.has("term") ? jsonObject.get("term").getAsString() : null);
+        variantEffect.setUri(jsonObject.has("uri") ? jsonObject.get("uri").getAsString() : null);
+
+        return variantEffect;
+    }
+
+    private SequenceQuality createSequenceQuality(JsonObject jsonObject) {
+        SequenceQuality sequenceQuality = new SequenceQuality();
+
+        if (jsonObject == null) {
+            return  sequenceQuality;
+        }
+
+        sequenceQuality.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        sequenceQuality.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        sequenceQuality.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        sequenceQuality.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+        sequenceQuality.setQualityScore(jsonObject.has("quality-score") ? jsonObject.get("quality-score").getAsString() : null);
+        sequenceQuality.setSequenceEnd(jsonObject.has("sequence-end") ? jsonObject.get("sequence-end").getAsInt() : null);
+        sequenceQuality.setSequenceStart(jsonObject.has("sequence-start") ? jsonObject.get("sequence-start").getAsInt() : null);
+
+        return sequenceQuality;
+    }
+
+    private ReferenceDatabase createReferenceDatabase(JsonObject jsonObject) {
+        ReferenceDatabase referenceDatabase = new ReferenceDatabase();
+
+        if (jsonObject == null) {
+            return  referenceDatabase;
+        }
+
+        referenceDatabase.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        referenceDatabase.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        referenceDatabase.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        referenceDatabase.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+
+        return referenceDatabase;
     }
 
     private AlleleAssignment createAlleleAssignment(JsonObject jsonObject) {

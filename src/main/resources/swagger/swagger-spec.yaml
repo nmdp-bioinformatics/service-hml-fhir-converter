@@ -7611,7 +7611,7 @@ definitions:
         type: string
     type: object
   ConsensusSequence:
-    properites:
+    properties:
       active:
         description: Active record
         type: boolean
