@@ -7975,7 +7975,7 @@ definitions:
         type: string
     type: object
   RawRead:
-    properies:
+    properties:
       active:
         description: Active record
         type: boolean

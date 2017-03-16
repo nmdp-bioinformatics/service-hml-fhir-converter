@@ -217,8 +217,13 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         typing.setTypingMethod(createTypingMethod(jsonObject.has("typing-method") ? jsonObject.get("typing-method").getAsJsonObject() : null));
         typing.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
         typing.setAlleleAssignment(createAlleleAssignment(jsonObject.has("allele-assignment") ? jsonObject.get("allele-assignment").getAsJsonObject() : null));
+        typing.setConsensusSequence(createConsensusSequence(jsonObject.has("consensus-sequence") ? jsonObject.get("consensus-sequence").getAsJsonObject() : null));
 
         return typing;
+    }
+
+    private ConsensusSequence createConsensusSequence(JsonObject jsonObject) {
+        return new ConsensusSequence();
     }
 
     private AlleleAssignment createAlleleAssignment(JsonObject jsonObject) {
@@ -361,10 +366,55 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         typingMethod.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
         typingMethod.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
         typingMethod.setSbtSanger(createSbtSanger(jsonObject.has("sbt-sanger") ? jsonObject.get("sbt-sanger").getAsJsonObject() : null));
+        typingMethod.setSbtNgs(createSbtNgs(jsonObject.has("sbt-ngs") ? jsonObject.get("sbt-ngs").getAsJsonObject() : null));
         typingMethod.setSso(createSso(jsonObject.has("sso") ? jsonObject.get("sso").getAsJsonObject() : null));
         typingMethod.setSsp(createSsp(jsonObject.has("ssp") ? jsonObject.get("ssp").getAsJsonObject() : null));
 
         return typingMethod;
+    }
+
+    private SbtNgs createSbtNgs(JsonObject jsonObject) {
+        SbtNgs sbtNgs = new SbtNgs();
+
+        if (jsonObject == null) {
+            return sbtNgs;
+        }
+
+        sbtNgs.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        sbtNgs.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        sbtNgs.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        sbtNgs.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+        sbtNgs.setLocus(jsonObject.has("locus") ? jsonObject.get("locus").getAsString() : null);
+        sbtNgs.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
+        sbtNgs.setRawReads(createRawReads(jsonObject.has("raw-reads") ? jsonObject.get("raw-reads").getAsJsonObject() : null));
+        sbtNgs.setTestId(jsonObject.has("test-id") ? jsonObject.get("test-id").getAsString() : null);
+        sbtNgs.setTestIdSource(jsonObject.has("test-id-source") ? jsonObject.get("test-id-source").getAsString() : null);
+
+        return sbtNgs;
+    }
+
+    private List<RawRead> createRawReads(JsonObject jsonObject) {
+        List<RawRead> rawReads = new ArrayList<>();
+        RawRead rawRead = new RawRead();
+
+        if (jsonObject == null) {
+            return rawReads;
+        }
+
+        rawRead.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        rawRead.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        rawRead.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        rawRead.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+        rawRead.setAdapterTrimmed(jsonObject.has("adapter-trimmed") ? jsonObject.get("adapter-trimmed").getAsBoolean() : null);
+        rawRead.setAvailability(jsonObject.has("availability") ? jsonObject.get("availability").getAsString() : null);
+        rawRead.setFormat(jsonObject.has("format") ? jsonObject.get("format").getAsString() : null);
+        rawRead.setPaired(jsonObject.has("paired") ? jsonObject.get("paired").getAsBoolean() : null);
+        rawRead.setPooled(jsonObject.has("pooled") ? jsonObject.get("pooled").getAsBoolean() : null);
+        rawRead.setQualityTrimmed(jsonObject.has("quality-trimmed") ? jsonObject.get("quality-trimmed").getAsBoolean() : null);
+        rawRead.setUri(jsonObject.has("uri") ? jsonObject.get("uri").getAsString() : null);
+
+        rawReads.add(rawRead);
+        return rawReads;
     }
 
     private Sso createSso(JsonObject jsonObject) {
@@ -421,8 +471,101 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         sbtSanger.setTestId(jsonObject.has("test-id") ? jsonObject.get("test-id").getAsString() : null);
         sbtSanger.setTestIdSource(jsonObject.has("test-id-source") ? jsonObject.get("test-id-source").getAsString() : null);
         sbtSanger.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
+        sbtSanger.setAmplification(createAmplification(jsonObject.has("amplification") ? jsonObject.get("amplification").getAsJsonObject() : null));
+        sbtSanger.setSubAmplification(createSubAmplification(jsonObject.has("sub-amplification") ? jsonObject.get("sub-amplification").getAsJsonObject() : null));
+        sbtSanger.setGssp(createGssp(jsonObject.has("gssp") ? jsonObject.get("gssp").getAsJsonObject() : null));
 
         return sbtSanger;
+    }
+
+    private Amplification createAmplification(JsonObject jsonObject) {
+        Amplification amplification = new Amplification();
+
+        if (jsonObject == null) {
+            return amplification;
+        }
+
+        amplification.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        amplification.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        amplification.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        amplification.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+        amplification.setRegisteredName(jsonObject.has("registered-name") ? jsonObject.get("registered-name").getAsString() : null);
+        amplification.setSequence(createSequence(jsonObject.has("sequence") ? jsonObject.get("sequence").getAsJsonObject() : null));
+
+        return amplification;
+    }
+
+    private SubAmplification createSubAmplification(JsonObject jsonObject) {
+        SubAmplification subAmplification = new SubAmplification();
+
+        if (jsonObject == null) {
+            return subAmplification;
+        }
+
+        subAmplification.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        subAmplification.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        subAmplification.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        subAmplification.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+        subAmplification.setRegisteredName(jsonObject.has("registered-name") ? jsonObject.get("registered-name").getAsString() : null);
+        subAmplification.setSequence(createSequence(jsonObject.has("sequence") ? jsonObject.get("sequence").getAsJsonObject() : null));
+
+        return subAmplification;
+    }
+
+    private Gssp createGssp(JsonObject jsonObject) {
+        Gssp gssp = new Gssp();
+
+        if (jsonObject == null) {
+            return gssp;
+        }
+
+        gssp.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        gssp.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        gssp.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        gssp.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+        gssp.setRegisteredName(jsonObject.has("registered-name") ? jsonObject.get("registered-name").getAsString() : null);
+        gssp.setPrimerTarget(jsonObject.has("primer-target") ? jsonObject.get("primer-target").getAsString() : null);
+        gssp.setPrimerSequence(jsonObject.has("primer-sequence") ? jsonObject.get("primer-sequence").getAsString() : null);
+        gssp.setSequence(createSequence(jsonObject.has("sequence") ? jsonObject.get("sequence").getAsJsonObject() : null));
+
+        return gssp;
+    }
+
+    private Sequence createSequence(JsonObject jsonObject) {
+        Sequence sequence = new Sequence();
+
+        if (jsonObject == null) {
+            return sequence;
+        }
+
+        sequence.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        sequence.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        sequence.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        sequence.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+        sequence.setAnyAttribute(jsonObject.has("any-attribute") ? jsonObject.get("any-attribute").getAsJsonObject() : null);
+        sequence.setSequence(jsonObject.has("sequence") ? jsonObject.get("sequence").getAsString() : null);
+        sequence.setIupacBases(createIupacBases(jsonObject.has("iupac-bases") ? jsonObject.get("iupac-bases").getAsJsonObject() : null));
+
+        return sequence;
+    }
+
+    private List<IupacBases> createIupacBases(JsonObject jsonObject) {
+        List<IupacBases> iupacBases = new ArrayList<>();
+        IupacBases iupacBase = new IupacBases();
+
+        if (jsonObject == null) {
+            return iupacBases;
+        }
+
+        iupacBase.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
+        iupacBase.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
+        iupacBase.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
+        iupacBase.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
+        iupacBase.setProperty(jsonObject.has("property") ? jsonObject.get("property").getAsString() : null);
+        iupacBase.setValue(jsonObject.has("value") ? jsonObject.get("value").getAsString() : null);
+
+        iupacBases.add(iupacBase);
+        return iupacBases;
     }
 
     private List<CollectionMethod> createCollectionMethods(JsonObject jsonObject) {
