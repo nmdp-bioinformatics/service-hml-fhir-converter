@@ -5,4 +5,5 @@ GlString:
     dateUpdated: {description: Date updated, format: date-time, type: string}
     id: {type: string}
     uri: {type: string}
+    value: {type: string}
   type: object

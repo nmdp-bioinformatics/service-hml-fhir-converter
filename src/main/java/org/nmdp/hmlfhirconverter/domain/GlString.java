@@ -70,4 +70,7 @@ public class GlString extends SwaggerConverter<GlString, io.swagger.model.GlStri
 
     @XmlAttribute
     private Date dateUpdated;
+
+    @XmlAttribute
+    private String value;
 }
