@@ -75,6 +75,7 @@ public class SbtNgs extends SwaggerConverter<SbtNgs, io.swagger.model.SbtNgs> im
     @XmlAttribute
     private List<Property> properties;
 
+    @XmlAttribute
     private List<RawRead> rawReads;
 
     @XmlAttribute

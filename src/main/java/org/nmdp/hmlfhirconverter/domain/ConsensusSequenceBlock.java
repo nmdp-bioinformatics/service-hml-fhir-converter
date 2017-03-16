@@ -91,6 +91,9 @@ public class ConsensusSequenceBlock extends SwaggerConverter<ConsensusSequenceBl
     private Sequence sequence;
 
     @XmlAttribute
+    private SequenceQuality sequenceQuality;
+
+    @XmlAttribute
     private Variant variant;
 
     @XmlAttribute

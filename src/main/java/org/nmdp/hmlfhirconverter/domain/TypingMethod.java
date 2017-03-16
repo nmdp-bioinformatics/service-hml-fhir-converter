@@ -72,6 +72,9 @@ public class TypingMethod extends SwaggerConverter<TypingMethod, io.swagger.mode
     private SbtSanger sbtSanger;
 
     @XmlAttribute
+    private SbtNgs sbtNgs;
+
+    @XmlAttribute
     private Boolean active;
 
     @XmlAttribute

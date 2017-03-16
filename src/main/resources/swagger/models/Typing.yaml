@@ -13,4 +13,5 @@ Typing:
       items: {$ref: '#/definitions/Property'}
       type: array
     typingMethod: {$ref: TypingMethod, description: method used to determine typing}
+    referenceDatabase: {$ref: ReferenceDatabase, description: database containing sequence}
   type: object

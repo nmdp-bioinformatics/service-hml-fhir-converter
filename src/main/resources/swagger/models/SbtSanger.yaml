@@ -11,4 +11,7 @@ SbtSanger:
       type: array
     testId: {description: id of test, type: string}
     testIdSource: {description: source of test id, type: string}
+    amplification: {$ref: Amplification, description: amplification}
+    subAmplification: {$ref: SubAmplification, descripton: subAmplification}
+    gssp: {$ref: Gssp, description: Gssp}
   type: object

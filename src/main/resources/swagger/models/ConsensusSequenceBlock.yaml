@@ -12,6 +12,7 @@ ConsensusSequenceBlock:
     phasingGroup: {type: string}
     referenceSequenceId: {description: id of reference sequence, type: string}
     sequence: {$ref: Sequence}
+    sequenceQuality: {$ref: SequenceQuality}
     start: {format: int32, type: integer}
     strand: {type: string}
     variant: {$ref: Variant}

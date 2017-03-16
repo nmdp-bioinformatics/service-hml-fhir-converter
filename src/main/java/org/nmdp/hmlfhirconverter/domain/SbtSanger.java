@@ -82,4 +82,13 @@ public class SbtSanger extends SwaggerConverter<SbtSanger, io.swagger.model.SbtS
 
     @XmlAttribute
     private Date dateUpdated;
+
+    @XmlAttribute
+    private Amplification amplification;
+
+    @XmlAttribute
+    private SubAmplification subAmplification;
+
+    @XmlAttribute
+    private Gssp gssp;
 }

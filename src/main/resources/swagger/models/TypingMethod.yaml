@@ -5,6 +5,7 @@ TypingMethod:
     dateUpdated: {description: Date updated, format: date-time, type: string}
     id: {description: Id of the typing, type: string}
     sbtSanger: {$ref: SbtSanger, description: method sanger sbt}
+    sbtNgs: {$ref: SbtNgs, description: method sanger ngs}
     sso: {$ref: Sso, description: method sso}
     ssp: {$ref: Ssp, description: method ssp}
   type: object

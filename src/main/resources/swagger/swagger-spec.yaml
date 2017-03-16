@@ -7679,6 +7679,8 @@ definitions:
         type: string
       variant:
         $ref: Variant
+      sequenceQuality:
+        $ref: SequenceQuality
     type: object
   DiploidCombination:
     properties:
@@ -8200,6 +8202,12 @@ definitions:
       testIdSource:
         description: source of test id
         type: string
+      amplification:
+        $ref: Amplification
+      subAmplification:
+        $ref: SubAmplification
+      gssp:
+        $ref: Gssp
     type: object
   Sequence:
     properties:
@@ -8371,6 +8379,8 @@ definitions:
       typingMethod:
         $ref: TypingMethod
         description: method used to determine typing
+      consensusSequence:
+        $ref: ConsensusSequence
     type: object
   TypingMethod:
     properties:
@@ -8391,6 +8401,8 @@ definitions:
       sbtSanger:
         $ref: SbtSanger
         description: method sanger sbt
+      sbtNgs:
+        $ref: SbtNgs
       sso:
         $ref: Sso
         description: method sso
