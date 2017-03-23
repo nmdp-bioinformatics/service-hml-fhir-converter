@@ -1,7 +1,11 @@
 ConsensusSequence:
   properites:
     active: {description: Active record, type: boolean}
-    consensusSequenceBlock: {$ref: ConsensusSequenceBlock, description: block of consensus sequence}
+    consensusSequenceBlocks:
+      type: array
+      items:
+        $ref: '#/definitions/ConsensusSequenceBlock'
+      description: block of consensus sequence
     date: {description: date created, format: date-time, type: string}
     dateCreated: {description: Creation date, format: date-time, type: string}
     dateUpdated: {description: Date updated, format: date-time, type: string}

@@ -36,6 +36,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -54,7 +56,7 @@ public class ConsensusSequence extends SwaggerConverter<ConsensusSequence, io.sw
         this.active = active;
         this.dateUpdated = null;
         this.referenceDatabase = new ReferenceDatabase(true);
-        this.consensusSequenceBlock = new ConsensusSequenceBlock(true);
+        this.consensusSequenceBlocks = new ArrayList<>();
     }
 
     @XmlAttribute
@@ -68,7 +70,7 @@ public class ConsensusSequence extends SwaggerConverter<ConsensusSequence, io.sw
     private ReferenceDatabase referenceDatabase;
 
     @XmlAttribute
-    private ConsensusSequenceBlock consensusSequenceBlock;
+    private List<ConsensusSequenceBlock> consensusSequenceBlocks;
 
     @XmlAttribute
     private Boolean active;

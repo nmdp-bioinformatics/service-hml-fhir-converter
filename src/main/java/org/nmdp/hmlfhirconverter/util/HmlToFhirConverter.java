@@ -52,7 +52,7 @@ public class HmlToFhirConverter {
             Gson gson = gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
             Hml hml = gson.fromJson(jsonObject, Hml.class);
 
-            return new org.nmdp.hmlfhirconverter.domain.Hml();
+            return new org.nmdp.hmlfhirconverter.domain.Hml().convertFromSwagger(hml);
         } catch (Exception ex) {
             LOG.error("Error converting HML to FHIR.", ex);
             throw (ConversionException)ex;
