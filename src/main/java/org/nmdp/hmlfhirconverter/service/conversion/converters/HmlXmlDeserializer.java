@@ -24,17 +24,60 @@ package org.nmdp.hmlfhirconverter.service.conversion.converters;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import com.google.gson.*;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonParseException;
 
-import io.swagger.model.*;
+import io.swagger.model.Allele;
+import io.swagger.model.AlleleAssignment;
+import io.swagger.model.Amplification;
+import io.swagger.model.CollectionMethod;
+import io.swagger.model.ConsensusSequence;
+import io.swagger.model.ConsensusSequenceBlock;
+import io.swagger.model.DiploidCombination;
+import io.swagger.model.ExtendedItem;
+import io.swagger.model.Genotype;
+import io.swagger.model.GlString;
+import io.swagger.model.Gssp;
+import io.swagger.model.Haploid;
+import io.swagger.model.Hml;
+import io.swagger.model.HmlId;
+import io.swagger.model.IupacBases;
+import io.swagger.model.LocusBlock;
+import io.swagger.model.Project;
+import io.swagger.model.Property;
+import io.swagger.model.RawRead;
+import io.swagger.model.ReferenceDatabase;
+import io.swagger.model.ReportingCenter;
+import io.swagger.model.Sample;
+import io.swagger.model.SbtNgs;
+import io.swagger.model.SbtSanger;
+import io.swagger.model.Sequence;
+import io.swagger.model.SequenceQuality;
+import io.swagger.model.Sso;
+import io.swagger.model.Ssp;
+import io.swagger.model.SubAmplification;
+import io.swagger.model.Typing;
+import io.swagger.model.TypingMethod;
+import io.swagger.model.TypingTestName;
+import io.swagger.model.Variant;
+import io.swagger.model.VariantEffect;
+import io.swagger.model.Version;
+
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.nmdp.hmlfhirconverter.config.constants.hml.HmlFieldConstants;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
+import java.util.ArrayList;
 
 public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
-
+    private static DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
     public Hml deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject rootJson = json.getAsJsonObject();
         JsonObject jsonObject = rootJson.get("hml").getAsJsonObject();
@@ -42,17 +85,17 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         Hml hml = new Hml();
         Version version = new Version();
 
-        hml.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        hml.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        hml.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        hml.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        hml.setHmlId(createHmlId(jsonObject.has("hmlid") ? jsonObject.get("hmlid").getAsJsonObject() : null));
-        hml.setVersion(createVersion(jsonObject.has("version") ? jsonObject.get("version").getAsString() : null));
-        hml.setProject(createProject(jsonObject.has("project") ? jsonObject.get("project").getAsJsonObject() : null));
-        hml.setSamples(createSamples(jsonObject.has("sample") ? jsonObject.get("sample").getAsJsonObject() : null));
-        hml.setReportingCenters(createRepotingCenters(jsonObject.has("reporting-center") ? jsonObject.get("reporting-center").getAsJsonObject() : null));
-        hml.setProperties(createProperties(jsonObject.has("properties") ? jsonObject.get("properties").getAsJsonObject() : null));
-        hml.setTypingTestNames(createTypingTestNames(jsonObject.has("typing-test-name") ? jsonObject.get("typing-test-name").getAsJsonObject() : null));
+        hml.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        hml.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        hml.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        hml.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
+        hml.setHmlId(createHmlId(jsonObject.has(HmlFieldConstants.HML_HMLID) ? jsonObject.get(HmlFieldConstants.HML_HMLID).getAsJsonObject() : null));
+        hml.setVersion(createVersion(jsonObject.has(HmlFieldConstants.HML_VERSION) ? jsonObject.get(HmlFieldConstants.HML_VERSION).getAsString() : null));
+        hml.setProject(createProject(jsonObject.has(HmlFieldConstants.HML_PROJECT) ? jsonObject.get(HmlFieldConstants.HML_PROJECT).getAsJsonObject() : null));
+        hml.setSamples(createSamples(jsonObject.has(HmlFieldConstants.HML_SAMPLE) ? jsonObject.get(HmlFieldConstants.HML_SAMPLE).getAsJsonObject() : null));
+        hml.setReportingCenters(createRepotingCenters(jsonObject.has(HmlFieldConstants.HML_REPORTINGCENTER) ? jsonObject.get(HmlFieldConstants.HML_REPORTINGCENTER).getAsJsonObject() : null));
+        hml.setProperties(createProperties(jsonObject.has(HmlFieldConstants.HML_PROPERTIES) ? jsonObject.get(HmlFieldConstants.HML_PROPERTIES).getAsJsonObject() : null));
+        hml.setTypingTestNames(createTypingTestNames(jsonObject.has(HmlFieldConstants.HML_TYPINGTESTNAME) ? jsonObject.get(HmlFieldConstants.HML_TYPINGTESTNAME).getAsJsonObject() : null));
 
         return hml;
     }
@@ -75,12 +118,12 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return hmlId;
         }
 
-        hmlId.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        hmlId.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        hmlId.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        hmlId.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        hmlId.setExtension(jsonObject.has("extension") ? jsonObject.get("extension").getAsString() : null);
-        hmlId.setRootName(jsonObject.has("root") ? jsonObject.get("root").getAsString() : null);
+        hmlId.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        hmlId.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        hmlId.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        hmlId.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
+        hmlId.setExtension(jsonObject.has(HmlFieldConstants.HMLID_EXTENSION) ? jsonObject.get(HmlFieldConstants.HMLID_EXTENSION).getAsString() : null);
+        hmlId.setRootName(jsonObject.has(HmlFieldConstants.HMLID_ROOT) ? jsonObject.get(HmlFieldConstants.HMLID_ROOT).getAsString() : null);
 
         return hmlId;
     }
@@ -92,12 +135,12 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return project;
         }
 
-        project.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        project.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        project.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        project.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        project.setDescription(jsonObject.has("description") ? jsonObject.get("description").getAsString() : null);
-        project.setName(jsonObject.has("name") ? jsonObject.get("name").getAsString() : null);
+        project.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        project.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        project.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        project.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
+        project.setDescription(jsonObject.has(HmlFieldConstants.PROJECT_DESCRIPTION) ? jsonObject.get(HmlFieldConstants.PROJECT_DESCRIPTION).getAsString() : null);
+        project.setName(jsonObject.has(HmlFieldConstants.PROJECT_NAME) ? jsonObject.get(HmlFieldConstants.PROJECT_NAME).getAsString() : null);
 
         return project;
     }
@@ -110,15 +153,15 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return samples;
         }
 
-        sample.setId(jsonObject.has("_id") ? jsonObject.get("_id").getAsString() : null);
-        sample.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        sample.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        sample.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        sample.setCenterCode(jsonObject.has("center-code") ? jsonObject.get("center-code").getAsString() : null);
-        sample.setSampleId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        sample.setTyping(createTyping(jsonObject.has("typing") ? jsonObject.get("typing").getAsJsonObject() : null));
-        sample.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
-        sample.setCollectionMethods(createCollectionMethods(jsonObject.has("collection-method") ? jsonObject.get("collection-method").getAsJsonObject() : null));
+        sample.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        sample.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        sample.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        sample.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
+        sample.setCenterCode(jsonObject.has(HmlFieldConstants.SAMPLE_CENTERCODE) ? jsonObject.get(HmlFieldConstants.SAMPLE_CENTERCODE).getAsString() : null);
+        sample.setSampleId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        sample.setTyping(createTyping(jsonObject.has(HmlFieldConstants.SAMPLE_TYPING) ? jsonObject.get(HmlFieldConstants.SAMPLE_TYPING).getAsJsonObject() : null));
+        sample.setProperties(createProperties(jsonObject.has(HmlFieldConstants.SAMPLE_PROPERTY) ? jsonObject.get(HmlFieldConstants.SAMPLE_PROPERTY).getAsJsonObject() : null));
+        sample.setCollectionMethods(createCollectionMethods(jsonObject.has(HmlFieldConstants.SAMPLE_COLLECTIONMETHOD) ? jsonObject.get(HmlFieldConstants.SAMPLE_COLLECTIONMETHOD).getAsJsonObject() : null));
 
         samples.add(sample);
         return samples;
@@ -132,14 +175,14 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return properties;
         }
 
-        property.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        property.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        property.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        property.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        property.setDescription(jsonObject.has("description") ? jsonObject.get("description").getAsString() : null);
-        property.setName(jsonObject.has("name") ? jsonObject.get("name").getAsString() : null);
-        property.setValue(jsonObject.has("value") ? jsonObject.get("value").getAsString() : null);
-        property.setExtendedItems(createExtendedItems(jsonObject.has("extended-items") ? jsonObject.get("extended-items").getAsJsonObject() : null));
+        property.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        property.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        property.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        property.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
+        property.setDescription(jsonObject.has(HmlFieldConstants.PROPERTIES_DESCRIPTION) ? jsonObject.get(HmlFieldConstants.PROPERTIES_DESCRIPTION).getAsString() : null);
+        property.setName(jsonObject.has(HmlFieldConstants.PROPERTIES_NAME) ? jsonObject.get(HmlFieldConstants.PROPERTIES_NAME).getAsString() : null);
+        property.setValue(jsonObject.has(HmlFieldConstants.PROPERTIES_VALUE) ? jsonObject.get(HmlFieldConstants.PROPERTIES_VALUE).getAsString() : null);
+        property.setExtendedItems(createExtendedItems(jsonObject.has(HmlFieldConstants.PROPERTIES_EXTENDEDITEMS) ? jsonObject.get(HmlFieldConstants.PROPERTIES_EXTENDEDITEMS).getAsJsonObject() : null));
 
         properties.add(property);
         return properties;
@@ -153,12 +196,12 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return reportingCenters;
         }
 
-        reportingCenter.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        reportingCenter.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        reportingCenter.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        reportingCenter.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        reportingCenter.setContext(jsonObject.has("context") ? jsonObject.get("context").getAsString() : null);
-        reportingCenter.setCenterId(jsonObject.has("center-id") ? jsonObject.get("center-id").getAsString() : null);
+        reportingCenter.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        reportingCenter.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        reportingCenter.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        reportingCenter.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
+        reportingCenter.setContext(jsonObject.has(HmlFieldConstants.REPORTINGCENTER_CONTEXT) ? jsonObject.get(HmlFieldConstants.REPORTINGCENTER_CONTEXT).getAsString() : null);
+        reportingCenter.setCenterId(jsonObject.has(HmlFieldConstants.REPORTINGCENTER_CENTERID) ? jsonObject.get(HmlFieldConstants.REPORTINGCENTER_CENTERID).getAsString() : null);
 
         reportingCenters.add(reportingCenter);
         return reportingCenters;
@@ -172,12 +215,12 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return typingTestNames;
         }
 
-        typingTestName.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        typingTestName.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        typingTestName.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        typingTestName.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        typingTestName.setDescription(jsonObject.has("description") ? jsonObject.get("description").getAsString() : null);
-        typingTestName.setName(jsonObject.has("name") ? jsonObject.get("name").getAsString() : null);
+        typingTestName.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        typingTestName.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        typingTestName.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        typingTestName.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
+        typingTestName.setDescription(jsonObject.has(HmlFieldConstants.TYPINGTESTNAMES_DESCRIPTION) ? jsonObject.get(HmlFieldConstants.TYPINGTESTNAMES_DESCRIPTION).getAsString() : null);
+        typingTestName.setName(jsonObject.has(HmlFieldConstants.TYPINGTESTNAMES_NAME) ? jsonObject.get(HmlFieldConstants.TYPINGTESTNAMES_NAME).getAsString() : null);
 
         typingTestNames.add(typingTestName);
         return typingTestNames;
@@ -191,11 +234,11 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return extendedItems;
         }
 
-        extendedItem.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        extendedItem.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        extendedItem.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        extendedItem.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        extendedItem.setItem(jsonObject.has("item") ? jsonObject.get("item").getAsJsonObject() : null);
+        extendedItem.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        extendedItem.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        extendedItem.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        extendedItem.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
+        extendedItem.setItem(jsonObject.has(HmlFieldConstants.EXTENDEDITEM_ITEM) ? jsonObject.get(HmlFieldConstants.EXTENDEDITEM_ITEM).getAsJsonObject() : null);
 
         extendedItems.add(extendedItem);
         return extendedItems;
@@ -208,16 +251,16 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return typing;
         }
 
-        typing.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        typing.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        typing.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        typing.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        typing.setDate(jsonObject.has("date") ? new Date(jsonObject.get("date").getAsString()) : null);
-        typing.setGeneFamily(jsonObject.has("gene-family") ? jsonObject.get("gene-family").getAsString() : null);
-        typing.setTypingMethod(createTypingMethod(jsonObject.has("typing-method") ? jsonObject.get("typing-method").getAsJsonObject() : null));
-        typing.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
-        typing.setAlleleAssignment(createAlleleAssignment(jsonObject.has("allele-assignment") ? jsonObject.get("allele-assignment").getAsJsonObject() : null));
-        typing.setConsensusSequence(createConsensusSequence(jsonObject.has("consensus-sequence") ? jsonObject.get("consensus-sequence").getAsJsonObject() : null));
+        typing.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        typing.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        typing.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        typing.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
+        typing.setDate(jsonObject.has(HmlFieldConstants.TYPING_DATE) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.TYPING_DATE).getAsString()) : null);
+        typing.setGeneFamily(jsonObject.has(HmlFieldConstants.TYPING_GENEFAMILY) ? jsonObject.get(HmlFieldConstants.TYPING_GENEFAMILY).getAsString() : null);
+        typing.setTypingMethod(createTypingMethod(jsonObject.has(HmlFieldConstants.TYPING_TYPINGMETHOD) ? jsonObject.get(HmlFieldConstants.TYPING_TYPINGMETHOD).getAsJsonObject() : null));
+        typing.setProperties(createProperties(jsonObject.has(HmlFieldConstants.TYPING_PROPERTY) ? jsonObject.get(HmlFieldConstants.TYPING_PROPERTY).getAsJsonObject() : null));
+        typing.setAlleleAssignment(createAlleleAssignment(jsonObject.has(HmlFieldConstants.TYPING_ALLELEASSIGNMENT) ? jsonObject.get(HmlFieldConstants.TYPING_ALLELEASSIGNMENT ).getAsJsonObject() : null));
+        typing.setConsensusSequence(createConsensusSequence(jsonObject.has(HmlFieldConstants.TYPING_CONSENSUSSEQUENCE) ? jsonObject.get(HmlFieldConstants.TYPING_CONSENSUSSEQUENCE).getAsJsonObject() : null));
 
         return typing;
     }
@@ -233,17 +276,17 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return alleleAssignment;
         }
 
-        alleleAssignment.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        alleleAssignment.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        alleleAssignment.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        alleleAssignment.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        alleleAssignment.setDate(jsonObject.has("date") ? new Date(jsonObject.get("date").getAsString()) : null);
-        alleleAssignment.setAlleleDb(jsonObject.has("allele-db") ? jsonObject.get("allele-db").getAsString() : null);
-        alleleAssignment.setAlleleVersion(jsonObject.has("allele-version") ? jsonObject.get("allele-version").getAsString() : null);
-        alleleAssignment.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
-        alleleAssignment.setGenotypes(createGenotypes(jsonObject.has("genotype") ? jsonObject.get("genotype").getAsJsonObject() : null));
-        alleleAssignment.setGlString(createGlString(jsonObject.has("gl-string") ? jsonObject.get("gl-string").getAsJsonObject() : null));
-        alleleAssignment.setHaploid(createHaploid(jsonObject.has("haploid") ? jsonObject.get("haploid").getAsJsonObject() : null));
+        alleleAssignment.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        alleleAssignment.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        alleleAssignment.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        alleleAssignment.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        alleleAssignment.setDate(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_DATE) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_DATE).getAsString()) : null);
+        alleleAssignment.setAlleleDb(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_ALLELEDB) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_ALLELEDB).getAsString() : null);
+        alleleAssignment.setAlleleVersion(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_ALLELEVERSION) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_ALLELEVERSION).getAsString() : null);
+        alleleAssignment.setProperties(createProperties(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_PROPERTY) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_PROPERTY).getAsJsonObject() : null));
+        alleleAssignment.setGenotypes(createGenotypes(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_GENOTYPE) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_GENOTYPE).getAsJsonObject() : null));
+        alleleAssignment.setGlString(createGlString(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_GLSTRING) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_GLSTRING).getAsJsonObject() : null));
+        alleleAssignment.setHaploid(createHaploid(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_HAPLOID) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_HAPLOID).getAsJsonObject() : null));
 
         return alleleAssignment;
     }
@@ -255,12 +298,12 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return glstring;
         }
 
-        glstring.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        glstring.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        glstring.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        glstring.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        glstring.setUri(jsonObject.has("uri") ? jsonObject.get("uri").getAsString() : null);
-        glstring.setValue(jsonObject.has("value") ? jsonObject.get("value").getAsString() : null);
+        glstring.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        glstring.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        glstring.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        glstring.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        glstring.setUri(jsonObject.has(HmlFieldConstants.GLSTRING_URI) ? jsonObject.get(HmlFieldConstants.GLSTRING_URI).getAsString() : null);
+        glstring.setValue(jsonObject.has(HmlFieldConstants.GLSTRING_VALUE) ? jsonObject.get(HmlFieldConstants.GLSTRING_VALUE).getAsString() : null);
 
         return glstring;
     }
@@ -272,13 +315,13 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return haploid;
         }
 
-        haploid.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        haploid.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        haploid.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        haploid.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        haploid.setLocus(jsonObject.has("locus") ? jsonObject.get("locus").getAsString() : null);
-        haploid.setMethod(jsonObject.has("method") ? jsonObject.get("method").getAsString() : null);
-        haploid.setType(jsonObject.has("type") ? jsonObject.get("type").getAsString() : null);
+        haploid.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        haploid.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        haploid.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        haploid.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        haploid.setLocus(jsonObject.has(HmlFieldConstants.HAPLOID_LOCUS) ? jsonObject.get(HmlFieldConstants.HAPLOID_LOCUS).getAsString() : null);
+        haploid.setMethod(jsonObject.has(HmlFieldConstants.HAPLOID_METHOD) ? jsonObject.get(HmlFieldConstants.HAPLOID_METHOD).getAsString() : null);
+        haploid.setType(jsonObject.has(HmlFieldConstants.HAPLOID_TYPE) ? jsonObject.get(HmlFieldConstants.HAPLOID_TYPE).getAsString() : null);
 
         return haploid;
     }
@@ -291,11 +334,11 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return  genotypes;
         }
 
-        genotype.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        genotype.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        genotype.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        genotype.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        genotype.setDiploidCombinations(createDiploidCombinations(jsonObject.has("diploid-combination") ? jsonObject.get("diploid-combination").getAsJsonObject() : null));
+        genotype.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        genotype.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        genotype.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        genotype.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        genotype.setDiploidCombinations(createDiploidCombinations(jsonObject.has(HmlFieldConstants.GENOTYPELIST_DIPLOIDCOMBINATION) ? jsonObject.get(HmlFieldConstants.GENOTYPELIST_DIPLOIDCOMBINATION).getAsJsonObject() : null));
 
         genotypes.add(genotype);
         return genotypes;
@@ -309,11 +352,11 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return diploidCombinations;
         }
 
-        diploidCombination.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        diploidCombination.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        diploidCombination.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        diploidCombination.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        diploidCombination.setLocusBlock(createLocusBlock(jsonObject.has("locus-block") ? jsonObject.get("locus-block").getAsJsonObject() : null));
+        diploidCombination.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        diploidCombination.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        diploidCombination.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        diploidCombination.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        diploidCombination.setLocusBlock(createLocusBlock(jsonObject.has(HmlFieldConstants.DIPLOIDCOMBINATION_LOCUSBLOCK) ? jsonObject.get(HmlFieldConstants.DIPLOIDCOMBINATION_LOCUSBLOCK).getAsJsonObject() : null));
 
         diploidCombinations.add(diploidCombination);
         return diploidCombinations;
@@ -326,11 +369,11 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return locusBlock;
         }
 
-        locusBlock.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        locusBlock.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        locusBlock.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        locusBlock.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        locusBlock.setAlleles(createAlleles(jsonObject.has("allele-list") ? jsonObject.get("allele-list").getAsJsonObject() : null));
+        locusBlock.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        locusBlock.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        locusBlock.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        locusBlock.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        locusBlock.setAlleles(createAlleles(jsonObject.has(HmlFieldConstants.LOCUSBLOCK_ALLELELIST) ? jsonObject.get(HmlFieldConstants.LOCUSBLOCK_ALLELELIST).getAsJsonObject() : null));
 
         return locusBlock;
     }
@@ -343,12 +386,12 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return alleles;
         }
 
-        allele.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        allele.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        allele.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        allele.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        allele.setName(jsonObject.has("name") ? jsonObject.get("name").getAsString() : null);
-        allele.setPresent(jsonObject.has("present") ? jsonObject.get("present").getAsString() : null);
+        allele.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        allele.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        allele.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        allele.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        allele.setName(jsonObject.has(HmlFieldConstants.ALLELELIST_NAME) ? jsonObject.get(HmlFieldConstants.ALLELELIST_NAME).getAsString() : null);
+        allele.setPresent(jsonObject.has(HmlFieldConstants.ALLELELIST_PRESENT) ? jsonObject.get(HmlFieldConstants.ALLELELIST_PRESENT).getAsString() : null);
 
         alleles.add(allele);
         return alleles;
@@ -361,14 +404,14 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return typingMethod;
         }
 
-        typingMethod.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        typingMethod.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        typingMethod.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        typingMethod.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        typingMethod.setSbtSanger(createSbtSanger(jsonObject.has("sbt-sanger") ? jsonObject.get("sbt-sanger").getAsJsonObject() : null));
-        typingMethod.setSbtNgs(createSbtNgs(jsonObject.has("sbt-ngs") ? jsonObject.get("sbt-ngs").getAsJsonObject() : null));
-        typingMethod.setSso(createSso(jsonObject.has("sso") ? jsonObject.get("sso").getAsJsonObject() : null));
-        typingMethod.setSsp(createSsp(jsonObject.has("ssp") ? jsonObject.get("ssp").getAsJsonObject() : null));
+        typingMethod.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        typingMethod.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        typingMethod.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        typingMethod.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        typingMethod.setSbtSanger(createSbtSanger(jsonObject.has(HmlFieldConstants.TYPINGMETHOD_SBTSANGER) ? jsonObject.get(HmlFieldConstants.TYPINGMETHOD_SBTSANGER).getAsJsonObject() : null));
+        typingMethod.setSbtNgs(createSbtNgs(jsonObject.has(HmlFieldConstants.TYPINGMETHOD_SBTNGS) ? jsonObject.get(HmlFieldConstants.TYPINGMETHOD_SBTNGS).getAsJsonObject() : null));
+        typingMethod.setSso(createSso(jsonObject.has(HmlFieldConstants.TYPINGMETHOD_SSO) ? jsonObject.get(HmlFieldConstants.TYPINGMETHOD_SSO).getAsJsonObject() : null));
+        typingMethod.setSsp(createSsp(jsonObject.has(HmlFieldConstants.TYPINGMETHOD_SSP) ? jsonObject.get(HmlFieldConstants.TYPINGMETHOD_SSP).getAsJsonObject() : null));
 
         return typingMethod;
     }
@@ -380,15 +423,15 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return sbtNgs;
         }
 
-        sbtNgs.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        sbtNgs.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        sbtNgs.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        sbtNgs.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        sbtNgs.setLocus(jsonObject.has("locus") ? jsonObject.get("locus").getAsString() : null);
-        sbtNgs.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
-        sbtNgs.setRawReads(createRawReads(jsonObject.has("raw-reads") ? jsonObject.get("raw-reads").getAsJsonObject() : null));
-        sbtNgs.setTestId(jsonObject.has("test-id") ? jsonObject.get("test-id").getAsString() : null);
-        sbtNgs.setTestIdSource(jsonObject.has("test-id-source") ? jsonObject.get("test-id-source").getAsString() : null);
+        sbtNgs.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        sbtNgs.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        sbtNgs.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        sbtNgs.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        sbtNgs.setLocus(jsonObject.has(HmlFieldConstants.SBTNGS_LOCUS) ? jsonObject.get(HmlFieldConstants.SBTNGS_LOCUS).getAsString() : null);
+        sbtNgs.setProperties(createProperties(jsonObject.has(HmlFieldConstants.SBTNGS_PROPERTY) ? jsonObject.get(HmlFieldConstants.SBTNGS_PROPERTY).getAsJsonObject() : null));
+        sbtNgs.setRawReads(createRawReads(jsonObject.has(HmlFieldConstants.SBTNGS_RAWREADS) ? jsonObject.get(HmlFieldConstants.SBTNGS_RAWREADS).getAsJsonObject() : null));
+        sbtNgs.setTestId(jsonObject.has(HmlFieldConstants.SBTNGS_TESTID) ? jsonObject.get(HmlFieldConstants.SBTNGS_TESTID).getAsString() : null);
+        sbtNgs.setTestIdSource(jsonObject.has(HmlFieldConstants.SBTNGS_TESTIDSOURCE) ? jsonObject.get(HmlFieldConstants.SBTNGS_TESTIDSOURCE).getAsString() : null);
 
         return sbtNgs;
     }
@@ -401,17 +444,17 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return rawReads;
         }
 
-        rawRead.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        rawRead.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        rawRead.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        rawRead.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        rawRead.setAdapterTrimmed(jsonObject.has("adapter-trimmed") ? jsonObject.get("adapter-trimmed").getAsBoolean() : null);
-        rawRead.setAvailability(jsonObject.has("availability") ? jsonObject.get("availability").getAsString() : null);
-        rawRead.setFormat(jsonObject.has("format") ? jsonObject.get("format").getAsString() : null);
-        rawRead.setPaired(jsonObject.has("paired") ? jsonObject.get("paired").getAsBoolean() : null);
-        rawRead.setPooled(jsonObject.has("pooled") ? jsonObject.get("pooled").getAsBoolean() : null);
-        rawRead.setQualityTrimmed(jsonObject.has("quality-trimmed") ? jsonObject.get("quality-trimmed").getAsBoolean() : null);
-        rawRead.setUri(jsonObject.has("uri") ? jsonObject.get("uri").getAsString() : null);
+        rawRead.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        rawRead.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        rawRead.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        rawRead.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        rawRead.setAdapterTrimmed(jsonObject.has(HmlFieldConstants.RAWREADS_ADAPTERTRIMMED) ? jsonObject.get(HmlFieldConstants.RAWREADS_ADAPTERTRIMMED).getAsBoolean() : null);
+        rawRead.setAvailability(jsonObject.has(HmlFieldConstants.RAWREADS_AVAILABILITY) ? jsonObject.get(HmlFieldConstants.RAWREADS_AVAILABILITY).getAsString() : null);
+        rawRead.setFormat(jsonObject.has(HmlFieldConstants.RAWREADS_FORMAT) ? jsonObject.get(HmlFieldConstants.RAWREADS_FORMAT).getAsString() : null);
+        rawRead.setPaired(jsonObject.has(HmlFieldConstants.RAWREADS_PAIRED) ? jsonObject.get(HmlFieldConstants.RAWREADS_PAIRED).getAsBoolean() : null);
+        rawRead.setPooled(jsonObject.has(HmlFieldConstants.RAWREADS_POOLED) ? jsonObject.get(HmlFieldConstants.RAWREADS_POOLED).getAsBoolean() : null);
+        rawRead.setQualityTrimmed(jsonObject.has(HmlFieldConstants.RAWREADS_QUALITYTRIMMED) ? jsonObject.get(HmlFieldConstants.RAWREADS_QUALITYTRIMMED).getAsBoolean() : null);
+        rawRead.setUri(jsonObject.has(HmlFieldConstants.RAWREADS_URI) ? jsonObject.get(HmlFieldConstants.RAWREADS_URI).getAsString() : null);
 
         rawReads.add(rawRead);
         return rawReads;
@@ -424,14 +467,14 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return sso;
         }
 
-        sso.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        sso.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        sso.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        sso.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        sso.setLocus(jsonObject.has("locus") ? jsonObject.get("locus").getAsString() : null);
-        sso.setTestId(jsonObject.has("test-id") ? jsonObject.get("test-id").getAsString() : null);
-        sso.setTestIdSource(jsonObject.has("test-id-source") ? jsonObject.get("test-id-source").getAsString() : null);
-        sso.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
+        sso.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        sso.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        sso.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        sso.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        sso.setLocus(jsonObject.has(HmlFieldConstants.SSO_LOCUS) ? jsonObject.get(HmlFieldConstants.SSO_LOCUS).getAsString() : null);
+        sso.setTestId(jsonObject.has(HmlFieldConstants.SSO_TESTID) ? jsonObject.get(HmlFieldConstants.SSO_TESTID).getAsString() : null);
+        sso.setTestIdSource(jsonObject.has(HmlFieldConstants.SSO_TESTIDSOURCE) ? jsonObject.get(HmlFieldConstants.SSO_TESTIDSOURCE).getAsString() : null);
+        sso.setProperties(createProperties(jsonObject.has(HmlFieldConstants.SSO_PROPERTY) ? jsonObject.get(HmlFieldConstants.SSO_PROPERTY).getAsJsonObject() : null));
 
         return sso;
     }
@@ -443,15 +486,15 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return ssp;
         }
 
-        ssp.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        ssp.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        ssp.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        ssp.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        ssp.setLocus(jsonObject.has("locus") ? jsonObject.get("locus").getAsString() : null);
-        ssp.setScores(jsonObject.has("scores") ? jsonObject.get("scores").getAsString() : null);
-        ssp.setTestId(jsonObject.has("test-id") ? jsonObject.get("test-id").getAsString() : null);
-        ssp.setTestIdSource(jsonObject.has("test-id-source") ? jsonObject.get("test-id-source").getAsString() : null);
-        ssp.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
+        ssp.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        ssp.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        ssp.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        ssp.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        ssp.setLocus(jsonObject.has(HmlFieldConstants.SSP_LOCUS) ? jsonObject.get(HmlFieldConstants.SSP_LOCUS).getAsString() : null);
+        ssp.setScores(jsonObject.has(HmlFieldConstants.SSP_SCORES) ? jsonObject.get(HmlFieldConstants.SSP_SCORES).getAsString() : null);
+        ssp.setTestId(jsonObject.has(HmlFieldConstants.SSP_TESTID) ? jsonObject.get(HmlFieldConstants.SSP_TESTID).getAsString() : null);
+        ssp.setTestIdSource(jsonObject.has(HmlFieldConstants.SSP_TESTIDSOURCE) ? jsonObject.get(HmlFieldConstants.SSP_TESTIDSOURCE).getAsString() : null);
+        ssp.setProperties(createProperties(jsonObject.has(HmlFieldConstants.SSP_PROPERTY) ? jsonObject.get(HmlFieldConstants.SSP_PROPERTY).getAsJsonObject() : null));
 
         return ssp;
     }
@@ -463,17 +506,17 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return  sbtSanger;
         }
 
-        sbtSanger.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        sbtSanger.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        sbtSanger.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        sbtSanger.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        sbtSanger.setLocus(jsonObject.has("locus") ? jsonObject.get("locus").getAsString() : null);
-        sbtSanger.setTestId(jsonObject.has("test-id") ? jsonObject.get("test-id").getAsString() : null);
-        sbtSanger.setTestIdSource(jsonObject.has("test-id-source") ? jsonObject.get("test-id-source").getAsString() : null);
-        sbtSanger.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
-        sbtSanger.setAmplification(createAmplification(jsonObject.has("amplification") ? jsonObject.get("amplification").getAsJsonObject() : null));
-        sbtSanger.setSubAmplification(createSubAmplification(jsonObject.has("sub-amplification") ? jsonObject.get("sub-amplification").getAsJsonObject() : null));
-        sbtSanger.setGssp(createGssp(jsonObject.has("gssp") ? jsonObject.get("gssp").getAsJsonObject() : null));
+        sbtSanger.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        sbtSanger.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        sbtSanger.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        sbtSanger.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        sbtSanger.setLocus(jsonObject.has(HmlFieldConstants.SBTSNGR_LOCUS) ? jsonObject.get(HmlFieldConstants.SBTSNGR_LOCUS).getAsString() : null);
+        sbtSanger.setTestId(jsonObject.has(HmlFieldConstants.SBTSNGR_TESTID) ? jsonObject.get(HmlFieldConstants.SBTSNGR_TESTID).getAsString() : null);
+        sbtSanger.setTestIdSource(jsonObject.has(HmlFieldConstants.SBTSNGR_TESTIDSOURCE) ? jsonObject.get(HmlFieldConstants.SBTSNGR_TESTIDSOURCE).getAsString() : null);
+        sbtSanger.setProperties(createProperties(jsonObject.has(HmlFieldConstants.SBTSNGR_PROPERTY) ? jsonObject.get(HmlFieldConstants.SBTSNGR_PROPERTY).getAsJsonObject() : null));
+        sbtSanger.setAmplification(createAmplification(jsonObject.has(HmlFieldConstants.SBTSNGR_AMPLIFICATION) ? jsonObject.get(HmlFieldConstants.SBTSNGR_AMPLIFICATION).getAsJsonObject() : null));
+        sbtSanger.setSubAmplification(createSubAmplification(jsonObject.has(HmlFieldConstants.SBTSNGR_SUBAMPLIFICATION) ? jsonObject.get(HmlFieldConstants.SBTSNGR_SUBAMPLIFICATION).getAsJsonObject() : null));
+        sbtSanger.setGssp(createGssp(jsonObject.has(HmlFieldConstants.SBTSNGR_GSSP) ? jsonObject.get(HmlFieldConstants.SBTSNGR_GSSP).getAsJsonObject() : null));
 
         return sbtSanger;
     }
@@ -485,12 +528,12 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return amplification;
         }
 
-        amplification.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        amplification.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        amplification.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        amplification.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        amplification.setRegisteredName(jsonObject.has("registered-name") ? jsonObject.get("registered-name").getAsString() : null);
-        amplification.setSequence(createSequence(jsonObject.has("sequence") ? jsonObject.get("sequence").getAsJsonObject() : null));
+        amplification.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        amplification.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        amplification.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        amplification.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        amplification.setRegisteredName(jsonObject.has(HmlFieldConstants.AMP_REGISTEREDNAME) ? jsonObject.get(HmlFieldConstants.AMP_SEQUENCE).getAsString() : null);
+        amplification.setSequence(createSequence(jsonObject.has(HmlFieldConstants.AMP_SEQUENCE) ? jsonObject.get(HmlFieldConstants.AMP_SEQUENCE).getAsJsonObject() : null));
 
         return amplification;
     }
@@ -502,12 +545,12 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return subAmplification;
         }
 
-        subAmplification.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        subAmplification.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        subAmplification.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        subAmplification.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        subAmplification.setRegisteredName(jsonObject.has("registered-name") ? jsonObject.get("registered-name").getAsString() : null);
-        subAmplification.setSequence(createSequence(jsonObject.has("sequence") ? jsonObject.get("sequence").getAsJsonObject() : null));
+        subAmplification.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        subAmplification.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        subAmplification.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        subAmplification.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        subAmplification.setRegisteredName(jsonObject.has(HmlFieldConstants.SUBAMP_REGISTEREDNAME) ? jsonObject.get(HmlFieldConstants.SUBAMP_REGISTEREDNAME).getAsString() : null);
+        subAmplification.setSequence(createSequence(jsonObject.has(HmlFieldConstants.SUBAMP_SEQUENCE) ? jsonObject.get(HmlFieldConstants.SUBAMP_SEQUENCE).getAsJsonObject() : null));
 
         return subAmplification;
     }
@@ -519,14 +562,14 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return gssp;
         }
 
-        gssp.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        gssp.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        gssp.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        gssp.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        gssp.setRegisteredName(jsonObject.has("registered-name") ? jsonObject.get("registered-name").getAsString() : null);
-        gssp.setPrimerTarget(jsonObject.has("primer-target") ? jsonObject.get("primer-target").getAsString() : null);
-        gssp.setPrimerSequence(jsonObject.has("primer-sequence") ? jsonObject.get("primer-sequence").getAsString() : null);
-        gssp.setSequence(createSequence(jsonObject.has("sequence") ? jsonObject.get("sequence").getAsJsonObject() : null));
+        gssp.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        gssp.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        gssp.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        gssp.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        gssp.setRegisteredName(jsonObject.has(HmlFieldConstants.GSSP_REGISTEREDNAME) ? jsonObject.get(HmlFieldConstants.GSSP_REGISTEREDNAME).getAsString() : null);
+        gssp.setPrimerTarget(jsonObject.has(HmlFieldConstants.GSSP_PRIMERTARGET) ? jsonObject.get(HmlFieldConstants.GSSP_PRIMERTARGET).getAsString() : null);
+        gssp.setPrimerSequence(jsonObject.has(HmlFieldConstants.GSSP_PRIMERSEQUENCE) ? jsonObject.get(HmlFieldConstants.GSSP_PRIMERSEQUENCE).getAsString() : null);
+        gssp.setSequence(createSequence(jsonObject.has(HmlFieldConstants.GSSP_SEQUENCE) ? jsonObject.get(HmlFieldConstants.GSSP_SEQUENCE).getAsJsonObject() : null));
 
         return gssp;
     }
@@ -538,13 +581,13 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return sequence;
         }
 
-        sequence.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        sequence.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        sequence.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        sequence.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        sequence.setAnyAttribute(jsonObject.has("any-attribute") ? jsonObject.get("any-attribute").getAsJsonObject() : null);
-        sequence.setSequence(jsonObject.has("sequence") ? jsonObject.get("sequence").getAsString() : null);
-        sequence.setIupacBases(createIupacBases(jsonObject.has("iupac-bases") ? jsonObject.get("iupac-bases").getAsJsonObject() : null));
+        sequence.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        sequence.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        sequence.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        sequence.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        sequence.setAnyAttribute(jsonObject.has(HmlFieldConstants.SEQUENCE_ANYATTRIBUTE) ? jsonObject.get(HmlFieldConstants.SEQUENCE_ANYATTRIBUTE).getAsJsonObject() : null);
+        sequence.setSequence(jsonObject.has(HmlFieldConstants.SEQUENCE_SEQUENCE) ? jsonObject.get(HmlFieldConstants.SEQUENCE_SEQUENCE).getAsString() : null);
+        sequence.setIupacBases(createIupacBases(jsonObject.has(HmlFieldConstants.SEQUENCE_IUPACBASES) ? jsonObject.get(HmlFieldConstants.SEQUENCE_IUPACBASES).getAsJsonObject() : null));
 
         return sequence;
     }
@@ -557,12 +600,12 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return iupacBases;
         }
 
-        iupacBase.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        iupacBase.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        iupacBase.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        iupacBase.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        iupacBase.setProperty(jsonObject.has("property") ? jsonObject.get("property").getAsString() : null);
-        iupacBase.setValue(jsonObject.has("value") ? jsonObject.get("value").getAsString() : null);
+        iupacBase.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        iupacBase.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        iupacBase.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        iupacBase.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        iupacBase.setProperty(jsonObject.has(HmlFieldConstants.IUPAC_PROPERTY) ? jsonObject.get(HmlFieldConstants.IUPAC_PROPERTY).getAsString() : null);
+        iupacBase.setValue(jsonObject.has(HmlFieldConstants.IUPAC_VALUE) ? jsonObject.get(HmlFieldConstants.IUPAC_VALUE).getAsString() : null);
 
         iupacBases.add(iupacBase);
         return iupacBases;
@@ -576,12 +619,12 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
             return collectionMethods;
         }
 
-        collectionMethod.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        collectionMethod.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        collectionMethod.setDateCreated(jsonObject.has("date-created") ? new Date(jsonObject.get("date-created").getAsString()) : null);
-        collectionMethod.setDateUpdated(jsonObject.has("date-updated") ? new Date(jsonObject.get("date-updated").getAsString()) : null);
-        collectionMethod.setDescription(jsonObject.has("description") ? jsonObject.get("description").getAsString() : null);
-        collectionMethod.setName(jsonObject.has("name") ? jsonObject.get("name").getAsString() : null);
+        collectionMethod.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
+        collectionMethod.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
+        collectionMethod.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
+        collectionMethod.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        collectionMethod.setDescription(jsonObject.has(HmlFieldConstants.COLLECTIONMETHOD_DESCRIPTION) ? jsonObject.get(HmlFieldConstants.COLLECTIONMETHOD_DESCRIPTION).getAsString() : null);
+        collectionMethod.setName(jsonObject.has(HmlFieldConstants.COLLECTIONMETHOD_NAME) ? jsonObject.get(HmlFieldConstants.COLLECTIONMETHOD_NAME).getAsString() : null);
 
         collectionMethods.add(collectionMethod);
         return collectionMethods;

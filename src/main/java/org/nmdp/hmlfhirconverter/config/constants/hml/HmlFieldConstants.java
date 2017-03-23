@@ -25,13 +25,165 @@ package org.nmdp.hmlfhirconverter.config.constants.hml;
  */
 
 public class HmlFieldConstants {
+    //mongo
     public static final String MONGO_ID = "id";
     public static final String MONGO_DATEUPDATED = "date-updated";
     public static final String MONGO_DATECREATED = "date-created";
     public static final String MONGO_ACTIVE = "active";
 
-    public static final String HMLID_ROOT = "hmlid";
+    //properties
+    public static final String PROPERTIES_DESCRIPTION = "description";
+    public static final String PROPERTIES_NAME = "name";
+    public static final String PROPERTIES_VALUE = "value";
+    public static final String PROPERTIES_EXTENDEDITEMS = "extended-item";
+
+    //properties: extended-item
+    public static final String EXTENDEDITEM_ITEM = "item";
+
+    //hml
+    public static final String HML_HMLID = "hmlid";
+    public static final String HML_VERSION = "version";
+    public static final String HML_PROJECT = "project";
+    public static final String HML_SAMPLE = "sample";
+    public static final String HML_REPORTINGCENTER = "reporting-center";
+    public static final String HML_PROPERTIES = "properties";
+    public static final String HML_TYPINGTESTNAME = "typing-test-name";
+
+    //hmlid
+    public static final String HMLID_ROOT = "root";
     public static final String HMLID_EXTENSION = "extension";
 
-    public static final String REPORTINGCENTER_REPORTINGCENTERID = "reporting-center-id";
+    //project
+    public static final String PROJECT_DESCRIPTION = "description";
+    public static final String PROJECT_NAME = "name";
+
+    //reportingCenter
+    public static final String REPORTINGCENTER_CENTERID = "center-id";
+    public static final String REPORTINGCENTER_CONTEXT = "context";
+
+    //sample
+    public static final String SAMPLE_ID = "sample-id";
+    public static final String SAMPLE_CENTERCODE = "center-code";
+    public static final String SAMPLE_COLLECTIONMETHOD = "collection-method";
+    public static final String SAMPLE_TYPING = "typing";
+    public static final String SAMPLE_PROPERTY = "property";
+
+    //sample: collection-method
+    public static final String COLLECTIONMETHOD_DESCRIPTION  = "description";
+    public static final String COLLECTIONMETHOD_NAME = "name";
+
+    //sample: typing
+    public static final String TYPING_DATE = "date";
+    public static final String TYPING_GENEFAMILY = "gene-family";
+    public static final String TYPING_TYPINGMETHOD = "typing-method";
+    public static final String TYPING_PROPERTY = "property";
+    public static final String TYPING_ALLELEASSIGNMENT = "allele-assignment";
+    public static final String TYPING_CONSENSUSSEQUENCE = "consensus-sequence";
+
+    //sample: typing: allele-assignment: haploid
+    public static final String HAPLOID_LOCUS = "locus";
+    public static final String HAPLOID_METHOD = "method";
+    public static final String HAPLOID_TYPE = "type";
+
+    //sample: typing: allele-assignment: genotype-list
+    public static final String GENOTYPELIST_DIPLOIDCOMBINATION = "diploid-combination";
+
+    //sample: typing: allele-assignment: genotype-list: diploid-combination
+    public static final String DIPLOIDCOMBINATION_LOCUSBLOCK = "locus-block";
+
+    //sample: typing: allele-assignment: genotype-list: diploid-combination: locus-block
+    public static final String LOCUSBLOCK_ALLELELIST = "allele-list";
+
+    ////sample: typing: allele-assignment: genotype-list: diploid-combination: locus-block: allele-list
+    public static final String ALLELELIST_NAME = "name";
+    public static final String ALLELELIST_PRESENT = "present";
+
+    //sample: typing: allele-assignment: gl-string
+    public static final String GLSTRING_URI = "uri";
+    public static final String GLSTRING_VALUE = "value";
+
+    //sample: typing: typing-method
+    public static final String TYPINGMETHOD_SBTSANGER = "sbt-sanger";
+    public static final String TYPINGMETHOD_SBTNGS = "sbt-ngs";
+    public static final String TYPINGMETHOD_SSO = "sso";
+    public static final String TYPINGMETHOD_SSP = "ssp";
+
+    //sample: typing: typing-method: sbt-sanger
+    public static final String SBTSNGR_LOCUS = "locus";
+    public static final String SBTSNGR_TESTID = "test-id";
+    public static final String SBTSNGR_TESTIDSOURCE = "test-id-source";
+    public static final String SBTSNGR_PROPERTY = "property";
+    public static final String SBTSNGR_AMPLIFICATION = "amplification";
+    public static final String SBTSNGR_SUBAMPLIFICATION = "sub-amplification";
+    public static final String SBTSNGR_GSSP = "gssp";
+
+    //sample: typing: typing-method: sbt-sanger: amplification
+    public static final String AMP_REGISTEREDNAME = "registered-name";
+    public static final String AMP_SEQUENCE = "sequence";
+
+    //sample: typing: typing-method: sbt-sanger: sub-amplification
+    public static final String SUBAMP_REGISTEREDNAME = "registered-name";
+    public static final String SUBAMP_SEQUENCE = "sequence";
+
+    //sample: typing: typing-method: sbt-sanger: gssp
+    public static final String GSSP_REGISTEREDNAME = "registered-name";
+    public static final String GSSP_SEQUENCE = "sequence";
+    public static final String GSSP_PRIMERTARGET = "primer-target";
+    public static final String GSSP_PRIMERSEQUENCE = "primer-sequence";
+
+    //sample: typing: typing-method: sbt-ngs
+    public static final String SBTNGS_LOCUS = "locus";
+    public static final String SBTNGS_PROPERTY = "property";
+    public static final String SBTNGS_RAWREADS = "raw-reads";
+    public static final String SBTNGS_TESTID = "test-id";
+    public static final String SBTNGS_TESTIDSOURCE = "test-id-source";
+
+    //sample: typing: typing-method: sbt-ngs: raw reads
+    public static final String RAWREADS_ADAPTERTRIMMED = "adapter-trimmed";
+    public static final String RAWREADS_AVAILABILITY = "availability";
+    public static final String RAWREADS_FORMAT = "format";
+    public static final String RAWREADS_PAIRED = "paired";
+    public static final String RAWREADS_POOLED = "pooled";
+    public static final String RAWREADS_QUALITYTRIMMED = "quality-trimmed";
+    public static final String RAWREADS_URI = "uri";
+
+    //sample: typing: typing-method: sso
+    public static final String SSO_LOCUS = "locus";
+    public static final String SSO_TESTID = "test-id";
+    public static final String SSO_TESTIDSOURCE = "test-id-source";
+    public static final String SSO_PROPERTY = "property";
+
+    //sample: typing: typing-method: ssp
+    public static final String SSP_LOCUS = "locus";
+    public static final String SSP_TESTID = "test-id";
+    public static final String SSP_TESTIDSOURCE = "test-id-source";
+    public static final String SSP_PROPERTY = "property";
+    public static final String SSP_SCORES = "scores";
+
+    //sample: typing: consensus-sequence: consensus-sequence-block: sequence
+    public static final String SEQUENCE_ANYATTRIBUTE = "any-attribute";
+    public static final String SEQUENCE_SEQUENCE = "sequence";
+    public static final String SEQUENCE_IUPACBASES = "ipuac-bases";
+
+    //sample: typing: consensus-sequence: consensus-sequence-block: sequence: iupac-bases
+    public static final String IUPAC_PROPERTY = "property";
+    public static final String IUPAC_VALUE = "value";
+
+    //typing test names
+    public static final String TYPINGTESTNAMES_TESTID = "test-id";
+    public static final String TYPINGTESTNAMES_NAME = "name";
+    public static final String TYPINGTESTNAMES_DESCRIPTION = "description";
+
+    //sample: typing: allele_assignment
+    public static final String ALLELEASSIGNMENT_DATE = "date";
+    public static final String ALLELEASSIGNMENT_ALLELEDB = "allele-db";
+    public static final String ALLELEASSIGNMENT_ALLELEVERSION = "allele-version";
+    public static final String ALLELEASSIGNMENT_PROPERTY = "property";
+    public static final String ALLELEASSIGNMENT_GENOTYPE = "genotype";
+    public static final String ALLELEASSIGNMENT_GLSTRING = "gl-string";
+    public static final String ALLELEASSIGNMENT_HAPLOID = "haploid";
+
+
+
+
 }
