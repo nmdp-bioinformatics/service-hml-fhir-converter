@@ -278,9 +278,9 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         alleleAssignment.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         alleleAssignment.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        alleleAssignment.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        alleleAssignment.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
-        alleleAssignment.setDate(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_DATE) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_DATE).getAsString()) : null);
+        alleleAssignment.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        alleleAssignment.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
+        alleleAssignment.setDate(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_DATE) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_DATE).getAsString()).toDate() : null);
         alleleAssignment.setAlleleDb(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_ALLELEDB) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_ALLELEDB).getAsString() : null);
         alleleAssignment.setAlleleVersion(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_ALLELEVERSION) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_ALLELEVERSION).getAsString() : null);
         alleleAssignment.setProperties(createProperties(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_PROPERTY) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_PROPERTY).getAsJsonObject() : null));
@@ -300,8 +300,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         glstring.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         glstring.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        glstring.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        glstring.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        glstring.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        glstring.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         glstring.setUri(jsonObject.has(HmlFieldConstants.GLSTRING_URI) ? jsonObject.get(HmlFieldConstants.GLSTRING_URI).getAsString() : null);
         glstring.setValue(jsonObject.has(HmlFieldConstants.GLSTRING_VALUE) ? jsonObject.get(HmlFieldConstants.GLSTRING_VALUE).getAsString() : null);
 
@@ -317,8 +317,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         haploid.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         haploid.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        haploid.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        haploid.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        haploid.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        haploid.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         haploid.setLocus(jsonObject.has(HmlFieldConstants.HAPLOID_LOCUS) ? jsonObject.get(HmlFieldConstants.HAPLOID_LOCUS).getAsString() : null);
         haploid.setMethod(jsonObject.has(HmlFieldConstants.HAPLOID_METHOD) ? jsonObject.get(HmlFieldConstants.HAPLOID_METHOD).getAsString() : null);
         haploid.setType(jsonObject.has(HmlFieldConstants.HAPLOID_TYPE) ? jsonObject.get(HmlFieldConstants.HAPLOID_TYPE).getAsString() : null);
@@ -336,8 +336,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         genotype.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         genotype.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        genotype.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        genotype.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        genotype.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        genotype.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         genotype.setDiploidCombinations(createDiploidCombinations(jsonObject.has(HmlFieldConstants.GENOTYPELIST_DIPLOIDCOMBINATION) ? jsonObject.get(HmlFieldConstants.GENOTYPELIST_DIPLOIDCOMBINATION).getAsJsonObject() : null));
 
         genotypes.add(genotype);
@@ -354,8 +354,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         diploidCombination.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         diploidCombination.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        diploidCombination.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        diploidCombination.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        diploidCombination.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        diploidCombination.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         diploidCombination.setLocusBlock(createLocusBlock(jsonObject.has(HmlFieldConstants.DIPLOIDCOMBINATION_LOCUSBLOCK) ? jsonObject.get(HmlFieldConstants.DIPLOIDCOMBINATION_LOCUSBLOCK).getAsJsonObject() : null));
 
         diploidCombinations.add(diploidCombination);
@@ -371,8 +371,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         locusBlock.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         locusBlock.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        locusBlock.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        locusBlock.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        locusBlock.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        locusBlock.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         locusBlock.setAlleles(createAlleles(jsonObject.has(HmlFieldConstants.LOCUSBLOCK_ALLELELIST) ? jsonObject.get(HmlFieldConstants.LOCUSBLOCK_ALLELELIST).getAsJsonObject() : null));
 
         return locusBlock;
@@ -388,8 +388,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         allele.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         allele.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        allele.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        allele.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        allele.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        allele.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         allele.setName(jsonObject.has(HmlFieldConstants.ALLELELIST_NAME) ? jsonObject.get(HmlFieldConstants.ALLELELIST_NAME).getAsString() : null);
         allele.setPresent(jsonObject.has(HmlFieldConstants.ALLELELIST_PRESENT) ? jsonObject.get(HmlFieldConstants.ALLELELIST_PRESENT).getAsString() : null);
 
@@ -406,8 +406,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         typingMethod.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         typingMethod.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        typingMethod.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        typingMethod.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        typingMethod.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        typingMethod.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         typingMethod.setSbtSanger(createSbtSanger(jsonObject.has(HmlFieldConstants.TYPINGMETHOD_SBTSANGER) ? jsonObject.get(HmlFieldConstants.TYPINGMETHOD_SBTSANGER).getAsJsonObject() : null));
         typingMethod.setSbtNgs(createSbtNgs(jsonObject.has(HmlFieldConstants.TYPINGMETHOD_SBTNGS) ? jsonObject.get(HmlFieldConstants.TYPINGMETHOD_SBTNGS).getAsJsonObject() : null));
         typingMethod.setSso(createSso(jsonObject.has(HmlFieldConstants.TYPINGMETHOD_SSO) ? jsonObject.get(HmlFieldConstants.TYPINGMETHOD_SSO).getAsJsonObject() : null));
@@ -425,8 +425,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         sbtNgs.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         sbtNgs.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        sbtNgs.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        sbtNgs.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        sbtNgs.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        sbtNgs.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         sbtNgs.setLocus(jsonObject.has(HmlFieldConstants.SBTNGS_LOCUS) ? jsonObject.get(HmlFieldConstants.SBTNGS_LOCUS).getAsString() : null);
         sbtNgs.setProperties(createProperties(jsonObject.has(HmlFieldConstants.SBTNGS_PROPERTY) ? jsonObject.get(HmlFieldConstants.SBTNGS_PROPERTY).getAsJsonObject() : null));
         sbtNgs.setRawReads(createRawReads(jsonObject.has(HmlFieldConstants.SBTNGS_RAWREADS) ? jsonObject.get(HmlFieldConstants.SBTNGS_RAWREADS).getAsJsonObject() : null));
@@ -446,8 +446,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         rawRead.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         rawRead.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        rawRead.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        rawRead.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        rawRead.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        rawRead.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         rawRead.setAdapterTrimmed(jsonObject.has(HmlFieldConstants.RAWREADS_ADAPTERTRIMMED) ? jsonObject.get(HmlFieldConstants.RAWREADS_ADAPTERTRIMMED).getAsBoolean() : null);
         rawRead.setAvailability(jsonObject.has(HmlFieldConstants.RAWREADS_AVAILABILITY) ? jsonObject.get(HmlFieldConstants.RAWREADS_AVAILABILITY).getAsString() : null);
         rawRead.setFormat(jsonObject.has(HmlFieldConstants.RAWREADS_FORMAT) ? jsonObject.get(HmlFieldConstants.RAWREADS_FORMAT).getAsString() : null);
@@ -469,8 +469,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         sso.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         sso.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        sso.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        sso.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        sso.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        sso.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         sso.setLocus(jsonObject.has(HmlFieldConstants.SSO_LOCUS) ? jsonObject.get(HmlFieldConstants.SSO_LOCUS).getAsString() : null);
         sso.setTestId(jsonObject.has(HmlFieldConstants.SSO_TESTID) ? jsonObject.get(HmlFieldConstants.SSO_TESTID).getAsString() : null);
         sso.setTestIdSource(jsonObject.has(HmlFieldConstants.SSO_TESTIDSOURCE) ? jsonObject.get(HmlFieldConstants.SSO_TESTIDSOURCE).getAsString() : null);
@@ -488,8 +488,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         ssp.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         ssp.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        ssp.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        ssp.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        ssp.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        ssp.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         ssp.setLocus(jsonObject.has(HmlFieldConstants.SSP_LOCUS) ? jsonObject.get(HmlFieldConstants.SSP_LOCUS).getAsString() : null);
         ssp.setScores(jsonObject.has(HmlFieldConstants.SSP_SCORES) ? jsonObject.get(HmlFieldConstants.SSP_SCORES).getAsString() : null);
         ssp.setTestId(jsonObject.has(HmlFieldConstants.SSP_TESTID) ? jsonObject.get(HmlFieldConstants.SSP_TESTID).getAsString() : null);
@@ -508,8 +508,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         sbtSanger.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         sbtSanger.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        sbtSanger.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        sbtSanger.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        sbtSanger.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        sbtSanger.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         sbtSanger.setLocus(jsonObject.has(HmlFieldConstants.SBTSNGR_LOCUS) ? jsonObject.get(HmlFieldConstants.SBTSNGR_LOCUS).getAsString() : null);
         sbtSanger.setTestId(jsonObject.has(HmlFieldConstants.SBTSNGR_TESTID) ? jsonObject.get(HmlFieldConstants.SBTSNGR_TESTID).getAsString() : null);
         sbtSanger.setTestIdSource(jsonObject.has(HmlFieldConstants.SBTSNGR_TESTIDSOURCE) ? jsonObject.get(HmlFieldConstants.SBTSNGR_TESTIDSOURCE).getAsString() : null);
@@ -530,8 +530,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         amplification.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         amplification.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        amplification.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        amplification.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        amplification.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        amplification.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         amplification.setRegisteredName(jsonObject.has(HmlFieldConstants.AMP_REGISTEREDNAME) ? jsonObject.get(HmlFieldConstants.AMP_SEQUENCE).getAsString() : null);
         amplification.setSequence(createSequence(jsonObject.has(HmlFieldConstants.AMP_SEQUENCE) ? jsonObject.get(HmlFieldConstants.AMP_SEQUENCE).getAsJsonObject() : null));
 
@@ -547,8 +547,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         subAmplification.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         subAmplification.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        subAmplification.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        subAmplification.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        subAmplification.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        subAmplification.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         subAmplification.setRegisteredName(jsonObject.has(HmlFieldConstants.SUBAMP_REGISTEREDNAME) ? jsonObject.get(HmlFieldConstants.SUBAMP_REGISTEREDNAME).getAsString() : null);
         subAmplification.setSequence(createSequence(jsonObject.has(HmlFieldConstants.SUBAMP_SEQUENCE) ? jsonObject.get(HmlFieldConstants.SUBAMP_SEQUENCE).getAsJsonObject() : null));
 
@@ -564,8 +564,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         gssp.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         gssp.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        gssp.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        gssp.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        gssp.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        gssp.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         gssp.setRegisteredName(jsonObject.has(HmlFieldConstants.GSSP_REGISTEREDNAME) ? jsonObject.get(HmlFieldConstants.GSSP_REGISTEREDNAME).getAsString() : null);
         gssp.setPrimerTarget(jsonObject.has(HmlFieldConstants.GSSP_PRIMERTARGET) ? jsonObject.get(HmlFieldConstants.GSSP_PRIMERTARGET).getAsString() : null);
         gssp.setPrimerSequence(jsonObject.has(HmlFieldConstants.GSSP_PRIMERSEQUENCE) ? jsonObject.get(HmlFieldConstants.GSSP_PRIMERSEQUENCE).getAsString() : null);
@@ -583,8 +583,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         sequence.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         sequence.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        sequence.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        sequence.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        sequence.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        sequence.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         sequence.setAnyAttribute(jsonObject.has(HmlFieldConstants.SEQUENCE_ANYATTRIBUTE) ? jsonObject.get(HmlFieldConstants.SEQUENCE_ANYATTRIBUTE).getAsJsonObject() : null);
         sequence.setSequence(jsonObject.has(HmlFieldConstants.SEQUENCE_SEQUENCE) ? jsonObject.get(HmlFieldConstants.SEQUENCE_SEQUENCE).getAsString() : null);
         sequence.setIupacBases(createIupacBases(jsonObject.has(HmlFieldConstants.SEQUENCE_IUPACBASES) ? jsonObject.get(HmlFieldConstants.SEQUENCE_IUPACBASES).getAsJsonObject() : null));
@@ -602,8 +602,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         iupacBase.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         iupacBase.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        iupacBase.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        iupacBase.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        iupacBase.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        iupacBase.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         iupacBase.setProperty(jsonObject.has(HmlFieldConstants.IUPAC_PROPERTY) ? jsonObject.get(HmlFieldConstants.IUPAC_PROPERTY).getAsString() : null);
         iupacBase.setValue(jsonObject.has(HmlFieldConstants.IUPAC_VALUE) ? jsonObject.get(HmlFieldConstants.IUPAC_VALUE).getAsString() : null);
 
@@ -621,8 +621,8 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         collectionMethod.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
         collectionMethod.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        collectionMethod.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()) : null);
-        collectionMethod.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()) : null);
+        collectionMethod.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
+        collectionMethod.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         collectionMethod.setDescription(jsonObject.has(HmlFieldConstants.COLLECTIONMETHOD_DESCRIPTION) ? jsonObject.get(HmlFieldConstants.COLLECTIONMETHOD_DESCRIPTION).getAsString() : null);
         collectionMethod.setName(jsonObject.has(HmlFieldConstants.COLLECTIONMETHOD_NAME) ? jsonObject.get(HmlFieldConstants.COLLECTIONMETHOD_NAME).getAsString() : null);
 
