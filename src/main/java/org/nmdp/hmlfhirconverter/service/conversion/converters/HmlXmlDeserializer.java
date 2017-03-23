@@ -24,7 +24,12 @@ package org.nmdp.hmlfhirconverter.service.conversion.converters;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import com.google.gson.*;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonParseException;
 
 import io.swagger.model.Allele;
 import io.swagger.model.AlleleAssignment;
@@ -61,13 +66,14 @@ import io.swagger.model.TypingTestName;
 import io.swagger.model.Variant;
 import io.swagger.model.VariantEffect;
 import io.swagger.model.Version;
+
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.lang.reflect.Type;
 
-import java.util.*;
-
+import java.util.List;
+import java.util.ArrayList;
 
 public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
@@ -405,25 +411,20 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         alleleAssignment.setAlleleVersion(jsonObject.has("allele-version") ? jsonObject.get("allele-version").getAsString() : null);
         alleleAssignment.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
         alleleAssignment.setGenotypes(createGenotypes(jsonObject.has("genotype") ? jsonObject.get("genotype").getAsJsonObject() : null));
-        alleleAssignment.setGlString(createGlString(jsonObject.has("gl-string") ? jsonObject.get("gl-string").getAsJsonObject() : null));
+        alleleAssignment.setGlString(createGlString(jsonObject.has("glstring") ? jsonObject.get("glstring").getAsString() : null));
         alleleAssignment.setHaploid(createHaploid(jsonObject.has("haploid") ? jsonObject.get("haploid").getAsJsonObject() : null));
 
         return alleleAssignment;
     }
 
-    private GlString createGlString(JsonObject jsonObject) {
+    private GlString createGlString(String glstr) {
         GlString glstring = new GlString();
 
-        if (jsonObject == null) {
+        if (glstr == null) {
             return glstring;
         }
 
-        glstring.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        glstring.setActive(jsonObject.has("active") ? jsonObject.get("active").getAsBoolean() : null);
-        glstring.setDateCreated(jsonObject.has("date-created") ? formatter.parseDateTime(jsonObject.get("date-created").getAsString()).toDate() : null);
-        glstring.setDateUpdated(jsonObject.has("date-updated") ? formatter.parseDateTime(jsonObject.get("date-updated").getAsString()).toDate() : null);
-        glstring.setUri(jsonObject.has("uri") ? jsonObject.get("uri").getAsString() : null);
-        glstring.setValue(jsonObject.has("value") ? jsonObject.get("value").getAsString() : null);
+        glstring.setValue(glstr);
 
         return glstring;
     }
