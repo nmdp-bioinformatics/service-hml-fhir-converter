@@ -165,7 +165,8 @@ public class HmlController implements HmlApi {
     public Callable<ResponseEntity<Object>> convertToFhir(@RequestBody String hmlXml) throws Exception {
         try {
             HmlToFhirConversionService conversionService = new HmlToFhirConversionServiceImpl();
-            org.nmdp.hmlfhirconverter.domain.Hml hml = conversionService.convertHmlToFhir(hmlXml);
+            conversionService.convertHmlToFhir(hmlXml);
+            org.nmdp.hmlfhirconverter.domain.Hml hml = new org.nmdp.hmlfhirconverter.domain.Hml();
             return () -> new ResponseEntity<>(hml.toDto(hml), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error converting to Fhir.", ex);

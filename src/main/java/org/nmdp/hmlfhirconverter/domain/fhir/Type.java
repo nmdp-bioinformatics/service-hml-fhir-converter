@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.service.conversion;
+package org.nmdp.hmlfhirconverter.domain.fhir;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 3/14/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 3/28/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,8 +24,14 @@ package org.nmdp.hmlfhirconverter.service.conversion;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.Hml;
+public class Type {
+    private String specimenType;
 
-public interface HmlToFhirConversionService {
-    void convertHmlToFhir(String hmlXml);
+    public String getSpecimenType() {
+        return specimenType;
+    }
+
+    public void setSpecimenType(String specimenType) {
+        this.specimenType = specimenType;
+    }
 }

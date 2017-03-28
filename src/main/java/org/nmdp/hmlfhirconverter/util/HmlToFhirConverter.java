@@ -41,7 +41,7 @@ public class HmlToFhirConverter {
 
     private static Logger LOG = Logger.getLogger(HmlToFhirConverter.class);
 
-    public static org.nmdp.hmlfhirconverter.domain.Hml convertStringToXml(String hmlXml) throws ConversionException {
+    public static Hml convertStringToXml(String hmlXml) throws ConversionException {
         try {
             JSONObject json = convertXmlStringToJson(hmlXml);
             GsonBuilder gsonBuilder = new GsonBuilder();
@@ -50,9 +50,8 @@ public class HmlToFhirConverter {
             Object obj = parser.parse(json.toString());
             JsonObject jsonObject = (JsonObject) obj;
             Gson gson = gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
-            Hml hml = gson.fromJson(jsonObject, Hml.class);
 
-            return new org.nmdp.hmlfhirconverter.domain.Hml().convertFromSwagger(hml);
+            return gson.fromJson(jsonObject, Hml.class);
         } catch (Exception ex) {
             LOG.error("Error converting HML to FHIR.", ex);
             throw (ConversionException)ex;

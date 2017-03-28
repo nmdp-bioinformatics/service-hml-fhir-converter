@@ -24,12 +24,37 @@ package org.nmdp.hmlfhirconverter.service.conversion;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.Hml;
+
+import io.swagger.model.Hml;
+
+import org.modelmapper.ModelMapper;
+
+import org.nmdp.hmlfhirconverter.domain.fhir.FhirMessage;
+import org.nmdp.hmlfhirconverter.domain.fhir.Patient;
+import org.nmdp.hmlfhirconverter.domain.fhir.Specimen;
+import org.nmdp.hmlfhirconverter.mapping.fhir.PatientMap;
+import org.nmdp.hmlfhirconverter.mapping.fhir.SpecimenMap;
 import org.nmdp.hmlfhirconverter.util.HmlToFhirConverter;
 
 public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionService {
 
-    public Hml convertHmlToFhir(String hmlXml) {
-        return HmlToFhirConverter.convertStringToXml(hmlXml);
+    public void convertHmlToFhir(String hmlXml) {
+        Hml hml = HmlToFhirConverter.convertStringToXml(hmlXml);
+        FhirMessage fhir = mapHmlToFhir(hml);
+    }
+
+    private FhirMessage mapHmlToFhir(Hml hml) {
+        ModelMapper mapper = new ModelMapper();
+        FhirMessage message = new FhirMessage();
+        Patient patient = new Patient();
+        Specimen specimen = new Specimen();
+
+        mapper.addMappings(new PatientMap());
+        mapper.addConverter(new SpecimenMap());
+
+        mapper.map(hml, patient);
+        mapper.map(hml, specimen);
+
+        return message;
     }
 }
