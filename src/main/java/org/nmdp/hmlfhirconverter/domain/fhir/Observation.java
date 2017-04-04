@@ -1,10 +1,10 @@
-package org.nmdp.hmlfhirconverter.controller;
+package org.nmdp.hmlfhirconverter.domain.fhir;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 12/22/16.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 3/28/17.
  * <p>
  * service-hmlFhirConverter
- * Copyright (c) 2012-2016 National Marrow Donor Program (NMDP)
+ * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
  * <p>
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published
@@ -24,17 +24,5 @@ package org.nmdp.hmlfhirconverter.controller;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
-@RestController
-@RequestMapping("/")
-public class IndexController {
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView indexController() {
-
-        return new ModelAndView("redirect:swagger-ui.html");
-    }
+public class Observation {
 }
