@@ -160,15 +160,6 @@ public class HmlFieldConstants {
     public static final String SSP_PROPERTY = "property";
     public static final String SSP_SCORES = "scores";
 
-    //sample: typing: consensus-sequence: consensus-sequence-block: sequence
-    public static final String SEQUENCE_ANYATTRIBUTE = "any-attribute";
-    public static final String SEQUENCE_SEQUENCE = "sequence";
-    public static final String SEQUENCE_IUPACBASES = "ipuac-bases";
-
-    //sample: typing: consensus-sequence: consensus-sequence-block: sequence: iupac-bases
-    public static final String IUPAC_PROPERTY = "property";
-    public static final String IUPAC_VALUE = "value";
-
     //typing test names
     public static final String TYPINGTESTNAMES_TESTID = "test-id";
     public static final String TYPINGTESTNAMES_NAME = "name";
@@ -183,6 +174,79 @@ public class HmlFieldConstants {
     public static final String ALLELEASSIGNMENT_GLSTRING = "gl-string";
     public static final String ALLELEASSIGNMENT_HAPLOID = "haploid";
 
+    //sample: typing: consensus-sequence
+    public static final String CONSENSUSSEQ_ID = "id";
+    public static final String CONSENSUSSEQ_ACTIVE = "active";
+    public static final String CONSENSUSSEQ_DATECREATED = "date-created";
+    public static final String CONSENSUSSEQ_DATEUPDATED = "date-updated";
+    public static final String CONSENSUSSEQ_DATE = "date";
+    public static final String CONSENSUSSEQ_REFERENCEDB = "reference-datebase";
+    public static final String CONSENSUSSEQ_CONSENSUSSEQUENCEBLOCK = "consensus-sequence-block";
+
+    //sample: typing; consensus-sequence: reference-database
+    public static final String REFDB_ID = "id";
+    public static final String REFDB_ACTIVE = "active";
+    public static final String REFDB_DATECREATED = "date-created";
+    public static final String REFDB_DATEUPDATED = "date-updated";
+
+
+    //sample: typing: consensus-sequence: consensus-sequence-block
+    public static final String CSB_ID = "id";
+    public static final String CSB_ACTIVE = "active";
+    public static final String CSB_CONTINUITY = "continuity";
+    public static final String CSB_DATECREATED = "date-created";
+    public static final String CSB_DATEUPDATED = "date-updated";
+    public static final String CSB_DESCRIPTION = "description";
+    public static final String CSB_END = "end";
+    public static final String CSB_EXPECTEDCOPYNUM = "expected-copy-number";
+    public static final String CSB_PHASESET = "phase-set";
+    public static final String CSB_PHASINGGROUP = "phasing-group";
+    public static final String CSB_REFSEQID = "reference-sequence-id";
+    public static final String CSB_SEQUENCE = "sequence";
+    public static final String CSB_START = "start";
+    public static final String CSB_STRAND = "strand";
+    public static final String CSB_VARIANT = "variant";
+    public static final String CSB_SEQQUALITY = "sequence-quality";
+
+    //sample: typing: consensus-sequence: consensus-sequence-block: variant
+    public static final String VARIANT_ID = "id";
+    public static final String VARIANT_ACTIVE = "active";
+    public static final String VARIANT_DATECREATED = "date-created";
+    public static final String VARIANT_DATEUPDATED = "date-updated";
+    public static final String VARIANT_ALTERNATEBASES = "alternate-bases";
+    public static final String VARIANT_ANYATTRIBUTE = "any-attribute";
+    public static final String VARIANT_END = "end";
+    public static final String VARIANT_FILTER = "filter";
+    public static final String VARIANT_NAME = "name";
+    public static final String VARIANT_QUALITYSCORE = "quality-score";
+    public static final String VARIANT_REFERENCEBASES = "reference-bases";
+    public static final String VARIANT_START = "start";
+    public static final String VARIANT_URI = "URI";
+    public static final String VARIANT_VARIANTID = "variant-id";
+    public static final String VARIANT_VARIANTEFFECT = "variant-effect";
+
+    //sample: typing: consensus-sequence: consensus-sequence-block: variant: variant-effect
+    public static final String VARIANTEFF_ID = "id";
+    public static final String VARIANTEFF_ACTIVE = "active";
+    public static final String VARIANTEFF_DATECREATED = "date-created";
+    public static final String VARIANTEFF_DATEUPDATED = "date-updated";
+    public static final String VARIANTEFF_ANYATTRIBUTE = "any-attribute";
+    public static final String VARIANTEFF_HGVS = "hgvs";
+    public static final String VARIANTEFF_TERM = "term";
+    public static final String VARIANTEFF_URI = "uri";
+
+    //sample: typing: consensus-sequence: consensus-sequence-block: sequence-quality
+    public static final String SEQQUAL_ID = "id";
+    public static final String SEQQUAL_ACTIVE = "active";
+    public static final String SEQQUAL_DATECREATED = "date-created";
+    public static final String SEQQUAL_DATEUPDATED = "date-updated";
+    public static final String SEQQUAL_QUALITYSCORE = "quality-score";
+    public static final String SEQQUAL_SEQUENCEEND = "sequence-end";
+    public static final String SEQQUAL_SEQUENCESTART = "sequence-start";
+
+    //sample: typing: consensus-sequence: consensus-sequence-block: sequence: iupac-bases
+    public static final String IUPAC_PROPERTY = "property";
+    public static final String IUPAC_VALUE = "value";
 
 
 
