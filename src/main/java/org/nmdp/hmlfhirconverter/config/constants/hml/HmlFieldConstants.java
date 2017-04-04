@@ -58,8 +58,8 @@ public class HmlFieldConstants {
     public static final String PROJECT_NAME = "name";
 
     //reportingCenter
-    public static final String REPORTINGCENTER_CENTERID = "center-id";
-    public static final String REPORTINGCENTER_CONTEXT = "context";
+    public static final String REPORTINGCENTER_CENTERID = "reporting-center-id";
+    public static final String REPORTINGCENTER_CONTEXT = "reporting-center-context";
 
     //sample
     public static final String SAMPLE_ID = "sample-id";
