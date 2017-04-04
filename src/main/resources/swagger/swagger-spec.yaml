@@ -7611,12 +7611,14 @@ definitions:
         type: string
     type: object
   ConsensusSequence:
-    properites:
+    properties:
       active:
         description: Active record
         type: boolean
-      consensusSequenceBlock:
-        $ref: ConsensusSequenceBlock
+      consensusSequenceBlocks:
+        type: array
+        items:
+          $ref: '#/definitions/ConsensusSequenceBlock'
         description: block of consensus sequence
       date:
         description: date created
