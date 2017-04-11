@@ -180,7 +180,7 @@ public class HmlFieldConstants {
     public static final String CONSENSUSSEQ_DATECREATED = "date-created";
     public static final String CONSENSUSSEQ_DATEUPDATED = "date-updated";
     public static final String CONSENSUSSEQ_DATE = "date";
-    public static final String CONSENSUSSEQ_REFERENCEDB = "reference-datebase";
+    public static final String CONSENSUSSEQ_REFERENCEDB = "reference-database";
     public static final String CONSENSUSSEQ_CONSENSUSSEQUENCEBLOCK = "consensus-sequence-block";
 
     //sample: typing; consensus-sequence: reference-database
@@ -188,7 +188,17 @@ public class HmlFieldConstants {
     public static final String REFDB_ACTIVE = "active";
     public static final String REFDB_DATECREATED = "date-created";
     public static final String REFDB_DATEUPDATED = "date-updated";
+    public static final String REFDB_AVAILABILITY = "availability";
+    public static final String REFDB_CURATED = "curated";
+    public static final String REFDB_REFSEQ = "reference-sequence";
 
+    //sample: typing: consensus-sequence: reference-database: reference-sequence
+    public static final String REFSEQ_ID = "id";
+    public static final String REFSEQ_NAME = "name";
+    public static final String REFSEQ_START = "start";
+    public static final String REFSEQ_END = "end";
+    public static final String REFSEQ_ACCESSION = "accession";
+    public static final String REFSEQ_URI = "uri";
 
     //sample: typing: consensus-sequence: consensus-sequence-block
     public static final String CSB_ID = "id";

@@ -31,6 +31,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonParseException;
 
+import io.swagger.model.*;
 import io.swagger.model.Allele;
 import io.swagger.model.AlleleAssignment;
 import io.swagger.model.Amplification;
@@ -66,9 +67,12 @@ import io.swagger.model.TypingTestName;
 import io.swagger.model.Variant;
 import io.swagger.model.VariantEffect;
 import io.swagger.model.Version;
+import io.swagger.model.ReferenceSequence;
+
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.nmdp.hmlfhirconverter.config.constants.hml.HmlFieldConstants;
+//import org.nmdp.hmlfhirconverter.domain.ReferenceSequence;
 import org.nmdp.hmlfhirconverter.util.PrimitiveParser;
 
 import java.lang.reflect.Type;
@@ -392,8 +396,26 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         referenceDatabase.setActive(jsonObject.has(HmlFieldConstants.REFDB_ACTIVE) ? jsonObject.get(HmlFieldConstants.REFDB_ACTIVE).getAsBoolean() : null);
         referenceDatabase.setDateCreated(jsonObject.has(HmlFieldConstants.REFDB_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.REFDB_DATECREATED).getAsString()).toDate() : null);
         referenceDatabase.setDateUpdated(jsonObject.has(HmlFieldConstants.REFDB_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.REFDB_DATEUPDATED).getAsString()).toDate() : null);
-
+        referenceDatabase.setAvailability(jsonObject.has(HmlFieldConstants.REFDB_AVAILABILITY) ? jsonObject.get(HmlFieldConstants.REFDB_AVAILABILITY).getAsString(): null);
+        referenceDatabase.setCurated(jsonObject.has(HmlFieldConstants.REFDB_CURATED) ? jsonObject.get(HmlFieldConstants.REFDB_CURATED).getAsBoolean(): null);
+        referenceDatabase.setReferenceSequence(createReferenceSequence(jsonObject.has(HmlFieldConstants.REFDB_REFSEQ) ? jsonObject.get(HmlFieldConstants.REFDB_REFSEQ).getAsJsonObject() : null));
         return referenceDatabase;
+    }
+
+    private ReferenceSequence createReferenceSequence(JsonObject jsonObject) {
+        ReferenceSequence referenceSequence = new ReferenceSequence();
+
+        if (jsonObject == null) {
+            return referenceSequence;
+        }
+        referenceSequence.setId(jsonObject.has(HmlFieldConstants.REFSEQ_ID) ? jsonObject.get(HmlFieldConstants.REFSEQ_ID).getAsString() : null);
+        referenceSequence.setName(jsonObject.has(HmlFieldConstants.REFSEQ_NAME) ? jsonObject.get(HmlFieldConstants.REFSEQ_NAME).getAsString() : null);
+        referenceSequence.setStart(PrimitiveParser.parseStringToInteger(jsonObject.has(HmlFieldConstants.REFSEQ_START) ? jsonObject.get(HmlFieldConstants.REFSEQ_START).getAsString() : null));
+        referenceSequence.setEnd(PrimitiveParser.parseStringToInteger(jsonObject.has(HmlFieldConstants.REFSEQ_END) ? jsonObject.get(HmlFieldConstants.REFSEQ_END).getAsString() : null));
+        referenceSequence.setAccession(jsonObject.has(HmlFieldConstants.REFSEQ_ACCESSION) ? jsonObject.get(HmlFieldConstants.REFSEQ_ACCESSION).getAsString() : null);
+        referenceSequence.setUri(jsonObject.has(HmlFieldConstants.REFSEQ_URI) ? jsonObject.get(HmlFieldConstants.REFSEQ_URI).getAsString() : null);
+        return referenceSequence;
+
     }
 
     private AlleleAssignment createAlleleAssignment(JsonObject jsonObject) {
