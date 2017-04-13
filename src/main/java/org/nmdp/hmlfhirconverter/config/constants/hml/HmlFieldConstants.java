@@ -45,7 +45,6 @@ public class HmlFieldConstants {
     public static final String REPORTINGCENTER_CONTEXT = "reporting-center-context";
 
     //sample
-    public static final String SAMPLE_ID = "sample-id";
     public static final String SAMPLE_CENTERCODE = "center-code";
     public static final String SAMPLE_COLLECTIONMETHOD = "collection-method";
     public static final String SAMPLE_TYPING = "typing";
@@ -80,8 +79,6 @@ public class HmlFieldConstants {
     ////sample: typing: allele-assignment: genotype-list: diploid-combination: locus-block: allele-list
     public static final String ALLELELIST_NAME = "name";
     public static final String ALLELELIST_PRESENT = "present";
-
-    //sample: typing: allele-assignment: gl-string
 
     //sample: typing: typing-method
     public static final String TYPINGMETHOD_SBTSANGER = "sbt-sanger";
