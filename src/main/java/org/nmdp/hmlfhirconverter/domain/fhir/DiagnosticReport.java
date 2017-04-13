@@ -1,9 +1,7 @@
 package org.nmdp.hmlfhirconverter.domain.fhir;
 
-import org.joda.time.DateTime;
-
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 3/28/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 4/13/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -26,23 +24,5 @@ import org.joda.time.DateTime;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public class Observation {
-    private String identifier;
-    private Reference basedOn;
-    private Status status;
-    private Category category;
-    private Code code;
-    private String subject;
-    private String context;
-    private DateTime effective;
-    private DateTime issued;
-    private Practitioner performer;
-    private Object value;
-    private Object dataAbsentReason;
-    private Object interpretation;
-    private String comment;
-    private Object bodySite;
-    private Object method;
-    private Specimen specimen;
-    private Device device;
+public class DiagnosticReport extends Observation {
 }
