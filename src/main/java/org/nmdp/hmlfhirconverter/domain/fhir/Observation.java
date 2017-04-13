@@ -27,7 +27,7 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
 import org.joda.time.DateTime;
 
 public class Observation {
-    
+
     private Identifier identifier;
     private Reference basedOn;
     private Status status;

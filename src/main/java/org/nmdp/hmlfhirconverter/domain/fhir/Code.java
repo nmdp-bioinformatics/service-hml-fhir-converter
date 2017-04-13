@@ -25,4 +25,14 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
  */
 
 public class Code {
+
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

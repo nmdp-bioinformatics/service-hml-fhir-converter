@@ -24,5 +24,32 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public class OrganizationMap {
+import io.swagger.model.Hml;
+import io.swagger.model.ReportingCenter;
+
+import org.modelmapper.Converter;
+import org.modelmapper.spi.MappingContext;
+
+import org.nmdp.hmlfhirconverter.domain.fhir.Identifier;
+import org.nmdp.hmlfhirconverter.domain.fhir.Organization;
+
+public class OrganizationMap implements Converter<Hml, Organization> {
+
+    @Override
+    public Organization convert(MappingContext<Hml, Organization> context) {
+        if (context.getSource() == null) {
+            return null;
+        }
+
+        Hml hml = context.getSource();
+        ReportingCenter reportingCenter = hml.getReportingCenters().get(0);
+        Organization organization = new Organization();
+        Identifier identifier = new Identifier();
+
+        identifier.setValue(reportingCenter.getCenterId());
+        identifier.setSystem(reportingCenter.getContext());
+        organization.setIdentifier(identifier);
+
+        return organization;
+    }
 }
