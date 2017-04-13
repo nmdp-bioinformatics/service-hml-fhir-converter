@@ -1,4 +1,4 @@
-package org.nmdp.hmlfhirconverter.domain.fhir;
+package org.nmdp.hmlfhirconverter.mapping.fhir;
 
 /**
  * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 4/13/17.
@@ -24,6 +24,32 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public class Allele extends StructureDefinition {
+import org.modelmapper.Converter;
+import org.modelmapper.spi.MappingContext;
 
+import io.swagger.model.Hml;
+import io.swagger.model.HmlId;
+
+import org.nmdp.hmlfhirconverter.domain.fhir.DiagnosticReport;
+import org.nmdp.hmlfhirconverter.domain.fhir.Identifier;
+
+public class DiagnosticReportMap implements Converter<Hml, DiagnosticReport> {
+
+    @Override
+    public DiagnosticReport convert(MappingContext<Hml, DiagnosticReport> context) {
+        if (context.getSource() == null) {
+            return null;
+        }
+
+        DiagnosticReport diagnosticReport = new DiagnosticReport();
+        Identifier identifier = new Identifier();
+        Hml hml = context.getSource();
+        HmlId hmlId = hml.getHmlId();
+
+        identifier.setValue(hmlId.getRootName());
+        identifier.setSystem(hmlId.getExtension());
+        diagnosticReport.setIdentifier(identifier);
+
+        return diagnosticReport;
+    }
 }

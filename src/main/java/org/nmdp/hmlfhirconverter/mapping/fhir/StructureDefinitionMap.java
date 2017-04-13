@@ -1,4 +1,4 @@
-package org.nmdp.hmlfhirconverter.domain.fhir;
+package org.nmdp.hmlfhirconverter.mapping.fhir;
 
 /**
  * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 4/13/17.
@@ -24,6 +24,5 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public class Allele extends StructureDefinition {
-
+public class StructureDefinitionMap {
 }

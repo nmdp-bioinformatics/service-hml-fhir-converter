@@ -28,8 +28,8 @@ import io.swagger.model.CollectionMethod;
 import io.swagger.model.Hml;
 
 import org.modelmapper.Converter;
-
 import org.modelmapper.spi.MappingContext;
+
 import org.nmdp.hmlfhirconverter.domain.fhir.Specimen;
 import org.nmdp.hmlfhirconverter.domain.fhir.Type;
 

@@ -1,7 +1,5 @@
 package org.nmdp.hmlfhirconverter.domain.fhir;
 
-import org.joda.time.DateTime;
-
 /**
  * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 3/28/17.
  * <p>
@@ -26,8 +24,11 @@ import org.joda.time.DateTime;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.joda.time.DateTime;
+
 public class Observation {
-    private String identifier;
+    
+    private Identifier identifier;
     private Reference basedOn;
     private Status status;
     private Category category;
@@ -45,11 +46,11 @@ public class Observation {
     private Object method;
     private Specimen specimen;
 
-    public String getIdentifier() {
+    public Identifier getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(String identifier) {
+    public void setIdentifier(Identifier identifier) {
         this.identifier = identifier;
     }
 
