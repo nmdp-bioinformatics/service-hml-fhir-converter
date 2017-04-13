@@ -72,7 +72,6 @@ import io.swagger.model.ReferenceSequence;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.nmdp.hmlfhirconverter.config.constants.hml.HmlFieldConstants;
-//import org.nmdp.hmlfhirconverter.domain.ReferenceSequence;
 import org.nmdp.hmlfhirconverter.util.PrimitiveParser;
 
 import java.lang.reflect.Type;
