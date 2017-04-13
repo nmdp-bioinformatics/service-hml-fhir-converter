@@ -44,5 +44,150 @@ public class Observation {
     private Object bodySite;
     private Object method;
     private Specimen specimen;
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public Reference getBasedOn() {
+        return basedOn;
+    }
+
+    public void setBasedOn(Reference basedOn) {
+        this.basedOn = basedOn;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Code getCode() {
+        return code;
+    }
+
+    public void setCode(Code code) {
+        this.code = code;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
+    public DateTime getEffective() {
+        return effective;
+    }
+
+    public void setEffective(DateTime effective) {
+        this.effective = effective;
+    }
+
+    public DateTime getIssued() {
+        return issued;
+    }
+
+    public void setIssued(DateTime issued) {
+        this.issued = issued;
+    }
+
+    public Practitioner getPerformer() {
+        return performer;
+    }
+
+    public void setPerformer(Practitioner performer) {
+        this.performer = performer;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
+    public Object getDataAbsentReason() {
+        return dataAbsentReason;
+    }
+
+    public void setDataAbsentReason(Object dataAbsentReason) {
+        this.dataAbsentReason = dataAbsentReason;
+    }
+
+    public Object getInterpretation() {
+        return interpretation;
+    }
+
+    public void setInterpretation(Object interpretation) {
+        this.interpretation = interpretation;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Object getBodySite() {
+        return bodySite;
+    }
+
+    public void setBodySite(Object bodySite) {
+        this.bodySite = bodySite;
+    }
+
+    public Object getMethod() {
+        return method;
+    }
+
+    public void setMethod(Object method) {
+        this.method = method;
+    }
+
+    public Specimen getSpecimen() {
+        return specimen;
+    }
+
+    public void setSpecimen(Specimen specimen) {
+        this.specimen = specimen;
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
     private Device device;
 }
