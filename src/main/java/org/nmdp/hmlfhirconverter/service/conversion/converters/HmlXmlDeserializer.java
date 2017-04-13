@@ -264,7 +264,7 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         typing.setGeneFamily(jsonObject.has(HmlFieldConstants.TYPING_GENEFAMILY) ? jsonObject.get(HmlFieldConstants.TYPING_GENEFAMILY).getAsString() : null);
         typing.setTypingMethod(createTypingMethod(jsonObject.has(HmlFieldConstants.TYPING_TYPINGMETHOD) ? jsonObject.get(HmlFieldConstants.TYPING_TYPINGMETHOD).getAsJsonObject() : null));
         typing.setProperties(createProperties(jsonObject.has(HmlFieldConstants.TYPING_PROPERTY) ? jsonObject.get(HmlFieldConstants.TYPING_PROPERTY).getAsJsonObject() : null));
-        typing.setAlleleAssignment(createAlleleAssignment(jsonObject.has(HmlFieldConstants.TYPING_ALLELEASSIGNMENT) ? jsonObject.get(HmlFieldConstants.TYPING_ALLELEASSIGNMENT ).getAsJsonObject() : null));
+     typing.setAlleleAssignment(createAlleleAssignment(jsonObject.has(HmlFieldConstants.TYPING_ALLELEASSIGNMENT) ? jsonObject.get(HmlFieldConstants.TYPING_ALLELEASSIGNMENT ).getAsJsonObject() : null));
         typing.setConsensusSequence(createConsensusSequence(jsonObject.has(HmlFieldConstants.TYPING_CONSENSUSSEQUENCE) ? jsonObject.get(HmlFieldConstants.TYPING_CONSENSUSSEQUENCE).getAsJsonObject() : null));
 
         return typing;
@@ -434,26 +434,25 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         alleleAssignment.setAlleleVersion(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_ALLELEVERSION) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_ALLELEVERSION).getAsString() : null);
         alleleAssignment.setProperties(createProperties(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_PROPERTY) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_PROPERTY).getAsJsonObject() : null));
         alleleAssignment.setGenotypes(createGenotypes(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_GENOTYPE) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_GENOTYPE).getAsJsonObject() : null));
-        alleleAssignment.setGlString(createGlString(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_GLSTRING) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_GLSTRING).getAsJsonObject() : null));
+        alleleAssignment.setGlString(createGlString(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_GLSTRING) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_GLSTRING).getAsString() : null));
         alleleAssignment.setHaploid(createHaploid(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_HAPLOID) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_HAPLOID).getAsJsonObject() : null));
 
         return alleleAssignment;
     }
 
-    private GlString createGlString(JsonObject jsonObject) {
+    private GlString createGlString(String glStringStr) {
         GlString glstring = new GlString();
 
-        if (jsonObject == null) {
+        if (glStringStr == null || glStringStr.isEmpty()) {
             return glstring;
         }
 
-        glstring.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
-        glstring.setActive(jsonObject.has(HmlFieldConstants.MONGO_ACTIVE) ? jsonObject.get(HmlFieldConstants.MONGO_ACTIVE).getAsBoolean() : null);
-        glstring.setDateCreated(jsonObject.has(HmlFieldConstants.MONGO_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATECREATED).getAsString()).toDate() : null);
-        glstring.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
-        glstring.setUri(jsonObject.has(HmlFieldConstants.GLSTRING_URI) ? jsonObject.get(HmlFieldConstants.GLSTRING_URI).getAsString() : null);
-        glstring.setValue(jsonObject.has(HmlFieldConstants.GLSTRING_VALUE) ? jsonObject.get(HmlFieldConstants.GLSTRING_VALUE).getAsString() : null);
+        if (PrimitiveParser.CheckValidUrl(glStringStr)) {
+            glstring.setUri(glStringStr);
+            return glstring;
+        }
 
+        glstring.setValue(glStringStr);
         return glstring;
     }
 

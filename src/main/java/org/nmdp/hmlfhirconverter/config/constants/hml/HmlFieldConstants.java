@@ -82,8 +82,6 @@ public class HmlFieldConstants {
     public static final String ALLELELIST_PRESENT = "present";
 
     //sample: typing: allele-assignment: gl-string
-    public static final String GLSTRING_URI = "uri";
-    public static final String GLSTRING_VALUE = "value";
 
     //sample: typing: typing-method
     public static final String TYPINGMETHOD_SBTSANGER = "sbt-sanger";
@@ -153,7 +151,7 @@ public class HmlFieldConstants {
     public static final String ALLELEASSIGNMENT_ALLELEVERSION = "allele-version";
     public static final String ALLELEASSIGNMENT_PROPERTY = "property";
     public static final String ALLELEASSIGNMENT_GENOTYPE = "genotype";
-    public static final String ALLELEASSIGNMENT_GLSTRING = "gl-string";
+    public static final String ALLELEASSIGNMENT_GLSTRING = "glstring";
     public static final String ALLELEASSIGNMENT_HAPLOID = "haploid";
 
     //sample: typing: consensus-sequence
@@ -239,7 +237,5 @@ public class HmlFieldConstants {
     //sample: typing: consensus-sequence: consensus-sequence-block: sequence: iupac-bases
     public static final String IUPAC_PROPERTY = "property";
     public static final String IUPAC_VALUE = "value";
-
-
 
 }
