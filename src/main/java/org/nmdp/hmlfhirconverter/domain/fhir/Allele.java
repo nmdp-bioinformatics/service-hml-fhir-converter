@@ -24,5 +24,5 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public class Allele extends Observation {
+public class Allele extends StructureDefinition {
 }

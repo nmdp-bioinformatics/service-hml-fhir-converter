@@ -29,6 +29,7 @@ import org.joda.time.DateTime;
 import java.net.URL;
 
 public class StructureDefinition {
+
     private URL url;
     private String identifier;
     private String version;
@@ -53,6 +54,7 @@ public class StructureDefinition {
     private String contextVariant;
     private FhirDefinedType type;
     private URL baseDefinition;
+    private TypeDerivationRule derivation;
 
     public URL getUrl() {
         return url;
@@ -253,8 +255,4 @@ public class StructureDefinition {
     public void setDerivation(TypeDerivationRule derivation) {
         this.derivation = derivation;
     }
-
-    private TypeDerivationRule derivation;
-
-
 }

@@ -24,6 +24,6 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public class Haploid extends Observation {
+public class Haploid extends StructureDefinition {
 
 }
