@@ -1,5 +1,6 @@
 package org.nmdp.hmlfhirconverter.mapping.fhir;
 
+
 /**
  * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 4/13/17.
  * <p>
@@ -24,5 +25,31 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public class ObservationMap {
+import io.swagger.model.Typing;
+import org.modelmapper.Converter;
+
+import io.swagger.model.Hml;
+
+import org.modelmapper.spi.MappingContext;
+import org.nmdp.hmlfhirconverter.domain.fhir.Code;
+import org.nmdp.hmlfhirconverter.domain.fhir.Observation;
+
+public class ObservationMap implements Converter<Hml, Observation>{
+
+    @Override
+    public Observation convert(MappingContext<Hml, Observation> context) {
+        if (context.getSource() == null) {
+            return null;
+        }
+
+        Hml hml = context.getSource();
+        Typing typing = hml.getSamples().get(0).getTyping();
+        Observation observation = new Observation();
+        Code code = new Code();
+
+        code.setName(typing.getGeneFamily());
+        observation.setCode(code);
+
+        return observation;
+    }
 }
