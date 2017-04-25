@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.domain.fhir;
+package org.nmdp.hmlfhirconverter.mapping.fhir;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 4/13/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 4/25/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,23 +24,31 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public class Glstring extends StructureDefinition {
-    private String uri;
-    private String value;
+import io.swagger.model.*;
 
-    public String getUri() {
-        return uri;
-    }
+import org.modelmapper.Converter;
 
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
+import org.modelmapper.spi.MappingContext;
+import org.nmdp.hmlfhirconverter.domain.fhir.Glstring;
 
-    public String getValue() {
-        return value;
-    }
+public class GlStringMap implements Converter<Hml, Glstring> {
 
-    public void setValue(String value) {
-        this.value = value;
+    @Override
+    public Glstring convert(MappingContext<Hml, Glstring> context) {
+        if (context.getSource() == null) {
+            return null;
+        }
+
+        Glstring glstring = new Glstring();
+        Hml hml = context.getSource();
+        Sample sample = hml.getSamples().get(0);
+        Typing typing = sample.getTyping();
+        AlleleAssignment alleleAssignment = typing.getAlleleAssignment();
+        GlString glString = alleleAssignment.getGlString();
+
+        glstring.setUri(glString.getUri());
+        glstring.setValue(glString.getValue());
+
+        return glstring;
     }
 }
