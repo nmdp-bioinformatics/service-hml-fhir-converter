@@ -29,6 +29,9 @@ import io.swagger.model.*;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
+import org.nmdp.hmlfhirconverter.domain.fhir.BackboneElement;
+import org.nmdp.hmlfhirconverter.domain.fhir.Identifier;
+import org.nmdp.hmlfhirconverter.domain.fhir.ReferenceSequenceId;
 import org.nmdp.hmlfhirconverter.domain.fhir.Sequence;
 
 import java.util.ArrayList;
@@ -51,7 +54,16 @@ public class SequenceMap implements Converter<Hml, List<Sequence>> {
         ReferenceSequence referenceSequence = referenceDatabase.getReferenceSequence();
         List<ConsensusSequenceBlock> consensusSequenceBlock = consensusSequence.getConsensusSequenceBlocks();
 
-        
+        Sequence referenceSequenceFhir = new Sequence();
+        BackboneElement backboneElement = new BackboneElement();
+        ReferenceSequenceId referenceSequenceId = new ReferenceSequenceId();
+        Identifier identifier = new Identifier();
+
+        backboneElement.setWindowStart(referenceSequence.getStart());
+        backboneElement.setWindowEnd(referenceSequence.getEnd());
+        identifier.setValue(referenceSequence.getAccession());
+        referenceSequenceId.setIdentifier(identifier);
+        backboneElement.setReferenceSequenceId(referenceSequenceId);
 
         return sequences;
     }

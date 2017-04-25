@@ -25,4 +25,13 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
  */
 
 public class ReferenceSequenceId {
+    private Identifier identifier;
+
+    public Identifier getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(Identifier identifier) {
+        this.identifier = identifier;
+    }
 }
