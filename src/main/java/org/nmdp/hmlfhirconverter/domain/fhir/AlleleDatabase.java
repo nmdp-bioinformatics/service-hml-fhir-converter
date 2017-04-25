@@ -27,4 +27,3 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
 public class AlleleDatabase extends StructureDefinition {
 
 }
-

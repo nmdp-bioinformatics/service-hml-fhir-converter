@@ -25,5 +25,27 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
  */
 
 public class Haploid extends StructureDefinition {
+    private String locus;
+    private String method;
+    private String type;
 
+    public String getLocus() {
+        return locus;
+    }
+
+    public void setLocus(String locus) {
+        this.locus = locus;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

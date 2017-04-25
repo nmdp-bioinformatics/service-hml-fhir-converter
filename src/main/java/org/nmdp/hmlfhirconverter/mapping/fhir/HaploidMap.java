@@ -24,5 +24,35 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public class StructureDefinitionMap {
+import io.swagger.model.Hml;
+import io.swagger.model.Sample;
+import io.swagger.model.Typing;
+import io.swagger.model.AlleleAssignment;
+
+import org.modelmapper.Converter;
+import org.modelmapper.spi.MappingContext;
+
+import org.nmdp.hmlfhirconverter.domain.fhir.Haploid;
+
+public class HaploidMap implements Converter<Hml, Haploid> {
+
+    @Override
+    public Haploid convert(MappingContext<Hml, Haploid> context) {
+        if (context.getSource() == null) {
+            return null;
+        }
+
+        Haploid fhirHaploid = new Haploid();
+        Hml hml = context.getSource();
+        Sample sample = hml.getSamples().get(0);
+        Typing typing = sample.getTyping();
+        AlleleAssignment alleleAssignment = typing.getAlleleAssignment();
+        io.swagger.model.Haploid haploid = alleleAssignment.getHaploid();
+
+        fhirHaploid.setLocus(haploid.getLocus());
+        fhirHaploid.setMethod(haploid.getMethod());
+        fhirHaploid.setType(haploid.getType());
+
+        return fhirHaploid;
+    }
 }
