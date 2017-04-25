@@ -1,7 +1,7 @@
 package org.nmdp.hmlfhirconverter.domain.fhir;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 4/13/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 4/25/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,7 +24,7 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public class Ssp extends Observation {
+public class SbtNgs extends Observation {
     private String locus;
 
     public String getLocus() {

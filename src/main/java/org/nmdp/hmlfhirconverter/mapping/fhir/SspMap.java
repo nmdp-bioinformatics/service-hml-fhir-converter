@@ -1,7 +1,7 @@
-package org.nmdp.hmlfhirconverter.domain.fhir;
+package org.nmdp.hmlfhirconverter.mapping.fhir;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 4/13/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 4/25/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,14 +24,34 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public class Ssp extends Observation {
-    private String locus;
+import io.swagger.model.Hml;
+import io.swagger.model.Sample;
+import io.swagger.model.Typing;
+import io.swagger.model.TypingMethod;
 
-    public String getLocus() {
-        return locus;
-    }
+import org.modelmapper.Converter;
+import org.modelmapper.spi.MappingContext;
 
-    public void setLocus(String locus) {
-        this.locus = locus;
+import org.nmdp.hmlfhirconverter.domain.fhir.Ssp;
+
+public class SspMap implements Converter<Hml, Ssp> {
+
+    @Override
+    public Ssp convert(MappingContext<Hml, Ssp> context) {
+        if (context.getSource() == null) {
+            return null;
+        }
+
+        Ssp ssp = new Ssp();
+        Hml hml = context.getSource();
+        Sample sample = hml.getSamples().get(0);
+        Typing typing = sample.getTyping();
+        TypingMethod typingMethod = typing.getTypingMethod();
+        io.swagger.model.Ssp nmdpSsp = typingMethod.getSsp();
+
+        ssp.setLocus(nmdpSsp.getLocus());
+
+        return ssp;
     }
 }
+

@@ -25,4 +25,13 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
  */
 
 public class Sso extends Observation {
+    private String locus;
+
+    public String getLocus() {
+        return locus;
+    }
+
+    public void setLocus(String locus) {
+        this.locus = locus;
+    }
 }
