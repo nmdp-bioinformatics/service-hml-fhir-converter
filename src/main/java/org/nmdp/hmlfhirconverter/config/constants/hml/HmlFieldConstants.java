@@ -49,6 +49,7 @@ public class HmlFieldConstants {
     public static final String SAMPLE_COLLECTIONMETHOD = "collection-method";
     public static final String SAMPLE_TYPING = "typing";
     public static final String SAMPLE_PROPERTY = "property";
+    public static final String SAMPLE_ID = "id";
 
     //sample: collection-method
     public static final String COLLECTIONMETHOD_DESCRIPTION  = "description";

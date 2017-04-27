@@ -24,14 +24,9 @@ package org.nmdp.hmlfhirconverter.service.conversion.converters;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 
-import io.swagger.model.*;
+
 import io.swagger.model.Allele;
 import io.swagger.model.AlleleAssignment;
 import io.swagger.model.Amplification;
@@ -96,8 +91,9 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         hml.setHmlId(createHmlId(jsonObject.has(HmlFieldConstants.HML_HMLID) ? jsonObject.get(HmlFieldConstants.HML_HMLID).getAsJsonObject() : null));
         hml.setVersion(createVersion(jsonObject.has(HmlFieldConstants.HML_VERSION) ? jsonObject.get(HmlFieldConstants.HML_VERSION).getAsString() : null));
         hml.setProject(createProject(jsonObject.has(HmlFieldConstants.HML_PROJECT) ? jsonObject.get(HmlFieldConstants.HML_PROJECT).getAsJsonObject() : null));
-        hml.setSamples(createSamples(jsonObject.has(HmlFieldConstants.HML_SAMPLE) ? jsonObject.get(HmlFieldConstants.HML_SAMPLE).getAsJsonObject() : null));
-        hml.setReportingCenters(createRepotingCenters(jsonObject.has(HmlFieldConstants.HML_REPORTINGCENTER) ? jsonObject.get(HmlFieldConstants.HML_REPORTINGCENTER).getAsJsonObject() : null));
+        hml.setSamples(PrimitiveParser.isArray(jsonObject,HmlFieldConstants.HML_SAMPLE) ? createSamplesAr(jsonObject.has(HmlFieldConstants.HML_SAMPLE) ? jsonObject.get(HmlFieldConstants.HML_SAMPLE).getAsJsonArray() : null):
+            createSamplesOb(jsonObject.has(HmlFieldConstants.HML_SAMPLE) ? jsonObject.get(HmlFieldConstants.HML_SAMPLE).getAsJsonObject() : null));
+        hml.setReportingCenters(createReportingCenters(jsonObject.has(HmlFieldConstants.HML_REPORTINGCENTER) ? jsonObject.get(HmlFieldConstants.HML_REPORTINGCENTER).getAsJsonObject() : null));
         hml.setProperties(createProperties(jsonObject.has(HmlFieldConstants.HML_PROPERTIES) ? jsonObject.get(HmlFieldConstants.HML_PROPERTIES).getAsJsonObject() : null));
         hml.setTypingTestNames(createTypingTestNames(jsonObject.has(HmlFieldConstants.HML_TYPINGTESTNAME) ? jsonObject.get(HmlFieldConstants.HML_TYPINGTESTNAME).getAsJsonObject() : null));
 
@@ -149,12 +145,11 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         return project;
     }
 
-    private List<Sample> createSamples(JsonObject jsonObject) {
-        List<Sample> samples = new ArrayList<>();
+    private Sample createSample(JsonObject jsonObject)  {
         Sample sample = new Sample();
 
-        if (jsonObject == null) {
-            return samples;
+        if (jsonObject == null)  {
+            return sample;
         }
 
         sample.setId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
@@ -163,12 +158,44 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         sample.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         sample.setCenterCode(jsonObject.has(HmlFieldConstants.SAMPLE_CENTERCODE) ? jsonObject.get(HmlFieldConstants.SAMPLE_CENTERCODE).getAsString() : null);
         sample.setSampleId(jsonObject.has(HmlFieldConstants.MONGO_ID) ? jsonObject.get(HmlFieldConstants.MONGO_ID).getAsString() : null);
-        sample.setTyping(createTyping(jsonObject.has(HmlFieldConstants.SAMPLE_TYPING) ? jsonObject.get(HmlFieldConstants.SAMPLE_TYPING).getAsJsonObject() : null));
+        sample.setTyping(PrimitiveParser.isArray(jsonObject,HmlFieldConstants.SAMPLE_TYPING) ? createTypingsAr(jsonObject.has(HmlFieldConstants.SAMPLE_TYPING) ? jsonObject.get(HmlFieldConstants.SAMPLE_TYPING).getAsJsonArray() : null):
+                createTypingsOb(jsonObject.has(HmlFieldConstants.SAMPLE_TYPING) ? jsonObject.get(HmlFieldConstants.SAMPLE_TYPING).getAsJsonObject() : null));
         sample.setProperties(createProperties(jsonObject.has(HmlFieldConstants.SAMPLE_PROPERTY) ? jsonObject.get(HmlFieldConstants.SAMPLE_PROPERTY).getAsJsonObject() : null));
-        sample.setCollectionMethods(createCollectionMethods(jsonObject.has(HmlFieldConstants.SAMPLE_COLLECTIONMETHOD) ? jsonObject.get(HmlFieldConstants.SAMPLE_COLLECTIONMETHOD).getAsJsonObject() : null));
+        sample.setCollectionMethods(createCollectionMethods(jsonObject.has(HmlFieldConstants.SAMPLE_COLLECTIONMETHOD) ?  PrimitiveParser.isJsonObject(jsonObject, HmlFieldConstants.SAMPLE_COLLECTIONMETHOD) : null));
 
-        samples.add(sample);
+        return sample;
+    }
+
+    private List<Sample> createSamplesAr(JsonArray jsonArray) {
+        List<Sample> samples = new ArrayList<>();
+
+        if (jsonArray == null) {
+            return samples;
+        }
+
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jo = (JsonObject)jsonArray.get(i);
+            samples.add(createSample(jo));
+        }
+        // loop through each element of the array and pass to below as a JsonObject
+        for (JsonElement element : jsonArray) {
+
+            samples.add( createSample((JsonObject)element));
+        }
         return samples;
+    }
+
+    private List<Sample> createSamplesOb(JsonObject jsonObject) {
+        List<Sample> samples = new ArrayList<>();
+
+        if (jsonObject == null) {
+            return samples;
+        }
+
+        samples.add(createSample(jsonObject));
+        return samples;
+
     }
 
     private List<Property> createProperties(JsonObject jsonObject) {
@@ -192,7 +219,7 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         return properties;
     }
 
-    private List<ReportingCenter> createRepotingCenters(JsonObject jsonObject) {
+    private List<ReportingCenter> createReportingCenters(JsonObject jsonObject) {
         List<ReportingCenter> reportingCenters = new ArrayList<>();
         ReportingCenter reportingCenter = new ReportingCenter();
 
@@ -261,12 +288,44 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         typing.setDateUpdated(jsonObject.has(HmlFieldConstants.MONGO_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.MONGO_DATEUPDATED).getAsString()).toDate() : null);
         typing.setDate(jsonObject.has(HmlFieldConstants.TYPING_DATE) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.TYPING_DATE).getAsString()).toDate() : null);
         typing.setGeneFamily(jsonObject.has(HmlFieldConstants.TYPING_GENEFAMILY) ? jsonObject.get(HmlFieldConstants.TYPING_GENEFAMILY).getAsString() : null);
-        typing.setTypingMethod(createTypingMethod(jsonObject.has(HmlFieldConstants.TYPING_TYPINGMETHOD) ? jsonObject.get(HmlFieldConstants.TYPING_TYPINGMETHOD).getAsJsonObject() : null));
+        typing.setTypingMethod(createTypingMethod(jsonObject.has(HmlFieldConstants.TYPING_TYPINGMETHOD) ?  PrimitiveParser.isJsonObject(jsonObject, HmlFieldConstants.TYPING_TYPINGMETHOD) : null));
         typing.setProperties(createProperties(jsonObject.has(HmlFieldConstants.TYPING_PROPERTY) ? jsonObject.get(HmlFieldConstants.TYPING_PROPERTY).getAsJsonObject() : null));
-     typing.setAlleleAssignment(createAlleleAssignment(jsonObject.has(HmlFieldConstants.TYPING_ALLELEASSIGNMENT) ? jsonObject.get(HmlFieldConstants.TYPING_ALLELEASSIGNMENT ).getAsJsonObject() : null));
-        typing.setConsensusSequence(createConsensusSequence(jsonObject.has(HmlFieldConstants.TYPING_CONSENSUSSEQUENCE) ? jsonObject.get(HmlFieldConstants.TYPING_CONSENSUSSEQUENCE).getAsJsonObject() : null));
+        typing.setAlleleAssignment(createAlleleAssignment(jsonObject.has(HmlFieldConstants.TYPING_ALLELEASSIGNMENT) ? PrimitiveParser.isJsonObject(jsonObject, HmlFieldConstants.TYPING_ALLELEASSIGNMENT) : null));
+        typing.setConsensusSequence(createConsensusSequence(jsonObject.has(HmlFieldConstants.TYPING_CONSENSUSSEQUENCE) ? PrimitiveParser.isJsonObject(jsonObject, HmlFieldConstants.TYPING_CONSENSUSSEQUENCE) : null));
 
         return typing;
+    }
+
+    private List<Typing> createTypingsAr(JsonArray jsonArray) {
+        List<Typing> typings = new ArrayList<>();
+
+        if (jsonArray == null) {
+            return typings;
+        }
+
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jo = (JsonObject)jsonArray.get(i);
+            typings.add(createTyping(jo));
+        }
+        // loop through each element of the array and pass to below as a JsonObject
+        for (JsonElement element : jsonArray) {
+
+            typings.add( createTyping((JsonObject)element));
+        }
+        return typings;
+    }
+
+    private List<Typing> createTypingsOb(JsonObject jsonObject) {
+        List<Typing> typings = new ArrayList<>();
+
+        if (jsonObject == null) {
+            return typings;
+        }
+
+        typings.add(createTyping(jsonObject));
+        return typings;
+
     }
 
     private ConsensusSequence createConsensusSequence(JsonObject jsonObject) {
@@ -282,44 +341,72 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         consensusSequence.setDateUpdated(jsonObject.has(HmlFieldConstants.CONSENSUSSEQ_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.CONSENSUSSEQ_DATEUPDATED).getAsString()).toDate() : null);
         consensusSequence.setDate(jsonObject.has(HmlFieldConstants.CONSENSUSSEQ_DATE) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.CONSENSUSSEQ_DATE).getAsString()).toDate() : null);
         consensusSequence.setReferenceDatabase(createReferenceDatabase(jsonObject.has(HmlFieldConstants.CONSENSUSSEQ_REFERENCEDB) ? jsonObject.get(HmlFieldConstants.CONSENSUSSEQ_REFERENCEDB).getAsJsonObject() : null));
-        consensusSequence.setConsensusSequenceBlocks(createConsensusSequenceBlocks(jsonObject.has(HmlFieldConstants.CONSENSUSSEQ_CONSENSUSSEQUENCEBLOCK) ? jsonObject.get(HmlFieldConstants.CONSENSUSSEQ_CONSENSUSSEQUENCEBLOCK).getAsJsonArray() : null));
+        consensusSequence.setConsensusSequenceBlocks(PrimitiveParser.isArray(jsonObject,HmlFieldConstants.CONSENSUSSEQ_CONSENSUSSEQUENCEBLOCK) ? createConsensusSequenceBlocksAr(jsonObject.has(HmlFieldConstants.CONSENSUSSEQ_CONSENSUSSEQUENCEBLOCK) ? jsonObject.get(HmlFieldConstants.CONSENSUSSEQ_CONSENSUSSEQUENCEBLOCK).getAsJsonArray() : null):
+                createConsensusSequenceBlocksOb(jsonObject.has(HmlFieldConstants.CONSENSUSSEQ_CONSENSUSSEQUENCEBLOCK) ? jsonObject.get(HmlFieldConstants.CONSENSUSSEQ_CONSENSUSSEQUENCEBLOCK).getAsJsonObject() : null));
 
         return consensusSequence;
     }
 
-    private List<ConsensusSequenceBlock> createConsensusSequenceBlocks(JsonArray jsonArray) {
+    private ConsensusSequenceBlock createConsensusSequenceBlock(JsonObject jsonObject) {
+        ConsensusSequenceBlock consensusSequenceBlock = new ConsensusSequenceBlock();
+        if (jsonObject == null) {
+            return  consensusSequenceBlock;
+        }
+
+        consensusSequenceBlock.setId(jsonObject.has(HmlFieldConstants.CSB_ID) ? jsonObject.get(HmlFieldConstants.CSB_ID).getAsString() : null);
+        consensusSequenceBlock.setActive(jsonObject.has(HmlFieldConstants.CSB_ACTIVE) ? jsonObject.get(HmlFieldConstants.CSB_ACTIVE).getAsBoolean() : null);
+        consensusSequenceBlock.setContinuity(jsonObject.has(HmlFieldConstants.CSB_CONTINUITY) ? jsonObject.get(HmlFieldConstants.CSB_CONTINUITY).getAsBoolean() : null);
+        consensusSequenceBlock.setDateCreated(jsonObject.has(HmlFieldConstants.CSB_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.CSB_DATECREATED).getAsString()).toDate() : null);
+        consensusSequenceBlock.setDateUpdated(jsonObject.has(HmlFieldConstants.CSB_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.CSB_DATEUPDATED).getAsString()).toDate() : null);
+        consensusSequenceBlock.setDescription(jsonObject.has(HmlFieldConstants.CSB_DESCRIPTION) ? jsonObject.get(HmlFieldConstants.CSB_DESCRIPTION).getAsString() : null);
+        consensusSequenceBlock.setEnd(jsonObject.has(HmlFieldConstants.CSB_END) ? jsonObject.get(HmlFieldConstants.CSB_END).getAsInt() : null);
+        consensusSequenceBlock.setExpectedCopyNumber(jsonObject.has(HmlFieldConstants.CSB_EXPECTEDCOPYNUM) ? jsonObject.get(HmlFieldConstants.CSB_EXPECTEDCOPYNUM).getAsInt() : null);
+        consensusSequenceBlock.setPhaseSet(jsonObject.has(HmlFieldConstants.CSB_PHASESET) ? jsonObject.get(HmlFieldConstants.CSB_PHASESET).getAsString() : null);
+        consensusSequenceBlock.setPhasingGroup(jsonObject.has(HmlFieldConstants.CSB_PHASINGGROUP) ? jsonObject.get(HmlFieldConstants.CSB_PHASINGGROUP).getAsString() : null);
+        consensusSequenceBlock.setReferenceSequenceId(jsonObject.has(HmlFieldConstants.CSB_REFSEQID) ? jsonObject.get(HmlFieldConstants.CSB_REFSEQID).getAsString() : null);
+        consensusSequenceBlock.setSequence(createSequence(jsonObject.has(HmlFieldConstants.CSB_SEQUENCE) ? jsonObject.get(HmlFieldConstants.CSB_SEQUENCE).getAsString() : null));
+        consensusSequenceBlock.setStart(jsonObject.has(HmlFieldConstants.CSB_START) ? jsonObject.get(HmlFieldConstants.CSB_START).getAsInt() : null);
+        consensusSequenceBlock.setStrand(jsonObject.has(HmlFieldConstants.CSB_STRAND) ? jsonObject.get(HmlFieldConstants.CSB_STRAND).getAsString() : null);
+        consensusSequenceBlock.setVariant(PrimitiveParser.isArray(jsonObject,HmlFieldConstants.CSB_VARIANT) ? createVariantsAr(jsonObject.has(HmlFieldConstants.CSB_VARIANT) ? jsonObject.get(HmlFieldConstants.CSB_VARIANT).getAsJsonArray() : null):
+                createVariantsOb(jsonObject.has(HmlFieldConstants.CSB_VARIANT) ? jsonObject.get(HmlFieldConstants.CSB_VARIANT).getAsJsonObject() : null));
+        consensusSequenceBlock.setSequenceQuality(createSequenceQuality(jsonObject.has(HmlFieldConstants.CSB_SEQQUALITY) ? jsonObject.get(HmlFieldConstants.CSB_SEQQUALITY).getAsJsonObject() : null));
+
+
+        return consensusSequenceBlock;
+    }
+
+    private List<ConsensusSequenceBlock> createConsensusSequenceBlocksAr(JsonArray jsonArray) {
         List<ConsensusSequenceBlock> consensusSequenceBlocks = new ArrayList<>();
 
         if (jsonArray == null) {
-            return  consensusSequenceBlocks;
+            return consensusSequenceBlocks;
         }
 
-        for (Integer i = 0; i < jsonArray.size(); i++) {
-            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
-            ConsensusSequenceBlock consensusSequenceBlock = new ConsensusSequenceBlock();
 
-            consensusSequenceBlock.setId(jsonObject.has(HmlFieldConstants.CSB_ID) ? jsonObject.get(HmlFieldConstants.CSB_ID).getAsString() : null);
-            consensusSequenceBlock.setActive(jsonObject.has(HmlFieldConstants.CSB_ACTIVE) ? jsonObject.get(HmlFieldConstants.CSB_ACTIVE).getAsBoolean() : null);
-            consensusSequenceBlock.setContinuity(jsonObject.has(HmlFieldConstants.CSB_CONTINUITY) ? jsonObject.get(HmlFieldConstants.CSB_CONTINUITY).getAsBoolean() : null);
-            consensusSequenceBlock.setDateCreated(jsonObject.has(HmlFieldConstants.CSB_DATECREATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.CSB_DATECREATED).getAsString()).toDate() : null);
-            consensusSequenceBlock.setDateUpdated(jsonObject.has(HmlFieldConstants.CSB_DATEUPDATED) ? formatter.parseDateTime(jsonObject.get(HmlFieldConstants.CSB_DATEUPDATED).getAsString()).toDate() : null);
-            consensusSequenceBlock.setDescription(jsonObject.has(HmlFieldConstants.CSB_DESCRIPTION) ? jsonObject.get(HmlFieldConstants.CSB_DESCRIPTION).getAsString() : null);
-            consensusSequenceBlock.setEnd(jsonObject.has(HmlFieldConstants.CSB_END) ? jsonObject.get(HmlFieldConstants.CSB_END).getAsInt() : null);
-            consensusSequenceBlock.setExpectedCopyNumber(jsonObject.has(HmlFieldConstants.CSB_EXPECTEDCOPYNUM) ? jsonObject.get(HmlFieldConstants.CSB_EXPECTEDCOPYNUM).getAsInt() : null);
-            consensusSequenceBlock.setPhaseSet(jsonObject.has(HmlFieldConstants.CSB_PHASESET) ? jsonObject.get(HmlFieldConstants.CSB_PHASESET).getAsString() : null);
-            consensusSequenceBlock.setPhasingGroup(jsonObject.has(HmlFieldConstants.CSB_PHASINGGROUP) ? jsonObject.get(HmlFieldConstants.CSB_PHASINGGROUP).getAsString() : null);
-            consensusSequenceBlock.setReferenceSequenceId(jsonObject.has(HmlFieldConstants.CSB_REFSEQID) ? jsonObject.get(HmlFieldConstants.CSB_REFSEQID).getAsString() : null);
-            consensusSequenceBlock.setSequence(createSequence(jsonObject.has(HmlFieldConstants.CSB_SEQUENCE) ? jsonObject.get(HmlFieldConstants.CSB_SEQUENCE).getAsString() : null));
-            consensusSequenceBlock.setStart(jsonObject.has(HmlFieldConstants.CSB_START) ? jsonObject.get(HmlFieldConstants.CSB_START).getAsInt() : null);
-            consensusSequenceBlock.setStrand(jsonObject.has(HmlFieldConstants.CSB_STRAND) ? jsonObject.get(HmlFieldConstants.CSB_STRAND).getAsString() : null);
-            consensusSequenceBlock.setVariant(createVariant(jsonObject.has(HmlFieldConstants.CSB_VARIANT) ? jsonObject.get(HmlFieldConstants.CSB_VARIANT).getAsJsonObject() : null));
-            consensusSequenceBlock.setSequenceQuality(createSequenceQuality(jsonObject.has(HmlFieldConstants.CSB_SEQQUALITY) ? jsonObject.get(HmlFieldConstants.CSB_SEQQUALITY).getAsJsonObject() : null));
-
-            consensusSequenceBlocks.add(consensusSequenceBlock);
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jo = (JsonObject)jsonArray.get(i);
+            consensusSequenceBlocks.add(createConsensusSequenceBlock(jo));
         }
+        // loop through each element of the array and pass to below as a JsonObject
+        for (JsonElement element : jsonArray) {
 
+            consensusSequenceBlocks.add( createConsensusSequenceBlock((JsonObject)element));
+        }
         return consensusSequenceBlocks;
     }
+
+    private List<ConsensusSequenceBlock> createConsensusSequenceBlocksOb(JsonObject jsonObject) {
+        List<ConsensusSequenceBlock> consensusSequenceBlocks = new ArrayList<>();
+
+        if (jsonObject == null) {
+            return consensusSequenceBlocks;
+        }
+
+        consensusSequenceBlocks.add(createConsensusSequenceBlock(jsonObject));
+        return consensusSequenceBlocks;
+
+    }
+
 
     private Variant createVariant(JsonObject jsonObject) {
         Variant variant = new Variant();
@@ -346,6 +433,39 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         return variant;
     }
+
+    private List<Variant> createVariantsAr(JsonArray jsonArray) {
+        List<Variant> variants = new ArrayList<>();
+
+        if (jsonArray == null) {
+            return variants;
+        }
+
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jo = (JsonObject)jsonArray.get(i);
+            variants.add(createVariant(jo));
+        }
+        // loop through each element of the array and pass to below as a JsonObject
+        for (JsonElement element : jsonArray) {
+
+            variants.add( createVariant((JsonObject)element));
+        }
+        return variants;
+    }
+
+    private List<Variant> createVariantsOb(JsonObject jsonObject) {
+        List<Variant> variants = new ArrayList<>();
+
+        if (jsonObject == null) {
+            return variants;
+        }
+
+        variants.add(createVariant(jsonObject));
+        return variants;
+
+    }
+
 
     private VariantEffect createVariantEffect(JsonObject jsonObject) {
         VariantEffect variantEffect = new VariantEffect();
@@ -434,7 +554,10 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         alleleAssignment.setProperties(createProperties(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_PROPERTY) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_PROPERTY).getAsJsonObject() : null));
         alleleAssignment.setGenotypes(createGenotypes(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_GENOTYPE) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_GENOTYPE).getAsJsonObject() : null));
         alleleAssignment.setGlString(createGlString(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_GLSTRING) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_GLSTRING).getAsString() : null));
-        alleleAssignment.setHaploid(createHaploid(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_HAPLOID) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_HAPLOID).getAsJsonObject() : null));
+        alleleAssignment.setHaploid(PrimitiveParser.isArray(jsonObject,HmlFieldConstants.ALLELEASSIGNMENT_HAPLOID) ? createHaploidsAr(jsonObject.has(HmlFieldConstants.HML_SAMPLE) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_HAPLOID).getAsJsonArray() : null):
+                createHaploidsOb(jsonObject.has(HmlFieldConstants.ALLELEASSIGNMENT_HAPLOID) ? jsonObject.get(HmlFieldConstants.ALLELEASSIGNMENT_HAPLOID).getAsJsonObject() : null));
+
+
 
         return alleleAssignment;
     }
@@ -471,6 +594,38 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         haploid.setType(jsonObject.has(HmlFieldConstants.HAPLOID_TYPE) ? jsonObject.get(HmlFieldConstants.HAPLOID_TYPE).getAsString() : null);
 
         return haploid;
+    }
+
+    private List<Haploid> createHaploidsAr(JsonArray jsonArray) {
+        List<Haploid> haploids = new ArrayList<>();
+
+        if (jsonArray == null) {
+            return haploids;
+        }
+
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jo = (JsonObject)jsonArray.get(i);
+            haploids.add(createHaploid(jo));
+        }
+        // loop through each element of the array and pass to below as a JsonObject
+        for (JsonElement element : jsonArray) {
+
+            haploids.add((Haploid) createHaploidsOb((JsonObject)element));
+        }
+        return haploids;
+    }
+
+    private List<Haploid> createHaploidsOb(JsonObject jsonObject) {
+        List<Haploid> haploids = new ArrayList<>();
+
+        if (jsonObject == null) {
+            return haploids;
+        }
+
+        haploids.add(createHaploid(jsonObject));
+        return haploids;
+
     }
 
     private List<Genotype> createGenotypes(JsonObject jsonObject) {
@@ -772,4 +927,6 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         collectionMethods.add(collectionMethod);
         return collectionMethods;
     }
+
+
 }
