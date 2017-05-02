@@ -45,26 +45,84 @@ public class SequenceMap implements Converter<Hml, List<Sequence>> {
             return null;
         }
 
-        List<Sequence> sequences = new ArrayList<>();
         Hml hml = context.getSource();
         Sample sample = hml.getSamples().get(0);
         Typing typing = sample.getTyping();
         ConsensusSequence consensusSequence = typing.getConsensusSequence();
         ReferenceDatabase referenceDatabase = consensusSequence.getReferenceDatabase();
-        ReferenceSequence referenceSequence = referenceDatabase.getReferenceSequence();
-        List<ConsensusSequenceBlock> consensusSequenceBlock = consensusSequence.getConsensusSequenceBlocks();
 
-        Sequence referenceSequenceFhir = new Sequence();
+        return createSequences(referenceDatabase);
+    }
+
+    private List<Sequence> createSequences(ReferenceDatabase element) {
+        List<Sequence> sequences = new ArrayList<>();
+
+        if (element == null) {
+            return sequences;
+        }
+
+        Sequence nameSequence = createSequence(element.getName());
+        Sequence descriptionSequence = createSequence(element.getDescription());
+        Sequence versionSequence = createSequence(element.getVersion());
+        Sequence uriSequence = createSequence(element.getUri());
+
+        if (nameSequence != null) { sequences.add(nameSequence); }
+        if (descriptionSequence != null) { sequences.add(descriptionSequence); }
+        if (versionSequence != null) { sequences.add(versionSequence); }
+        if (uriSequence != null) { sequences.add(uriSequence); }
+
+        for (Sequence sequence : createSequences(element.getReferenceSequence())) {
+            sequences.add(sequence);
+        }
+
+        return sequences;
+    }
+
+    private List<Sequence> createSequences(ReferenceSequence element) {
+        List<Sequence> sequences = new ArrayList();
+
+        if (element == null) {
+            return sequences;
+        }
+
+        Sequence idSequence = createSequence(element.getReferenceSequenceId());
+        Sequence nameSequence = createSequence(element.getName());
+        Sequence descriptionSequence = createSequence(element.getDescription());
+        Sequence uriSequence = createSequence(element.getUri());
+        String strand = element.getStrand();
+
+        if (strand != null && !strand.isEmpty()) {
+            Sequence sequence = new Sequence();
+            BackboneElement backboneElement = new BackboneElement();
+
+            backboneElement.setStrand(Integer.parseInt(strand));
+            sequence.setReferenceSeq(backboneElement);
+            sequences.add(sequence);
+        }
+
+        if (idSequence != null) { sequences.add(idSequence); }
+        if (nameSequence != null) { sequences.add(nameSequence); }
+        if (descriptionSequence != null) { sequences.add(descriptionSequence); }
+        if (uriSequence != null) { sequences.add(uriSequence); }
+
+        return sequences;
+    }
+
+    private Sequence createSequence(String refSeqId) {
+        if (refSeqId.isEmpty() || refSeqId == null) {
+            return null;
+        }
+
+        Sequence sequence = new Sequence();
         BackboneElement backboneElement = new BackboneElement();
         ReferenceSequenceId referenceSequenceId = new ReferenceSequenceId();
         Identifier identifier = new Identifier();
 
-        backboneElement.setWindowStart(referenceSequence.getStart());
-        backboneElement.setWindowEnd(referenceSequence.getEnd());
-        identifier.setValue(referenceSequence.getAccession());
+        identifier.setValue(refSeqId);
         referenceSequenceId.setIdentifier(identifier);
         backboneElement.setReferenceSequenceId(referenceSequenceId);
+        sequence.setReferenceSeq(backboneElement);
 
-        return sequences;
+        return sequence;
     }
 }
