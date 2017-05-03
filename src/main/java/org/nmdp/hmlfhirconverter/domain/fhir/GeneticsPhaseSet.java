@@ -1,7 +1,7 @@
 package org.nmdp.hmlfhirconverter.domain.fhir;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 4/25/17.
+ * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 5/3/17.
  * <p>
  * service-hmlFhirConverter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
@@ -24,14 +24,23 @@ package org.nmdp.hmlfhirconverter.domain.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-public class Score {
-    private String value;
+public class GeneticsPhaseSet extends Observation {
+    private String phasingGroup;
+    private String phaseSet;
 
-    public void setValue(String value) {
-        this.value = value;
+    public String getPhasingGroup() {
+        return phasingGroup;
     }
 
-    public String getValue() {
-        return value;
+    public void setPhasingGroup(String phasingGroup) {
+        this.phasingGroup = phasingGroup;
+    }
+
+    public String getPhaseSet() {
+        return phaseSet;
+    }
+
+    public void setPhaseSet(String phaseSet) {
+        this.phaseSet = phaseSet;
     }
 }

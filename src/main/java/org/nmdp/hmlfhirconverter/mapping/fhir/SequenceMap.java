@@ -26,12 +26,11 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
 
 import io.swagger.model.*;
 
+import io.swagger.model.Variant;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
-import org.nmdp.hmlfhirconverter.domain.fhir.BackboneElement;
-import org.nmdp.hmlfhirconverter.domain.fhir.Identifier;
-import org.nmdp.hmlfhirconverter.domain.fhir.ReferenceSequenceId;
+import org.nmdp.hmlfhirconverter.domain.fhir.*;
 import org.nmdp.hmlfhirconverter.domain.fhir.Sequence;
 
 import java.util.ArrayList;
@@ -49,9 +48,21 @@ public class SequenceMap implements Converter<Hml, List<Sequence>> {
         Sample sample = hml.getSamples().get(0);
         Typing typing = sample.getTyping();
         ConsensusSequence consensusSequence = typing.getConsensusSequence();
+        List<ConsensusSequenceBlock> consensusSequenceBlocks = consensusSequence.getConsensusSequenceBlocks();
         ReferenceDatabase referenceDatabase = consensusSequence.getReferenceDatabase();
+        List<Sequence> sequences = createSequences(referenceDatabase);
 
-        return createSequences(referenceDatabase);
+        for (ConsensusSequenceBlock consensusSequenceBlock : consensusSequenceBlocks) {
+            Sequence consensusBlockSequence = createSequence(consensusSequenceBlock.getVariant());
+            Sequence sequenceQualitySequence = createSequence(consensusSequenceBlock.getSequenceQuality());
+
+            if (consensusBlockSequence != null) {
+                sequences.add(consensusBlockSequence);
+                sequences.add(sequenceQualitySequence);
+            }
+        }
+
+        return sequences;
     }
 
     private List<Sequence> createSequences(ReferenceDatabase element) {
@@ -122,6 +133,46 @@ public class SequenceMap implements Converter<Hml, List<Sequence>> {
         referenceSequenceId.setIdentifier(identifier);
         backboneElement.setReferenceSequenceId(referenceSequenceId);
         sequence.setReferenceSeq(backboneElement);
+
+        return sequence;
+    }
+
+    private Sequence createSequence(SequenceQuality sequenceQuality) {
+        if (sequenceQuality == null) {
+            return null;
+        }
+
+        Sequence sequence = new Sequence();
+        Quality quality = new Quality();
+        Repository repository = new Repository();
+
+        quality.setStart(sequenceQuality.getSequenceStart());
+        quality.setEnd(sequenceQuality.getSequenceEnd());
+        repository.setUri(sequenceQuality.getQualityScore());
+        sequence.setQuality(quality);
+        sequence.setRepository(repository);
+
+        return sequence;
+    }
+
+    private Sequence createSequence(Variant variant) {
+        if (variant == null) {
+            return null;
+        }
+
+        Sequence sequence = new Sequence();
+        org.nmdp.hmlfhirconverter.domain.fhir.Variant fhirVariant = new org.nmdp.hmlfhirconverter.domain.fhir.Variant();
+        Quality quality = new Quality();
+        Score score = new Score();
+
+        fhirVariant.setStart(variant.getStart());
+        fhirVariant.setEnd(variant.getEnd());
+        fhirVariant.setReferenceAllele(variant.getReferenceBases());
+        fhirVariant.setObservedAllele(variant.getAlternateBases());
+        score.setValue(variant.getQualityScore());
+        quality.setScore(score);
+        sequence.setQuality(quality);
+        sequence.setVariant(fhirVariant);
 
         return sequence;
     }
