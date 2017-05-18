@@ -45,9 +45,9 @@ import io.swagger.api.NotFoundException;
 import io.swagger.model.Hml;
 import io.swagger.model.TypeaheadQuery;
 import io.swagger.api.HmlApi;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 
 import org.apache.log4j.Logger;
@@ -166,7 +166,10 @@ public class HmlController implements HmlApi {
         try {
             HmlToFhirConversionService conversionService = new HmlToFhirConversionServiceImpl();
             org.nmdp.hmlfhirconverter.domain.Hml hml = conversionService.convertHmlToFhir(hmlXml);
-            return () -> new ResponseEntity<>(hml.toDto(hml), HttpStatus.OK);
+            List<Hml> hmls = new ArrayList<>();
+            hmls.add(hml.toDto(hml));
+            return () -> new ResponseEntity<>(hmlService.createItems(hmls)
+                    .stream().filter(Objects::nonNull).filter(s -> s.equals("id")).findFirst().get(), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error converting to Fhir.", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -23,6 +23,7 @@ public class PrimitiveParser {
         try {
             Integer v = Integer.parseInt(value);
             return v > 0;
+
         } catch (Exception ex) {
             LOG.error("Error parsing string to integer", ex);
             throw ex;
@@ -33,6 +34,7 @@ public class PrimitiveParser {
         try {
             Integer v1 = Integer.parseInt(value2);
             return v1;
+
         } catch (Exception ex) {
             LOG.error("Error parsing string to integer", ex);
             throw ex;
@@ -55,16 +57,13 @@ public class PrimitiveParser {
         Object jobj = jsonObject.get(propertyName);
 
         try {
-
             if (jobj instanceof JsonArray) {
                 return true;
             }
-
             return false;
 
         } catch (Exception ex) {
             LOG.error("Error obtaining field from JsonObject.", ex);
-
             return false;
         }
 
@@ -72,21 +71,16 @@ public class PrimitiveParser {
 
     public static JsonObject isJsonObject(JsonObject jsonObject, String propertyName)  {
         try {
-
             Object jobj1 = jsonObject.get(propertyName);
 
             if (jobj1 instanceof JsonObject) {
-
                 return ((JsonObject) jobj1).getAsJsonObject();
             }
-
             return null;
 
         }   catch (Exception ex) {
-
             LOG.error("Error parsing JsonObject.", ex);
             return null;
-
         }
     }
 
