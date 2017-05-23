@@ -25,8 +25,6 @@ package org.nmdp.hmlfhirconverter.controller;
  */
 
 import org.nmdp.hmlfhirconverter.service.HmlService;
-import org.nmdp.hmlfhirconverter.service.conversion.HmlToFhirConversionService;
-import org.nmdp.hmlfhirconverter.service.conversion.HmlToFhirConversionServiceImpl;
 import org.nmdp.hmlfhirconverter.util.Converters;
 
 import org.nmdp.hmlfhirconverter.util.MappingConverter;
@@ -157,19 +155,6 @@ public class HmlController implements HmlApi {
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);
-            return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @RequestMapping(path = "/convert", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public Callable<ResponseEntity<Object>> convertToFhir(@RequestBody String hmlXml) throws Exception {
-        try {
-            HmlToFhirConversionService conversionService = new HmlToFhirConversionServiceImpl();
-            conversionService.convertHmlToFhir(hmlXml);
-            org.nmdp.hmlfhirconverter.domain.Hml hml = new org.nmdp.hmlfhirconverter.domain.Hml();
-            return () -> new ResponseEntity<>(hml.toDto(hml), HttpStatus.OK);
-        } catch (Exception ex) {
-            LOG.error("Error converting to Fhir.", ex);
             return () -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

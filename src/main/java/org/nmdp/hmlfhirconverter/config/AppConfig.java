@@ -1,9 +1,9 @@
-package org.nmdp.hmlfhirconverter.service.conversion;
+package org.nmdp.hmlfhirconverter.config;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 3/14/17.
+ * Created by Andrew S. Brown, Ph.D., <andrew@nmdp.org>, on 5/23/17.
  * <p>
- * service-hmlFhirConverter
+ * service-hml-fhir-converter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
  * <p>
  * This library is free software; you can redistribute it and/or modify it
@@ -24,14 +24,25 @@ package org.nmdp.hmlfhirconverter.service.conversion;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.servicekafkaproducermodel.models.KafkaMessage;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-import org.springframework.web.multipart.MultipartFile;
+import javax.servlet.MultipartConfigElement;
 
-import java.util.List;
+@Configuration
+@ComponentScan
+@EnableAutoConfiguration
+public class AppConfig {
 
-public interface HmlToFhirConversionService {
-    void convertHmlToFhir(String hmlXml);
-    void produceKafkaMessages(List<KafkaMessage> messages);
-    void convertHmlFileToFhir(MultipartFile file);
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setMaxFileSize("10MB");
+        factory.setMaxRequestSize("1MB");
+
+        return factory.createMultipartConfig();
+    }
 }

@@ -1,9 +1,11 @@
-package org.nmdp.hmlfhirconverter.service.conversion;
+package org.nmdp.hmlfhirconverter.kafka.config;
+
+import org.nmdp.hmlfhirconverter.config.KafkaProducerConfiguration;
 
 /**
- * Created by Andrew S. Brown, Ph.D., <abrown3@nmdp.org>, on 3/14/17.
+ * Created by Andrew S. Brown, Ph.D., <andrew@nmdp.org>, on 5/22/17.
  * <p>
- * service-hmlFhirConverter
+ * service-hml-fhir-converter
  * Copyright (c) 2012-2017 National Marrow Donor Program (NMDP)
  * <p>
  * This library is free software; you can redistribute it and/or modify it
@@ -24,14 +26,29 @@ package org.nmdp.hmlfhirconverter.service.conversion;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.servicekafkaproducermodel.models.KafkaMessage;
+import java.util.Properties;
 
-import org.springframework.web.multipart.MultipartFile;
+public class KafkaMessageProducerConfiguration {
 
-import java.util.List;
+    private final Properties properties;
+    private final String topic;
+    private final Object key;
 
-public interface HmlToFhirConversionService {
-    void convertHmlToFhir(String hmlXml);
-    void produceKafkaMessages(List<KafkaMessage> messages);
-    void convertHmlFileToFhir(MultipartFile file);
+    public KafkaMessageProducerConfiguration(Properties properties, String topic, Object key) {
+        this.properties = properties;
+        this.topic = topic;
+        this.key = key;
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public Object getKey() {
+        return key;
+    }
 }

@@ -27,34 +27,74 @@ package org.nmdp.hmlfhirconverter.service.conversion;
 
 import io.swagger.model.Hml;
 
+import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
 
+import org.nmdp.hmlfhirconverter.config.KafkaProducerConfiguration;
 import org.nmdp.hmlfhirconverter.domain.fhir.FhirMessage;
 import org.nmdp.hmlfhirconverter.domain.fhir.Patient;
 import org.nmdp.hmlfhirconverter.domain.fhir.Specimen;
+import org.nmdp.hmlfhirconverter.kafka.KafkaMessageProducer;
+import org.nmdp.hmlfhirconverter.kafka.config.KafkaMessageProducerConfiguration;
 import org.nmdp.hmlfhirconverter.mapping.fhir.PatientMap;
 import org.nmdp.hmlfhirconverter.mapping.fhir.SpecimenMap;
 import org.nmdp.hmlfhirconverter.util.HmlToFhirConverter;
+import org.nmdp.servicekafkaproducermodel.models.KafkaMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
+@Service
 public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionService {
+
+    private final KafkaMessageProducerConfiguration config;
+    private final static Logger LOG = Logger.getLogger(HmlToFhirConversionServiceImpl.class);
+
+    @Autowired
+    public HmlToFhirConversionServiceImpl(@Qualifier("kafkaProducerConfiguration")
+        KafkaProducerConfiguration kafkaProducerConfiguration) {
+        config = new KafkaMessageProducerConfiguration(
+            kafkaProducerConfiguration.getProducerConfiguration(),
+            kafkaProducerConfiguration.getTopic(),
+            kafkaProducerConfiguration.getKey()
+        );
+    }
+
+    public void produceKafkaMessages(List<KafkaMessage> messages) {
+        KafkaMessageProducer producer = new KafkaMessageProducer(config);
+        producer.send(messages);
+    }
+
+    public void convertHmlFileToFhir(MultipartFile file) {
+        try {
+            String xml = new String(file.getBytes());
+            Object xmlObj = HmlToFhirConverter.convertXmlToObject(xml);
+        } catch (Exception ex) {
+            LOG.error("Error converting byte[] to string.", ex);
+        }
+    }
 
     public void convertHmlToFhir(String hmlXml) {
         Hml hml = HmlToFhirConverter.convertStringToXml(hmlXml);
-        FhirMessage fhir = mapHmlToFhir(hml);
+        //FhirMessage fhir = mapHmlToFhir(hml);
     }
 
-    private FhirMessage mapHmlToFhir(Hml hml) {
-        ModelMapper mapper = new ModelMapper();
-        FhirMessage message = new FhirMessage();
-        Patient patient = new Patient();
-        Specimen specimen = new Specimen();
-
-        mapper.addMappings(new PatientMap());
-        mapper.addConverter(new SpecimenMap());
-
-        mapper.map(hml, patient);
-        mapper.map(hml, specimen);
-
-        return message;
-    }
+//    private FhirMessage mapHmlToFhir(Hml hml) {
+//        ModelMapper mapper = new ModelMapper();
+//        FhirMessage message = new FhirMessage();
+//        Patient patient = new Patient();
+//        Specimen specimen = new Specimen();
+//
+//        mapper.addMappings(new PatientMap());
+//        mapper.addConverter(new SpecimenMap());
+//
+//        mapper.map(hml, patient);
+//        mapper.map(hml, specimen);
+//
+//        return message;
+//    }
 }

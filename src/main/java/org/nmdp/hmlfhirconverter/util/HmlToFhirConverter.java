@@ -37,6 +37,24 @@ import org.nmdp.hmlfhirconverter.service.conversion.converters.HmlXmlDeserialize
 
 import org.springframework.core.convert.ConversionException;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
+
+import jdk.internal.org.xml.sax.SAXException;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import java.io.StringReader;
+import java.net.URL;
+
 public class HmlToFhirConverter {
 
     private static Logger LOG = Logger.getLogger(HmlToFhirConverter.class);
@@ -58,12 +76,89 @@ public class HmlToFhirConverter {
         }
     }
 
+    public static Object convertXmlToObject(String xml) throws ConversionException {
+        try {
+            if (isValidXml(xml)) {
+                Document document = loadXml(xml);
+                NodeList hmlNodes = document.getElementsByTagName("ns2:hml");
+
+                for (Integer i = 0; i < hmlNodes.getLength(); i++) {
+                    Node node = hmlNodes.item(i);
+                    String hmlString = node.getNodeValue();
+
+                    if (isValidHml(hmlString, "")) {
+                        Hml hml = convertStringToXml(hmlString);
+                    }
+                }
+            }
+            JsonElement json = new JsonPrimitive(xml);
+            return json;
+        } catch (Exception ex) {
+            LOG.error("Error converting xml to Object.", ex);
+            throw (ConversionException)ex;
+        }
+    }
+
     private static JSONObject convertXmlStringToJson(String xml) throws ConversionException {
         try {
             return XML.toJSONObject(xml);
         } catch (Exception ex) {
             LOG.error("Error parsing HML to Json.", ex);
             throw (ConversionException)ex;
+        }
+    }
+
+    private static Document loadXml(String xml) {
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            InputSource inputSource = new InputSource(new StringReader(xml));
+
+            return documentBuilder.parse(inputSource);
+        } catch (Exception ex) {
+            LOG.error("Error converting string to xml object.", ex);
+        }
+
+        return null;
+    }
+
+    private static Boolean isValidHml(String hml, String url) {
+        Boolean valid = false;
+
+        try {
+            URL schemaUrl = new URL(url);
+            SchemaFactory schemaFactory = SchemaFactory.newInstance("");
+            Schema schema = schemaFactory.newSchema(schemaUrl);
+            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+
+            saxParserFactory.setSchema(schema);
+
+            SAXParser saxParser = saxParserFactory.newSAXParser();
+            XMLReader xmlReader = saxParser.getXMLReader();
+
+            xmlReader.parse(new InputSource(new StringReader(hml)));
+            valid = true;
+        } catch (Exception ex) {
+            LOG.error("Error validating HML against schema.", ex);
+        } finally {
+            return valid;
+        }
+    }
+
+    private static Boolean isValidXml(String xml) {
+        Boolean valid = false;
+
+        try {
+            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+            SAXParser saxParser = saxParserFactory.newSAXParser();
+            XMLReader xmlReader = saxParser.getXMLReader();
+
+            xmlReader.parse(new InputSource(new StringReader(xml)));
+            valid = true;
+        } catch (Exception ex) {
+            LOG.error("General exception validating XML.", ex);
+        } finally {
+            return valid;
         }
     }
 }
