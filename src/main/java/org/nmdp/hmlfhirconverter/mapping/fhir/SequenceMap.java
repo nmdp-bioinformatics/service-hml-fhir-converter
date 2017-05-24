@@ -46,19 +46,25 @@ public class SequenceMap implements Converter<Hml, List<Sequence>> {
 
         Hml hml = context.getSource();
         Sample sample = hml.getSamples().get(0);
-        Typing typing = sample.getTyping();
-        ConsensusSequence consensusSequence = typing.getConsensusSequence();
-        List<ConsensusSequenceBlock> consensusSequenceBlocks = consensusSequence.getConsensusSequenceBlocks();
-        ReferenceDatabase referenceDatabase = consensusSequence.getReferenceDatabase();
-        List<Sequence> sequences = createSequences(referenceDatabase);
+        List<Typing> typings = sample.getTyping();
+        List<Sequence> sequences = new ArrayList<>();
 
-        for (ConsensusSequenceBlock consensusSequenceBlock : consensusSequenceBlocks) {
-            Sequence consensusBlockSequence = createSequence(consensusSequenceBlock.getVariant());
-            Sequence sequenceQualitySequence = createSequence(consensusSequenceBlock.getSequenceQuality());
+        for (Typing typing : typings) {
+            ConsensusSequence consensusSequence = typing.getConsensusSequence();
+            List<ConsensusSequenceBlock> consensusSequenceBlocks = consensusSequence.getConsensusSequenceBlocks();
+            List<ReferenceDatabase> referenceDatabases = consensusSequence.getReferenceDatabase();
+            for (ReferenceDatabase referenceDatabase : referenceDatabases) {
+                sequences.addAll(createSequences(referenceDatabase));
 
-            if (consensusBlockSequence != null) {
-                sequences.add(consensusBlockSequence);
-                sequences.add(sequenceQualitySequence);
+                for (ConsensusSequenceBlock consensusSequenceBlock : consensusSequenceBlocks) {
+                    Sequence consensusBlockSequence = createSequence(consensusSequenceBlock.getVariant());
+                    Sequence sequenceQualitySequence = createSequence(consensusSequenceBlock.getSequenceQuality());
+
+                    if (consensusBlockSequence != null) {
+                        sequences.add(consensusBlockSequence);
+                        sequences.add(sequenceQualitySequence);
+                    }
+                }
             }
         }
 

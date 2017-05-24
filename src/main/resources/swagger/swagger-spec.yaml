@@ -7554,7 +7554,9 @@ definitions:
       glString:
         $ref: GlString
       haploid:
-        $ref: Haploid
+        items:
+          $ref: '#/definitions/Haploid'
+        type: array
       id:
         description: Id of the typing
         type: string
@@ -7636,8 +7638,9 @@ definitions:
         description: Id of the typing
         type: string
       referenceDatabase:
-        $ref: ReferenceDatabase
-        description: reference database
+        type: array
+        items:
+          $ref: '#/definitions/ReferenceDatabase'
     type: object
   ConsensusSequenceBlock:
     properties:
@@ -8135,8 +8138,10 @@ definitions:
           $ref: '#/definitions/Property'
         type: array
       typing:
-        $ref: Typing
         description: typing data associated with sample
+        items:
+          $ref: '#/definitions/Typing'
+        type: array
     type: object
   SbtNgs:
     properties:
@@ -8353,8 +8358,10 @@ definitions:
         description: Active record
         type: boolean
       alleleAssignment:
-        $ref: AlleleAssignment
-        description: allele assigned by this typing
+       description: allele assigned by this typing
+       items:
+        $ref: '#/definitions/AlleleAssignment'
+       type: array
       date:
         description: Sample date
         format: date-time

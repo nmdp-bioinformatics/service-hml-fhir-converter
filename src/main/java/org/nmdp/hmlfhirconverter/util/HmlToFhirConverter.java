@@ -28,6 +28,7 @@ import com.google.gson.*;
 
 import org.apache.log4j.Logger;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 
@@ -37,23 +38,21 @@ import org.nmdp.hmlfhirconverter.service.conversion.converters.HmlXmlDeserialize
 
 import org.springframework.core.convert.ConversionException;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.springframework.core.convert.ConversionFailedException;
+import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
-import jdk.internal.org.xml.sax.SAXException;
-
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+
 import java.io.StringReader;
 import java.net.URL;
+import java.util.Iterator;
 
 public class HmlToFhirConverter {
 
@@ -76,23 +75,22 @@ public class HmlToFhirConverter {
         }
     }
 
-    public static Object convertXmlToObject(String xml) throws ConversionException {
+    public static Hml convertXmlToObject(String xml) throws ConversionException {
         try {
             if (isValidXml(xml)) {
-                Document document = loadXml(xml);
-                NodeList hmlNodes = document.getElementsByTagName("ns2:hml");
+                JSONObject jsonObj = convertXmlStringToJson(xml);
+                JSONObject mutatedJson = mutatePropertyNames(jsonObj, "ns2:");
+                GsonBuilder gsonBuilder = new GsonBuilder();
+                JsonParser parser = new JsonParser();
+                gsonBuilder.registerTypeAdapter(io.swagger.model.Hml.class, new HmlXmlDeserializer());
+                Gson gson = gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
+                Object obj = parser.parse(mutatedJson.toString());
+                JsonObject jsonObject = (JsonObject) obj;
 
-                for (Integer i = 0; i < hmlNodes.getLength(); i++) {
-                    Node node = hmlNodes.item(i);
-                    String hmlString = node.getNodeValue();
-
-                    if (isValidHml(hmlString, "")) {
-                        Hml hml = convertStringToXml(hmlString);
-                    }
-                }
+                return gson.fromJson(jsonObject, Hml.class);
             }
-            JsonElement json = new JsonPrimitive(xml);
-            return json;
+
+            throw new Exception("Invalid XML.");
         } catch (Exception ex) {
             LOG.error("Error converting xml to Object.", ex);
             throw (ConversionException)ex;
@@ -104,44 +102,7 @@ public class HmlToFhirConverter {
             return XML.toJSONObject(xml);
         } catch (Exception ex) {
             LOG.error("Error parsing HML to Json.", ex);
-            throw (ConversionException)ex;
-        }
-    }
-
-    private static Document loadXml(String xml) {
-        try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            InputSource inputSource = new InputSource(new StringReader(xml));
-
-            return documentBuilder.parse(inputSource);
-        } catch (Exception ex) {
-            LOG.error("Error converting string to xml object.", ex);
-        }
-
-        return null;
-    }
-
-    private static Boolean isValidHml(String hml, String url) {
-        Boolean valid = false;
-
-        try {
-            URL schemaUrl = new URL(url);
-            SchemaFactory schemaFactory = SchemaFactory.newInstance("");
-            Schema schema = schemaFactory.newSchema(schemaUrl);
-            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-
-            saxParserFactory.setSchema(schema);
-
-            SAXParser saxParser = saxParserFactory.newSAXParser();
-            XMLReader xmlReader = saxParser.getXMLReader();
-
-            xmlReader.parse(new InputSource(new StringReader(hml)));
-            valid = true;
-        } catch (Exception ex) {
-            LOG.error("Error validating HML against schema.", ex);
-        } finally {
-            return valid;
+            throw (ConversionException) ex;
         }
     }
 
@@ -160,5 +121,38 @@ public class HmlToFhirConverter {
         } finally {
             return valid;
         }
+    }
+
+    private static JSONObject mutatePropertyNames(JSONObject json, String prefix) {
+        JSONObject mutatedJson = new JSONObject();
+        Iterator<String> jsonIterator = json.keys();
+
+        while (jsonIterator.hasNext()) {
+            String key = jsonIterator.next();
+            Object property = json.get(key);
+
+            if (property instanceof JSONObject) {
+                JSONObject mutatedProperty = mutatePropertyNames((JSONObject) property, prefix);
+                mutatedJson.put(key.replace(prefix, ""), mutatedProperty);
+                continue;
+            } else if (property instanceof JSONArray) {
+                JSONArray arrayProperty = (JSONArray)property;
+                JSONArray mutatedJsonArray = new JSONArray();
+
+                for (int i = 0; i < arrayProperty.length(); i++) {
+                    JSONObject obj = arrayProperty.getJSONObject(i);
+                    JSONObject mutatedObj = mutatePropertyNames(obj, prefix);
+
+                    mutatedJsonArray.put(mutatedObj);
+                }
+
+                mutatedJson.put(key.replace(prefix, ""), mutatedJsonArray);
+                continue;
+            }
+
+            mutatedJson.put(key.replace(prefix, ""), property);
+        }
+
+        return mutatedJson;
     }
 }

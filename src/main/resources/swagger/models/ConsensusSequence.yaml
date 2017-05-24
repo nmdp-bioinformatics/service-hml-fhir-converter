@@ -10,5 +10,8 @@ ConsensusSequence:
     dateCreated: {description: Creation date, format: date-time, type: string}
     dateUpdated: {description: Date updated, format: date-time, type: string}
     id: {description: Id of the typing, type: string}
-    referenceDatabase: {$ref: ReferenceDatabase, description: reference database}
+    referenceDatabase:
+      type: array
+      items:
+        $ref: '#/definitions/ReferenceDatabase'
   type: object

@@ -56,7 +56,7 @@ public class AlleleAssignment extends SwaggerConverter<AlleleAssignment, io.swag
         this.active = active;
         this.dateUpdated = null;
         this.properties = new ArrayList<>();
-        this.haploid = new Haploid(true);
+        this.haploid = new ArrayList<>();
         this.genotypes = new ArrayList<>();
     }
 
@@ -77,7 +77,7 @@ public class AlleleAssignment extends SwaggerConverter<AlleleAssignment, io.swag
     private List<Property> properties;
 
     @XmlAttribute
-    private Haploid haploid;
+    private List<Haploid> haploid;
 
     @XmlAttribute
     private List<Genotype> genotypes;

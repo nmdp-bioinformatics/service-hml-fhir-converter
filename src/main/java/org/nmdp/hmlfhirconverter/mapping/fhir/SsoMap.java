@@ -34,23 +34,31 @@ import org.modelmapper.spi.MappingContext;
 
 import org.nmdp.hmlfhirconverter.domain.fhir.Sso;
 
-public class SsoMap implements Converter<Hml, Sso> {
+import java.util.List;
+import java.util.ArrayList;
+
+public class SsoMap implements Converter<Hml, List<Sso>> {
 
     @Override
-    public Sso convert(MappingContext<Hml, Sso> context) {
+    public List<Sso> convert(MappingContext<Hml, List<Sso>> context) {
         if (context.getSource() == null) {
             return null;
         }
 
-        Sso sso = new Sso();
+        List<Sso> ssos = new ArrayList<>();
         Hml hml = context.getSource();
         Sample sample = hml.getSamples().get(0);
-        Typing typing = sample.getTyping();
-        TypingMethod typingMethod = typing.getTypingMethod();
-        io.swagger.model.Sso nmdpSso = typingMethod.getSso();
+        List<Typing> typings = sample.getTyping();
 
-        sso.setLocus(nmdpSso.getLocus());
+        for (Typing typing : typings) {
+            Sso sso = new Sso();
+            TypingMethod typingMethod = typing.getTypingMethod();
+            io.swagger.model.Sso nmdpSso = typingMethod.getSso();
 
-        return sso;
+            sso.setLocus(nmdpSso.getLocus());
+            ssos.add(sso);
+        }
+
+        return ssos;
     }
 }

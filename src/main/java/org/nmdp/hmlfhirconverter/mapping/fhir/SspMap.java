@@ -34,24 +34,32 @@ import org.modelmapper.spi.MappingContext;
 
 import org.nmdp.hmlfhirconverter.domain.fhir.Ssp;
 
-public class SspMap implements Converter<Hml, Ssp> {
+import java.util.List;
+import java.util.ArrayList;
+
+public class SspMap implements Converter<Hml, List<Ssp>> {
 
     @Override
-    public Ssp convert(MappingContext<Hml, Ssp> context) {
+    public List<Ssp> convert(MappingContext<Hml, List<Ssp>> context) {
         if (context.getSource() == null) {
             return null;
         }
 
-        Ssp ssp = new Ssp();
+        List<Ssp> ssps = new ArrayList<>();
         Hml hml = context.getSource();
         Sample sample = hml.getSamples().get(0);
-        Typing typing = sample.getTyping();
-        TypingMethod typingMethod = typing.getTypingMethod();
-        io.swagger.model.Ssp nmdpSsp = typingMethod.getSsp();
+        List<Typing> typings = sample.getTyping();
 
-        ssp.setLocus(nmdpSsp.getLocus());
+        for (Typing typing : typings) {
+            Ssp ssp = new Ssp();
+            TypingMethod typingMethod = typing.getTypingMethod();
+            io.swagger.model.Ssp nmdpSsp = typingMethod.getSsp();
 
-        return ssp;
+            ssp.setLocus(nmdpSsp.getLocus());
+            ssps.add(ssp);
+        }
+
+        return ssps;
     }
 }
 

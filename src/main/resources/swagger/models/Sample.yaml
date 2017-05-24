@@ -14,5 +14,8 @@ Sample:
       description: array of properties
       items: {$ref: '#/definitions/Property'}
       type: array
-    typing: {$ref: Typing, description: typing data associated with sample}
+    typing:
+      description: array of typings
+      items: {$ref: '#/definitions/Typing'}
+      type: array
   type: object

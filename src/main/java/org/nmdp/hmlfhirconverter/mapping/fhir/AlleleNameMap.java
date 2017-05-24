@@ -45,18 +45,23 @@ public class AlleleNameMap implements Converter<Hml, List<AlleleName>> {
         List<AlleleName> alleleNames = new ArrayList<>();
         Hml hml = context.getSource();
         Sample sample = hml.getSamples().get(0);
-        Typing typing = sample.getTyping();
-        AlleleAssignment alleleAssignment = typing.getAlleleAssignment();
-        List<Genotype> genotypeList = alleleAssignment.getGenotypes();
+        List<Typing> typings = sample.getTyping();
 
-        for (Genotype genotype : genotypeList) {
-            for (DiploidCombination diploidCombination : genotype.getDiploidCombinations()) {
-                LocusBlock locusBlock = diploidCombination.getLocusBlock();
-                for (Allele allele : locusBlock.getAlleles()) {
-                    AlleleName alleleName = new AlleleName();
+        for (Typing typing : typings) {
+            List<AlleleAssignment> alleleAssignments = typing.getAlleleAssignment();
+            for (AlleleAssignment alleleAssignment : alleleAssignments) {
+                List<Genotype> genotypeList = alleleAssignment.getGenotypes();
 
-                    alleleName.setName(allele.getName());
-                    alleleNames.add(alleleName);
+                for (Genotype genotype : genotypeList) {
+                    for (DiploidCombination diploidCombination : genotype.getDiploidCombinations()) {
+                        LocusBlock locusBlock = diploidCombination.getLocusBlock();
+                        for (Allele allele : locusBlock.getAlleles()) {
+                            AlleleName alleleName = new AlleleName();
+
+                            alleleName.setName(allele.getName());
+                            alleleNames.add(alleleName);
+                        }
+                    }
                 }
             }
         }

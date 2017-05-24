@@ -69,6 +69,7 @@ import io.swagger.model.Version;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.omg.CORBA.OBJECT_NOT_EXIST;
 
 import java.lang.reflect.Type;
 
@@ -92,7 +93,7 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         hml.setHmlId(createHmlId(jsonObject.has("hmlid") ? jsonObject.get("hmlid").getAsJsonObject() : null));
         hml.setVersion(createVersion(jsonObject.has("version") ? jsonObject.get("version").getAsString() : null));
         hml.setProject(createProject(jsonObject.has("project") ? jsonObject.get("project").getAsJsonObject() : null));
-        hml.setSamples(createSamples(jsonObject.has("sample") ? jsonObject.get("sample").getAsJsonObject() : null));
+        hml.setSamples(handleSamples(jsonObject.has("sample") ? jsonObject.get("sample") : null));
         hml.setReportingCenters(createRepotingCenters(jsonObject.has("reporting-center") ? jsonObject.get("reporting-center").getAsJsonObject() : null));
         hml.setProperties(createProperties(jsonObject.has("properties") ? jsonObject.get("properties").getAsJsonObject() : null));
         hml.setTypingTestNames(createTypingTestNames(jsonObject.has("typing-test-name") ? jsonObject.get("typing-test-name").getAsJsonObject() : null));
@@ -145,6 +146,22 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         return project;
     }
 
+    private List<Sample> handleSamples(Object object) {
+        List<Sample> samples = new ArrayList<>();
+
+        if (object == null) {
+            return samples;
+        }
+
+        if (object instanceof JsonObject) {
+            samples = createSamples((JsonObject)object);
+        } else if (object instanceof JsonArray) {
+            samples = createSamples((JsonArray)object);
+        }
+
+        return samples;
+    }
+
     private List<Sample> createSamples(JsonObject jsonObject) {
         List<Sample> samples = new ArrayList<>();
         Sample sample = new Sample();
@@ -159,11 +176,25 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         sample.setDateUpdated(jsonObject.has("date-updated") ? formatter.parseDateTime(jsonObject.get("date-updated").getAsString()).toDate() : null);
         sample.setCenterCode(jsonObject.has("center-code") ? jsonObject.get("center-code").getAsString() : null);
         sample.setSampleId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
-        sample.setTyping(createTyping(jsonObject.has("typing") ? jsonObject.get("typing").getAsJsonObject() : null));
+        sample.setTyping(handleTyping(jsonObject.has("typing") ? jsonObject.get("typing") : null));
         sample.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
         sample.setCollectionMethods(createCollectionMethods(jsonObject.has("collection-method") ? jsonObject.get("collection-method").getAsJsonObject() : null));
 
         samples.add(sample);
+        return samples;
+    }
+
+    private List<Sample> createSamples(JsonArray jsonArray) {
+        List<Sample> samples = new ArrayList<>();
+
+        if (jsonArray == null) {
+            return samples;
+        }
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            samples.addAll(createSamples((JsonObject)jsonArray.get(i)));
+        }
+
         return samples;
     }
 
@@ -244,11 +275,42 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         return extendedItems;
     }
 
-    private Typing createTyping(JsonObject jsonObject) {
+    private List<Typing> handleTyping(Object object) {
+        List<Typing> typings = new ArrayList<>();
+
+        if (object == null) {
+            return typings;
+        }
+
+        if (object instanceof JsonObject) {
+            typings = createTyping((JsonObject) object);
+        } else if (object instanceof JsonArray) {
+            typings = createTyping((JsonArray) object);
+        }
+
+        return typings;
+    }
+
+    private List<Typing> createTyping(JsonArray jsonArray) {
+        List<Typing> typings = new ArrayList<>();
+
+        if (jsonArray == null) {
+            return typings;
+        }
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            typings.addAll(createTyping((JsonObject)jsonArray.get(i)));
+        }
+
+        return typings;
+    }
+
+    private List<Typing> createTyping(JsonObject jsonObject) {
+        List<Typing> typingList = new ArrayList<>();
         Typing typing = new Typing();
 
         if (jsonObject == null) {
-            return typing;
+            return typingList;
         }
 
         typing.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
@@ -259,10 +321,12 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         typing.setGeneFamily(jsonObject.has("gene-family") ? jsonObject.get("gene-family").getAsString() : null);
         typing.setTypingMethod(createTypingMethod(jsonObject.has("typing-method") ? jsonObject.get("typing-method").getAsJsonObject() : null));
         typing.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
-        typing.setAlleleAssignment(createAlleleAssignment(jsonObject.has("allele-assignment") ? jsonObject.get("allele-assignment").getAsJsonObject() : null));
+        typing.setAlleleAssignment(handleAlleleAssignment(jsonObject.has("allele-assignment") ? jsonObject.get("allele-assignment") : null));
         typing.setConsensusSequence(createConsensusSequence(jsonObject.has("consensus-sequence") ? jsonObject.get("consensus-sequence").getAsJsonObject() : null));
 
-        return typing;
+        typingList.add(typing);
+
+        return typingList;
     }
 
     private ConsensusSequence createConsensusSequence(JsonObject jsonObject) {
@@ -277,7 +341,7 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         consensusSequence.setDateCreated(jsonObject.has("date-created") ? formatter.parseDateTime(jsonObject.get("date-created").getAsString()).toDate() : null);
         consensusSequence.setDateUpdated(jsonObject.has("date-updated") ? formatter.parseDateTime(jsonObject.get("date-updated").getAsString()).toDate() : null);
         consensusSequence.setDate(jsonObject.has("date") ? formatter.parseDateTime(jsonObject.get("date").getAsString()).toDate() : null);
-        consensusSequence.setReferenceDatabase(createReferenceDatabase(jsonObject.has("reference-database") ? jsonObject.get("reference-database").getAsJsonObject() : null));
+        consensusSequence.setReferenceDatabase(handleReferenceDatabase(jsonObject.has("reference-database") ? jsonObject.get("reference-database") : null));
         consensusSequence.setConsensusSequenceBlocks(createConsensusSequenceBlocks(jsonObject.has("consensus-sequence-block") ? jsonObject.get("consensus-sequence-block").getAsJsonArray() : null));
 
         return consensusSequence;
@@ -380,11 +444,42 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         return sequenceQuality;
     }
 
-    private ReferenceDatabase createReferenceDatabase(JsonObject jsonObject) {
+    private List<ReferenceDatabase> handleReferenceDatabase(Object object) {
+        List<ReferenceDatabase> referenceDatabases = new ArrayList<>();
+
+        if (object == null) {
+            return referenceDatabases;
+        }
+
+        if (object instanceof JsonObject) {
+            referenceDatabases = createReferenceDatabase((JsonObject)object);
+        } else if (object instanceof JsonArray) {
+            referenceDatabases = createReferenceDatabase((JsonArray)object);
+        }
+
+        return referenceDatabases;
+    }
+
+    private List<ReferenceDatabase> createReferenceDatabase(JsonArray jsonArray) {
+        List<ReferenceDatabase> referenceDatabases = new ArrayList<>();
+
+        if (jsonArray == null) {
+            return referenceDatabases;
+        }
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            referenceDatabases.addAll(createReferenceDatabase((JsonObject)jsonArray.get(i)));
+        }
+
+        return referenceDatabases;
+    }
+
+    private List<ReferenceDatabase> createReferenceDatabase(JsonObject jsonObject) {
+        List<ReferenceDatabase> referenceDatabases = new ArrayList<>();
         ReferenceDatabase referenceDatabase = new ReferenceDatabase();
 
         if (jsonObject == null) {
-            return  referenceDatabase;
+            return  referenceDatabases;
         }
 
         referenceDatabase.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
@@ -392,14 +487,47 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         referenceDatabase.setDateCreated(jsonObject.has("date-created") ? formatter.parseDateTime(jsonObject.get("date-created").getAsString()).toDate() : null);
         referenceDatabase.setDateUpdated(jsonObject.has("date-updated") ? formatter.parseDateTime(jsonObject.get("date-updated").getAsString()).toDate() : null);
 
-        return referenceDatabase;
+        referenceDatabases.add(referenceDatabase);
+
+        return referenceDatabases;
     }
 
-    private AlleleAssignment createAlleleAssignment(JsonObject jsonObject) {
+    private List<AlleleAssignment> handleAlleleAssignment(Object object) {
+        List<AlleleAssignment> alleleAssignments = new ArrayList<>();
+
+        if (object == null) {
+            return alleleAssignments;
+        }
+
+        if (object instanceof JsonObject) {
+            alleleAssignments = createAlleleAssignment((JsonObject)object);
+        } else if (object instanceof JsonArray) {
+            alleleAssignments = createAlleleAssignment((JsonArray)object);
+        }
+
+        return alleleAssignments;
+    }
+
+    private List<AlleleAssignment> createAlleleAssignment(JsonArray jsonArray) {
+        List<AlleleAssignment> alleleAssignments = new ArrayList<>();
+
+        if (jsonArray == null) {
+            return alleleAssignments;
+        }
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            alleleAssignments.addAll(createAlleleAssignment((JsonObject)jsonArray.get(i)));
+        }
+
+        return alleleAssignments;
+    }
+
+    private List<AlleleAssignment> createAlleleAssignment(JsonObject jsonObject) {
+        List<AlleleAssignment> alleleAssignments = new ArrayList<>();
         AlleleAssignment alleleAssignment = new AlleleAssignment();
 
         if (jsonObject == null) {
-            return alleleAssignment;
+            return alleleAssignments;
         }
 
         alleleAssignment.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
@@ -412,9 +540,11 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         alleleAssignment.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
         alleleAssignment.setGenotypes(createGenotypes(jsonObject.has("genotype") ? jsonObject.get("genotype").getAsJsonObject() : null));
         alleleAssignment.setGlString(createGlString(jsonObject.has("glstring") ? jsonObject.get("glstring").getAsString() : null));
-        alleleAssignment.setHaploid(createHaploid(jsonObject.has("haploid") ? jsonObject.get("haploid").getAsJsonObject() : null));
+        alleleAssignment.setHaploid(handleHaploid(jsonObject.has("haploid") ? jsonObject.get("haploid") : null));
 
-        return alleleAssignment;
+        alleleAssignments.add(alleleAssignment);
+
+        return alleleAssignments;
     }
 
     private GlString createGlString(String glstr) {
@@ -429,11 +559,42 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         return glstring;
     }
 
-    private Haploid createHaploid(JsonObject jsonObject) {
+    private List<Haploid> handleHaploid(Object object) {
+        List<Haploid> haploids = new ArrayList<>();
+
+        if (object == null) {
+            return haploids;
+        }
+
+        if (object instanceof JsonObject) {
+            haploids = createHaploid((JsonObject)object);
+        } else if (object instanceof JsonArray) {
+            haploids = createHaploid((JsonArray)object);
+        }
+
+        return haploids;
+    }
+
+    private List<Haploid> createHaploid(JsonArray jsonArray) {
+        List<Haploid> haploids = new ArrayList<>();
+
+        if (jsonArray == null) {
+            return haploids;
+        }
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            haploids.addAll(createHaploid((JsonObject)jsonArray.get(i)));
+        }
+
+        return haploids;
+    }
+
+    private List<Haploid> createHaploid(JsonObject jsonObject) {
+        List<Haploid> haploids = new ArrayList<>();
         Haploid haploid = new Haploid();
 
         if (jsonObject == null) {
-            return haploid;
+            return haploids;
         }
 
         haploid.setId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
@@ -444,7 +605,9 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         haploid.setMethod(jsonObject.has("method") ? jsonObject.get("method").getAsString() : null);
         haploid.setType(jsonObject.has("type") ? jsonObject.get("type").getAsString() : null);
 
-        return haploid;
+        haploids.add(haploid);
+
+        return haploids;
     }
 
     private List<Genotype> createGenotypes(JsonObject jsonObject) {

@@ -55,7 +55,7 @@ public class ConsensusSequence extends SwaggerConverter<ConsensusSequence, io.sw
         super (tClass, uClass);
         this.active = active;
         this.dateUpdated = null;
-        this.referenceDatabase = new ReferenceDatabase(true);
+        this.referenceDatabase = new ArrayList<>();
         this.consensusSequenceBlocks = new ArrayList<>();
     }
 
@@ -67,7 +67,7 @@ public class ConsensusSequence extends SwaggerConverter<ConsensusSequence, io.sw
     private Date date;
 
     @XmlAttribute
-    private ReferenceDatabase referenceDatabase;
+    private List<ReferenceDatabase> referenceDatabase;
 
     @XmlAttribute
     private List<ConsensusSequenceBlock> consensusSequenceBlocks;

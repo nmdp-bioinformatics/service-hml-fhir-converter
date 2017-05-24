@@ -1,8 +1,10 @@
 Typing:
   properties:
     active: {description: Active record, type: boolean}
-    alleleAssignment: {$ref: AlleleAssignment, description: allele assigned by this
-        typing}
+    alleleAssignment:
+     description: allele assigned by this typing
+     items: {$ref: '#/definitions/AlleleAssignment'}
+     type: array
     dateCreated: {description: Creation date, format: date-time, type: string}
     dateUpdated: {description: Date updated, format: date-time, type: string}
     date: {description: Date of typing, format: date-time, type: string}

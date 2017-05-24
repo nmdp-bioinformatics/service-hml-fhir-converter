@@ -44,13 +44,16 @@ public class GeneticsPhaseSetMap implements Converter<Hml, List<GeneticsPhaseSet
 
         Hml hml = context.getSource();
         Sample sample = hml.getSamples().get(0);
-        Typing typing = sample.getTyping();
-        ConsensusSequence consensusSequence = typing.getConsensusSequence();
-        List<ConsensusSequenceBlock> consensusSequenceBlocks = consensusSequence.getConsensusSequenceBlocks();
+        List<Typing> typings = sample.getTyping();
         List<GeneticsPhaseSet> geneticsPhaseSets = new ArrayList<>();
 
-        consensusSequenceBlocks.stream()
-                .forEach(c -> geneticsPhaseSets.add(convertConsensusSequenceBlockToGeneticsPhaseSet(c)));
+        for (Typing typing : typings) {
+            ConsensusSequence consensusSequence = typing.getConsensusSequence();
+            List<ConsensusSequenceBlock> consensusSequenceBlocks = consensusSequence.getConsensusSequenceBlocks();
+
+            consensusSequenceBlocks.stream()
+                    .forEach(c -> geneticsPhaseSets.add(convertConsensusSequenceBlockToGeneticsPhaseSet(c)));
+        }
 
         return geneticsPhaseSets;
     }

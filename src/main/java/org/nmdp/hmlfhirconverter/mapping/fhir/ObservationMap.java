@@ -25,6 +25,7 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import io.swagger.model.Sample;
 import io.swagger.model.Typing;
 import org.modelmapper.Converter;
 
@@ -34,22 +35,31 @@ import org.modelmapper.spi.MappingContext;
 import org.nmdp.hmlfhirconverter.domain.fhir.Code;
 import org.nmdp.hmlfhirconverter.domain.fhir.Observation;
 
-public class ObservationMap implements Converter<Hml, Observation>{
+import java.util.List;
+import java.util.ArrayList;
+
+public class ObservationMap implements Converter<Hml, List<Observation>>{
 
     @Override
-    public Observation convert(MappingContext<Hml, Observation> context) {
+    public List<Observation> convert(MappingContext<Hml, List<Observation>> context) {
         if (context.getSource() == null) {
             return null;
         }
 
+        List<Observation> observations = new ArrayList<>();
         Hml hml = context.getSource();
-        Typing typing = hml.getSamples().get(0).getTyping();
-        Observation observation = new Observation();
-        Code code = new Code();
+        Sample sample = hml.getSamples().get(0);
+        List<Typing> typings = sample.getTyping();
 
-        code.setName(typing.getGeneFamily());
-        observation.setCode(code);
+        for (Typing typing : typings) {
+            Observation observation = new Observation();
+            Code code = new Code();
 
-        return observation;
+            code.setName(typing.getGeneFamily());
+            observation.setCode(code);
+            observations.add(observation);
+        }
+
+        return observations;
     }
 }

@@ -35,24 +35,32 @@ import org.modelmapper.spi.MappingContext;
 
 import org.nmdp.hmlfhirconverter.domain.fhir.GenotypingResultsMethod;
 
-public class GenotypingResultsMethodMap implements Converter<Hml, GenotypingResultsMethod> {
+import java.util.List;
+import java.util.ArrayList;
+
+public class GenotypingResultsMethodMap implements Converter<Hml, List<GenotypingResultsMethod>> {
 
     @Override
-    public GenotypingResultsMethod convert(MappingContext<Hml, GenotypingResultsMethod> context) {
+    public List<GenotypingResultsMethod> convert(MappingContext<Hml, List<GenotypingResultsMethod>> context) {
         if (context.getSource() == null) {
             return null;
         }
 
-        GenotypingResultsMethod genotypingResultsMethod = new GenotypingResultsMethod();
+        List<GenotypingResultsMethod> genotypingResultsMethods = new ArrayList<>();
         Hml hml = context.getSource();
         Sample sample = hml.getSamples().get(0);
-        Typing typing = sample.getTyping();
-        TypingMethod typingMethod = typing.getTypingMethod();
-        SbtNgs sbtNgs = typingMethod.getSbtNgs();
+        List<Typing> typings = sample.getTyping();
 
-        genotypingResultsMethod.setTestId(sbtNgs.getTestId());
-        genotypingResultsMethod.setTestIdSource(sbtNgs.getTestIdSource());
+        for (Typing typing : typings) {
+            GenotypingResultsMethod genotypingResultsMethod = new GenotypingResultsMethod();
+            TypingMethod typingMethod = typing.getTypingMethod();
+            SbtNgs sbtNgs = typingMethod.getSbtNgs();
 
-        return genotypingResultsMethod;
+            genotypingResultsMethod.setTestId(sbtNgs.getTestId());
+            genotypingResultsMethod.setTestIdSource(sbtNgs.getTestIdSource());
+            genotypingResultsMethods.add(genotypingResultsMethod);
+        }
+
+        return genotypingResultsMethods;
     }
 }

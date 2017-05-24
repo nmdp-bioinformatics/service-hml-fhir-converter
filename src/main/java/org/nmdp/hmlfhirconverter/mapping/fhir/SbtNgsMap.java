@@ -34,23 +34,31 @@ import org.modelmapper.spi.MappingContext;
 
 import org.nmdp.hmlfhirconverter.domain.fhir.SbtNgs;
 
-public class SbtNgsMap implements Converter<Hml, SbtNgs> {
+import java.util.List;
+import java.util.ArrayList;
+
+public class SbtNgsMap implements Converter<Hml, List<SbtNgs>> {
 
     @Override
-    public SbtNgs convert(MappingContext<Hml, SbtNgs> context) {
+    public List<SbtNgs> convert(MappingContext<Hml, List<SbtNgs>> context) {
         if (context.getSource() == null) {
             return null;
         }
 
-        SbtNgs sbtNgs = new SbtNgs();
+        List<SbtNgs> sbtNgsList = new ArrayList<>();
         Hml hml = context.getSource();
         Sample sample = hml.getSamples().get(0);
-        Typing typing = sample.getTyping();
-        TypingMethod typingMethod = typing.getTypingMethod();
-        io.swagger.model.SbtNgs nmdpSbtNgs = typingMethod.getSbtNgs();
+        List<Typing> typings = sample.getTyping();
 
-        sbtNgs.setLocus(nmdpSbtNgs.getLocus());
+        for (Typing typing : typings) {
+            SbtNgs sbtNgs = new SbtNgs();
+            TypingMethod typingMethod = typing.getTypingMethod();
+            io.swagger.model.SbtNgs nmdpSbtNgs = typingMethod.getSbtNgs();
 
-        return sbtNgs;
+            sbtNgs.setLocus(nmdpSbtNgs.getLocus());
+            sbtNgsList.add(sbtNgs);
+        }
+
+        return sbtNgsList;
     }
 }

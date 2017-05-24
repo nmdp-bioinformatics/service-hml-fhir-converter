@@ -34,23 +34,33 @@ import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 import org.nmdp.hmlfhirconverter.domain.fhir.AlleleDatabase;
 
-public class AlleleDatabaseMap implements Converter<Hml, AlleleDatabase> {
+import java.util.List;
+import java.util.ArrayList;
+
+public class AlleleDatabaseMap implements Converter<Hml, List<AlleleDatabase>> {
 
     @Override
-    public AlleleDatabase convert(MappingContext<Hml, AlleleDatabase> context) {
+    public List<AlleleDatabase> convert(MappingContext<Hml, List<AlleleDatabase>> context) {
         if (context.getSource() == null) {
             return null;
         }
 
+        List<AlleleDatabase> alleleDatabases = new ArrayList<>();
         Hml hml = context.getSource();
         Sample sample = hml.getSamples().get(0);
-        Typing typing = sample.getTyping();
-        AlleleAssignment alleleAssignment = typing.getAlleleAssignment();
-        AlleleDatabase alleleDatabase = new AlleleDatabase();
+        List<Typing> typings = sample.getTyping();
 
-        alleleDatabase.setName(alleleAssignment.getAlleleDb());
-        alleleAssignment.setAlleleVersion(alleleAssignment.getAlleleVersion());
+        for (Typing typing : typings) {
+            List<AlleleAssignment> alleleAssignments = typing.getAlleleAssignment();
+            for (AlleleAssignment alleleAssignment : alleleAssignments) {
+                AlleleDatabase alleleDatabase = new AlleleDatabase();
 
-        return alleleDatabase;
+                alleleDatabase.setName(alleleAssignment.getAlleleDb());
+                alleleAssignment.setAlleleVersion(alleleAssignment.getAlleleVersion());
+                alleleDatabases.add(alleleDatabase);
+            }
+        }
+
+        return alleleDatabases;
     }
 }

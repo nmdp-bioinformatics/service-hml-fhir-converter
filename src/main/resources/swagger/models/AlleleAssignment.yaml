@@ -10,7 +10,9 @@ AlleleAssignment:
       items: {$ref: '#/definitions/Genotype'}
       type: array
     glString: {$ref: GlString}
-    haploid: {$ref: Haploid}
+    haploid:
+      items: {$ref: '#/definitions/Haploid'}
+      type: array
     id: {description: Id of the typing, type: string}
     properties:
       description: Properteis belonging to this item

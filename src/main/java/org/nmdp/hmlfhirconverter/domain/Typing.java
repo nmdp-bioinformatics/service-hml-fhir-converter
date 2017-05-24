@@ -56,7 +56,7 @@ public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> im
         this.active = active;
         this.dateUpdated = null;
         this.properties = new ArrayList<>();
-        this.alleleAssignment = new AlleleAssignment(true);
+        this.alleleAssignment = new ArrayList<>();
         this.typingMethod = new TypingMethod(true);
         this.consensusSequence = new ConsensusSequence(true);
     }
@@ -75,7 +75,7 @@ public class Typing extends SwaggerConverter<Typing, io.swagger.model.Typing> im
     private List<Property> properties;
 
     @XmlAttribute
-    private AlleleAssignment alleleAssignment;
+    private List<AlleleAssignment> alleleAssignment;
 
     @XmlAttribute
     private TypingMethod typingMethod;

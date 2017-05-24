@@ -31,24 +31,36 @@ import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 import org.nmdp.hmlfhirconverter.domain.fhir.GenotypingResultsHaploid;
 
-public class GenotypingResultsHaploidMap implements Converter<Hml, GenotypingResultsHaploid> {
+import java.util.List;
+import java.util.ArrayList;
+
+public class GenotypingResultsHaploidMap implements Converter<Hml, List<GenotypingResultsHaploid>> {
 
     @Override
-    public GenotypingResultsHaploid convert(MappingContext<Hml, GenotypingResultsHaploid> context) {
+    public List<GenotypingResultsHaploid> convert(MappingContext<Hml, List<GenotypingResultsHaploid>> context) {
         if (context.getSource() == null) {
             return null;
         }
 
         Hml hml = context.getSource();
         Sample sample = hml.getSamples().get(0);
-        Typing typing = sample.getTyping();
-        AlleleAssignment alleleAssignment = typing.getAlleleAssignment();
-        Haploid haploid = alleleAssignment.getHaploid();
-        GenotypingResultsHaploid genotypingResultsHaploid = new GenotypingResultsHaploid();
+        List<Typing> typings = sample.getTyping();
+        List<GenotypingResultsHaploid> genotypingResultsHaploids = new ArrayList<>();
 
+        for (Typing typing : typings) {
+            List<AlleleAssignment> alleleAssignments = typing.getAlleleAssignment();
+            for (AlleleAssignment alleleAssignment : alleleAssignments) {
+                List<Haploid> haploids = alleleAssignment.getHaploid();
+                for (Haploid haploid : haploids) {
+                    GenotypingResultsHaploid genotypingResultsHaploid = new GenotypingResultsHaploid();
 
-        //TODO: Add mapping properties to genotypingResultsHaploid
+                    //TODO: Add mapping properties to genotypingResultsHaploid
 
-        return genotypingResultsHaploid;
+                    genotypingResultsHaploids.add(genotypingResultsHaploid);
+                }
+            }
+        }
+
+        return genotypingResultsHaploids;
     }
 }

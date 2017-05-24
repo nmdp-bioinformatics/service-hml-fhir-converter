@@ -34,25 +34,37 @@ import org.modelmapper.spi.MappingContext;
 
 import org.nmdp.hmlfhirconverter.domain.fhir.Haploid;
 
-public class HaploidMap implements Converter<Hml, Haploid> {
+import java.util.List;
+import java.util.ArrayList;
+
+public class HaploidMap implements Converter<Hml, List<Haploid>> {
 
     @Override
-    public Haploid convert(MappingContext<Hml, Haploid> context) {
+    public List<Haploid> convert(MappingContext<Hml, List<Haploid>> context) {
         if (context.getSource() == null) {
             return null;
         }
 
-        Haploid fhirHaploid = new Haploid();
+        List<Haploid> haploids = new ArrayList<>();
         Hml hml = context.getSource();
         Sample sample = hml.getSamples().get(0);
-        Typing typing = sample.getTyping();
-        AlleleAssignment alleleAssignment = typing.getAlleleAssignment();
-        io.swagger.model.Haploid haploid = alleleAssignment.getHaploid();
+        List<Typing> typings = sample.getTyping();
 
-        fhirHaploid.setLocus(haploid.getLocus());
-        fhirHaploid.setMethod(haploid.getMethod());
-        fhirHaploid.setType(haploid.getType());
+        for (Typing typing : typings) {
+            List<AlleleAssignment> alleleAssignments = typing.getAlleleAssignment();
+            for (AlleleAssignment alleleAssignment : alleleAssignments) {
+                List<io.swagger.model.Haploid> nmdpHaploids = alleleAssignment.getHaploid();
+                for (io.swagger.model.Haploid haploid : nmdpHaploids) {
+                    Haploid fhirHaploid = new Haploid();
 
-        return fhirHaploid;
+                    fhirHaploid.setLocus(haploid.getLocus());
+                    fhirHaploid.setMethod(haploid.getMethod());
+                    fhirHaploid.setType(haploid.getType());
+                    haploids.add(fhirHaploid);
+                }
+            }
+        }
+
+        return haploids;
     }
 }

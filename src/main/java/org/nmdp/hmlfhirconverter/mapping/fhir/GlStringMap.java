@@ -24,31 +24,44 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.*;
-
+import io.swagger.model.AlleleAssignment;
+import io.swagger.model.GlString;
+import io.swagger.model.Hml;
+import io.swagger.model.Sample;
+import io.swagger.model.Typing;
 import org.modelmapper.Converter;
 
 import org.modelmapper.spi.MappingContext;
 import org.nmdp.hmlfhirconverter.domain.fhir.Glstring;
 
-public class GlStringMap implements Converter<Hml, Glstring> {
+import java.util.List;
+import java.util.ArrayList;
+
+public class GlStringMap implements Converter<Hml, List<Glstring>> {
 
     @Override
-    public Glstring convert(MappingContext<Hml, Glstring> context) {
+    public List<Glstring> convert(MappingContext<Hml, List<Glstring>> context) {
         if (context.getSource() == null) {
             return null;
         }
 
-        Glstring glstring = new Glstring();
         Hml hml = context.getSource();
         Sample sample = hml.getSamples().get(0);
-        Typing typing = sample.getTyping();
-        AlleleAssignment alleleAssignment = typing.getAlleleAssignment();
-        GlString glString = alleleAssignment.getGlString();
+        List<Typing> typings = sample.getTyping();
+        List<Glstring> glStrings = new ArrayList<>();
 
-        glstring.setUri(glString.getUri());
-        glstring.setValue(glString.getValue());
+        for (Typing typing : typings) {
+            List<AlleleAssignment> alleleAssignments = typing.getAlleleAssignment();
+            for (AlleleAssignment alleleAssignment : alleleAssignments) {
+                Glstring glstring = new Glstring();
+                GlString glString = alleleAssignment.getGlString();
 
-        return glstring;
+                glstring.setUri(glString.getUri());
+                glstring.setValue(glString.getValue());
+                glStrings.add(glstring);
+            }
+        }
+
+        return glStrings;
     }
 }
