@@ -69,7 +69,6 @@ import io.swagger.model.Version;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.omg.CORBA.OBJECT_NOT_EXIST;
 
 import java.lang.reflect.Type;
 
@@ -178,9 +177,10 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
         sample.setSampleId(jsonObject.has("id") ? jsonObject.get("id").getAsString() : null);
         sample.setTyping(handleTyping(jsonObject.has("typing") ? jsonObject.get("typing") : null));
         sample.setProperties(createProperties(jsonObject.has("property") ? jsonObject.get("property").getAsJsonObject() : null));
-        sample.setCollectionMethods(createCollectionMethods(jsonObject.has("collection-method") ? jsonObject.get("collection-method").getAsJsonObject() : null));
+        sample.setCollectionMethods(handleCollectionMethods(jsonObject.has("collection-method") ? jsonObject.get("collection-method") : null));
 
         samples.add(sample);
+
         return samples;
     }
 
@@ -887,6 +887,32 @@ public class HmlXmlDeserializer implements JsonDeserializer<Hml> {
 
         iupacBases.add(iupacBase);
         return iupacBases;
+    }
+
+    private List<CollectionMethod> handleCollectionMethods(Object object) {
+        List<CollectionMethod> collectionMethods = new ArrayList<>();
+
+        if (object instanceof JsonObject) {
+            collectionMethods = createCollectionMethods((JsonObject)object);
+        } else if (object instanceof String) {
+            collectionMethods = createCollectionMethods((String)object);
+        }
+
+        return collectionMethods;
+    }
+
+    private List<CollectionMethod> createCollectionMethods(String collectionMethodValue) {
+        List<CollectionMethod> collectionMethods = new ArrayList<>();
+        CollectionMethod collectionMethod = new CollectionMethod();
+
+        if (collectionMethodValue == null) {
+            return collectionMethods;
+        }
+
+        collectionMethod.setName(collectionMethodValue);
+        collectionMethods.add(collectionMethod);
+
+        return collectionMethods;
     }
 
     private List<CollectionMethod> createCollectionMethods(JsonObject jsonObject) {

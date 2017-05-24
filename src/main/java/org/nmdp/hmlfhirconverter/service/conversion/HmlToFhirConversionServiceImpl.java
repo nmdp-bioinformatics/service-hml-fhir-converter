@@ -43,10 +43,12 @@ import org.nmdp.servicekafkaproducermodel.models.KafkaMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.convert.ConversionException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.ArrayList;
 
 @Service
 public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionService {
@@ -69,13 +71,18 @@ public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionServic
         producer.send(messages);
     }
 
-    public void convertHmlFileToFhir(MultipartFile file) {
+    public List<Hml> convertFileToHml(MultipartFile file) throws ConversionException {
+        List<Hml> hmls = new ArrayList<>();
+
         try {
             String xml = new String(file.getBytes());
-            Object xmlObj = HmlToFhirConverter.convertXmlToObject(xml);
+            hmls.add(HmlToFhirConverter.convertXmlToObject(xml));
         } catch (Exception ex) {
             LOG.error("Error converting byte[] to string.", ex);
+            throw (ConversionException)ex;
         }
+
+        return hmls;
     }
 
     public void convertHmlToFhir(String hmlXml) {

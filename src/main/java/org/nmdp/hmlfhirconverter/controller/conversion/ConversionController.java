@@ -25,19 +25,22 @@ package org.nmdp.hmlfhirconverter.controller.conversion;
  */
 
 import io.swagger.api.NotFoundException;
+import io.swagger.model.Hml;
 
+import org.nmdp.hmlfhirconverter.service.HmlService;
 import org.nmdp.hmlfhirconverter.service.conversion.HmlToFhirConversionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.Callable;
+import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/conversion")
@@ -45,10 +48,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class ConversionController {
     private static final Logger LOG = Logger.getLogger(ConversionController.class);
     private final HmlToFhirConversionService hmlToFhirConversionService;
+    private final HmlService hmlService;
 
     @Autowired
-    public ConversionController(HmlToFhirConversionService hmlToFhirConversionService) {
+    public ConversionController(HmlToFhirConversionService hmlToFhirConversionService, HmlService hmlService) {
         this.hmlToFhirConversionService = hmlToFhirConversionService;
+        this.hmlService = hmlService;
     }
 
     @RequestMapping(path = "/hmlToFhir/{xml}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
@@ -65,7 +70,8 @@ public class ConversionController {
     @RequestMapping(path = "/hmlToFhir", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<Boolean>> convertHmlFileToFhir(@RequestBody MultipartFile file) {
         try {
-            hmlToFhirConversionService.convertHmlFileToFhir(file);
+            List<Hml> hmls = hmlToFhirConversionService.convertFileToHml(file);
+            List<org.nmdp.hmlfhirconverter.domain.Hml> nmdpHmls = hmlService.createItems(hmls);
             return () -> new ResponseEntity<>(true, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error in file upload hml to fhir conversion.", ex);

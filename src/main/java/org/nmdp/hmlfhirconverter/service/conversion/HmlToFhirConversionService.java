@@ -24,6 +24,8 @@ package org.nmdp.hmlfhirconverter.service.conversion;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import io.swagger.model.Hml;
+
 import org.nmdp.servicekafkaproducermodel.models.KafkaMessage;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -33,5 +35,5 @@ import java.util.List;
 public interface HmlToFhirConversionService {
     void convertHmlToFhir(String hmlXml);
     void produceKafkaMessages(List<KafkaMessage> messages);
-    void convertHmlFileToFhir(MultipartFile file);
+    List<Hml> convertFileToHml(MultipartFile file);
 }
