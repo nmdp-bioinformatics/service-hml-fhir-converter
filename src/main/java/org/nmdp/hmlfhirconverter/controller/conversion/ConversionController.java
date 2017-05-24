@@ -71,7 +71,8 @@ public class ConversionController {
     public Callable<ResponseEntity<Boolean>> convertHmlFileToFhir(@RequestBody MultipartFile file) {
         try {
             List<Hml> hmls = hmlToFhirConversionService.convertFileToHml(file);
-            List<org.nmdp.hmlfhirconverter.domain.Hml> nmdpHmls = hmlService.createItems(hmls);
+            //List<org.nmdp.hmlfhirconverter.domain.Hml> nmdpHmls = hmlService.createItems(hmls);
+            hmlToFhirConversionService.produceKafkaMessages(hmls);
             return () -> new ResponseEntity<>(true, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error in file upload hml to fhir conversion.", ex);

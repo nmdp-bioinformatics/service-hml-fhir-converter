@@ -38,20 +38,13 @@ import org.nmdp.hmlfhirconverter.service.conversion.converters.HmlXmlDeserialize
 
 import org.springframework.core.convert.ConversionException;
 
-import org.springframework.core.convert.ConversionFailedException;
-import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 
 import java.io.StringReader;
-import java.net.URL;
 import java.util.Iterator;
 
 public class HmlToFhirConverter {

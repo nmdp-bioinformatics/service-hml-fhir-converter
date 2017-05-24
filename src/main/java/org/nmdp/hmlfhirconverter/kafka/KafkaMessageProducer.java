@@ -26,17 +26,22 @@ package org.nmdp.hmlfhirconverter.kafka;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.log4j.Logger;
 
 import org.nmdp.hmlfhirconverter.kafka.config.KafkaMessageProducerConfiguration;
 import org.nmdp.servicekafkaproducermodel.models.KafkaMessage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
+
 public class KafkaMessageProducer {
 
     private final KafkaMessageProducerConfiguration config;
+    private static final Logger LOG = Logger.getLogger(KafkaMessageProducer.class);
 
     public KafkaMessageProducer(KafkaMessageProducerConfiguration config) {
         this.config = config;
@@ -44,15 +49,29 @@ public class KafkaMessageProducer {
 
     public void send(List<KafkaMessage> messages) {
         KafkaProducer<byte[], byte[]> producer = new KafkaProducer<>(config.getProperties());
-        List<ProducerRecord<byte[], byte[]>> records =  new ArrayList<>();
-
-        messages.stream()
-                .filter(Objects::nonNull)
-                .forEach(message -> records.add(message.convert(config.getTopic(), config.getKey(), message)));
+        List<ProducerRecord<byte[], byte[]>> records =  messages.stream()
+            .filter(Objects::nonNull)
+            .map(message -> new ProducerRecord<>(config.getTopic(), toBinary(config.getKey()), message.toBinary()))
+            .collect(Collectors.toList());
 
         records.stream()
                 .forEach(record -> producer.send(record));
 
         producer.close();
+    }
+
+    private byte[] toBinary(Object object) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] array = new byte[0];
+
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(object);
+            array = byteArrayOutputStream.toByteArray();
+        } catch (Exception ex) {
+            LOG.error("Error converting object to byte[].", ex);
+        }
+
+        return array;
     }
 }

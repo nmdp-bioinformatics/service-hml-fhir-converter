@@ -39,16 +39,17 @@ import org.nmdp.hmlfhirconverter.kafka.config.KafkaMessageProducerConfiguration;
 import org.nmdp.hmlfhirconverter.mapping.fhir.PatientMap;
 import org.nmdp.hmlfhirconverter.mapping.fhir.SpecimenMap;
 import org.nmdp.hmlfhirconverter.util.HmlToFhirConverter;
-import org.nmdp.servicekafkaproducermodel.models.KafkaMessage;
 
+import org.nmdp.servicekafkaproducermodel.models.KafkaMessage;
+import org.nmdp.servicekafkaproducermodel.models.KafkaMessagePayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionService {
@@ -66,8 +67,9 @@ public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionServic
         );
     }
 
-    public void produceKafkaMessages(List<KafkaMessage> messages) {
+    public void produceKafkaMessages(List<Hml> hmls) {
         KafkaMessageProducer producer = new KafkaMessageProducer(config);
+        List<KafkaMessage> messages = transformHmlToKafka(hmls);
         producer.send(messages);
     }
 
@@ -87,21 +89,39 @@ public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionServic
 
     public void convertHmlToFhir(String hmlXml) {
         Hml hml = HmlToFhirConverter.convertStringToXml(hmlXml);
-        //FhirMessage fhir = mapHmlToFhir(hml);
+        FhirMessage fhir = mapHmlToFhir(hml);
     }
 
-//    private FhirMessage mapHmlToFhir(Hml hml) {
-//        ModelMapper mapper = new ModelMapper();
-//        FhirMessage message = new FhirMessage();
-//        Patient patient = new Patient();
-//        Specimen specimen = new Specimen();
-//
-//        mapper.addMappings(new PatientMap());
-//        mapper.addConverter(new SpecimenMap());
-//
-//        mapper.map(hml, patient);
-//        mapper.map(hml, specimen);
-//
-//        return message;
-//    }
+    private List<KafkaMessage> transformHmlToKafka(List<Hml> hmls) {
+        List<KafkaMessage> messages = hmls.stream()
+            .filter(Objects::nonNull)
+            .map(hml -> new KafkaMessage(
+                    new Date(),
+                        UUID.randomUUID().toString(),
+                    "mac os x",
+                    new KafkaMessagePayload(
+                        hml,
+                        hml.getId()
+                    )
+                )
+            )
+            .collect(Collectors.toList());
+
+        return messages;
+    }
+
+    private FhirMessage mapHmlToFhir(Hml hml) {
+        ModelMapper mapper = new ModelMapper();
+        FhirMessage message = new FhirMessage();
+        Patient patient = new Patient();
+        Specimen specimen = new Specimen();
+
+        mapper.addMappings(new PatientMap());
+        mapper.addConverter(new SpecimenMap());
+
+        mapper.map(hml, patient);
+        mapper.map(hml, specimen);
+
+        return message;
+    }
 }

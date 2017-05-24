@@ -26,14 +26,12 @@ package org.nmdp.hmlfhirconverter.service.conversion;
 
 import io.swagger.model.Hml;
 
-import org.nmdp.servicekafkaproducermodel.models.KafkaMessage;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface HmlToFhirConversionService {
     void convertHmlToFhir(String hmlXml);
-    void produceKafkaMessages(List<KafkaMessage> messages);
+    void produceKafkaMessages(List<Hml> hmls);
     List<Hml> convertFileToHml(MultipartFile file);
 }
