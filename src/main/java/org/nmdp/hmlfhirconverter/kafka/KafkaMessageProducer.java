@@ -26,6 +26,7 @@ package org.nmdp.hmlfhirconverter.kafka;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -48,14 +49,15 @@ public class KafkaMessageProducer {
     }
 
     public void send(List<KafkaMessage> messages) {
-        KafkaProducer<byte[], byte[]> producer = new KafkaProducer<>(config.getProperties());
+        Properties properties = config.getProperties();
+        KafkaProducer<byte[], byte[]> producer = new KafkaProducer<>(properties);
         List<ProducerRecord<byte[], byte[]>> records =  messages.stream()
             .filter(Objects::nonNull)
             .map(message -> new ProducerRecord<>(config.getTopic(), toBinary(config.getKey()), message.toBinary()))
             .collect(Collectors.toList());
 
         records.stream()
-                .forEach(record -> producer.send(record));
+            .forEach(record -> producer.send(record));
 
         producer.close();
     }

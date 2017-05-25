@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,7 +36,7 @@ import java.util.stream.Collectors;
 @Configuration
 public class KafkaProducerConfiguration {
 
-    @Value("${kafka.bootstrap.server}")
+    @Value("${kafka.bootstrap.servers}")
     private String bootstrapServer;
 
     @Value("${kafka.acks}")
@@ -78,21 +79,36 @@ public class KafkaProducerConfiguration {
     @Bean
     public Properties getProducerConfiguration() {
         Properties props = new Properties();
-        List<Field> fields = Arrays.stream(this.getClass().getDeclaredFields())
+        List<Field> fields = Arrays.stream(KafkaProducerConfiguration.class.getDeclaredFields())
                 .filter(Objects::nonNull)
-                .filter(f -> implementsValueAttribute(f))
+                .filter(field -> !Arrays.stream(field.getAnnotations())
+                    .filter(Objects::nonNull)
+                    .filter(annotation -> annotation.annotationType().equals(Value.class))
+                    .collect(Collectors.toList()).isEmpty())
                 .collect(Collectors.toList());
 
         for (Field field : fields) {
             field.setAccessible(true);
 
+            try {
+                Annotation annotation = Arrays.stream(field.getDeclaredAnnotations())
+                        .filter(Objects::nonNull)
+                        .filter(a -> a.annotationType().equals(Value.class))
+                        .findFirst()
+                        .get();
+
+                Object annotationValue = ((Value) annotation).value()
+                        .replace("kafka.", "")
+                        .replace("$", "")
+                        .replace("{", "")
+                        .replace("}", "");
+
+                props.put(annotationValue, field.get(this));
+            } catch (Exception ex) {
+                // TODO: do something should this fail
+            }
         }
 
         return props;
-    }
-
-    private Boolean implementsValueAttribute(Field field) {
-
-        return true;
     }
 }
