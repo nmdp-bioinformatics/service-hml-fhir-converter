@@ -38,6 +38,7 @@ import org.nmdp.hmlfhirconverter.kafka.KafkaMessageProducer;
 import org.nmdp.hmlfhirconverter.kafka.config.KafkaMessageProducerConfiguration;
 import org.nmdp.hmlfhirconverter.mapping.fhir.PatientMap;
 import org.nmdp.hmlfhirconverter.mapping.fhir.SpecimenMap;
+import org.nmdp.hmlfhirconverter.mapping.object.DoDtoMapper;
 import org.nmdp.hmlfhirconverter.util.HmlToFhirConverter;
 
 import org.nmdp.servicekafkaproducermodel.models.KafkaMessage;
@@ -69,7 +70,8 @@ public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionServic
 
     public void produceKafkaMessages(List<Hml> hmls) {
         KafkaMessageProducer producer = new KafkaMessageProducer(config);
-        List<KafkaMessage> messages = transformHmlToKafka(hmls);
+        List<org.nmdp.hmlfhirconverter.domain.Hml> doHmls = toDataObjects(hmls);
+        List<KafkaMessage> messages = transformHmlToKafka(doHmls);
         producer.send(messages);
     }
 
@@ -92,7 +94,14 @@ public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionServic
         FhirMessage fhir = mapHmlToFhir(hml);
     }
 
-    private List<KafkaMessage> transformHmlToKafka(List<Hml> hmls) {
+    private List<org.nmdp.hmlfhirconverter.domain.Hml> toDataObjects(List<Hml> dtos) {
+        return dtos.stream()
+            .filter(Objects::nonNull)
+            .map(hml -> DoDtoMapper.INSTANCE.map(hml))
+            .collect(Collectors.toList());
+    }
+
+    private List<KafkaMessage> transformHmlToKafka(List<org.nmdp.hmlfhirconverter.domain.Hml> hmls) {
         List<KafkaMessage> messages = hmls.stream()
             .filter(Objects::nonNull)
             .map(hml -> new KafkaMessage(
@@ -101,7 +110,7 @@ public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionServic
                     "mac os x",
                     new KafkaMessagePayload(
                         hml,
-                        hml.getId()
+                        null
                     )
                 )
             )

@@ -3,7 +3,6 @@ package org.nmdp.hmlfhirconverter.domain.base;
 import com.mongodb.DBObject;
 
 import java.lang.reflect.Field;
-import java.util.Date;
 import java.util.List;
 
 /**
