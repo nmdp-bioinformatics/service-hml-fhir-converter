@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.DiploidCombinationRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.DiploidCombinationCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.DiploidCombination;
+import org.nmdp.hmlfhirconvertermodels.domain.DiploidCombination;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DiploidCombinationServiceImpl extends MongoCrudRepositoryService<DiploidCombination, io.swagger.model.DiploidCombination> implements DiploidCombinationService {
+public class DiploidCombinationServiceImpl extends MongoCrudRepositoryService<DiploidCombination, org.nmdp.hmlfhirconvertermodels.dto.DiploidCombination> implements DiploidCombinationService {
 
     @Autowired
     public DiploidCombinationServiceImpl(@Qualifier("diploidCombinationRepository") DiploidCombinationRepository diploidCombinationRepository,
                              @Qualifier("diploidCombinationCustomRepository") DiploidCombinationCustomRepository diploidCombinationCustomRepository) {
-        super(diploidCombinationCustomRepository, diploidCombinationRepository, DiploidCombination.class, io.swagger.model.DiploidCombination.class);
+        super(diploidCombinationCustomRepository, diploidCombinationRepository, DiploidCombination.class, org.nmdp.hmlfhirconvertermodels.dto.DiploidCombination.class);
     }
 }

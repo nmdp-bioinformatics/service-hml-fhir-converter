@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.ConsensusSequence;
+import org.nmdp.hmlfhirconvertermodels.domain.ConsensusSequence;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface ConsensusSequenceService extends IMongoCrudRepositoryService<ConsensusSequence, io.swagger.model.ConsensusSequence> {
+public interface ConsensusSequenceService extends IMongoCrudRepositoryService<ConsensusSequence, org.nmdp.hmlfhirconvertermodels.dto.ConsensusSequence> {
 
 }

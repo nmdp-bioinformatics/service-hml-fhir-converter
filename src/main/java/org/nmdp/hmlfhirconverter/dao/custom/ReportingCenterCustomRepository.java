@@ -25,7 +25,7 @@ package org.nmdp.hmlfhirconverter.dao.custom;
  */
 
 
-import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
+import org.nmdp.hmlfhirconvertermodels.domain.ReportingCenter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

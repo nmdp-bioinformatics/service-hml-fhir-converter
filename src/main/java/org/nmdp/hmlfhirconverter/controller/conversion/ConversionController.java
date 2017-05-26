@@ -25,7 +25,7 @@ package org.nmdp.hmlfhirconverter.controller.conversion;
  */
 
 import io.swagger.api.NotFoundException;
-import io.swagger.model.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
 
 import org.nmdp.hmlfhirconverter.service.HmlService;
 import org.nmdp.hmlfhirconverter.service.conversion.HmlToFhirConversionService;
@@ -71,7 +71,7 @@ public class ConversionController {
     public Callable<ResponseEntity<Boolean>> convertHmlFileToFhir(@RequestBody MultipartFile file) {
         try {
             List<Hml> hmls = hmlToFhirConversionService.convertFileToHml(file);
-            //List<org.nmdp.hmlfhirconverter.domain.Hml> nmdpHmls = hmlService.createItems(hmls);
+            //List<org.nmdp.hmlfhirconvertermodels.domain.Hml> nmdpHmls = hmlService.createItems(hmls);
             hmlToFhirConversionService.produceKafkaMessages(hmls);
             return () -> new ResponseEntity<>(true, HttpStatus.OK);
         } catch (Exception ex) {

@@ -60,21 +60,14 @@ public class KafkaProducerConfiguration {
     @Value("${kafka.value.serializer}")
     private String valueSerializer;
 
-    @Value("${kafka.topic}")
-    private String topic;
+    @Value("${kafka.client.id}")
+    private String clientId;
 
-    @Value("${kafka.server.key}")
-    private Object key;
+    @Value("${kafka.max.request.size}")
+    private Integer maxRequestSize;
 
-    @Bean
-    public String getTopic() {
-        return topic;
-    }
-
-    @Bean
-    public Object getKey() {
-        return key;
-    }
+    @Value("${kafka.receive.buffer.bytes}")
+    private Integer receiveBufferBytes;
 
     @Bean
     public Properties getProducerConfiguration() {

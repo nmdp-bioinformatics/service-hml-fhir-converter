@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.ProjectRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.ProjectCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Project;
+import org.nmdp.hmlfhirconvertermodels.domain.Project;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProjectServiceImpl extends MongoCrudRepositoryService<Project, io.swagger.model.Project> implements ProjectService {
+public class ProjectServiceImpl extends MongoCrudRepositoryService<Project, org.nmdp.hmlfhirconvertermodels.dto.Project> implements ProjectService {
 
     @Autowired
     public ProjectServiceImpl(@Qualifier("projectRepository") ProjectRepository projectRepository,
                               @Qualifier("projectCustomRepository") ProjectCustomRepository projectCustomRepository) {
-        super(projectCustomRepository, projectRepository, Project.class, io.swagger.model.Project.class);
+        super(projectCustomRepository, projectRepository, Project.class, org.nmdp.hmlfhirconvertermodels.dto.Project.class);
     }
 }

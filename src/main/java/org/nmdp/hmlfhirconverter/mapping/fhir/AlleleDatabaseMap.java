@@ -24,15 +24,15 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.AlleleAssignment;
-import io.swagger.model.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.AlleleAssignment;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
 
-import io.swagger.model.Sample;
-import io.swagger.model.Typing;
+import org.nmdp.hmlfhirconvertermodels.dto.Sample;
+import org.nmdp.hmlfhirconvertermodels.dto.Typing;
 import org.modelmapper.Converter;
 
 import org.modelmapper.spi.MappingContext;
-import org.nmdp.hmlfhirconverter.domain.fhir.AlleleDatabase;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.AlleleDatabase;
 
 import java.util.List;
 import java.util.ArrayList;

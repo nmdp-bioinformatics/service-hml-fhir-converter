@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.nmdp.hmlfhirconverter.domain.Amplification;
+import org.nmdp.hmlfhirconvertermodels.domain.Amplification;
 
 public interface AmplificationRepository extends MongoRepository<Amplification, String> {
     Page<Amplification> findAll(Pageable pageable);

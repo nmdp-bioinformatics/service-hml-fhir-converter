@@ -25,7 +25,7 @@ package org.nmdp.hmlfhirconverter.service;
  */
 
 import org.nmdp.hmlfhirconverter.dao.custom.VersionCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Version;
+import org.nmdp.hmlfhirconvertermodels.domain.Version;
 import org.nmdp.hmlfhirconverter.dao.VersionRepository;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 import org.nmdp.hmlfhirconverter.util.Converters;
@@ -41,12 +41,12 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class VersionServiceImpl extends MongoCrudRepositoryService<Version, io.swagger.model.Version> implements VersionService {
+public class VersionServiceImpl extends MongoCrudRepositoryService<Version, org.nmdp.hmlfhirconvertermodels.dto.Version> implements VersionService {
 
     @Autowired
     public VersionServiceImpl(@Qualifier("versionRepository") VersionRepository versionRepository,
                               @Qualifier("versionCustomRepository") VersionCustomRepository versionCustomRepository) {
-        super(versionCustomRepository, versionRepository, Version.class, io.swagger.model.Version.class);
+        super(versionCustomRepository, versionRepository, Version.class, org.nmdp.hmlfhirconvertermodels.dto.Version.class);
     }
 
     @Override

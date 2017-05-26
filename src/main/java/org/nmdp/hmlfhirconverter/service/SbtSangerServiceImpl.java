@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.SbtSangerRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.SbtSangerCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.SbtSanger;
+import org.nmdp.hmlfhirconvertermodels.domain.SbtSanger;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SbtSangerServiceImpl extends MongoCrudRepositoryService<SbtSanger, io.swagger.model.SbtSanger> implements SbtSangerService {
+public class SbtSangerServiceImpl extends MongoCrudRepositoryService<SbtSanger, org.nmdp.hmlfhirconvertermodels.dto.SbtSanger> implements SbtSangerService {
 
     @Autowired
     public SbtSangerServiceImpl(@Qualifier("sbtSangerRepository") SbtSangerRepository sbtSangerRepository,
                                 @Qualifier("sbtSangerCustomRepository") SbtSangerCustomRepository sbtSangerCustomRepository) {
-        super(sbtSangerCustomRepository, sbtSangerRepository, SbtSanger.class, io.swagger.model.SbtSanger.class);
+        super(sbtSangerCustomRepository, sbtSangerRepository, SbtSanger.class, org.nmdp.hmlfhirconvertermodels.dto.SbtSanger.class);
     }
 }

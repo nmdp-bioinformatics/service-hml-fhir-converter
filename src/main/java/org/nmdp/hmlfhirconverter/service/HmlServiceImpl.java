@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.HmlRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.HmlCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Hml;
-import org.nmdp.hmlfhirconverter.domain.internal.MongoConfiguration;
+import org.nmdp.hmlfhirconvertermodels.domain.Hml;
+import org.nmdp.hmlfhirconvertermodels.domain.internal.MongoConfiguration;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, io.swagger.model.Hml> implements HmlService {
+public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, org.nmdp.hmlfhirconvertermodels.dto.Hml> implements HmlService {
 
     private final MongoConfiguration mongoConfiguration;
 
@@ -47,12 +47,12 @@ public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, io.swagger.m
     public HmlServiceImpl(@Qualifier("hmlRepository") HmlRepository hmlRepository,
                           @Qualifier("hmlCustomRepository") HmlCustomRepository hmlCustomRepository,
                           @Qualifier("mongoConfiguration") MongoConfiguration mongoConfiguration) {
-        super(hmlCustomRepository, hmlRepository, Hml.class, io.swagger.model.Hml.class);
+        super(hmlCustomRepository, hmlRepository, Hml.class, org.nmdp.hmlfhirconvertermodels.dto.Hml.class);
         this.mongoConfiguration = mongoConfiguration;
     }
 
     @Override
-    public List<Hml> createItems(List<io.swagger.model.Hml> items) {
+    public List<Hml> createItems(List<org.nmdp.hmlfhirconvertermodels.dto.Hml> items) {
         List<Hml> nmdpModel = items.stream()
                 .filter(Objects::nonNull)
                 .map(obj -> Hml.convertFromSwagger(obj, Hml.class))
@@ -66,7 +66,7 @@ public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, io.swagger.m
     }
 
     @Override
-    public Hml updateItem(io.swagger.model.Hml item) {
+    public Hml updateItem(org.nmdp.hmlfhirconvertermodels.dto.Hml item) {
         Hml nmdpModel = Hml.convertFromSwagger(item, Hml.class);
         nmdpModel.updateCollectionProperties(nmdpModel, mongoConfiguration);
         return super.mongoRepository.save(nmdpModel);

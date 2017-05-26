@@ -24,12 +24,11 @@ package org.nmdp.hmlfhirconverter.kafka;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.log4j.Logger;
 
@@ -50,14 +49,24 @@ public class KafkaMessageProducer {
 
     public void send(List<KafkaMessage> messages) {
         Properties properties = config.getProperties();
-        KafkaProducer<byte[], byte[]> producer = new KafkaProducer<>(properties);
+        Producer<byte[], byte[]> producer = new KafkaProducer<>(properties);
+        List<KafkaProducerCallback> callbacks = new ArrayList<>();
         List<ProducerRecord<byte[], byte[]>> records =  messages.stream()
             .filter(Objects::nonNull)
             .map(message -> new ProducerRecord<>(config.getTopic(), toBinary(config.getKey()), message.toBinary()))
             .collect(Collectors.toList());
 
-        records.stream()
-            .forEach(record -> producer.send(record));
+        for (ProducerRecord record : records) {
+            KafkaProducerCallback callback = new KafkaProducerCallback();
+            producer.send(record, callback);
+            callbacks.add(callback);
+        }
+
+        producer.flush();
+
+        while (!messageProductionComplete(callbacks)) {
+            LOG.info("Sending kafka messages.");
+        }
 
         producer.close();
     }
@@ -75,5 +84,11 @@ public class KafkaMessageProducer {
         }
 
         return array;
+    }
+
+    private Boolean messageProductionComplete(List<KafkaProducerCallback> callbacks) {
+        return !callbacks.stream()
+            .filter(Objects::nonNull)
+            .anyMatch(callback -> !callback.getIsComplete());
     }
 }

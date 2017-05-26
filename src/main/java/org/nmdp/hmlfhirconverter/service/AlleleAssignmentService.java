@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.AlleleAssignment;
+import org.nmdp.hmlfhirconvertermodels.domain.AlleleAssignment;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface AlleleAssignmentService extends IMongoCrudRepositoryService<AlleleAssignment, io.swagger.model.AlleleAssignment> {
+public interface AlleleAssignmentService extends IMongoCrudRepositoryService<AlleleAssignment, org.nmdp.hmlfhirconvertermodels.dto.AlleleAssignment> {
 
 }

@@ -39,8 +39,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import io.swagger.api.NotFoundException;
-import io.swagger.model.Project;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.Project;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 import io.swagger.api.ProjectApi;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Project>>> createProjects(@RequestBody List<Project> projects) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Project> result = projectService.createItems(projects);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Project> result = projectService.createItems(projects);
             List<Project> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -101,7 +101,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Project>>> getTypeaheadProjects(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Project> result = projectService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Project> result = projectService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Project> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -114,7 +114,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Project>> getProject(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Project project = projectService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.Project project = projectService.getById(id);
             return () -> new ResponseEntity<>(project.toDto(project), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -126,7 +126,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Project>>> getProjects(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Project> result = projectService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.Project> result = projectService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Project> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -139,7 +139,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Project>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.Project project = new org.nmdp.hmlfhirconverter.domain.Project(true);
+            org.nmdp.hmlfhirconvertermodels.domain.Project project = new org.nmdp.hmlfhirconvertermodels.domain.Project(true);
             return () -> new ResponseEntity<>(project.toDto(project), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -151,7 +151,7 @@ public class ProjectController implements ProjectApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Project>> updateProject(@RequestBody Project project) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Project nmdpModel = projectService.updateItem(project);
+            org.nmdp.hmlfhirconvertermodels.domain.Project nmdpModel = projectService.updateItem(project);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

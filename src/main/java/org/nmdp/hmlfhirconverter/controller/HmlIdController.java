@@ -39,8 +39,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import io.swagger.api.NotFoundException;
-import io.swagger.model.HmlId;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.HmlId;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 import io.swagger.api.HmlIdApi;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class HmlIdController implements HmlIdApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<HmlId>>> createHmlIds(@RequestBody List<HmlId> hmlIds) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.HmlId> result = hmlIdService.createItems(hmlIds);
+            List<org.nmdp.hmlfhirconvertermodels.domain.HmlId> result = hmlIdService.createItems(hmlIds);
             List<HmlId> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -101,7 +101,7 @@ public class HmlIdController implements HmlIdApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<HmlId>>> getTypeaheadHmlIds(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.HmlId> result = hmlIdService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.HmlId> result = hmlIdService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<HmlId> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -114,7 +114,7 @@ public class HmlIdController implements HmlIdApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<HmlId>> getHmlId(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.HmlId hmlId = hmlIdService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.HmlId hmlId = hmlIdService.getById(id);
             return () -> new ResponseEntity<>(hmlId.toDto(hmlId), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -126,7 +126,7 @@ public class HmlIdController implements HmlIdApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<HmlId>>> getHmlIds(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.HmlId> result = hmlIdService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.HmlId> result = hmlIdService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<HmlId> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -139,7 +139,7 @@ public class HmlIdController implements HmlIdApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<HmlId>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.HmlId hmlId = new org.nmdp.hmlfhirconverter.domain.HmlId(true);
+            org.nmdp.hmlfhirconvertermodels.domain.HmlId hmlId = new org.nmdp.hmlfhirconvertermodels.domain.HmlId(true);
             return () -> new ResponseEntity<>(hmlId.toDto(hmlId), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -151,7 +151,7 @@ public class HmlIdController implements HmlIdApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<HmlId>> updateHmlId(@RequestBody HmlId hmlId) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.HmlId nmdpModel = hmlIdService.updateItem(hmlId);
+            org.nmdp.hmlfhirconvertermodels.domain.HmlId nmdpModel = hmlIdService.updateItem(hmlId);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

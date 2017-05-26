@@ -24,7 +24,7 @@ package org.nmdp.hmlfhirconverter.controller;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 import org.nmdp.hmlfhirconverter.service.VersionService;
 import org.nmdp.hmlfhirconverter.util.Converters;
 
@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import io.swagger.api.NotFoundException;
-import io.swagger.model.Version;
+import org.nmdp.hmlfhirconvertermodels.dto.Version;
 import io.swagger.api.VersionApi;
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class VersionController implements VersionApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Version>>> createVersions(@RequestBody List<Version> versions) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Version> result = versionService.createItems(versions);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Version> result = versionService.createItems(versions);
             List<Version> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -100,7 +100,7 @@ public class VersionController implements VersionApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Version>>> getTypeaheadVersions(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Version> result = versionService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Version> result = versionService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Version> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -113,7 +113,7 @@ public class VersionController implements VersionApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Version>> getVersion(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Version version = versionService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.Version version = versionService.getById(id);
             return () -> new ResponseEntity<>(version.toDto(version), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -125,7 +125,7 @@ public class VersionController implements VersionApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Version>>> getVersions(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Version> result = versionService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.Version> result = versionService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Version> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -138,7 +138,7 @@ public class VersionController implements VersionApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Version>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.Version version = new org.nmdp.hmlfhirconverter.domain.Version(true);
+            org.nmdp.hmlfhirconvertermodels.domain.Version version = new org.nmdp.hmlfhirconvertermodels.domain.Version(true);
             return () -> new ResponseEntity<>(version.toDto(version), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -150,9 +150,9 @@ public class VersionController implements VersionApi {
     @RequestMapping(path = "/properties/{properties}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<Version>> getVersionByProperties(@RequestBody Version version, @PathVariable List<String> properties) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Version queryModel = org.nmdp.hmlfhirconverter.domain.Version
-                    .convertFromSwagger(version, org.nmdp.hmlfhirconverter.domain.Version.class);
-            org.nmdp.hmlfhirconverter.domain.Version result = versionService.getByProperties(queryModel, properties);
+            org.nmdp.hmlfhirconvertermodels.domain.Version queryModel = org.nmdp.hmlfhirconvertermodels.domain.Version
+                    .convertFromSwagger(version, org.nmdp.hmlfhirconvertermodels.domain.Version.class);
+            org.nmdp.hmlfhirconvertermodels.domain.Version result = versionService.getByProperties(queryModel, properties);
             return () -> new ResponseEntity<>(result.toDto(result), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model by name.", ex);
@@ -164,7 +164,7 @@ public class VersionController implements VersionApi {
     @RequestMapping(path = "/default", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Version>> getDefaultVersion() {
         try {
-            org.nmdp.hmlfhirconverter.domain.Version version = versionService.getDefault();
+            org.nmdp.hmlfhirconvertermodels.domain.Version version = versionService.getDefault();
             return () -> new ResponseEntity<>(version.toDto(version), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting default version.", ex);
@@ -176,7 +176,7 @@ public class VersionController implements VersionApi {
     @RequestMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Version>>> getAllVersions() {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Version> result = versionService.getAll();
+            List<org.nmdp.hmlfhirconvertermodels.domain.Version> result = versionService.getAll();
             List<Version> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -189,7 +189,7 @@ public class VersionController implements VersionApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Version>> updateVersion(@RequestBody Version version) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Version nmdpModel = versionService.updateItem(version);
+            org.nmdp.hmlfhirconvertermodels.domain.Version nmdpModel = versionService.updateItem(version);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

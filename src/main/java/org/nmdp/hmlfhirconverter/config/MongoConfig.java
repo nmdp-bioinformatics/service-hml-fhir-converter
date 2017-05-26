@@ -27,7 +27,7 @@ package org.nmdp.hmlfhirconverter.config;
 import com.mongodb.MongoClient;
 import com.mongodb.Mongo;
 
-import org.nmdp.hmlfhirconverter.domain.internal.MongoConfiguration;
+import org.nmdp.hmlfhirconvertermodels.domain.internal.MongoConfiguration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

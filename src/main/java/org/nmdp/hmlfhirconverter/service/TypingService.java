@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.Typing;
+import org.nmdp.hmlfhirconvertermodels.domain.Typing;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface TypingService extends IMongoCrudRepositoryService<Typing, io.swagger.model.Typing> {
+public interface TypingService extends IMongoCrudRepositoryService<Typing, org.nmdp.hmlfhirconvertermodels.dto.Typing> {
 }

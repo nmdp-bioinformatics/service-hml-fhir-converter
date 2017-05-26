@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.CollectionMethod;
+import org.nmdp.hmlfhirconvertermodels.domain.CollectionMethod;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface CollectionMethodService extends IMongoCrudRepositoryService<CollectionMethod, io.swagger.model.CollectionMethod> {
+public interface CollectionMethodService extends IMongoCrudRepositoryService<CollectionMethod, org.nmdp.hmlfhirconvertermodels.dto.CollectionMethod> {
 
 }

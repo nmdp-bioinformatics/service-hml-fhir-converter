@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.GlString;
+import org.nmdp.hmlfhirconvertermodels.domain.GlString;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface GlStringService extends IMongoCrudRepositoryService<GlString, io.swagger.model.GlString> {
+public interface GlStringService extends IMongoCrudRepositoryService<GlString, org.nmdp.hmlfhirconvertermodels.dto.GlString> {
 
 }

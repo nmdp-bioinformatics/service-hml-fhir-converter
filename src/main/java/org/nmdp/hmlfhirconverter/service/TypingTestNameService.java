@@ -25,8 +25,8 @@ package org.nmdp.hmlfhirconverter.service;
  */
 
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
-import org.nmdp.hmlfhirconverter.domain.TypingTestName;
+import org.nmdp.hmlfhirconvertermodels.domain.TypingTestName;
 
-public interface TypingTestNameService extends IMongoCrudRepositoryService<TypingTestName, io.swagger.model.TypingTestName> {
+public interface TypingTestNameService extends IMongoCrudRepositoryService<TypingTestName, org.nmdp.hmlfhirconvertermodels.dto.TypingTestName> {
 
 }

@@ -24,14 +24,14 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.Hml;
-import io.swagger.model.ReportingCenter;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.ReportingCenter;
 
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
-import org.nmdp.hmlfhirconverter.domain.fhir.Identifier;
-import org.nmdp.hmlfhirconverter.domain.fhir.Organization;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.Identifier;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.Organization;
 
 public class OrganizationMap implements Converter<Hml, Organization> {
 

@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.Genotype;
+import org.nmdp.hmlfhirconvertermodels.domain.Genotype;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface GenotypeService extends IMongoCrudRepositoryService<Genotype, io.swagger.model.Genotype> {
+public interface GenotypeService extends IMongoCrudRepositoryService<Genotype, org.nmdp.hmlfhirconvertermodels.dto.Genotype> {
 
 }

@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.Amplification;
+import org.nmdp.hmlfhirconvertermodels.domain.Amplification;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface AmplificationService extends IMongoCrudRepositoryService<Amplification, io.swagger.model.Amplification> {
+public interface AmplificationService extends IMongoCrudRepositoryService<Amplification, org.nmdp.hmlfhirconvertermodels.dto.Amplification> {
 
 }

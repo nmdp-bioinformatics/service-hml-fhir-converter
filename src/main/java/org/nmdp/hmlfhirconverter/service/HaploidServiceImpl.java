@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.HaploidRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.HaploidCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Haploid;
+import org.nmdp.hmlfhirconvertermodels.domain.Haploid;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class HaploidServiceImpl extends MongoCrudRepositoryService<Haploid, io.swagger.model.Haploid> implements HaploidService {
+public class HaploidServiceImpl extends MongoCrudRepositoryService<Haploid, org.nmdp.hmlfhirconvertermodels.dto.Haploid> implements HaploidService {
 
     @Autowired
     public HaploidServiceImpl(@Qualifier("haploidRepository") HaploidRepository haploidRepository,
                              @Qualifier("haploidCustomRepository") HaploidCustomRepository haploidCustomRepository) {
-        super(haploidCustomRepository, haploidRepository, Haploid.class, io.swagger.model.Haploid.class);
+        super(haploidCustomRepository, haploidRepository, Haploid.class, org.nmdp.hmlfhirconvertermodels.dto.Haploid.class);
     }
 }

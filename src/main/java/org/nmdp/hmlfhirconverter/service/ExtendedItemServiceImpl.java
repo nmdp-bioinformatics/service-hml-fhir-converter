@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.ExtendedItemRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.ExtendedItemCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.ExtendedItem;
+import org.nmdp.hmlfhirconvertermodels.domain.ExtendedItem;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExtendedItemServiceImpl extends MongoCrudRepositoryService<ExtendedItem, io.swagger.model.ExtendedItem> implements ExtendedItemService {
+public class ExtendedItemServiceImpl extends MongoCrudRepositoryService<ExtendedItem, org.nmdp.hmlfhirconvertermodels.dto.ExtendedItem> implements ExtendedItemService {
 
     @Autowired
     public ExtendedItemServiceImpl(@Qualifier("extendedItemRepository") ExtendedItemRepository extendedItemRepository,
                              @Qualifier("extendedItemCustomRepository") ExtendedItemCustomRepository extendedItemCustomRepository) {
-        super(extendedItemCustomRepository, extendedItemRepository, ExtendedItem.class, io.swagger.model.ExtendedItem.class);
+        super(extendedItemCustomRepository, extendedItemRepository, ExtendedItem.class, org.nmdp.hmlfhirconvertermodels.dto.ExtendedItem.class);
     }
 }

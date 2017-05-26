@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.nmdp.hmlfhirconverter.domain.SbtNgs;
+import org.nmdp.hmlfhirconvertermodels.domain.SbtNgs;
 
 public interface SbtNgsRepository extends MongoRepository<SbtNgs, String> {
     Page<SbtNgs> findAll(Pageable pageable);

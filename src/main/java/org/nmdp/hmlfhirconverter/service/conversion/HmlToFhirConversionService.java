@@ -24,7 +24,7 @@ package org.nmdp.hmlfhirconverter.service.conversion;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
 
 import org.springframework.web.multipart.MultipartFile;
 

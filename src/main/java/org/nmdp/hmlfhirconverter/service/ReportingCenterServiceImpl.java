@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.ReportingCenterRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.ReportingCenterCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.ReportingCenter;
+import org.nmdp.hmlfhirconvertermodels.domain.ReportingCenter;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ReportingCenterServiceImpl extends MongoCrudRepositoryService<ReportingCenter, io.swagger.model.ReportingCenter> implements ReportingCenterService {
+public class ReportingCenterServiceImpl extends MongoCrudRepositoryService<ReportingCenter, org.nmdp.hmlfhirconvertermodels.dto.ReportingCenter> implements ReportingCenterService {
 
     @Autowired
     public ReportingCenterServiceImpl(@Qualifier("reportingCenterRepository") ReportingCenterRepository reportingCenterRepository,
                                       @Qualifier("reportingCenterCustomRepository") ReportingCenterCustomRepository reportingCenterCustomRepository) {
-        super(reportingCenterCustomRepository, reportingCenterRepository, ReportingCenter.class, io.swagger.model.ReportingCenter.class);
+        super(reportingCenterCustomRepository, reportingCenterRepository, ReportingCenter.class, org.nmdp.hmlfhirconvertermodels.dto.ReportingCenter.class);
     }
 }

@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.nmdp.hmlfhirconverter.domain.HmlId;
+import org.nmdp.hmlfhirconvertermodels.domain.HmlId;
 
 public interface HmlIdRepository extends MongoRepository<HmlId, String> {
     Page<HmlId> findAll(Pageable pageable);

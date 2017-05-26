@@ -25,15 +25,15 @@ package org.nmdp.hmlfhirconverter.service.conversion;
  */
 
 
-import io.swagger.model.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
 
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
 
 import org.nmdp.hmlfhirconverter.config.KafkaProducerConfiguration;
-import org.nmdp.hmlfhirconverter.domain.fhir.FhirMessage;
-import org.nmdp.hmlfhirconverter.domain.fhir.Patient;
-import org.nmdp.hmlfhirconverter.domain.fhir.Specimen;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.FhirMessage;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.Patient;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.Specimen;
 import org.nmdp.hmlfhirconverter.kafka.KafkaMessageProducer;
 import org.nmdp.hmlfhirconverter.kafka.config.KafkaMessageProducerConfiguration;
 import org.nmdp.hmlfhirconverter.mapping.fhir.PatientMap;
@@ -63,15 +63,14 @@ public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionServic
         KafkaProducerConfiguration kafkaProducerConfiguration) {
         config = new KafkaMessageProducerConfiguration(
             kafkaProducerConfiguration.getProducerConfiguration(),
-            kafkaProducerConfiguration.getTopic(),
-            kafkaProducerConfiguration.getKey()
+            "hml-fhir-conversion",
+            "andrew-mbp"
         );
     }
 
     public void produceKafkaMessages(List<Hml> hmls) {
         KafkaMessageProducer producer = new KafkaMessageProducer(config);
-        List<org.nmdp.hmlfhirconverter.domain.Hml> doHmls = toDataObjects(hmls);
-        List<KafkaMessage> messages = transformHmlToKafka(doHmls);
+        List<KafkaMessage> messages = transformHmlToKafka(hmls);
         producer.send(messages);
     }
 
@@ -94,14 +93,14 @@ public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionServic
         FhirMessage fhir = mapHmlToFhir(hml);
     }
 
-    private List<org.nmdp.hmlfhirconverter.domain.Hml> toDataObjects(List<Hml> dtos) {
+    private List<org.nmdp.hmlfhirconvertermodels.domain.Hml> toDataObjects(List<Hml> dtos) {
         return dtos.stream()
             .filter(Objects::nonNull)
             .map(hml -> DoDtoMapper.INSTANCE.map(hml))
             .collect(Collectors.toList());
     }
 
-    private List<KafkaMessage> transformHmlToKafka(List<org.nmdp.hmlfhirconverter.domain.Hml> hmls) {
+    private List<KafkaMessage> transformHmlToKafka(List<Hml> hmls) {
         List<KafkaMessage> messages = hmls.stream()
             .filter(Objects::nonNull)
             .map(hml -> new KafkaMessage(

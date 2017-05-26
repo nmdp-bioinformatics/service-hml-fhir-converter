@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.nmdp.hmlfhirconverter.domain.ConsensusSequence;
+import org.nmdp.hmlfhirconvertermodels.domain.ConsensusSequence;
 
 public interface ConsensusSequenceRepository extends MongoRepository<ConsensusSequence, String> {
     Page<ConsensusSequence> findAll(Pageable pageable);

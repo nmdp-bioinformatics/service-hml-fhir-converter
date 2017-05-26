@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.VariantApi;
-import io.swagger.model.Variant;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.Variant;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.VariantService;
@@ -60,7 +60,7 @@ public class VariantController implements VariantApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Variant>>> createVariants(@RequestBody List<Variant> variants) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Variant> result = variantService.createItems(variants);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Variant> result = variantService.createItems(variants);
             List<Variant> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class VariantController implements VariantApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Variant>> getVariant(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Variant variant = variantService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.Variant variant = variantService.getById(id);
             return () -> new ResponseEntity<>(variant.toDto(variant), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class VariantController implements VariantApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Variant>>> getTypeaheadVariants(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Variant> result = variantService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Variant> result = variantService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Variant> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class VariantController implements VariantApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Variant>>> getVariants(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Variant> result = variantService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.Variant> result = variantService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Variant> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class VariantController implements VariantApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Variant>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.Variant variant = new org.nmdp.hmlfhirconverter.domain.Variant(true);
+            org.nmdp.hmlfhirconvertermodels.domain.Variant variant = new org.nmdp.hmlfhirconvertermodels.domain.Variant(true);
             return () -> new ResponseEntity<>(variant.toDto(variant), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class VariantController implements VariantApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Variant>> updateVariant(@RequestBody Variant variant) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Variant nmdpModel = variantService.updateItem(variant);
+            org.nmdp.hmlfhirconvertermodels.domain.Variant nmdpModel = variantService.updateItem(variant);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

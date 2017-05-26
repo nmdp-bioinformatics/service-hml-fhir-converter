@@ -25,7 +25,7 @@ package org.nmdp.hmlfhirconverter.util;
  */
 
 import org.apache.log4j.Logger;
-import org.nmdp.hmlfhirconverter.domain.base.IMongoDataRepositoryModel;
+import org.nmdp.hmlfhirconvertermodels.domain.base.IMongoDataRepositoryModel;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;

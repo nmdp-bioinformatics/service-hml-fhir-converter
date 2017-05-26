@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.SsoApi;
-import io.swagger.model.Sso;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.Sso;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.SsoService;
@@ -60,7 +60,7 @@ public class SsoController implements SsoApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Sso>>> createSsos(@RequestBody List<Sso> ssos) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Sso> result = ssoService.createItems(ssos);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Sso> result = ssoService.createItems(ssos);
             List<Sso> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class SsoController implements SsoApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Sso>> getSso(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Sso sso = ssoService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.Sso sso = ssoService.getById(id);
             return () -> new ResponseEntity<>(sso.toDto(sso), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class SsoController implements SsoApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Sso>>> getTypeaheadSsos(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Sso> result = ssoService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Sso> result = ssoService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Sso> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class SsoController implements SsoApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Sso>>> getSsos(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Sso> result = ssoService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.Sso> result = ssoService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Sso> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class SsoController implements SsoApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Sso>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.Sso sso = new org.nmdp.hmlfhirconverter.domain.Sso(true);
+            org.nmdp.hmlfhirconvertermodels.domain.Sso sso = new org.nmdp.hmlfhirconvertermodels.domain.Sso(true);
             return () -> new ResponseEntity<>(sso.toDto(sso), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class SsoController implements SsoApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Sso>> updateSso(@RequestBody Sso sso) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Sso nmdpModel = ssoService.updateItem(sso);
+            org.nmdp.hmlfhirconvertermodels.domain.Sso nmdpModel = ssoService.updateItem(sso);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

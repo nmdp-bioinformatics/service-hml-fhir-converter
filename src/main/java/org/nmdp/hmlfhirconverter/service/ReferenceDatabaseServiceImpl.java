@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.ReferenceDatabaseRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.ReferenceDatabaseCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.ReferenceDatabase;
+import org.nmdp.hmlfhirconvertermodels.domain.ReferenceDatabase;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ReferenceDatabaseServiceImpl extends MongoCrudRepositoryService<ReferenceDatabase, io.swagger.model.ReferenceDatabase> implements ReferenceDatabaseService {
+public class ReferenceDatabaseServiceImpl extends MongoCrudRepositoryService<ReferenceDatabase, org.nmdp.hmlfhirconvertermodels.dto.ReferenceDatabase> implements ReferenceDatabaseService {
 
     @Autowired
     public ReferenceDatabaseServiceImpl(@Qualifier("referenceDatabaseRepository") ReferenceDatabaseRepository referenceDatabaseRepository,
                              @Qualifier("referenceDatabaseCustomRepository") ReferenceDatabaseCustomRepository referenceDatabaseCustomRepository) {
-        super(referenceDatabaseCustomRepository, referenceDatabaseRepository, ReferenceDatabase.class, io.swagger.model.ReferenceDatabase.class);
+        super(referenceDatabaseCustomRepository, referenceDatabaseRepository, ReferenceDatabase.class, org.nmdp.hmlfhirconvertermodels.dto.ReferenceDatabase.class);
     }
 }

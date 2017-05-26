@@ -32,7 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 
-import io.swagger.model.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
 
 import org.nmdp.hmlfhirconverter.service.conversion.converters.HmlXmlDeserializer;
 
@@ -55,7 +55,7 @@ public class HmlToFhirConverter {
         try {
             JSONObject json = convertXmlStringToJson(hmlXml);
             GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(io.swagger.model.Hml.class, new HmlXmlDeserializer());
+            gsonBuilder.registerTypeAdapter(org.nmdp.hmlfhirconvertermodels.dto.Hml.class, new HmlXmlDeserializer());
             JsonParser parser = new JsonParser();
             Object obj = parser.parse(json.toString());
             JsonObject jsonObject = (JsonObject) obj;
@@ -75,7 +75,7 @@ public class HmlToFhirConverter {
                 JSONObject mutatedJson = mutatePropertyNames(jsonObj, "ns2:");
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 JsonParser parser = new JsonParser();
-                gsonBuilder.registerTypeAdapter(io.swagger.model.Hml.class, new HmlXmlDeserializer());
+                gsonBuilder.registerTypeAdapter(org.nmdp.hmlfhirconvertermodels.dto.Hml.class, new HmlXmlDeserializer());
                 Gson gson = gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
                 Object obj = parser.parse(mutatedJson.toString());
                 JsonObject jsonObject = (JsonObject) obj;

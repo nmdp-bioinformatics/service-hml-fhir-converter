@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.AmplificationRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.AmplificationCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Amplification;
+import org.nmdp.hmlfhirconvertermodels.domain.Amplification;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AmplificationServiceImpl extends MongoCrudRepositoryService<Amplification, io.swagger.model.Amplification> implements AmplificationService {
+public class AmplificationServiceImpl extends MongoCrudRepositoryService<Amplification, org.nmdp.hmlfhirconvertermodels.dto.Amplification> implements AmplificationService {
 
     @Autowired
     public AmplificationServiceImpl(@Qualifier("amplificationRepository") AmplificationRepository amplificationRepository,
                              @Qualifier("amplificationCustomRepository") AmplificationCustomRepository amplificationCustomRepository) {
-        super(amplificationCustomRepository, amplificationRepository, Amplification.class, io.swagger.model.Amplification.class);
+        super(amplificationCustomRepository, amplificationRepository, Amplification.class, org.nmdp.hmlfhirconvertermodels.dto.Amplification.class);
     }
 }

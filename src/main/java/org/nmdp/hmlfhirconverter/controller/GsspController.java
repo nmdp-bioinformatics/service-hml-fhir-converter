@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.GsspApi;
-import io.swagger.model.Gssp;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.Gssp;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.GsspService;
@@ -60,7 +60,7 @@ public class GsspController implements GsspApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Gssp>>> createGssps(@RequestBody List<Gssp> gssps) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Gssp> result = gsspService.createItems(gssps);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Gssp> result = gsspService.createItems(gssps);
             List<Gssp> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class GsspController implements GsspApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Gssp>> getGssp(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Gssp gssp = gsspService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.Gssp gssp = gsspService.getById(id);
             return () -> new ResponseEntity<>(gssp.toDto(gssp), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class GsspController implements GsspApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Gssp>>> getTypeaheadGssps(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Gssp> result = gsspService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Gssp> result = gsspService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Gssp> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class GsspController implements GsspApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Gssp>>> getGssps(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Gssp> result = gsspService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.Gssp> result = gsspService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Gssp> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class GsspController implements GsspApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Gssp>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.Gssp gssp = new org.nmdp.hmlfhirconverter.domain.Gssp(true);
+            org.nmdp.hmlfhirconvertermodels.domain.Gssp gssp = new org.nmdp.hmlfhirconvertermodels.domain.Gssp(true);
             return () -> new ResponseEntity<>(gssp.toDto(gssp), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class GsspController implements GsspApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Gssp>> updateGssp(@RequestBody Gssp gssp) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Gssp nmdpModel = gsspService.updateItem(gssp);
+            org.nmdp.hmlfhirconvertermodels.domain.Gssp nmdpModel = gsspService.updateItem(gssp);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.ReferenceSequenceRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.ReferenceSequenceCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.ReferenceSequence;
+import org.nmdp.hmlfhirconvertermodels.domain.ReferenceSequence;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ReferenceSequenceServiceImpl extends MongoCrudRepositoryService<ReferenceSequence, io.swagger.model.ReferenceSequence> implements ReferenceSequenceService {
+public class ReferenceSequenceServiceImpl extends MongoCrudRepositoryService<ReferenceSequence, org.nmdp.hmlfhirconvertermodels.dto.ReferenceSequence> implements ReferenceSequenceService {
 
     @Autowired
     public ReferenceSequenceServiceImpl(@Qualifier("referenceSequenceRepository") ReferenceSequenceRepository referenceSequenceRepository,
                              @Qualifier("referenceSequenceCustomRepository") ReferenceSequenceCustomRepository referenceSequenceCustomRepository) {
-        super(referenceSequenceCustomRepository, referenceSequenceRepository, ReferenceSequence.class, io.swagger.model.ReferenceSequence.class);
+        super(referenceSequenceCustomRepository, referenceSequenceRepository, ReferenceSequence.class, org.nmdp.hmlfhirconvertermodels.dto.ReferenceSequence.class);
     }
 }

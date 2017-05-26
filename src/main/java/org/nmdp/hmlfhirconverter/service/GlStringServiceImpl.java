@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.GlStringRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.GlStringCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.GlString;
+import org.nmdp.hmlfhirconvertermodels.domain.GlString;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GlStringServiceImpl extends MongoCrudRepositoryService<GlString, io.swagger.model.GlString> implements GlStringService {
+public class GlStringServiceImpl extends MongoCrudRepositoryService<GlString, org.nmdp.hmlfhirconvertermodels.dto.GlString> implements GlStringService {
 
     @Autowired
     public GlStringServiceImpl(@Qualifier("glStringRepository") GlStringRepository glStringRepository,
                              @Qualifier("glStringCustomRepository") GlStringCustomRepository glStringCustomRepository) {
-        super(glStringCustomRepository, glStringRepository, GlString.class, io.swagger.model.GlString.class);
+        super(glStringCustomRepository, glStringRepository, GlString.class, org.nmdp.hmlfhirconvertermodels.dto.GlString.class);
     }
 }

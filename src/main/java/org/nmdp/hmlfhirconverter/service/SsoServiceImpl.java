@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.SsoRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.SsoCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Sso;
+import org.nmdp.hmlfhirconvertermodels.domain.Sso;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SsoServiceImpl extends MongoCrudRepositoryService<Sso, io.swagger.model.Sso> implements SsoService {
+public class SsoServiceImpl extends MongoCrudRepositoryService<Sso, org.nmdp.hmlfhirconvertermodels.dto.Sso> implements SsoService {
 
     @Autowired
     public SsoServiceImpl(@Qualifier("ssoRepository") SsoRepository ssoRepository,
                           @Qualifier("ssoCustomRepository") SsoCustomRepository ssoCustomRepository) {
-        super(ssoCustomRepository, ssoRepository, Sso.class, io.swagger.model.Sso.class);
+        super(ssoCustomRepository, ssoRepository, Sso.class, org.nmdp.hmlfhirconvertermodels.dto.Sso.class);
     }
 }

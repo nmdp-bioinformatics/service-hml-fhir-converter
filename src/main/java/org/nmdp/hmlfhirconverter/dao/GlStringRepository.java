@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.nmdp.hmlfhirconverter.domain.GlString;
+import org.nmdp.hmlfhirconvertermodels.domain.GlString;
 
 public interface GlStringRepository extends MongoRepository<GlString, String> {
     Page<GlString> findAll(Pageable pageable);

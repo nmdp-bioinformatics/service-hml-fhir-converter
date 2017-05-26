@@ -24,12 +24,12 @@ package org.nmdp.hmlfhirconverter.util;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.QueryCriteria;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.QueryCriteria;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 
-import org.nmdp.hmlfhirconverter.domain.base.IMongoDataRepositoryModel;
+import org.nmdp.hmlfhirconvertermodels.domain.base.IMongoDataRepositoryModel;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

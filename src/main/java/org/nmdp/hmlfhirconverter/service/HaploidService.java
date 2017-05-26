@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.Haploid;
+import org.nmdp.hmlfhirconvertermodels.domain.Haploid;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface HaploidService extends IMongoCrudRepositoryService<Haploid, io.swagger.model.Haploid> {
+public interface HaploidService extends IMongoCrudRepositoryService<Haploid, org.nmdp.hmlfhirconvertermodels.dto.Haploid> {
 
 }

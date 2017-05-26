@@ -25,7 +25,7 @@ package org.nmdp.hmlfhirconverter.service;
  */
 
 import org.nmdp.hmlfhirconverter.dao.custom.TypingTestNameCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.TypingTestName;
+import org.nmdp.hmlfhirconvertermodels.domain.TypingTestName;
 import org.nmdp.hmlfhirconverter.dao.TypingTestNameRepository;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TypingTestNameServiceImpl extends MongoCrudRepositoryService<TypingTestName, io.swagger.model.TypingTestName> implements TypingTestNameService {
+public class TypingTestNameServiceImpl extends MongoCrudRepositoryService<TypingTestName, org.nmdp.hmlfhirconvertermodels.dto.TypingTestName> implements TypingTestNameService {
 
     @Autowired
     public TypingTestNameServiceImpl(@Qualifier("typingTestNameRepository") TypingTestNameRepository typingTestNameRepository,
                                      @Qualifier("typingTestNameCustomRepository") TypingTestNameCustomRepository typingTestNameCustomRepository) {
-        super(typingTestNameCustomRepository, typingTestNameRepository, TypingTestName.class, io.swagger.model.TypingTestName.class);
+        super(typingTestNameCustomRepository, typingTestNameRepository, TypingTestName.class, org.nmdp.hmlfhirconvertermodels.dto.TypingTestName.class);
     }
 }

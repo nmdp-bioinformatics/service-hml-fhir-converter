@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.SampleRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.SampleCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Sample;
+import org.nmdp.hmlfhirconvertermodels.domain.Sample;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SampleServiceImpl extends MongoCrudRepositoryService<Sample, io.swagger.model.Sample> implements SampleService {
+public class SampleServiceImpl extends MongoCrudRepositoryService<Sample, org.nmdp.hmlfhirconvertermodels.dto.Sample> implements SampleService {
 
     @Autowired
     public SampleServiceImpl(@Qualifier("sampleRepository") SampleRepository sampleRepository,
                              @Qualifier("sampleCustomRepository") SampleCustomRepository sampleCustomRepository) {
-        super(sampleCustomRepository, sampleRepository, Sample.class, io.swagger.model.Sample.class);
+        super(sampleCustomRepository, sampleRepository, Sample.class, org.nmdp.hmlfhirconvertermodels.dto.Sample.class);
     }
 }

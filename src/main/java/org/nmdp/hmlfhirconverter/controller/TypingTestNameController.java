@@ -4,7 +4,7 @@ package org.nmdp.hmlfhirconverter.controller;
  * Created by abrown3 on 12/21/16.
  */
 
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 import org.nmdp.hmlfhirconverter.service.TypingTestNameService;
 import org.nmdp.hmlfhirconverter.util.Converters;
 
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import io.swagger.api.NotFoundException;
-import io.swagger.model.TypingTestName;
+import org.nmdp.hmlfhirconvertermodels.dto.TypingTestName;
 import io.swagger.api.TypingTestNameApi;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<TypingTestName>>> createTypingTestNames(@RequestBody List<TypingTestName> typingTestNames) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.createItems(typingTestNames);
+            List<org.nmdp.hmlfhirconvertermodels.domain.TypingTestName> result = typingTestNameService.createItems(typingTestNames);
             List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -81,7 +81,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<TypingTestName>>> getTypeaheadTypingTestNames(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.TypingTestName> result = typingTestNameService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -94,7 +94,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<TypingTestName>> getTypingTestName(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.TypingTestName typingTestName = typingTestNameService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.TypingTestName typingTestName = typingTestNameService.getById(id);
             return () -> new ResponseEntity<>(typingTestName.toDto(typingTestName), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -106,7 +106,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<TypingTestName>>> getTypingTestNames(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.TypingTestName> result = typingTestNameService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.TypingTestName> result = typingTestNameService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<TypingTestName> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -119,7 +119,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<TypingTestName>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.TypingTestName typingTestName = new org.nmdp.hmlfhirconverter.domain.TypingTestName(true);
+            org.nmdp.hmlfhirconvertermodels.domain.TypingTestName typingTestName = new org.nmdp.hmlfhirconvertermodels.domain.TypingTestName(true);
             return () -> new ResponseEntity<>(typingTestName.toDto(typingTestName), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -131,7 +131,7 @@ public class TypingTestNameController implements TypingTestNameApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<TypingTestName>> updateTypingTestName(@RequestBody TypingTestName typingTestName) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.TypingTestName nmdpModel = typingTestNameService.updateItem(typingTestName);
+            org.nmdp.hmlfhirconvertermodels.domain.TypingTestName nmdpModel = typingTestNameService.updateItem(typingTestName);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

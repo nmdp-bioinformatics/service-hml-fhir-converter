@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.IupacBases;
+import org.nmdp.hmlfhirconvertermodels.domain.IupacBases;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface IupacBasesService extends IMongoCrudRepositoryService<IupacBases, io.swagger.model.IupacBases> {
+public interface IupacBasesService extends IMongoCrudRepositoryService<IupacBases, org.nmdp.hmlfhirconvertermodels.dto.IupacBases> {
 
 }

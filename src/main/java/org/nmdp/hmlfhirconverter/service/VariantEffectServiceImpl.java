@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.VariantEffectRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.VariantEffectCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.VariantEffect;
+import org.nmdp.hmlfhirconvertermodels.domain.VariantEffect;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VariantEffectServiceImpl extends MongoCrudRepositoryService<VariantEffect, io.swagger.model.VariantEffect> implements VariantEffectService {
+public class VariantEffectServiceImpl extends MongoCrudRepositoryService<VariantEffect, org.nmdp.hmlfhirconvertermodels.dto.VariantEffect> implements VariantEffectService {
 
     @Autowired
     public VariantEffectServiceImpl(@Qualifier("variantEffectRepository") VariantEffectRepository variantEffectRepository,
                              @Qualifier("variantEffectCustomRepository") VariantEffectCustomRepository variantEffectCustomRepository) {
-        super(variantEffectCustomRepository, variantEffectRepository, VariantEffect.class, io.swagger.model.VariantEffect.class);
+        super(variantEffectCustomRepository, variantEffectRepository, VariantEffect.class, org.nmdp.hmlfhirconvertermodels.dto.VariantEffect.class);
     }
 }

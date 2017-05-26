@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.nmdp.hmlfhirconverter.domain.IupacBases;
+import org.nmdp.hmlfhirconvertermodels.domain.IupacBases;
 
 public interface IupacBasesRepository extends MongoRepository<IupacBases, String> {
     Page<IupacBases> findAll(Pageable pageable);

@@ -24,15 +24,15 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.Hml;
-import io.swagger.model.Sample;
-import io.swagger.model.Typing;
-import io.swagger.model.TypingMethod;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.Sample;
+import org.nmdp.hmlfhirconvertermodels.dto.Typing;
+import org.nmdp.hmlfhirconvertermodels.dto.TypingMethod;
 
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
-import org.nmdp.hmlfhirconverter.domain.fhir.SbtNgs;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.SbtNgs;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class SbtNgsMap implements Converter<Hml, List<SbtNgs>> {
         for (Typing typing : typings) {
             SbtNgs sbtNgs = new SbtNgs();
             TypingMethod typingMethod = typing.getTypingMethod();
-            io.swagger.model.SbtNgs nmdpSbtNgs = typingMethod.getSbtNgs();
+            org.nmdp.hmlfhirconvertermodels.dto.SbtNgs nmdpSbtNgs = typingMethod.getSbtNgs();
 
             sbtNgs.setLocus(nmdpSbtNgs.getLocus());
             sbtNgsList.add(sbtNgs);

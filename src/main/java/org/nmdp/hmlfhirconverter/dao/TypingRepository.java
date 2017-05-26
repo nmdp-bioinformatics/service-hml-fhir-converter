@@ -29,7 +29,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import org.nmdp.hmlfhirconverter.domain.Typing;
+import org.nmdp.hmlfhirconvertermodels.domain.Typing;
 
 public interface TypingRepository extends MongoRepository<Typing, String> {
     Page<Typing> findAll(Pageable pageable);

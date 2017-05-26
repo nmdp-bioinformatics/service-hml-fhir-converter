@@ -24,14 +24,14 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.*;
+import org.nmdp.hmlfhirconvertermodels.dto.*;
 
-import io.swagger.model.Variant;
+import org.nmdp.hmlfhirconvertermodels.dto.Variant;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
-import org.nmdp.hmlfhirconverter.domain.fhir.*;
-import org.nmdp.hmlfhirconverter.domain.fhir.Sequence;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.*;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.Sequence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,7 +167,7 @@ public class SequenceMap implements Converter<Hml, List<Sequence>> {
         }
 
         Sequence sequence = new Sequence();
-        org.nmdp.hmlfhirconverter.domain.fhir.Variant fhirVariant = new org.nmdp.hmlfhirconverter.domain.fhir.Variant();
+        org.nmdp.hmlfhirconvertermodels.domain.fhir.Variant fhirVariant = new org.nmdp.hmlfhirconvertermodels.domain.fhir.Variant();
         Quality quality = new Quality();
         Score score = new Score();
 

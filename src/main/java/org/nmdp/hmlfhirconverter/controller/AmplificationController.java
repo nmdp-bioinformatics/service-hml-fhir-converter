@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.AmplificationApi;
-import io.swagger.model.Amplification;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.Amplification;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.AmplificationService;
@@ -60,7 +60,7 @@ public class AmplificationController implements AmplificationApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Amplification>>> createAmplifications(@RequestBody List<Amplification> amplifications) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Amplification> result = amplificationService.createItems(amplifications);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Amplification> result = amplificationService.createItems(amplifications);
             List<Amplification> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class AmplificationController implements AmplificationApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Amplification>> getAmplification(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Amplification amplification = amplificationService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.Amplification amplification = amplificationService.getById(id);
             return () -> new ResponseEntity<>(amplification.toDto(amplification), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class AmplificationController implements AmplificationApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Amplification>>> getTypeaheadAmplifications(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Amplification> result = amplificationService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Amplification> result = amplificationService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Amplification> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class AmplificationController implements AmplificationApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Amplification>>> getAmplifications(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Amplification> result = amplificationService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.Amplification> result = amplificationService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Amplification> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class AmplificationController implements AmplificationApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Amplification>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.Amplification amplification = new org.nmdp.hmlfhirconverter.domain.Amplification(true);
+            org.nmdp.hmlfhirconvertermodels.domain.Amplification amplification = new org.nmdp.hmlfhirconvertermodels.domain.Amplification(true);
             return () -> new ResponseEntity<>(amplification.toDto(amplification), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class AmplificationController implements AmplificationApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Amplification>> updateAmplification(@RequestBody Amplification amplification) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Amplification nmdpModel = amplificationService.updateItem(amplification);
+            org.nmdp.hmlfhirconvertermodels.domain.Amplification nmdpModel = amplificationService.updateItem(amplification);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

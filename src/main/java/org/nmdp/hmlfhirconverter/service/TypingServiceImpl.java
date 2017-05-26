@@ -24,7 +24,7 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.Typing;
+import org.nmdp.hmlfhirconvertermodels.domain.Typing;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 import org.nmdp.hmlfhirconverter.dao.TypingRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.TypingCustomRepository;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TypingServiceImpl extends MongoCrudRepositoryService<Typing, io.swagger.model.Typing> implements  TypingService {
+public class TypingServiceImpl extends MongoCrudRepositoryService<Typing, org.nmdp.hmlfhirconvertermodels.dto.Typing> implements  TypingService {
 
     @Autowired
     public TypingServiceImpl(@Qualifier("typingRepository") TypingRepository typingRepository,
                              @Qualifier("typingCustomRepository") TypingCustomRepository typingCustomRepository) {
-        super(typingCustomRepository, typingRepository, Typing.class, io.swagger.model.Typing.class);
+        super(typingCustomRepository, typingRepository, Typing.class, org.nmdp.hmlfhirconvertermodels.dto.Typing.class);
     }
 }

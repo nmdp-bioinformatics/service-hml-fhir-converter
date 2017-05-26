@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.ReferenceDatabase;
+import org.nmdp.hmlfhirconvertermodels.domain.ReferenceDatabase;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface ReferenceDatabaseService extends IMongoCrudRepositoryService<ReferenceDatabase, io.swagger.model.ReferenceDatabase> {
+public interface ReferenceDatabaseService extends IMongoCrudRepositoryService<ReferenceDatabase, org.nmdp.hmlfhirconvertermodels.dto.ReferenceDatabase> {
 
 }

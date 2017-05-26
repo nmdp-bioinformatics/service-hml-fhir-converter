@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.DiploidCombination;
+import org.nmdp.hmlfhirconvertermodels.domain.DiploidCombination;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface DiploidCombinationService extends IMongoCrudRepositoryService<DiploidCombination, io.swagger.model.DiploidCombination> {
+public interface DiploidCombinationService extends IMongoCrudRepositoryService<DiploidCombination, org.nmdp.hmlfhirconvertermodels.dto.DiploidCombination> {
 
 }

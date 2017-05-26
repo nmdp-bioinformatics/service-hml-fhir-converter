@@ -26,9 +26,9 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
 
 import org.modelmapper.PropertyMap;
 
-import org.nmdp.hmlfhirconverter.domain.fhir.Patient;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.Patient;
 
-import io.swagger.model.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
 
 public class PatientMap extends PropertyMap<Hml, Patient> {
 

@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.RawReadApi;
-import io.swagger.model.RawRead;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.RawRead;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.RawReadService;
@@ -60,7 +60,7 @@ public class RawReadController implements RawReadApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<RawRead>>> createRawReads(@RequestBody List<RawRead> rawreads) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.RawRead> result = rawReadService.createItems(rawreads);
+            List<org.nmdp.hmlfhirconvertermodels.domain.RawRead> result = rawReadService.createItems(rawreads);
             List<RawRead> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class RawReadController implements RawReadApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<RawRead>> getRawRead(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.RawRead rawRead = rawReadService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.RawRead rawRead = rawReadService.getById(id);
             return () -> new ResponseEntity<>(rawRead.toDto(rawRead), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class RawReadController implements RawReadApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<RawRead>>> getTypeaheadRawReads(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.RawRead> result = rawReadService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.RawRead> result = rawReadService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<RawRead> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class RawReadController implements RawReadApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<RawRead>>> getRawReads(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.RawRead> result = rawReadService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.RawRead> result = rawReadService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<RawRead> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class RawReadController implements RawReadApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<RawRead>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.RawRead rawRead = new org.nmdp.hmlfhirconverter.domain.RawRead(true);
+            org.nmdp.hmlfhirconvertermodels.domain.RawRead rawRead = new org.nmdp.hmlfhirconvertermodels.domain.RawRead(true);
             return () -> new ResponseEntity<>(rawRead.toDto(rawRead), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class RawReadController implements RawReadApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<RawRead>> updateRawRead(@RequestBody RawRead rawRead) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.RawRead nmdpModel = rawReadService.updateItem(rawRead);
+            org.nmdp.hmlfhirconvertermodels.domain.RawRead nmdpModel = rawReadService.updateItem(rawRead);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

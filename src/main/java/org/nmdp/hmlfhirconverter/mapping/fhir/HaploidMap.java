@@ -24,15 +24,15 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.Hml;
-import io.swagger.model.Sample;
-import io.swagger.model.Typing;
-import io.swagger.model.AlleleAssignment;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.Sample;
+import org.nmdp.hmlfhirconvertermodels.dto.Typing;
+import org.nmdp.hmlfhirconvertermodels.dto.AlleleAssignment;
 
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
-import org.nmdp.hmlfhirconverter.domain.fhir.Haploid;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.Haploid;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -53,8 +53,8 @@ public class HaploidMap implements Converter<Hml, List<Haploid>> {
         for (Typing typing : typings) {
             List<AlleleAssignment> alleleAssignments = typing.getAlleleAssignment();
             for (AlleleAssignment alleleAssignment : alleleAssignments) {
-                List<io.swagger.model.Haploid> nmdpHaploids = alleleAssignment.getHaploid();
-                for (io.swagger.model.Haploid haploid : nmdpHaploids) {
+                List<org.nmdp.hmlfhirconvertermodels.dto.Haploid> nmdpHaploids = alleleAssignment.getHaploid();
+                for (org.nmdp.hmlfhirconvertermodels.dto.Haploid haploid : nmdpHaploids) {
                     Haploid fhirHaploid = new Haploid();
 
                     fhirHaploid.setLocus(haploid.getLocus());

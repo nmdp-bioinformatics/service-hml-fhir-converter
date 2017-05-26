@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.nmdp.hmlfhirconverter.domain.VariantEffect;
+import org.nmdp.hmlfhirconvertermodels.domain.VariantEffect;
 
 public interface VariantEffectRepository extends MongoRepository<VariantEffect, String> {
     Page<VariantEffect> findAll(Pageable pageable);

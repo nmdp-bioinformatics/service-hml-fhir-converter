@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.HmlIdRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.HmlIdCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.HmlId;
+import org.nmdp.hmlfhirconvertermodels.domain.HmlId;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class HmlIdServiceImpl extends MongoCrudRepositoryService<HmlId, io.swagger.model.HmlId> implements HmlIdService {
+public class HmlIdServiceImpl extends MongoCrudRepositoryService<HmlId, org.nmdp.hmlfhirconvertermodels.dto.HmlId> implements HmlIdService {
 
     @Autowired
     public HmlIdServiceImpl(@Qualifier("hmlIdRepository") HmlIdRepository hmlIdRepository,
                             @Qualifier("hmlIdCustomRepository") HmlIdCustomRepository hmlIdCustomRepository) {
-        super(hmlIdCustomRepository, hmlIdRepository, HmlId.class, io.swagger.model.HmlId.class);
+        super(hmlIdCustomRepository, hmlIdRepository, HmlId.class, org.nmdp.hmlfhirconvertermodels.dto.HmlId.class);
     }
 }

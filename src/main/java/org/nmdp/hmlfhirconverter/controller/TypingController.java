@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.TypingApi;
-import io.swagger.model.Typing;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.Typing;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.TypingService;
@@ -60,7 +60,7 @@ public class TypingController implements TypingApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Typing>>> createTypings(@RequestBody List<Typing> typings) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Typing> result = typingService.createItems(typings);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Typing> result = typingService.createItems(typings);
             List<Typing> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class TypingController implements TypingApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Typing>> getTyping(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Typing typing = typingService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.Typing typing = typingService.getById(id);
             return () -> new ResponseEntity<>(typing.toDto(typing), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class TypingController implements TypingApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Typing>>> getTypeaheadTypings(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Typing> result = typingService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Typing> result = typingService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Typing> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class TypingController implements TypingApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Typing>>> getTypings(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Typing> result = typingService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.Typing> result = typingService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Typing> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class TypingController implements TypingApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Typing>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.Typing typing = new org.nmdp.hmlfhirconverter.domain.Typing(true);
+            org.nmdp.hmlfhirconvertermodels.domain.Typing typing = new org.nmdp.hmlfhirconvertermodels.domain.Typing(true);
             return () -> new ResponseEntity<>(typing.toDto(typing), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class TypingController implements TypingApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Typing>> updateTyping(@RequestBody Typing typing) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Typing nmdpModel = typingService.updateItem(typing);
+            org.nmdp.hmlfhirconvertermodels.domain.Typing nmdpModel = typingService.updateItem(typing);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

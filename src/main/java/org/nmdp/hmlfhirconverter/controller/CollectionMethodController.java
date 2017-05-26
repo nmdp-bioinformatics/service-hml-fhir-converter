@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.CollectionMethodApi;
 import io.swagger.api.NotFoundException;
-import io.swagger.model.CollectionMethod;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.CollectionMethod;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 
@@ -61,7 +61,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<CollectionMethod>>> createCollectionMethods(@RequestBody List<CollectionMethod> collectionMethods) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.CollectionMethod> result = collectionMethodService.createItems(collectionMethods);
+            List<org.nmdp.hmlfhirconvertermodels.domain.CollectionMethod> result = collectionMethodService.createItems(collectionMethods);
             List<CollectionMethod> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -96,7 +96,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<CollectionMethod>> getCollectionMethod(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.CollectionMethod collectionMethod = collectionMethodService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.CollectionMethod collectionMethod = collectionMethodService.getById(id);
             return () -> new ResponseEntity<>(collectionMethod.toDto(collectionMethod), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -108,7 +108,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<CollectionMethod>>> getTypeaheadCollectionMethods(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.CollectionMethod> result = collectionMethodService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.CollectionMethod> result = collectionMethodService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<CollectionMethod> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -121,7 +121,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<CollectionMethod>>> getCollectionMethods(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.CollectionMethod> result = collectionMethodService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.CollectionMethod> result = collectionMethodService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<CollectionMethod> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -134,7 +134,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<CollectionMethod>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.CollectionMethod collectionMethod = new org.nmdp.hmlfhirconverter.domain.CollectionMethod(true);
+            org.nmdp.hmlfhirconvertermodels.domain.CollectionMethod collectionMethod = new org.nmdp.hmlfhirconvertermodels.domain.CollectionMethod(true);
             return () -> new ResponseEntity<>(collectionMethod.toDto(collectionMethod), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -146,7 +146,7 @@ public class CollectionMethodController implements CollectionMethodApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<CollectionMethod>> updateCollectionMethod(@RequestBody CollectionMethod collectionMethod) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.CollectionMethod nmdpModel = collectionMethodService.updateItem(collectionMethod);
+            org.nmdp.hmlfhirconvertermodels.domain.CollectionMethod nmdpModel = collectionMethodService.updateItem(collectionMethod);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

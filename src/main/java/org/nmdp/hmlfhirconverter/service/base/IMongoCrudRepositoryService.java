@@ -24,7 +24,7 @@ package org.nmdp.hmlfhirconverter.service.base;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.springframework.data.domain.Page;
 

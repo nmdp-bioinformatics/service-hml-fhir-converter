@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.PropertyRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.PropertyCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Property;
+import org.nmdp.hmlfhirconvertermodels.domain.Property;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PropertyServiceImpl extends MongoCrudRepositoryService<Property, io.swagger.model.Property> implements PropertyService {
+public class PropertyServiceImpl extends MongoCrudRepositoryService<Property, org.nmdp.hmlfhirconvertermodels.dto.Property> implements PropertyService {
 
     @Autowired
     public PropertyServiceImpl(@Qualifier("propertyRepository") PropertyRepository propertyRepository,
                            @Qualifier("propertyCustomRepository") PropertyCustomRepository propertyCustomRepository) {
-        super(propertyCustomRepository, propertyRepository, Property.class, io.swagger.model.Property.class);
+        super(propertyCustomRepository, propertyRepository, Property.class, org.nmdp.hmlfhirconvertermodels.dto.Property.class);
     }
 }

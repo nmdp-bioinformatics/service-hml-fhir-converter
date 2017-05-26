@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.IupacBasesRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.IupacBasesCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.IupacBases;
+import org.nmdp.hmlfhirconvertermodels.domain.IupacBases;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class IupacBasesServiceImpl extends MongoCrudRepositoryService<IupacBases, io.swagger.model.IupacBases> implements IupacBasesService {
+public class IupacBasesServiceImpl extends MongoCrudRepositoryService<IupacBases, org.nmdp.hmlfhirconvertermodels.dto.IupacBases> implements IupacBasesService {
 
     @Autowired
     public IupacBasesServiceImpl(@Qualifier("iupacBasesRepository") IupacBasesRepository iupacBasesRepository,
                              @Qualifier("iupacBasesCustomRepository") IupacBasesCustomRepository iupacBasesCustomRepository) {
-        super(iupacBasesCustomRepository, iupacBasesRepository, IupacBases.class, io.swagger.model.IupacBases.class);
+        super(iupacBasesCustomRepository, iupacBasesRepository, IupacBases.class, org.nmdp.hmlfhirconvertermodels.dto.IupacBases.class);
     }
 }

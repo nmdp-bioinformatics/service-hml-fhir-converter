@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.nmdp.hmlfhirconverter.domain.AlleleAssignment;
+import org.nmdp.hmlfhirconvertermodels.domain.AlleleAssignment;
 
 public interface AlleleAssignmentRepository extends MongoRepository<AlleleAssignment, String> {
     Page<AlleleAssignment> findAll(Pageable pageable);

@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.VariantRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.VariantCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Variant;
+import org.nmdp.hmlfhirconvertermodels.domain.Variant;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VariantServiceImpl extends MongoCrudRepositoryService<Variant, io.swagger.model.Variant> implements VariantService {
+public class VariantServiceImpl extends MongoCrudRepositoryService<Variant, org.nmdp.hmlfhirconvertermodels.dto.Variant> implements VariantService {
 
     @Autowired
     public VariantServiceImpl(@Qualifier("variantRepository") VariantRepository variantRepository,
                              @Qualifier("variantCustomRepository") VariantCustomRepository variantCustomRepository) {
-        super(variantCustomRepository, variantRepository, Variant.class, io.swagger.model.Variant.class);
+        super(variantCustomRepository, variantRepository, Variant.class, org.nmdp.hmlfhirconvertermodels.dto.Variant.class);
     }
 }

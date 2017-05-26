@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.ConsensusSequenceRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.ConsensusSequenceCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.ConsensusSequence;
+import org.nmdp.hmlfhirconvertermodels.domain.ConsensusSequence;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ConsensusSequenceServiceImpl extends MongoCrudRepositoryService<ConsensusSequence, io.swagger.model.ConsensusSequence> implements ConsensusSequenceService {
+public class ConsensusSequenceServiceImpl extends MongoCrudRepositoryService<ConsensusSequence, org.nmdp.hmlfhirconvertermodels.dto.ConsensusSequence> implements ConsensusSequenceService {
 
     @Autowired
     public ConsensusSequenceServiceImpl(@Qualifier("consensusSequenceRepository") ConsensusSequenceRepository consensusSequenceRepository,
                              @Qualifier("consensusSequenceCustomRepository") ConsensusSequenceCustomRepository consensusSequenceCustomRepository) {
-        super(consensusSequenceCustomRepository, consensusSequenceRepository, ConsensusSequence.class, io.swagger.model.ConsensusSequence.class);
+        super(consensusSequenceCustomRepository, consensusSequenceRepository, ConsensusSequence.class, org.nmdp.hmlfhirconvertermodels.dto.ConsensusSequence.class);
     }
 }

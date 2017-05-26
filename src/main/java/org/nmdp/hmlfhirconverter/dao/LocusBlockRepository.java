@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.nmdp.hmlfhirconverter.domain.LocusBlock;
+import org.nmdp.hmlfhirconvertermodels.domain.LocusBlock;
 
 public interface LocusBlockRepository extends MongoRepository<LocusBlock, String> {
     Page<LocusBlock> findAll(Pageable pageable);

@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.AlleleRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.AlleleCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Allele;
+import org.nmdp.hmlfhirconvertermodels.domain.Allele;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AlleleServiceImpl extends MongoCrudRepositoryService<Allele, io.swagger.model.Allele> implements AlleleService {
+public class AlleleServiceImpl extends MongoCrudRepositoryService<Allele, org.nmdp.hmlfhirconvertermodels.dto.Allele> implements AlleleService {
 
     @Autowired
     public AlleleServiceImpl(@Qualifier("alleleRepository") AlleleRepository alleleRepository,
                              @Qualifier("alleleCustomRepository") AlleleCustomRepository alleleCustomRepository) {
-        super(alleleCustomRepository, alleleRepository, Allele.class, io.swagger.model.Allele.class);
+        super(alleleCustomRepository, alleleRepository, Allele.class, org.nmdp.hmlfhirconvertermodels.dto.Allele.class);
     }
 }

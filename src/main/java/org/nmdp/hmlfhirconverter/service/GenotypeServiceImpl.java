@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.GenotypeRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.GenotypeCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Genotype;
+import org.nmdp.hmlfhirconvertermodels.domain.Genotype;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GenotypeServiceImpl extends MongoCrudRepositoryService<Genotype, io.swagger.model.Genotype> implements GenotypeService {
+public class GenotypeServiceImpl extends MongoCrudRepositoryService<Genotype, org.nmdp.hmlfhirconvertermodels.dto.Genotype> implements GenotypeService {
 
     @Autowired
     public GenotypeServiceImpl(@Qualifier("genotypeRepository") GenotypeRepository genotypeRepository,
                              @Qualifier("genotypeCustomRepository") GenotypeCustomRepository genotypeCustomRepository) {
-        super(genotypeCustomRepository, genotypeRepository, Genotype.class, io.swagger.model.Genotype.class);
+        super(genotypeCustomRepository, genotypeRepository, Genotype.class, org.nmdp.hmlfhirconvertermodels.dto.Genotype.class);
     }
 }

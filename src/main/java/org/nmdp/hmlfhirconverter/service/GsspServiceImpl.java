@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.GsspRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.GsspCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.Gssp;
+import org.nmdp.hmlfhirconvertermodels.domain.Gssp;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GsspServiceImpl extends MongoCrudRepositoryService<Gssp, io.swagger.model.Gssp> implements GsspService {
+public class GsspServiceImpl extends MongoCrudRepositoryService<Gssp, org.nmdp.hmlfhirconvertermodels.dto.Gssp> implements GsspService {
 
     @Autowired
     public GsspServiceImpl(@Qualifier("gsspRepository") GsspRepository gsspRepository,
                              @Qualifier("gsspCustomRepository") GsspCustomRepository gsspCustomRepository) {
-        super(gsspCustomRepository, gsspRepository, Gssp.class, io.swagger.model.Gssp.class);
+        super(gsspCustomRepository, gsspRepository, Gssp.class, org.nmdp.hmlfhirconvertermodels.dto.Gssp.class);
     }
 }

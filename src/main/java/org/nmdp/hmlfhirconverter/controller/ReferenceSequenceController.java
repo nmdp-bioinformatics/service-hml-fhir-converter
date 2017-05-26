@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.ReferenceSequenceApi;
-import io.swagger.model.ReferenceSequence;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.ReferenceSequence;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.ReferenceSequenceService;
@@ -60,7 +60,7 @@ public class ReferenceSequenceController implements ReferenceSequenceApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<ReferenceSequence>>> createReferenceSequences(@RequestBody List<ReferenceSequence> referencesequences) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.ReferenceSequence> result = referenceSequenceService.createItems(referencesequences);
+            List<org.nmdp.hmlfhirconvertermodels.domain.ReferenceSequence> result = referenceSequenceService.createItems(referencesequences);
             List<ReferenceSequence> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class ReferenceSequenceController implements ReferenceSequenceApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<ReferenceSequence>> getReferenceSequence(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.ReferenceSequence referenceSequence = referenceSequenceService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.ReferenceSequence referenceSequence = referenceSequenceService.getById(id);
             return () -> new ResponseEntity<>(referenceSequence.toDto(referenceSequence), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class ReferenceSequenceController implements ReferenceSequenceApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<ReferenceSequence>>> getTypeaheadReferenceSequences(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.ReferenceSequence> result = referenceSequenceService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.ReferenceSequence> result = referenceSequenceService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<ReferenceSequence> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class ReferenceSequenceController implements ReferenceSequenceApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<ReferenceSequence>>> getReferenceSequences(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.ReferenceSequence> result = referenceSequenceService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.ReferenceSequence> result = referenceSequenceService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<ReferenceSequence> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class ReferenceSequenceController implements ReferenceSequenceApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<ReferenceSequence>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.ReferenceSequence referenceSequence = new org.nmdp.hmlfhirconverter.domain.ReferenceSequence(true);
+            org.nmdp.hmlfhirconvertermodels.domain.ReferenceSequence referenceSequence = new org.nmdp.hmlfhirconvertermodels.domain.ReferenceSequence(true);
             return () -> new ResponseEntity<>(referenceSequence.toDto(referenceSequence), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class ReferenceSequenceController implements ReferenceSequenceApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<ReferenceSequence>> updateReferenceSequence(@RequestBody ReferenceSequence referenceSequence) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.ReferenceSequence nmdpModel = referenceSequenceService.updateItem(referenceSequence);
+            org.nmdp.hmlfhirconvertermodels.domain.ReferenceSequence nmdpModel = referenceSequenceService.updateItem(referenceSequence);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

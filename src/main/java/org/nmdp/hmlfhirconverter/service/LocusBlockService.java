@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.LocusBlock;
+import org.nmdp.hmlfhirconvertermodels.domain.LocusBlock;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface LocusBlockService extends IMongoCrudRepositoryService<LocusBlock, io.swagger.model.LocusBlock> {
+public interface LocusBlockService extends IMongoCrudRepositoryService<LocusBlock, org.nmdp.hmlfhirconvertermodels.dto.LocusBlock> {
 
 }

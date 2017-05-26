@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.CollectionMethodRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.CollectionMethodCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.CollectionMethod;
+import org.nmdp.hmlfhirconvertermodels.domain.CollectionMethod;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +35,11 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class CollectionMethodServiceImpl extends MongoCrudRepositoryService<CollectionMethod, io.swagger.model.CollectionMethod> implements CollectionMethodService {
+public class CollectionMethodServiceImpl extends MongoCrudRepositoryService<CollectionMethod, org.nmdp.hmlfhirconvertermodels.dto.CollectionMethod> implements CollectionMethodService {
 
     @Autowired
     public CollectionMethodServiceImpl(@Qualifier("collectionMethodRepository") CollectionMethodRepository collectionMethodRepository,
                                        @Qualifier("collectionMethodCustomRepository") CollectionMethodCustomRepository collectionMethodCustomRepository) {
-        super(collectionMethodCustomRepository, collectionMethodRepository, CollectionMethod.class, io.swagger.model.CollectionMethod.class);
+        super(collectionMethodCustomRepository, collectionMethodRepository, CollectionMethod.class, org.nmdp.hmlfhirconvertermodels.dto.CollectionMethod.class);
     }
 }

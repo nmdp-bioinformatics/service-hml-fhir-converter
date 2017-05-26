@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.SbtSanger;
+import org.nmdp.hmlfhirconvertermodels.domain.SbtSanger;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface SbtSangerService extends IMongoCrudRepositoryService<SbtSanger, io.swagger.model.SbtSanger> {
+public interface SbtSangerService extends IMongoCrudRepositoryService<SbtSanger, org.nmdp.hmlfhirconvertermodels.dto.SbtSanger> {
 
 }

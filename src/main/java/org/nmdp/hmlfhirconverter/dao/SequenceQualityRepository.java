@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.nmdp.hmlfhirconverter.domain.SequenceQuality;
+import org.nmdp.hmlfhirconvertermodels.domain.SequenceQuality;
 
 public interface SequenceQualityRepository extends MongoRepository<SequenceQuality, String> {
     Page<SequenceQuality> findAll(Pageable pageable);

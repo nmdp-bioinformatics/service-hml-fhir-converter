@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.RawReadRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.RawReadCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.RawRead;
+import org.nmdp.hmlfhirconvertermodels.domain.RawRead;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RawReadServiceImpl extends MongoCrudRepositoryService<RawRead, io.swagger.model.RawRead> implements RawReadService {
+public class RawReadServiceImpl extends MongoCrudRepositoryService<RawRead, org.nmdp.hmlfhirconvertermodels.dto.RawRead> implements RawReadService {
 
     @Autowired
     public RawReadServiceImpl(@Qualifier("rawReadRepository") RawReadRepository rawReadRepository,
                              @Qualifier("rawReadCustomRepository") RawReadCustomRepository rawReadCustomRepository) {
-        super(rawReadCustomRepository, rawReadRepository, RawRead.class, io.swagger.model.RawRead.class);
+        super(rawReadCustomRepository, rawReadRepository, RawRead.class, org.nmdp.hmlfhirconvertermodels.dto.RawRead.class);
     }
 }

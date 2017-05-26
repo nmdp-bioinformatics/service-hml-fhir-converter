@@ -24,7 +24,7 @@ package org.nmdp.hmlfhirconverter.util;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.Version;
+import org.nmdp.hmlfhirconvertermodels.dto.Version;
 
 import java.util.Comparator;
 

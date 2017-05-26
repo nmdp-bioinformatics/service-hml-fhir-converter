@@ -24,7 +24,7 @@ package org.nmdp.hmlfhirconverter.util;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.QueryCriteria;
+import org.nmdp.hmlfhirconvertermodels.dto.QueryCriteria;
 
 public class QueryCriteriaExtended extends QueryCriteria {
 

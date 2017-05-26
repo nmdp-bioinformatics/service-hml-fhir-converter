@@ -28,7 +28,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.nmdp.hmlfhirconverter.domain.Genotype;
+import org.nmdp.hmlfhirconvertermodels.domain.Genotype;
 
 public interface GenotypeRepository extends MongoRepository<Genotype, String> {
     Page<Genotype> findAll(Pageable pageable);

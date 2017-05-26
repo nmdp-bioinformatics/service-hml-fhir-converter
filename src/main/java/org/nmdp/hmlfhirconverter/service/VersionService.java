@@ -25,11 +25,11 @@ package org.nmdp.hmlfhirconverter.service;
  */
 
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
-import org.nmdp.hmlfhirconverter.domain.Version;
+import org.nmdp.hmlfhirconvertermodels.domain.Version;
 
 import java.util.List;
 
-public interface VersionService extends IMongoCrudRepositoryService<Version, io.swagger.model.Version> {
+public interface VersionService extends IMongoCrudRepositoryService<Version, org.nmdp.hmlfhirconvertermodels.dto.Version> {
     Version getByProperties(Version version, List<String> properties);
     Version getDefault();
     List<Version> getAll();

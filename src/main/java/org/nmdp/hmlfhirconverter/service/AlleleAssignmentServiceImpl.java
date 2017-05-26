@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.AlleleAssignmentRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.AlleleAssignmentCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.AlleleAssignment;
+import org.nmdp.hmlfhirconvertermodels.domain.AlleleAssignment;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AlleleAssignmentServiceImpl extends MongoCrudRepositoryService<AlleleAssignment, io.swagger.model.AlleleAssignment> implements AlleleAssignmentService {
+public class AlleleAssignmentServiceImpl extends MongoCrudRepositoryService<AlleleAssignment, org.nmdp.hmlfhirconvertermodels.dto.AlleleAssignment> implements AlleleAssignmentService {
 
     @Autowired
     public AlleleAssignmentServiceImpl(@Qualifier("alleleAssignmentRepository") AlleleAssignmentRepository alleleAssignmentRepository,
                              @Qualifier("alleleAssignmentCustomRepository") AlleleAssignmentCustomRepository alleleAssignmentCustomRepository) {
-        super(alleleAssignmentCustomRepository, alleleAssignmentRepository, AlleleAssignment.class, io.swagger.model.AlleleAssignment.class);
+        super(alleleAssignmentCustomRepository, alleleAssignmentRepository, AlleleAssignment.class, org.nmdp.hmlfhirconvertermodels.dto.AlleleAssignment.class);
     }
 }

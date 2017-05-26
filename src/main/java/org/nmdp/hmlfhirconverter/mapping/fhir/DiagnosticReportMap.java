@@ -27,11 +27,11 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
-import io.swagger.model.Hml;
-import io.swagger.model.HmlId;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.HmlId;
 
-import org.nmdp.hmlfhirconverter.domain.fhir.DiagnosticReport;
-import org.nmdp.hmlfhirconverter.domain.fhir.Identifier;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.DiagnosticReport;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.Identifier;
 
 public class DiagnosticReportMap implements Converter<Hml, DiagnosticReport> {
 

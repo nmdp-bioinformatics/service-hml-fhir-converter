@@ -24,9 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.SubAmplification;
+import org.nmdp.hmlfhirconvertermodels.domain.SubAmplification;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface SubAmplificationService extends IMongoCrudRepositoryService<SubAmplification, io.swagger.model.SubAmplification> {
+public interface SubAmplificationService extends IMongoCrudRepositoryService<SubAmplification, org.nmdp.hmlfhirconvertermodels.dto.SubAmplification> {
 
 }

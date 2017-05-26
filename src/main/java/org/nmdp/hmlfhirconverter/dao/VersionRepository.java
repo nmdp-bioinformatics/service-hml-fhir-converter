@@ -24,7 +24,7 @@ package org.nmdp.hmlfhirconverter.dao;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.Version;
+import org.nmdp.hmlfhirconvertermodels.domain.Version;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

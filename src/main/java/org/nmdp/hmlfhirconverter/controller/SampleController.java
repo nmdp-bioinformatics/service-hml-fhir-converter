@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.SampleApi;
-import io.swagger.model.Sample;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.Sample;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.SampleService;
@@ -60,7 +60,7 @@ public class SampleController implements SampleApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Sample>>> createSamples(@RequestBody List<Sample> samples) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Sample> result = sampleService.createItems(samples);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Sample> result = sampleService.createItems(samples);
             List<Sample> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class SampleController implements SampleApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Sample>> getSample(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Sample sample = sampleService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.Sample sample = sampleService.getById(id);
             return () -> new ResponseEntity<>(sample.toDto(sample), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class SampleController implements SampleApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Sample>>> getTypeaheadSamples(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Sample> result = sampleService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Sample> result = sampleService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Sample> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class SampleController implements SampleApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Sample>>> getSamples(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Sample> result = sampleService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.Sample> result = sampleService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Sample> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class SampleController implements SampleApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Sample>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.Sample sample = new org.nmdp.hmlfhirconverter.domain.Sample(true);
+            org.nmdp.hmlfhirconvertermodels.domain.Sample sample = new org.nmdp.hmlfhirconvertermodels.domain.Sample(true);
             return () -> new ResponseEntity<>(sample.toDto(sample), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class SampleController implements SampleApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Sample>> updateSample(@RequestBody Sample sample) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Sample nmdpModel = sampleService.updateItem(sample);
+            org.nmdp.hmlfhirconvertermodels.domain.Sample nmdpModel = sampleService.updateItem(sample);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

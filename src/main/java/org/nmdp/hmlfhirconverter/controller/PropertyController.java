@@ -39,8 +39,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import io.swagger.api.NotFoundException;
-import io.swagger.model.Property;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.Property;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 import io.swagger.api.PropertyApi;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Property>>> createProperties(@RequestBody List<Property> properties) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Property> result = propertyService.createItems(properties);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Property> result = propertyService.createItems(properties);
             List<Property> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -101,7 +101,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Property>>> getTypeaheadProperties(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Property> result = propertyService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Property> result = propertyService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Property> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -114,7 +114,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public Callable<ResponseEntity<Property>> getProperty(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Property property = propertyService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.Property property = propertyService.getById(id);
             return () -> new ResponseEntity<>(property.toDto(property), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -126,7 +126,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Property>>> getProperties(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Property> result = propertyService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.Property> result = propertyService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Property> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -139,7 +139,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Property>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.Property property = new org.nmdp.hmlfhirconverter.domain.Property();
+            org.nmdp.hmlfhirconvertermodels.domain.Property property = new org.nmdp.hmlfhirconvertermodels.domain.Property();
             return () -> new ResponseEntity<>(property.toDto(property), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -151,7 +151,7 @@ public class PropertyController implements PropertyApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Property>> updateProperty(@RequestBody Property property) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Property nmdpModel = propertyService.updateItem(property);
+            org.nmdp.hmlfhirconvertermodels.domain.Property nmdpModel = propertyService.updateItem(property);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.SspApi;
-import io.swagger.model.Ssp;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.Ssp;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.SspService;
@@ -60,7 +60,7 @@ public class SspController implements SspApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Ssp>>> createSsps(@RequestBody List<Ssp> ssps) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Ssp> result = sspService.createItems(ssps);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Ssp> result = sspService.createItems(ssps);
             List<Ssp> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class SspController implements SspApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Ssp>> getSsp(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Ssp ssp = sspService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.Ssp ssp = sspService.getById(id);
             return () -> new ResponseEntity<>(ssp.toDto(ssp), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class SspController implements SspApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<Ssp>>> getTypeaheadSsps(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Ssp> result = sspService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.Ssp> result = sspService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<Ssp> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class SspController implements SspApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<Ssp>>> getSsps(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.Ssp> result = sspService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.Ssp> result = sspService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<Ssp> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class SspController implements SspApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<Ssp>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.Ssp ssp = new org.nmdp.hmlfhirconverter.domain.Ssp(true);
+            org.nmdp.hmlfhirconvertermodels.domain.Ssp ssp = new org.nmdp.hmlfhirconvertermodels.domain.Ssp(true);
             return () -> new ResponseEntity<>(ssp.toDto(ssp), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class SspController implements SspApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<Ssp>> updateSsp(@RequestBody Ssp ssp) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.Ssp nmdpModel = sspService.updateItem(ssp);
+            org.nmdp.hmlfhirconvertermodels.domain.Ssp nmdpModel = sspService.updateItem(ssp);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

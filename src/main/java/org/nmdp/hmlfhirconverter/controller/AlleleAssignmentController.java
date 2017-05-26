@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.AlleleAssignmentApi;
-import io.swagger.model.AlleleAssignment;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.AlleleAssignment;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.AlleleAssignmentService;
@@ -60,7 +60,7 @@ public class AlleleAssignmentController implements AlleleAssignmentApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<AlleleAssignment>>> createAlleleAssignments(@RequestBody List<AlleleAssignment> alleleassignments) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.AlleleAssignment> result = alleleAssignmentService.createItems(alleleassignments);
+            List<org.nmdp.hmlfhirconvertermodels.domain.AlleleAssignment> result = alleleAssignmentService.createItems(alleleassignments);
             List<AlleleAssignment> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class AlleleAssignmentController implements AlleleAssignmentApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<AlleleAssignment>> getAlleleAssignment(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.AlleleAssignment alleleAssignment = alleleAssignmentService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.AlleleAssignment alleleAssignment = alleleAssignmentService.getById(id);
             return () -> new ResponseEntity<>(alleleAssignment.toDto(alleleAssignment), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class AlleleAssignmentController implements AlleleAssignmentApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<AlleleAssignment>>> getTypeaheadAlleleAssignments(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.AlleleAssignment> result = alleleAssignmentService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.AlleleAssignment> result = alleleAssignmentService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<AlleleAssignment> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class AlleleAssignmentController implements AlleleAssignmentApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<AlleleAssignment>>> getAlleleAssignments(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.AlleleAssignment> result = alleleAssignmentService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.AlleleAssignment> result = alleleAssignmentService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<AlleleAssignment> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class AlleleAssignmentController implements AlleleAssignmentApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<AlleleAssignment>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.AlleleAssignment alleleAssignment = new org.nmdp.hmlfhirconverter.domain.AlleleAssignment(true);
+            org.nmdp.hmlfhirconvertermodels.domain.AlleleAssignment alleleAssignment = new org.nmdp.hmlfhirconvertermodels.domain.AlleleAssignment(true);
             return () -> new ResponseEntity<>(alleleAssignment.toDto(alleleAssignment), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class AlleleAssignmentController implements AlleleAssignmentApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<AlleleAssignment>> updateAlleleAssignment(@RequestBody AlleleAssignment alleleAssignment) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.AlleleAssignment nmdpModel = alleleAssignmentService.updateItem(alleleAssignment);
+            org.nmdp.hmlfhirconvertermodels.domain.AlleleAssignment nmdpModel = alleleAssignmentService.updateItem(alleleAssignment);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

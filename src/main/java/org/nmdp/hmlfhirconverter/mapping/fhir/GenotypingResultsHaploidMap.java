@@ -24,12 +24,12 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.*;
+import org.nmdp.hmlfhirconvertermodels.dto.*;
 
 import org.modelmapper.Converter;
 
 import org.modelmapper.spi.MappingContext;
-import org.nmdp.hmlfhirconverter.domain.fhir.GenotypingResultsHaploid;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.GenotypingResultsHaploid;
 
 import java.util.List;
 import java.util.ArrayList;

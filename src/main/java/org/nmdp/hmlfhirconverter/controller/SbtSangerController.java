@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.SbtSangerApi;
-import io.swagger.model.SbtSanger;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.SbtSanger;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.SbtSangerService;
@@ -60,7 +60,7 @@ public class SbtSangerController implements SbtSangerApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<SbtSanger>>> createSbtSangers(@RequestBody List<SbtSanger> sbtSangers) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.SbtSanger> result = sbtSangerService.createItems(sbtSangers);
+            List<org.nmdp.hmlfhirconvertermodels.domain.SbtSanger> result = sbtSangerService.createItems(sbtSangers);
             List<SbtSanger> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class SbtSangerController implements SbtSangerApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<SbtSanger>> getSbtSanger(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.SbtSanger sbtSanger = sbtSangerService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.SbtSanger sbtSanger = sbtSangerService.getById(id);
             return () -> new ResponseEntity<>(sbtSanger.toDto(sbtSanger), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class SbtSangerController implements SbtSangerApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<SbtSanger>>> getTypeaheadSbtSangers(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.SbtSanger> result = sbtSangerService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.SbtSanger> result = sbtSangerService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<SbtSanger> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class SbtSangerController implements SbtSangerApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<SbtSanger>>> getSbtSangers(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.SbtSanger> result = sbtSangerService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.SbtSanger> result = sbtSangerService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<SbtSanger> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class SbtSangerController implements SbtSangerApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<SbtSanger>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.SbtSanger sbtSanger = new org.nmdp.hmlfhirconverter.domain.SbtSanger(true);
+            org.nmdp.hmlfhirconvertermodels.domain.SbtSanger sbtSanger = new org.nmdp.hmlfhirconvertermodels.domain.SbtSanger(true);
             return () -> new ResponseEntity<>(sbtSanger.toDto(sbtSanger), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class SbtSangerController implements SbtSangerApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<SbtSanger>> updateSbtSanger(@RequestBody SbtSanger sbtSanger) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.SbtSanger nmdpModel = sbtSangerService.updateItem(sbtSanger);
+            org.nmdp.hmlfhirconvertermodels.domain.SbtSanger nmdpModel = sbtSangerService.updateItem(sbtSanger);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

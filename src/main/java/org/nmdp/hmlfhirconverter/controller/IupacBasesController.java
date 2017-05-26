@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.IupacBasesApi;
-import io.swagger.model.IupacBases;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.IupacBases;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.IupacBasesService;
@@ -60,7 +60,7 @@ public class IupacBasesController implements IupacBasesApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<IupacBases>>> createIupacBasess(@RequestBody List<IupacBases> iupacbasess) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.IupacBases> result = iupacBasesService.createItems(iupacbasess);
+            List<org.nmdp.hmlfhirconvertermodels.domain.IupacBases> result = iupacBasesService.createItems(iupacbasess);
             List<IupacBases> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class IupacBasesController implements IupacBasesApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<IupacBases>> getIupacBases(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.IupacBases iupacBases = iupacBasesService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.IupacBases iupacBases = iupacBasesService.getById(id);
             return () -> new ResponseEntity<>(iupacBases.toDto(iupacBases), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class IupacBasesController implements IupacBasesApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<IupacBases>>> getTypeaheadIupacBasess(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.IupacBases> result = iupacBasesService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.IupacBases> result = iupacBasesService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<IupacBases> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class IupacBasesController implements IupacBasesApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<IupacBases>>> getIupacBasess(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.IupacBases> result = iupacBasesService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.IupacBases> result = iupacBasesService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<IupacBases> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class IupacBasesController implements IupacBasesApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<IupacBases>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.IupacBases iupacBases = new org.nmdp.hmlfhirconverter.domain.IupacBases(true);
+            org.nmdp.hmlfhirconvertermodels.domain.IupacBases iupacBases = new org.nmdp.hmlfhirconvertermodels.domain.IupacBases(true);
             return () -> new ResponseEntity<>(iupacBases.toDto(iupacBases), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class IupacBasesController implements IupacBasesApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<IupacBases>> updateIupacBases(@RequestBody IupacBases iupacBases) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.IupacBases nmdpModel = iupacBasesService.updateItem(iupacBases);
+            org.nmdp.hmlfhirconvertermodels.domain.IupacBases nmdpModel = iupacBasesService.updateItem(iupacBases);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

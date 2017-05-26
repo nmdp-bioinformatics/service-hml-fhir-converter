@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.LocusBlockRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.LocusBlockCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.LocusBlock;
+import org.nmdp.hmlfhirconvertermodels.domain.LocusBlock;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LocusBlockServiceImpl extends MongoCrudRepositoryService<LocusBlock, io.swagger.model.LocusBlock> implements LocusBlockService {
+public class LocusBlockServiceImpl extends MongoCrudRepositoryService<LocusBlock, org.nmdp.hmlfhirconvertermodels.dto.LocusBlock> implements LocusBlockService {
 
     @Autowired
     public LocusBlockServiceImpl(@Qualifier("locusBlockRepository") LocusBlockRepository locusBlockRepository,
                              @Qualifier("locusBlockCustomRepository") LocusBlockCustomRepository locusBlockCustomRepository) {
-        super(locusBlockCustomRepository, locusBlockRepository, LocusBlock.class, io.swagger.model.LocusBlock.class);
+        super(locusBlockCustomRepository, locusBlockRepository, LocusBlock.class, org.nmdp.hmlfhirconvertermodels.dto.LocusBlock.class);
     }
 }

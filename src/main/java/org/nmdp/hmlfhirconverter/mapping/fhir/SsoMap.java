@@ -24,15 +24,15 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.Hml;
-import io.swagger.model.Sample;
-import io.swagger.model.Typing;
-import io.swagger.model.TypingMethod;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.Sample;
+import org.nmdp.hmlfhirconvertermodels.dto.Typing;
+import org.nmdp.hmlfhirconvertermodels.dto.TypingMethod;
 
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
-import org.nmdp.hmlfhirconverter.domain.fhir.Sso;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.Sso;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class SsoMap implements Converter<Hml, List<Sso>> {
         for (Typing typing : typings) {
             Sso sso = new Sso();
             TypingMethod typingMethod = typing.getTypingMethod();
-            io.swagger.model.Sso nmdpSso = typingMethod.getSso();
+            org.nmdp.hmlfhirconvertermodels.dto.Sso nmdpSso = typingMethod.getSso();
 
             sso.setLocus(nmdpSso.getLocus());
             ssos.add(sso);

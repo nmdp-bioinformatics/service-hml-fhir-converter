@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.VariantEffectApi;
-import io.swagger.model.VariantEffect;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.VariantEffect;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.VariantEffectService;
@@ -60,7 +60,7 @@ public class VariantEffectController implements VariantEffectApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<VariantEffect>>> createVariantEffects(@RequestBody List<VariantEffect> varianteffects) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.VariantEffect> result = variantEffectService.createItems(varianteffects);
+            List<org.nmdp.hmlfhirconvertermodels.domain.VariantEffect> result = variantEffectService.createItems(varianteffects);
             List<VariantEffect> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class VariantEffectController implements VariantEffectApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<VariantEffect>> getVariantEffect(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.VariantEffect variantEffect = variantEffectService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.VariantEffect variantEffect = variantEffectService.getById(id);
             return () -> new ResponseEntity<>(variantEffect.toDto(variantEffect), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class VariantEffectController implements VariantEffectApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<VariantEffect>>> getTypeaheadVariantEffects(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.VariantEffect> result = variantEffectService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.VariantEffect> result = variantEffectService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<VariantEffect> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class VariantEffectController implements VariantEffectApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<VariantEffect>>> getVariantEffects(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.VariantEffect> result = variantEffectService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.VariantEffect> result = variantEffectService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<VariantEffect> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class VariantEffectController implements VariantEffectApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<VariantEffect>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.VariantEffect variantEffect = new org.nmdp.hmlfhirconverter.domain.VariantEffect(true);
+            org.nmdp.hmlfhirconvertermodels.domain.VariantEffect variantEffect = new org.nmdp.hmlfhirconvertermodels.domain.VariantEffect(true);
             return () -> new ResponseEntity<>(variantEffect.toDto(variantEffect), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class VariantEffectController implements VariantEffectApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<VariantEffect>> updateVariantEffect(@RequestBody VariantEffect variantEffect) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.VariantEffect nmdpModel = variantEffectService.updateItem(variantEffect);
+            org.nmdp.hmlfhirconvertermodels.domain.VariantEffect nmdpModel = variantEffectService.updateItem(variantEffect);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

@@ -26,7 +26,7 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconverter.dao.TypingMethodRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.TypingMethodCustomRepository;
-import org.nmdp.hmlfhirconverter.domain.TypingMethod;
+import org.nmdp.hmlfhirconvertermodels.domain.TypingMethod;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TypingMethodServiceImpl extends MongoCrudRepositoryService<TypingMethod, io.swagger.model.TypingMethod> implements TypingMethodService {
+public class TypingMethodServiceImpl extends MongoCrudRepositoryService<TypingMethod, org.nmdp.hmlfhirconvertermodels.dto.TypingMethod> implements TypingMethodService {
 
     @Autowired
     public TypingMethodServiceImpl(@Qualifier("typingMethodRepository") TypingMethodRepository typingMethodRepository,
                              @Qualifier("typingMethodCustomRepository") TypingMethodCustomRepository typingMethodCustomRepository) {
-        super(typingMethodCustomRepository, typingMethodRepository, TypingMethod.class, io.swagger.model.TypingMethod.class);
+        super(typingMethodCustomRepository, typingMethodRepository, TypingMethod.class, org.nmdp.hmlfhirconvertermodels.dto.TypingMethod.class);
     }
 }

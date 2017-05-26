@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.ExtendedItemApi;
-import io.swagger.model.ExtendedItem;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.ExtendedItem;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.ExtendedItemService;
@@ -60,7 +60,7 @@ public class ExtendedItemController implements ExtendedItemApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<ExtendedItem>>> createExtendedItems(@RequestBody List<ExtendedItem> extendeditems) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.ExtendedItem> result = extendedItemService.createItems(extendeditems);
+            List<org.nmdp.hmlfhirconvertermodels.domain.ExtendedItem> result = extendedItemService.createItems(extendeditems);
             List<ExtendedItem> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class ExtendedItemController implements ExtendedItemApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<ExtendedItem>> getExtendedItem(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.ExtendedItem extendedItem = extendedItemService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.ExtendedItem extendedItem = extendedItemService.getById(id);
             return () -> new ResponseEntity<>(extendedItem.toDto(extendedItem), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class ExtendedItemController implements ExtendedItemApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<ExtendedItem>>> getTypeaheadExtendedItems(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.ExtendedItem> result = extendedItemService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.ExtendedItem> result = extendedItemService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<ExtendedItem> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class ExtendedItemController implements ExtendedItemApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<ExtendedItem>>> getExtendedItems(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.ExtendedItem> result = extendedItemService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.ExtendedItem> result = extendedItemService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<ExtendedItem> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class ExtendedItemController implements ExtendedItemApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<ExtendedItem>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.ExtendedItem extendedItem = new org.nmdp.hmlfhirconverter.domain.ExtendedItem(true);
+            org.nmdp.hmlfhirconvertermodels.domain.ExtendedItem extendedItem = new org.nmdp.hmlfhirconvertermodels.domain.ExtendedItem(true);
             return () -> new ResponseEntity<>(extendedItem.toDto(extendedItem), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class ExtendedItemController implements ExtendedItemApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<ExtendedItem>> updateExtendedItem(@RequestBody ExtendedItem extendedItem) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.ExtendedItem nmdpModel = extendedItemService.updateItem(extendedItem);
+            org.nmdp.hmlfhirconvertermodels.domain.ExtendedItem nmdpModel = extendedItemService.updateItem(extendedItem);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

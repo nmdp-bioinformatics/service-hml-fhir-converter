@@ -26,8 +26,8 @@ package org.nmdp.hmlfhirconverter.controller;
 
 import io.swagger.api.NotFoundException;
 import io.swagger.api.LocusBlockApi;
-import io.swagger.model.LocusBlock;
-import io.swagger.model.TypeaheadQuery;
+import org.nmdp.hmlfhirconvertermodels.dto.LocusBlock;
+import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.service.LocusBlockService;
@@ -60,7 +60,7 @@ public class LocusBlockController implements LocusBlockApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<LocusBlock>>> createLocusBlocks(@RequestBody List<LocusBlock> locusblocks) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.LocusBlock> result = locusBlockService.createItems(locusblocks);
+            List<org.nmdp.hmlfhirconvertermodels.domain.LocusBlock> result = locusBlockService.createItems(locusblocks);
             List<LocusBlock> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class LocusBlockController implements LocusBlockApi {
     @RequestMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<LocusBlock>> getLocusBlock(@PathVariable String id) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.LocusBlock locusBlock = locusBlockService.getById(id);
+            org.nmdp.hmlfhirconvertermodels.domain.LocusBlock locusBlock = locusBlockService.getById(id);
             return () -> new ResponseEntity<>(locusBlock.toDto(locusBlock), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /get/{id}", ex);
@@ -107,7 +107,7 @@ public class LocusBlockController implements LocusBlockApi {
     @RequestMapping(path = "/{maxResults}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<List<LocusBlock>>> getTypeaheadLocusBlocks(@PathVariable(value = "maxResults") Integer maxResults, @RequestBody TypeaheadQuery typeaheadQuery) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.LocusBlock> result = locusBlockService.getTypeaheadItems(maxResults, typeaheadQuery);
+            List<org.nmdp.hmlfhirconvertermodels.domain.LocusBlock> result = locusBlockService.getTypeaheadItems(maxResults, typeaheadQuery);
             List<LocusBlock> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -120,7 +120,7 @@ public class LocusBlockController implements LocusBlockApi {
     @RequestMapping(path = "/{maxResults}/{pageNumber}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<List<LocusBlock>>> getLocusBlocks(@PathVariable Integer maxResults, @PathVariable Integer pageNumber) throws NotFoundException {
         try {
-            List<org.nmdp.hmlfhirconverter.domain.LocusBlock> result = locusBlockService.findByMaxReturn(maxResults, pageNumber).getContent();
+            List<org.nmdp.hmlfhirconvertermodels.domain.LocusBlock> result = locusBlockService.findByMaxReturn(maxResults, pageNumber).getContent();
             List<LocusBlock> transferResult = Converters.convertList(result, r -> r.toDto(r));
             return () -> new ResponseEntity<>(transferResult, HttpStatus.OK);
         } catch (Exception ex) {
@@ -133,7 +133,7 @@ public class LocusBlockController implements LocusBlockApi {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Callable<ResponseEntity<LocusBlock>> getModel() {
         try {
-            org.nmdp.hmlfhirconverter.domain.LocusBlock locusBlock = new org.nmdp.hmlfhirconverter.domain.LocusBlock(true);
+            org.nmdp.hmlfhirconvertermodels.domain.LocusBlock locusBlock = new org.nmdp.hmlfhirconvertermodels.domain.LocusBlock(true);
             return () -> new ResponseEntity<>(locusBlock.toDto(locusBlock), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error getting model.", ex);
@@ -145,7 +145,7 @@ public class LocusBlockController implements LocusBlockApi {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public Callable<ResponseEntity<LocusBlock>> updateLocusBlock(@RequestBody LocusBlock locusBlock) throws NotFoundException {
         try {
-            org.nmdp.hmlfhirconverter.domain.LocusBlock nmdpModel = locusBlockService.updateItem(locusBlock);
+            org.nmdp.hmlfhirconvertermodels.domain.LocusBlock nmdpModel = locusBlockService.updateItem(locusBlock);
             return () -> new ResponseEntity<>(nmdpModel.toDto(nmdpModel), HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error on /update", ex);

@@ -24,15 +24,15 @@ package org.nmdp.hmlfhirconverter.mapping.fhir;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.model.Hml;
-import io.swagger.model.Sample;
-import io.swagger.model.Typing;
-import io.swagger.model.TypingMethod;
+import org.nmdp.hmlfhirconvertermodels.dto.Hml;
+import org.nmdp.hmlfhirconvertermodels.dto.Sample;
+import org.nmdp.hmlfhirconvertermodels.dto.Typing;
+import org.nmdp.hmlfhirconvertermodels.dto.TypingMethod;
 
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
-import org.nmdp.hmlfhirconverter.domain.fhir.Ssp;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.Ssp;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class SspMap implements Converter<Hml, List<Ssp>> {
         for (Typing typing : typings) {
             Ssp ssp = new Ssp();
             TypingMethod typingMethod = typing.getTypingMethod();
-            io.swagger.model.Ssp nmdpSsp = typingMethod.getSsp();
+            org.nmdp.hmlfhirconvertermodels.dto.Ssp nmdpSsp = typingMethod.getSsp();
 
             ssp.setLocus(nmdpSsp.getLocus());
             ssps.add(ssp);

@@ -24,7 +24,7 @@ package org.nmdp.hmlfhirconverter.dao.custom;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhirconverter.domain.LocusBlock;
+import org.nmdp.hmlfhirconvertermodels.domain.LocusBlock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
