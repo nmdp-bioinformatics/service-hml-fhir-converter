@@ -49,11 +49,11 @@ public class KafkaMessageProducer {
 
     public void send(List<KafkaMessage> messages) {
         Properties properties = config.getProperties();
-        Producer<byte[], byte[]> producer = new KafkaProducer<>(properties);
+        Producer<String, String> producer = new KafkaProducer<>(properties);
         List<KafkaProducerCallback> callbacks = new ArrayList<>();
-        List<ProducerRecord<byte[], byte[]>> records =  messages.stream()
+        List<ProducerRecord<String, String>> records =  messages.stream()
             .filter(Objects::nonNull)
-            .map(message -> new ProducerRecord<>(config.getTopic(), toBinary(config.getKey()), message.toBinary()))
+            .map(message -> new ProducerRecord<>(config.getTopic(), config.getKey().toString(), message.toJson()))
             .collect(Collectors.toList());
 
         for (ProducerRecord record : records) {
