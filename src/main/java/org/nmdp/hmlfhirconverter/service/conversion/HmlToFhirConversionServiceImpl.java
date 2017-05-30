@@ -49,6 +49,7 @@ import org.springframework.core.convert.ConversionException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -103,19 +104,24 @@ public class HmlToFhirConversionServiceImpl implements HmlToFhirConversionServic
     private List<KafkaMessage> transformHmlToKafka(List<Hml> hmls) {
         List<KafkaMessage> messages = hmls.stream()
             .filter(Objects::nonNull)
-            .map(hml -> new KafkaMessage(
-                    new Date(),
-                        UUID.randomUUID().toString(),
-                    "mac os x",
-                    new KafkaMessagePayload(
-                        hml,
-                        null
-                    )
-                )
-            )
+            .map(hml -> createKafkaMessage(hml, hml.getId()))
             .collect(Collectors.toList());
 
         return messages;
+    }
+
+    private KafkaMessage createKafkaMessage(Hml hml, String id) {
+        KafkaMessage message = new KafkaMessage();
+
+        try {
+            KafkaMessagePayload<Hml> payload = new KafkaMessagePayload<>(hml, id);
+            message = new KafkaMessage(new Date(),
+                    UUID.randomUUID().toString(), "mac os x", payload);
+        } catch (Exception ex) {
+            LOG.error(ex);
+        }
+
+        return message;
     }
 
     private FhirMessage mapHmlToFhir(Hml hml) {
