@@ -24,11 +24,12 @@ package org.nmdp.hmlfhirconverter.controller.conversion;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.api.NotFoundException;
+import org.nmdp.hmlfhir.ConvertHmlToFhir;
+import org.nmdp.hmlfhir.ConvertHmlToFhirImpl;
+import org.nmdp.hmlfhirconverter.kafka.KafkaProducerService;
 import org.nmdp.hmlfhirconvertermodels.dto.Hml;
 
 import org.nmdp.hmlfhirconverter.service.HmlService;
-import org.nmdp.hmlfhirconverter.service.conversion.HmlToFhirConversionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,7 +39,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.Callable;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -47,32 +47,21 @@ import org.apache.log4j.Logger;
 @CrossOrigin
 public class ConversionController {
     private static final Logger LOG = Logger.getLogger(ConversionController.class);
-    private final HmlToFhirConversionService hmlToFhirConversionService;
     private final HmlService hmlService;
+    private final KafkaProducerService kafkaProducerService;
 
     @Autowired
-    public ConversionController(HmlToFhirConversionService hmlToFhirConversionService, HmlService hmlService) {
-        this.hmlToFhirConversionService = hmlToFhirConversionService;
+    public ConversionController(HmlService hmlService, KafkaProducerService kafkaProducerService) {
         this.hmlService = hmlService;
-    }
-
-    @RequestMapping(path = "/hmlToFhir/{xml}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public Callable<ResponseEntity<Boolean>> convertHmlToFhir(@PathVariable String xml) throws NotFoundException {
-        try {
-            hmlToFhirConversionService.convertHmlToFhir(xml);
-            return () -> new ResponseEntity<>(true, HttpStatus.OK);
-        } catch (Exception ex) {
-            LOG.error("Error in singleton conversion hml to fhir.", ex);
-            return () -> new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     @RequestMapping(path = "/hmlToFhir", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<Boolean>> convertHmlFileToFhir(@RequestBody MultipartFile file) {
         try {
-            List<Hml> hmls = hmlToFhirConversionService.convertFileToHml(file);
+            ConvertHmlToFhir converter = new ConvertHmlToFhirImpl();
             //List<org.nmdp.hmlfhirconvertermodels.domain.Hml> nmdpHmls = hmlService.createItems(hmls);
-            hmlToFhirConversionService.produceKafkaMessages(hmls);
+            kafkaProducerService.produceKafkaMessages(hmlService.convertByteArrayToHmls(file.getBytes(), "ns2:"), "hml-fhir-conversion", "andrew-mbp");
             return () -> new ResponseEntity<>(true, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error in file upload hml to fhir conversion.", ex);

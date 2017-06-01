@@ -24,6 +24,9 @@ package org.nmdp.hmlfhirconverter.service;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.apache.log4j.Logger;
+import org.nmdp.hmlfhir.ConvertHmlToFhir;
+import org.nmdp.hmlfhir.ConvertHmlToFhirImpl;
 import org.nmdp.hmlfhirconverter.dao.HmlRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.HmlCustomRepository;
 import org.nmdp.hmlfhirconvertermodels.domain.Hml;
@@ -34,6 +37,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -42,6 +47,7 @@ import java.util.stream.Collectors;
 public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, org.nmdp.hmlfhirconvertermodels.dto.Hml> implements HmlService {
 
     private final MongoConfiguration mongoConfiguration;
+    private static final Logger LOG = Logger.getLogger(HmlServiceImpl.class);
 
     @Autowired
     public HmlServiceImpl(@Qualifier("hmlRepository") HmlRepository hmlRepository,
@@ -70,5 +76,18 @@ public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, org.nmdp.hml
         Hml nmdpModel = Hml.convertFromSwagger(item, Hml.class);
         nmdpModel.updateCollectionProperties(nmdpModel, mongoConfiguration);
         return super.mongoRepository.save(nmdpModel);
+    }
+
+    public List<org.nmdp.hmlfhirconvertermodels.dto.Hml> convertByteArrayToHmls(byte[] bytes, String xmlPrefix) throws Exception {
+        try {
+            ConvertHmlToFhir converter = new ConvertHmlToFhirImpl();
+            List<org.nmdp.hmlfhirconvertermodels.dto.Hml> hmls = new ArrayList<>();
+            hmls.add(converter.convertToDto(new String(bytes), xmlPrefix));
+
+            return hmls;
+        } catch (Exception ex) {
+            LOG.error("Error converting file to HML.", ex);
+            throw ex;
+        }
     }
 }

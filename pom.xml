@@ -57,6 +57,7 @@
         <javax-servlet-api-version>2.5</javax-servlet-api-version>
         <mapstruct-core-version>1.2.0.Beta1</mapstruct-core-version>
         <nmdp-models-version>1.2.0</nmdp-models-version>
+        <nmdp-conversion-version>1.1.0</nmdp-conversion-version>
     </properties>
 
     <parent>
@@ -244,6 +245,11 @@
             <groupId>org.nmdp</groupId>
             <artifactId>service-hml-fhir-converter-models</artifactId>
             <version>${nmdp-models-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.nmdp</groupId>
+            <artifactId>hml-fhir</artifactId>
+            <version>${nmdp-conversion-version}</version>
         </dependency>
     </dependencies>
 </project>

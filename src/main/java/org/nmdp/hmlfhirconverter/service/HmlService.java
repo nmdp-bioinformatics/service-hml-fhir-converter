@@ -27,6 +27,8 @@ package org.nmdp.hmlfhirconverter.service;
 import org.nmdp.hmlfhirconvertermodels.domain.Hml;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
 
-public interface HmlService extends IMongoCrudRepositoryService<Hml, org.nmdp.hmlfhirconvertermodels.dto.Hml> {
+import java.util.List;
 
+public interface HmlService extends IMongoCrudRepositoryService<Hml, org.nmdp.hmlfhirconvertermodels.dto.Hml> {
+    List<org.nmdp.hmlfhirconvertermodels.dto.Hml> convertByteArrayToHmls(byte[] bytes, String xmlPrefix) throws Exception;
 }
