@@ -61,7 +61,7 @@ public class ConversionController {
         try {
             ConvertHmlToFhir converter = new ConvertHmlToFhirImpl();
             //List<org.nmdp.hmlfhirconvertermodels.domain.Hml> nmdpHmls = hmlService.createItems(hmls);
-            kafkaProducerService.produceKafkaMessages(hmlService.convertByteArrayToHmls(file.getBytes(), "ns2:"), "hml-fhir-conversion", "andrew-mbp");
+            kafkaProducerService.produceKafkaMessages(hmlService.convertByteArrayToHmls(file.getBytes(), "ns2:"), "hml-fhir-convert", "andrew-mbp");
             return () -> new ResponseEntity<>(true, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error in file upload hml to fhir conversion.", ex);
