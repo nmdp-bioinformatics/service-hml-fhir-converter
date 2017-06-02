@@ -36,6 +36,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.List;
 
@@ -59,8 +60,8 @@ public class ConversionController {
     public Callable<ResponseEntity<Boolean>> convertHmlFileToFhir(@RequestBody MultipartFile file) {
         try {
             List<Hml> hmls = hmlService.convertByteArrayToHmls(file.getBytes(), "ns2:");
-            hmlService.writeToMongoConversionDb(hmls);
-            kafkaProducerService.produceKafkaMessages(hmls, "hml-fhir-convert", "andrew-mbp");
+            Map<String, Hml> dbHmls = hmlService.writeToMongoConversionDb(hmls);
+            kafkaProducerService.produceKafkaMessages(dbHmls, "hml-fhir-convert", "andrew-mbp");
             return () -> new ResponseEntity<>(true, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error in file upload hml to fhir conversion.", ex);

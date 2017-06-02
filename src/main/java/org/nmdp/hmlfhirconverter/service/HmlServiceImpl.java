@@ -33,18 +33,19 @@ import org.nmdp.hmlfhirconvertermodels.domain.Hml;
 import org.nmdp.hmlfhirconvertermodels.domain.internal.MongoConfiguration;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
+import org.nmdp.hmlfhirmongo.models.ConversionStatus;
+import org.nmdp.hmlfhirmongo.models.Status;
+import org.nmdp.hmlfhirmongo.mongo.MongoConversionStatusDatabase;
 import org.nmdp.hmlfhirmongo.mongo.MongoHmlDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
+import sun.jvm.hotspot.runtime.Bytes;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -97,9 +98,11 @@ public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, org.nmdp.hml
         }
     }
 
-    public void writeToMongoConversionDb(List<org.nmdp.hmlfhirconvertermodels.dto.Hml> hmls) {
+    public Map<String, org.nmdp.hmlfhirconvertermodels.dto.Hml> writeToMongoConversionDb(List<org.nmdp.hmlfhirconvertermodels.dto.Hml> hmls) {
+        List<org.nmdp.hmlfhirconvertermodels.dto.Hml> ids = new ArrayList<>();
+        org.nmdp.hmlfhirmongo.config.MongoConfiguration config = null;
+
         try {
-            final org.nmdp.hmlfhirmongo.config.MongoConfiguration config;
             URL url = new URL("file:." + "/src/main/resources/mongo-configuration.yaml");
 
             try (InputStream is = url.openStream()) {
@@ -109,11 +112,30 @@ public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, org.nmdp.hml
             final MongoHmlDatabase database = new MongoHmlDatabase(config);
 
             for (org.nmdp.hmlfhirconvertermodels.dto.Hml hml : hmls) {
-                database.save(hml);
+                ids.add(database.save(hml));
             }
-
         } catch (Exception ex) {
             LOG.error("Error writing Hml to Mongo.", ex);
         }
+
+        return writeConversionStatusToMongo(ids, config);
+    }
+
+    private Map<String, org.nmdp.hmlfhirconvertermodels.dto.Hml> writeConversionStatusToMongo(
+            List<org.nmdp.hmlfhirconvertermodels.dto.Hml> hmls, org.nmdp.hmlfhirmongo.config.MongoConfiguration config) {
+        Map<String, org.nmdp.hmlfhirconvertermodels.dto.Hml> ids = new HashMap<>();
+
+        try {
+            final MongoConversionStatusDatabase database = new MongoConversionStatusDatabase(config);
+
+            for (org.nmdp.hmlfhirconvertermodels.dto.Hml hml : hmls) {
+                ConversionStatus status = new ConversionStatus(hml.getId(), Status.QUEUED, 0);
+                ids.put(database.save(status).getId(), hml);
+            }
+        } catch (Exception ex) {
+            LOG.error("Error writing status to Mongo.", ex);
+        }
+
+        return ids;
     }
 }

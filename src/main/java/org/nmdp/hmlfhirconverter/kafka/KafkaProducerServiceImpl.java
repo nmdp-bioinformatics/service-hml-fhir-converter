@@ -35,10 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,22 +50,21 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
     }
 
     @Override
-    public void produceKafkaMessages(List<Hml> hmls, String topic, String key) {
+    public void produceKafkaMessages(Map<String, Hml> hmls, String topic, String key) {
         KafkaMessageProducerConfiguration config = new KafkaMessageProducerConfiguration(
-            kafkaConfig.getProducerConfiguration(),
-            topic,
-            key);
+            kafkaConfig.getProducerConfiguration(), topic, key);
 
         KafkaMessageProducer producer = new KafkaMessageProducer(config);
         List<KafkaMessage> kafkaMessages = transformHmlToKafka(hmls, key);
         producer.send(kafkaMessages);
     }
 
-    private List<KafkaMessage> transformHmlToKafka(List<Hml> hmls, String key) {
-        List<KafkaMessage> messages = hmls.stream()
-                .filter(Objects::nonNull)
-                .map(hml -> createKafkaMessage(hml, hml.getId(), key))
-                .collect(Collectors.toList());
+    private List<KafkaMessage> transformHmlToKafka(Map<String, Hml> hmls, String key) {
+        List<KafkaMessage> messages = new ArrayList<>();
+
+        for (Map.Entry<String, Hml> hml : hmls.entrySet()) {
+            messages.add(createKafkaMessage(hml.getValue(), hml.getKey(), key));
+        }
 
         return messages;
     }

@@ -27,7 +27,8 @@ package org.nmdp.hmlfhirconverter.kafka;
 import org.nmdp.hmlfhirconvertermodels.dto.Hml;
 
 import java.util.List;
+import java.util.Map;
 
 public interface KafkaProducerService {
-    void produceKafkaMessages(List<Hml> hmls, String topic, String key);
+    void produceKafkaMessages(Map<String, Hml> hmls, String topic, String key);
 }
