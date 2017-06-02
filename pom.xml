@@ -56,7 +56,7 @@
         <maven-clean-plugin-version>2.6.1</maven-clean-plugin-version>
         <javax-servlet-api-version>2.5</javax-servlet-api-version>
         <mapstruct-core-version>1.2.0.Beta1</mapstruct-core-version>
-        <nmdp-models-version>1.2.0</nmdp-models-version>
+        <nmdp-models-version>1.10.0</nmdp-models-version>
         <nmdp-conversion-version>1.1.0</nmdp-conversion-version>
     </properties>
 
