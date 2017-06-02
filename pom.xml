@@ -58,7 +58,7 @@
         <mapstruct-core-version>1.2.0.Beta1</mapstruct-core-version>
         <nmdp-models-version>1.11.0</nmdp-models-version>
         <nmdp-conversion-version>1.1.0</nmdp-conversion-version>
-        <nmdp-mongo-version>1.0.7</nmdp-mongo-version>
+        <nmdp-mongo-version>1.0.15</nmdp-mongo-version>
         <snake-yaml-version>1.16</snake-yaml-version>
     </properties>
 
