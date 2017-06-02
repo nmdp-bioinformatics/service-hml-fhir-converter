@@ -58,6 +58,8 @@
         <mapstruct-core-version>1.2.0.Beta1</mapstruct-core-version>
         <nmdp-models-version>1.10.0</nmdp-models-version>
         <nmdp-conversion-version>1.1.0</nmdp-conversion-version>
+        <nmdp-mongo-version>1.0.1</nmdp-mongo-version>
+        <snake-yaml-version>1.16</snake-yaml-version>
     </properties>
 
     <parent>
@@ -250,6 +252,16 @@
             <groupId>org.nmdp</groupId>
             <artifactId>hml-fhir</artifactId>
             <version>${nmdp-conversion-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.nmdp</groupId>
+            <artifactId>hml-fhir-mongo</artifactId>
+            <version>${nmdp-mongo-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${snake-yaml-version}</version>
         </dependency>
     </dependencies>
 </project>

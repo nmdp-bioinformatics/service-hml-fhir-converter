@@ -33,10 +33,14 @@ import org.nmdp.hmlfhirconvertermodels.domain.Hml;
 import org.nmdp.hmlfhirconvertermodels.domain.internal.MongoConfiguration;
 import org.nmdp.hmlfhirconverter.service.base.MongoCrudRepositoryService;
 
+import org.nmdp.hmlfhirmongo.mongo.MongoHmlDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +51,7 @@ import java.util.stream.Collectors;
 public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, org.nmdp.hmlfhirconvertermodels.dto.Hml> implements HmlService {
 
     private final MongoConfiguration mongoConfiguration;
+    private final Yaml yaml;
     private static final Logger LOG = Logger.getLogger(HmlServiceImpl.class);
 
     @Autowired
@@ -55,6 +60,7 @@ public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, org.nmdp.hml
                           @Qualifier("mongoConfiguration") MongoConfiguration mongoConfiguration) {
         super(hmlCustomRepository, hmlRepository, Hml.class, org.nmdp.hmlfhirconvertermodels.dto.Hml.class);
         this.mongoConfiguration = mongoConfiguration;
+        this.yaml = new Yaml();
     }
 
     @Override
@@ -88,6 +94,26 @@ public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, org.nmdp.hml
         } catch (Exception ex) {
             LOG.error("Error converting file to HML.", ex);
             throw ex;
+        }
+    }
+
+    public void writeToMongoConversionDb(List<org.nmdp.hmlfhirconvertermodels.dto.Hml> hmls) {
+        try {
+            final org.nmdp.hmlfhirmongo.config.MongoConfiguration config;
+            URL url = new URL("file:." + "/src/main/resources/mongo-configuration.yaml");
+
+            try (InputStream is = url.openStream()) {
+                config = yaml.loadAs(is, org.nmdp.hmlfhirmongo.config.MongoConfiguration.class);
+            }
+
+            final MongoHmlDatabase database = new MongoHmlDatabase(config);
+
+            for (org.nmdp.hmlfhirconvertermodels.dto.Hml hml : hmls) {
+                database.save(hml);
+            }
+
+        } catch (Exception ex) {
+            LOG.error("Error writing Hml to Mongo.", ex);
         }
     }
 }

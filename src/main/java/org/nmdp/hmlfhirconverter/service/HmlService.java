@@ -31,4 +31,5 @@ import java.util.List;
 
 public interface HmlService extends IMongoCrudRepositoryService<Hml, org.nmdp.hmlfhirconvertermodels.dto.Hml> {
     List<org.nmdp.hmlfhirconvertermodels.dto.Hml> convertByteArrayToHmls(byte[] bytes, String xmlPrefix) throws Exception;
+    void writeToMongoConversionDb(List<org.nmdp.hmlfhirconvertermodels.dto.Hml> hmls);
 }

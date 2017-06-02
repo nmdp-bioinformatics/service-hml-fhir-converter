@@ -24,8 +24,6 @@ package org.nmdp.hmlfhirconverter.controller.conversion;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import org.nmdp.hmlfhir.ConvertHmlToFhir;
-import org.nmdp.hmlfhir.ConvertHmlToFhirImpl;
 import org.nmdp.hmlfhirconverter.kafka.KafkaProducerService;
 import org.nmdp.hmlfhirconvertermodels.dto.Hml;
 
@@ -39,6 +37,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.Callable;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -59,9 +58,9 @@ public class ConversionController {
     @RequestMapping(path = "/hmlToFhir", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Callable<ResponseEntity<Boolean>> convertHmlFileToFhir(@RequestBody MultipartFile file) {
         try {
-            ConvertHmlToFhir converter = new ConvertHmlToFhirImpl();
-            //List<org.nmdp.hmlfhirconvertermodels.domain.Hml> nmdpHmls = hmlService.createItems(hmls);
-            kafkaProducerService.produceKafkaMessages(hmlService.convertByteArrayToHmls(file.getBytes(), "ns2:"), "hml-fhir-convert", "andrew-mbp");
+            List<Hml> hmls = hmlService.convertByteArrayToHmls(file.getBytes(), "ns2:");
+            hmlService.writeToMongoConversionDb(hmls);
+            kafkaProducerService.produceKafkaMessages(hmls, "hml-fhir-convert", "andrew-mbp");
             return () -> new ResponseEntity<>(true, HttpStatus.OK);
         } catch (Exception ex) {
             LOG.error("Error in file upload hml to fhir conversion.", ex);
