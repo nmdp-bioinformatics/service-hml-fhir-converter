@@ -27,6 +27,7 @@ package org.nmdp.hmlfhirconverter.service;
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhir.ConvertHmlToFhir;
 import org.nmdp.hmlfhir.ConvertHmlToFhirImpl;
+import org.nmdp.hmlfhir.deserialization.HmlXmlDeserializerHyphenatedProperties;
 import org.nmdp.hmlfhirconverter.dao.HmlRepository;
 import org.nmdp.hmlfhirconverter.dao.custom.HmlCustomRepository;
 import org.nmdp.hmlfhirconvertermodels.domain.Hml;
@@ -85,9 +86,24 @@ public class HmlServiceImpl extends MongoCrudRepositoryService<Hml, org.nmdp.hml
         return super.mongoRepository.save(nmdpModel);
     }
 
+    public List<org.nmdp.hmlfhirconvertermodels.dto.Hml> convertStringToHmls(String xml, String xmlPrefix) throws Exception {
+        try {
+            HmlXmlDeserializerHyphenatedProperties deserializer = new HmlXmlDeserializerHyphenatedProperties();
+            ConvertHmlToFhir converter = new ConvertHmlToFhirImpl(deserializer);
+            List<org.nmdp.hmlfhirconvertermodels.dto.Hml> hmls = new ArrayList<>();
+            hmls.add(converter.convertToDto(xml, xmlPrefix));
+
+            return hmls;
+        } catch (Exception ex) {
+            LOG.error("Error converting file to HML.", ex);
+            throw ex;
+        }
+    }
+
     public List<org.nmdp.hmlfhirconvertermodels.dto.Hml> convertByteArrayToHmls(byte[] bytes, String xmlPrefix) throws Exception {
         try {
-            ConvertHmlToFhir converter = new ConvertHmlToFhirImpl();
+            HmlXmlDeserializerHyphenatedProperties deserializer = new HmlXmlDeserializerHyphenatedProperties();
+            ConvertHmlToFhir converter = new ConvertHmlToFhirImpl(deserializer);
             List<org.nmdp.hmlfhirconvertermodels.dto.Hml> hmls = new ArrayList<>();
             hmls.add(converter.convertToDto(new String(bytes), xmlPrefix));
 

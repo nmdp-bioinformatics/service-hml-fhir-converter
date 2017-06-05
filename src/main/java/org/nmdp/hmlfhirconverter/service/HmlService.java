@@ -33,4 +33,5 @@ import java.util.Map;
 public interface HmlService extends IMongoCrudRepositoryService<Hml, org.nmdp.hmlfhirconvertermodels.dto.Hml> {
     List<org.nmdp.hmlfhirconvertermodels.dto.Hml> convertByteArrayToHmls(byte[] bytes, String xmlPrefix) throws Exception;
     Map<String, org.nmdp.hmlfhirconvertermodels.dto.Hml> writeToMongoConversionDb(List<org.nmdp.hmlfhirconvertermodels.dto.Hml> hmls);
+    List<org.nmdp.hmlfhirconvertermodels.dto.Hml> convertStringToHmls(String xml, String xmlPrefix) throws Exception;
 }
