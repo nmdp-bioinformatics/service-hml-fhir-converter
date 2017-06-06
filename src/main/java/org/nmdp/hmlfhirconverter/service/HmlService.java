@@ -26,12 +26,15 @@ package org.nmdp.hmlfhirconverter.service;
 
 import org.nmdp.hmlfhirconvertermodels.domain.Hml;
 import org.nmdp.hmlfhirconverter.service.base.IMongoCrudRepositoryService;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.FhirMessage;
 
 import java.util.List;
 import java.util.Map;
 
 public interface HmlService extends IMongoCrudRepositoryService<Hml, org.nmdp.hmlfhirconvertermodels.dto.Hml> {
     List<org.nmdp.hmlfhirconvertermodels.dto.Hml> convertByteArrayToHmls(byte[] bytes, String xmlPrefix) throws Exception;
-    Map<String, org.nmdp.hmlfhirconvertermodels.dto.Hml> writeToMongoConversionDb(List<org.nmdp.hmlfhirconvertermodels.dto.Hml> hmls);
+    Map<String, org.nmdp.hmlfhirconvertermodels.dto.Hml> writeHmlToMongoConversionDb(List<org.nmdp.hmlfhirconvertermodels.dto.Hml> hmls);
+    Map<String, FhirMessage> writeFhirToMongoConversionDb(List<FhirMessage> fhirMessages);
     List<org.nmdp.hmlfhirconvertermodels.dto.Hml> convertStringToHmls(String xml, String xmlPrefix) throws Exception;
+    List<FhirMessage> convertByteArrayToFhirMessages(byte[] bytes) throws Exception;
 }

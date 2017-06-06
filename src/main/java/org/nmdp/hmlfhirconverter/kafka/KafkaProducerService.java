@@ -24,11 +24,13 @@ package org.nmdp.hmlfhirconverter.kafka;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.FhirMessage;
 import org.nmdp.hmlfhirconvertermodels.dto.Hml;
 
 import java.util.List;
 import java.util.Map;
 
 public interface KafkaProducerService {
-    void produceKafkaMessages(Map<String, Hml> hmls, String topic, String key);
+    void produceHmlKafkaMessages(Map<String, Hml> hmls, String topic, String key);
+    void produceFhirKafkaMessages(Map<String, FhirMessage> fhirMessages, String topic, String key);
 }

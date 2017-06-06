@@ -27,6 +27,7 @@ package org.nmdp.hmlfhirconverter.kafka;
 import org.apache.log4j.Logger;
 import org.nmdp.hmlfhirconverter.config.KafkaProducerConfiguration;
 import org.nmdp.hmlfhirconverter.kafka.config.KafkaMessageProducerConfiguration;
+import org.nmdp.hmlfhirconvertermodels.domain.fhir.FhirMessage;
 import org.nmdp.hmlfhirconvertermodels.dto.Hml;
 
 import org.nmdp.servicekafkaproducermodel.models.KafkaMessage;
@@ -50,7 +51,17 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
     }
 
     @Override
-    public void produceKafkaMessages(Map<String, Hml> hmls, String topic, String key) {
+    public void produceFhirKafkaMessages(Map<String, FhirMessage> fhirMessages, String topic, String key) {
+        KafkaMessageProducerConfiguration config = new KafkaMessageProducerConfiguration(
+                kafkaConfig.getProducerConfiguration(), topic, key);
+
+        KafkaMessageProducer producer = new KafkaMessageProducer(config);
+        List<KafkaMessage> kafkaMessages = transformHmlToKafka(key, fhirMessages);
+        producer.send(kafkaMessages);
+    }
+
+    @Override
+    public void produceHmlKafkaMessages(Map<String, Hml> hmls, String topic, String key) {
         KafkaMessageProducerConfiguration config = new KafkaMessageProducerConfiguration(
             kafkaConfig.getProducerConfiguration(), topic, key);
 
@@ -67,6 +78,30 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
         }
 
         return messages;
+    }
+
+    private List<KafkaMessage> transformHmlToKafka(String key, Map<String, FhirMessage> fhirMessages) {
+        List<KafkaMessage> messages = new ArrayList<>();
+
+        for (Map.Entry<String, FhirMessage> fhirMessage : fhirMessages.entrySet()) {
+            messages.add(createKafkaMessage(fhirMessage.getValue(), fhirMessage.getKey(), key));
+        }
+
+        return messages;
+    }
+
+    private KafkaMessage createKafkaMessage(FhirMessage fhir, String id, String key) {
+        KafkaMessage message = new KafkaMessage();
+
+        try {
+            KafkaMessagePayload<FhirMessage> payload = new KafkaMessagePayload<>(fhir, id);
+            message = new KafkaMessage(new Date(),
+                    UUID.randomUUID().toString(), key, payload);
+        } catch (Exception ex) {
+            LOG.error(ex);
+        }
+
+        return message;
     }
 
     private KafkaMessage createKafkaMessage(Hml hml, String id, String key) {
