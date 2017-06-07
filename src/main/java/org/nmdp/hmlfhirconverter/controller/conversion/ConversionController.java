@@ -97,7 +97,7 @@ public class ConversionController {
         }
     }
 
-    @RequestMapping(path = "/fhirToHml", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PATCH)
+    @RequestMapping(path = "/fhirToHml", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PATCH)
     public Callable<ResponseEntity<Boolean>> convertFhirJsonToHml(@RequestBody FhirMessage fhirMessage) {
         try {
             Map<String, FhirMessage> dbFhirs = hmlService.writeFhirToMongoConversionDb(Arrays.asList(fhirMessage));
