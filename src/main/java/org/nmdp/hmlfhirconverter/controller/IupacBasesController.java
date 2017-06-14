@@ -24,8 +24,8 @@ package org.nmdp.hmlfhirconverter.controller;
  * > http://www.opensource.org/licenses/lgpl-license.php
  */
 
-import io.swagger.api.NotFoundException;
 import io.swagger.api.IupacBasesApi;
+import io.swagger.api.NotFoundException;
 import org.nmdp.hmlfhirconvertermodels.dto.IupacBases;
 import org.nmdp.hmlfhirconvertermodels.dto.TypeaheadQuery;
 
