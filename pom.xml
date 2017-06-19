@@ -97,6 +97,7 @@
                 <version>${swagger-codegen-version}</version>
                 <executions>
                     <execution>
+                        <id>hml-gen</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -104,6 +105,22 @@
                             <inputSpec>src/main/resources/swagger/swagger-spec.yaml</inputSpec>
                             <language>spring-mvc</language>
                             <modelPackage>org.nmdp.hmlfhirconvertermodels.dto</modelPackage>
+                            <configOptions>
+                                <library>j8-async</library>
+                                <sourceFolder>src/gen/java/main</sourceFolder>
+                                <generateModels>false</generateModels>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>fhir-gen</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>src/main/resources/swagger/swagger-spec.yaml</inputSpec>
+                            <language>spring-mvc</language>
+                            <modelPackage>org.nmdp.hmlfhirconvertermodels.dto.fhir</modelPackage>
                             <configOptions>
                                 <library>j8-async</library>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
