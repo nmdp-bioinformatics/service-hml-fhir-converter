@@ -59,7 +59,7 @@
         <nmdp-models-version>1.24.0</nmdp-models-version>
         <nmdp-conversion-version>1.3.35</nmdp-conversion-version>
         <nmdp-mongo-version>1.3.0</nmdp-mongo-version>
-        <snake-yaml-version>1.16</snake-yaml-version>
+        <snake-yaml-version>1.26</snake-yaml-version>
     </properties>
 
     <parent>
